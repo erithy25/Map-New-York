@@ -1,0 +1,785 @@
+{
+ "agent_request": {
+  "dow": 0,
+  "hour": 13,
+  "local_clock": "2022-06-16 13:12 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "70.0 deg as recorded; it agrees with the bearing from the camera position used to Bronx County Courthouse (70.1 deg) to 0.1 deg",
+ "camera": {
+  "azimuth_deg": 70.0,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "below_point_excluded": 4,
+   "chosen_m": 15.91,
+   "max_m": 16.58,
+   "median_m": 16.45,
+   "min_m": 14.86,
+   "mode": "street",
+   "percentile": 10.0,
+   "point_m": 16.44,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.825711,
+  "lon": -73.925619,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1044,
+   1044
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_bronx_county_courthouse",
+  "terrain_z_m": 15.915,
+  "x": 2091.35,
+  "y": 13942.767,
+  "z": 17.515
+ },
+ "camera_caption": "camera 40.82571, -73.92562 (NYC_TM 2091, 13943) z 17.5 m NAVD88 | azimuth 70.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1044x1044",
+ "camera_origin": {
+  "from_photograph_gps": false,
+  "lat": 40.825711,
+  "lon": -73.925619,
+  "offset_from_recorded_m": null,
+  "source": "the item's recorded viewpoint (this photograph carries no camera GPS)"
+ },
+ "clearance": {
+  "direction": "onto the nearest roadbed",
+  "min_view_m": 65.1,
+  "moved": true,
+  "nearest_agent": null,
+  "nearest_agent_m": null,
+  "nearest_agent_probe_m": 20.0,
+  "nearest_obstruction": "prop_lamp_cobra_davit_37",
+  "nearest_obstruction_at_deg": [
+   -18.1,
+   0.0
+  ],
+  "nearest_obstruction_m": 17.5,
+  "note": "the recorded viewpoint is inside t_2_13_roof_membrane (a ray straight up from the eye point hits its roof); the camera was moved 39 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 78 m from there, and the nearest built thing in the frame is prop_lamp_cobra_davit_37 17.5 m away at -18 deg yaw, +0 deg pitch, and no simulated agent stands within 20 m of it",
+  "offset_m": 38.8,
+  "reason": "inside t_2_13_roof_membrane (a ray straight up from the eye point hits its roof)",
+  "rule": "pavement snap with a clear frame",
+  "view_m": 78.2
+ },
+ "frame": {
+  "mean": 0.3421,
+  "reason": null,
+  "sd": 0.1583,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.030397189781069756,
+  "direct_normal_irradiance_w_m2": 941.4,
+  "emissive": {
+   "cone_faces_deleted": 24,
+   "cones_hidden": 2,
+   "lamps_switched_off": 4,
+   "night": false,
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 192.053,
+  "sky_elevation_deg": 72.224,
+  "sun_lamp": true,
+  "sun_strength_blender": 3.292,
+  "view_transform": "Filmic"
+ },
+ "name": "Bronx County Courthouse",
+ "night": false,
+ "pitch_reason": "level optical axis (Bronx County Courthouse is 130 m away and would need +12 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "reference_photo": {
+  "author": "Andre Carrotflower",
+  "confidence": "medium",
+  "date_taken": "2022-06-16 13:12:25",
+  "estimated_azimuth_deg": 70.0,
+  "file": "3.jpg",
+  "height": 1920,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Bronx_County_Courthouse,_Concourse_Village,_Bronx_-_20220616.jpg",
+  "title": "File:Bronx County Courthouse, Concourse Village, Bronx - 20220616.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_bronx_county_courthouse/render.png",
+ "rendered_at": "2026-09-09T04:01:45Z",
+ "resolution_note": "1044x1044; the reference photograph is 1920x1920 (1.00:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "agents": {
+   "caption": "Agents: 89 vehicles within 320 m and 431 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 417 vehicles and 1329 people over the whole simulated ring, of which 506 and 1634 were simulated; 1620 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 141,
+    "pedestrian_not_on_walkable_surface": 42,
+    "pedestrian_outside_radius": 754,
+    "pedestrian_triangle_budget": 266,
+    "vehicle_body_has_no_rider": 12,
+    "vehicle_not_on_carriageway": 14,
+    "vehicle_outside_radius": 227,
+    "vehicle_triangle_budget": 164
+   },
+   "ped_lods": {
+    "LOD1": 2,
+    "LOD2": 429
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 579076,
+   "per_class": {
+    "black_car": 3,
+    "boro_taxi": 4,
+    "box_truck": 6,
+    "dsny_truck": 1,
+    "mta_bus": 1,
+    "nypd": 1,
+    "sedan": 34,
+    "suv": 28,
+    "taxi": 8,
+    "van": 3
+   },
+   "placed_pedestrians": 431,
+   "placed_vehicles": 89,
+   "reason": null,
+   "seconds": 96.12,
+   "snapshot": {
+    "building_footprints_tested": 1950,
+    "density_lane_km": 27.266,
+    "density_sidewalk_m2": 26928,
+    "density_target_pedestrians": 1329.0,
+    "density_target_vehicles": 416.9,
+    "dow": 0,
+    "hour": 13,
+    "lanes_considered": 306,
+    "lanes_with_nta": 305,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.68,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_archetypes_available": 36,
+    "npc_bodies_imported": 36,
+    "npc_templates_baked": 171,
+    "pavement_polygons_tested": 4357,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 1634,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 506
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1081044,
+   "vehicle_lods": {
+    "LOD2": 89
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 501968
+  },
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_1_13",
+    "t_1_14",
+    "t_2_13",
+    "t_2_14"
+   ],
+   "landmark_bins_suppressed": 2,
+   "landmark_faces_suppressed": 564,
+   "lod_substituted": [],
+   "missing": [],
+   "new_jersey": [],
+   "per_tile": {
+    "t_1_13": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 12,
+     "triangles": 21540
+    },
+    "t_1_14": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 10,
+     "triangles": 26684
+    },
+    "t_2_13": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 12,
+     "triangles": 43714
+    },
+    "t_2_14": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 14,
+     "triangles": 70944
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 4,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 0,
+   "tiles_wanted": 4,
+   "tiles_with_new_jersey": 0,
+   "triangle_budget": 3510000,
+   "triangles": 162882
+  },
+  "centre_tm": [
+   2056.69,
+   13960.41
+  ],
+  "kit": {
+   "capped": "triangle budget 1564984",
+   "per_category": {
+    "bulkhead": 10,
+    "cornice": 65,
+    "door_entry": 63,
+    "fire_escape": 40,
+    "hvac": 13,
+    "parapet": 72,
+    "quoin": 114,
+    "scaffold": 331,
+    "storefront": 364,
+    "storefront_interior": 51,
+    "string_course": 96,
+    "water_tower": 9,
+    "window": 4206,
+    "window_accessory": 712
+   },
+   "placed": 6146,
+   "radius_m": 120.0,
+   "records_in_range": 7745,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_1_13",
+    "t_1_14",
+    "t_2_13",
+    "t_2_14"
+   ],
+   "triangles": 1565034,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 165.0,
+     "id": "c_bronx_county_courthouse",
+     "lod": 0,
+     "name": "Bronx County Courthouse (Mario Merola Building)",
+     "own_ground_note": {
+      "above_heightmap_m": -4.47,
+      "heightmap_median_m": 23.37,
+      "reason": "the model's ground stands -4.47 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
+     "triangles": 11360
+    },
+    {
+     "distance_m": 436.0,
+     "id": "c_yankee_stadium",
+     "lod": 0,
+     "name": "Yankee Stadium",
+     "own_ground_note": {
+      "above_heightmap_m": 1.98,
+      "heightmap_median_m": 4.42,
+      "reason": "the model's ground stands +1.98 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
+     "triangles": 10604
+    }
+   ],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
+   "placed": 2,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 21964
+  },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brown_brick": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.22,
+      "texture_albedo": 0.2375
+     },
+     "asset_id": "Bricks054",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brownstone": {
+     "albedo": {
+      "scale": 2.682,
+      "target_albedo": 0.2367,
+      "texture_albedo": 0.0882
+     },
+     "asset_id": "Travertine005",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete": {
+     "albedo": {
+      "scale": 1.799,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.2965
+     },
+     "asset_id": "Concrete037",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "limestone": {
+     "albedo": {
+      "scale": 1.128,
+      "target_albedo": 0.66,
+      "texture_albedo": 0.5853
+     },
+     "asset_id": "Travertine009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "precast": {
+     "albedo": {
+      "scale": 1.273,
+      "target_albedo": 0.6133,
+      "texture_albedo": 0.4818
+     },
+     "asset_id": "Concrete034",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "stone_rubble": {
+     "albedo": {
+      "scale": 2.415,
+      "target_albedo": 0.4233,
+      "texture_albedo": 0.1753
+     },
+     "asset_id": "Bricks102",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "stucco": {
+     "albedo": {
+      "scale": 1.0,
+      "target_albedo": 0.6667,
+      "texture_albedo": 0.6543
+     },
+     "asset_id": "Plaster001",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "vinyl_siding": {
+     "albedo": {
+      "scale": 1.402,
+      "target_albedo": 0.6867,
+      "texture_albedo": 0.4898
+     },
+     "asset_id": "WoodSiding009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.626,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "white_glazed_brick": {
+     "albedo": {
+      "scale": 1.13,
+      "target_albedo": 0.7767,
+      "texture_albedo": 0.6874
+     },
+     "asset_id": "Bricks060",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    }
+   },
+   "enabled": true,
+   "flat": {
+    "glass_curtain": "analytic: the catalogue has no photographic set for it"
+   },
+   "resolution": "2K",
+   "slots": 110
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 446,
+    "curb": 2666,
+    "marking_white": 7335,
+    "marking_yellow": 214,
+    "median": 402,
+    "parking_lot": 436,
+    "plaza": 413,
+    "roadbed": 5386,
+    "sidewalk": 6715
+   },
+   "placed": 24013,
+   "radius_m": 608.4657617735434,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_1_13",
+    "t_1_14",
+    "t_2_13",
+    "t_2_14"
+   ],
+   "triangles": 159400,
+   "triangles_cut_for_landmark_ground": 0,
+   "vertices": 207256
+  },
+  "props": {
+   "capped": "triangle budget 1425382",
+   "impostor_cards_dropped": 22,
+   "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 73
+   },
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 6,
+    "bike_rack": 3,
+    "bus_shelter": 2,
+    "bus_stop_sign": 7,
+    "citibike_dock": 1,
+    "cooling_tower": 25,
+    "flagpole": 5,
+    "hydrant": 29,
+    "linknyc": 2,
+    "mailbox": 1,
+    "manhole": 79,
+    "street_lamp": 92,
+    "subway_entrance": 12,
+    "subway_vent_grate": 11,
+    "tree": 227
+   },
+   "placed": 502,
+   "radius_m": 250.0,
+   "rows_in_range": 632,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_1_13",
+    "t_1_14",
+    "t_2_13",
+    "t_2_14"
+   ],
+   "tree_instances_scaled": 227,
+   "tree_mean_scale": 0.908,
+   "tree_scale_out_of_band": 0,
+   "tree_species_substituted": 55,
+   "triangles": 1426494,
+   "unmapped_kinds": {
+    "misc_structure": 2,
+    "parks_building": 2
+   }
+  },
+  "radius_m": 608.4657617735434,
+  "seconds": 149.25,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
+   "samples": 205,
+   "spacing_m": 2.0,
+   "triangles": 83232,
+   "water_bodies": [
+    {
+     "kind": "river",
+     "name": "HARLEM RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HARLEM RIVER",
+     "water_z_m": 0.0
+    }
+   ],
+   "water_quads": 164,
+   "z_max_m": 34.49,
+   "z_min_m": -0.92
+  },
+  "triangles": 4500050
+ },
+ "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 608.4657617735434
+ },
+ "seconds": {
+  "render": 47.4,
+  "scene": 154.8,
+  "total": 202.2
+ },
+ "sightline": {
+  "subject_aimed_at": "the subject's mid-height, 19.9 m above its ground",
+  "subject_blocked_at_m": 19.7,
+  "subject_blocked_by": "prop_lamp_cobra_davit_37",
+  "subject_fan_from": "the subject's own measured height (J74)",
+  "subject_fan_half_angle_deg": 10.18,
+  "subject_fan_m": 39.7,
+  "subject_lands_at_m": 101.5,
+  "subject_lands_on": "lm_c_bronx_county_courthouse.3",
+  "subject_range_m": 110.6,
+  "subject_rays": 5,
+  "subject_rays_clear": 1,
+  "subject_rays_into_nothing": 0,
+  "subject_rays_on_subject": 1,
+  "subject_reach_m": 25.0,
+  "subject_visible": false
+ },
+ "slug": "landmark_bronx_county_courthouse",
+ "status": "rendered",
+ "subject": {
+  "distance_from": "the placed camera, after the clearance walk",
+  "distance_m": 107.6,
+  "height_probe": {
+   "ground_z_m": 23.36,
+   "height_above_ground_m": 39.94,
+   "nearest_catalogue_origin": {
+    "distance_m": 35.4,
+    "height_m": 58.5,
+    "id": "c_bronx_county_courthouse",
+    "within_120_m": true
+   },
+   "object": "lm_c_bronx_county_courthouse.6",
+   "rays_cast": 17,
+   "rays_on_built_fabric": 17,
+   "z": 63.3
+  },
+  "name": "Bronx County Courthouse",
+  "origin_distance_m": 130.3
+ },
+ "sun": {
+  "azimuth_deg": 192.05306908596398,
+  "elevation_deg": 72.22402760839506,
+  "local": "2022-06-16T13:12:25-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2022-06-16T17:12:25Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 70.0,
+  "lat": 40.825711,
+  "lon": -73.925619,
+  "note": "the Grand Concourse at East 161st Street, about 130 m west-south-west of the building, looking east-north-east at the limestone facade and friezes"
+ }
+}

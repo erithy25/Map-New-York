@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_hell_gate_bridge",
+ "rendered_at": "2026-09-09T05:30:20Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 558,
+  "mean": 0.3743,
+  "sd": 0.0852,
+  "p05": 0.2115,
+  "p95": 0.4715,
+  "chroma": 0.0801
+ },
+ "reference": {
+  "width": 1920,
+  "height": 838,
+  "mean": 0.6105,
+  "sd": 0.2017,
+  "p05": 0.2633,
+  "p95": 0.8936,
+  "chroma": 0.1281
+ },
+ "render_over_reference": {
+  "mean": 0.613,
+  "sd": 0.422,
+  "chroma": 0.625
+ }
+}

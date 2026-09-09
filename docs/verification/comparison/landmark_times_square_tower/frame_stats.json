@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_times_square_tower",
+ "rendered_at": "2026-09-09T08:05:10Z",
+ "reference_file": "3.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 854,
+  "mean": 0.3792,
+  "sd": 0.2296,
+  "p05": 0.0597,
+  "p95": 0.8669,
+  "chroma": 0.0605
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1280,
+  "mean": 0.5072,
+  "sd": 0.1902,
+  "p05": 0.1978,
+  "p95": 0.8007,
+  "chroma": 0.0787
+ },
+ "render_over_reference": {
+  "mean": 0.748,
+  "sd": 1.207,
+  "chroma": 0.769
+ }
+}

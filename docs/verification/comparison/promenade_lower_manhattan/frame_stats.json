@@ -1,0 +1,30 @@
+{
+ "slug": "promenade_lower_manhattan",
+ "rendered_at": "2026-09-09T02:16:18Z",
+ "reference_file": "3.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.416,
+  "sd": 0.1538,
+  "p05": 0.1828,
+  "p95": 0.6426,
+  "chroma": 0.0824
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.5634,
+  "sd": 0.2662,
+  "p05": 0.1493,
+  "p95": 0.906,
+  "chroma": 0.0879
+ },
+ "render_over_reference": {
+  "mean": 0.738,
+  "sd": 0.578,
+  "chroma": 0.937
+ }
+}

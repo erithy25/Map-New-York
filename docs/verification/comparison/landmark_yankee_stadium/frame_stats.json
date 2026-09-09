@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_yankee_stadium",
+ "rendered_at": "2026-09-09T08:44:44Z",
+ "reference_file": "3.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 854,
+  "mean": 0.2549,
+  "sd": 0.1254,
+  "p05": 0.0888,
+  "p95": 0.5399,
+  "chroma": 0.0541
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1280,
+  "mean": 0.4761,
+  "sd": 0.2386,
+  "p05": 0.1039,
+  "p95": 0.9759,
+  "chroma": 0.0307
+ },
+ "render_over_reference": {
+  "mean": 0.535,
+  "sd": 0.526,
+  "chroma": 1.762
+ }
+}

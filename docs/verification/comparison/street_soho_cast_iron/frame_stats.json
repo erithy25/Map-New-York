@@ -1,0 +1,30 @@
+{
+ "slug": "street_soho_cast_iron",
+ "rendered_at": "2026-09-09T09:47:55Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 904,
+  "height": 1206,
+  "mean": 0.0729,
+  "sd": 0.0851,
+  "p05": 0.0059,
+  "p95": 0.2484,
+  "chroma": 0.015
+ },
+ "reference": {
+  "width": 1920,
+  "height": 2560,
+  "mean": 0.4558,
+  "sd": 0.2191,
+  "p05": 0.1098,
+  "p95": 0.8459,
+  "chroma": 0.2081
+ },
+ "render_over_reference": {
+  "mean": 0.16,
+  "sd": 0.388,
+  "chroma": 0.072
+ }
+}

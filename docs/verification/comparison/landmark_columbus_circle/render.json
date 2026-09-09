@@ -1,0 +1,877 @@
+{
+ "agent_request": {
+  "dow": 1,
+  "hour": 14,
+  "local_clock": "2018-03-24 14:26 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "255.7 deg, the bearing from this photograph's own GPS position to Deutsche Bank Center (formerly Time Warner Center); heading and position both come from the photograph.  The item's recorded azimuth is 258.8 deg, 3.1 deg away, and belongs to its nominal viewpoint",
+ "camera": {
+  "azimuth_deg": 255.72286258510292,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 18.0,
+  "ground_detail": {
+   "below_point_excluded": null,
+   "chosen_m": 23.88,
+   "max_m": 24.0,
+   "median_m": 23.89,
+   "min_m": 23.73,
+   "mode": "local",
+   "percentile": null,
+   "point_m": 23.88,
+   "radius_m": 5.0,
+   "samples": 16
+  },
+  "ground_mode": "local",
+  "ground_source": "no surface named in the note; heightmap median within 5 m",
+  "hfov_deg": 90.0,
+  "lat": 40.768555,
+  "lon": -73.981684,
+  "long_side_fov_deg": 90.0,
+  "pitch_deg": 34.29917913840016,
+  "portrait": false,
+  "resolution": [
+   1280,
+   854
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_columbus_circle",
+  "terrain_z_m": 23.88,
+  "x": -2675.042,
+  "y": 7613.432,
+  "z": 25.48
+ },
+ "camera_caption": "camera 40.76855, -73.98168 (NYC_TM -2675, 7613) z 25.5 m NAVD88 | azimuth 255.7deg pitch +34.3deg | 18 mm on 36 mm (90.0deg horizontal) | 1280x854",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.768555,
+  "lon": -73.981684,
+  "offset_from_recorded_m": 58.0,
+  "source": "this photograph's own EXIF camera GPS (40.76855, -73.98168), 58 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
+ "clearance": {
+  "min_view_m": 57.3,
+  "moved": false,
+  "nearest_agent": "agent_veh_camry_taxi_yellow_372.50",
+  "nearest_agent_at_deg": [
+   -45.0,
+   0.0
+  ],
+  "nearest_agent_m": 11.3,
+  "nearest_agent_probe_m": 60.0,
+  "nearest_obstruction": "prop_lamp_cobra_davit_0",
+  "nearest_obstruction_at_deg": [
+   -45.0,
+   0.0
+  ],
+  "nearest_obstruction_m": 10.1,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_lamp_cobra_davit_0 10.1 m away, and the nearest simulated agent is agent_veh_camry_taxi_yellow_372.50 11.3 m away, and the view azimuth is clear for 81 m",
+  "offset_m": 0.0,
+  "view_m": 80.8
+ },
+ "frame": {
+  "mean": 0.2588,
+  "reason": null,
+  "sd": 0.147,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "widened from 35 mm to 18 mm (67 deg vertical) so that a level axis contains the subject: the top of lm_b_columbus_circle_monument.6, the built thing standing at the subject's coordinate, 236 m above the ground there stands 235 m above the lens at 115 m, 64 deg above the horizon; held at the 18 mm floor, so the top of the subject is still cut off -- past that point the distortion would stop the two frames being comparable",
+ "lighting": {
+  "background_strength": 0.032362449914216995,
+  "direct_normal_irradiance_w_m2": 873.9,
+  "emissive": {
+   "cone_faces_deleted": 24,
+   "cones_hidden": 2,
+   "lamps_switched_off": 5,
+   "night": false,
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 211.305,
+  "sky_elevation_deg": 46.509,
+  "sun_lamp": true,
+  "sun_strength_blender": 3.055,
+  "view_transform": "Filmic"
+ },
+ "name": "Columbus Circle",
+ "night": false,
+ "pitch_reason": "tilted +34.3 deg to contain the subject: the top of lm_b_columbus_circle_monument.6, the built thing standing at the subject's coordinate, 236 m above the ground there tops out 235 m above the lens 115 m away, 64 deg above the horizon, and the frame is only 67 deg tall at 18 mm. **The verticals converge, so this frame is not comparable with the photograph on proportion** -- it is here to show the subject at all",
+ "reference_photo": {
+  "author": "Paul Wasneski",
+  "confidence": "high",
+  "date_taken": "2018-03-24 14:26",
+  "estimated_azimuth_deg": 255.6,
+  "file": "3.jpg",
+  "height": 1280,
+  "licence": "Public domain",
+  "licence_url": "https://commons.wikimedia.org/wiki/Commons:Licensing#Material_in_the_public_domain",
+  "page_url": "https://commons.wikimedia.org/wiki/File:March_for_our_lives_march_passing_Columbus_Circle_NYC_(27123512198).jpg",
+  "title": "File:March for our lives march passing Columbus Circle NYC (27123512198).jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_columbus_circle/render.png",
+ "rendered_at": "2026-09-09T04:50:06Z",
+ "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "agents": {
+   "caption": "Agents: 53 vehicles within 320 m and 239 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 629 vehicles and 2374 people over the whole simulated ring, of which 741 and 3000 were simulated; 3449 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 584,
+    "pedestrian_inside_building": 8,
+    "pedestrian_not_on_walkable_surface": 377,
+    "pedestrian_outside_radius": 844,
+    "pedestrian_triangle_budget": 948,
+    "vehicle_body_has_no_rider": 45,
+    "vehicle_not_on_carriageway": 23,
+    "vehicle_on_a_car_free_park_drive": 48,
+    "vehicle_outside_radius": 229,
+    "vehicle_triangle_budget": 343
+   },
+   "ped_lods": {
+    "LOD0": 7,
+    "LOD1": 33,
+    "LOD2": 199
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 577643,
+   "per_class": {
+    "black_car": 2,
+    "boro_taxi": 6,
+    "box_truck": 1,
+    "dsny_truck": 1,
+    "mta_bus": 1,
+    "sedan": 24,
+    "suv": 6,
+    "taxi": 11,
+    "van": 1
+   },
+   "placed_pedestrians": 239,
+   "placed_vehicles": 53,
+   "reason": null,
+   "seconds": 122.03,
+   "snapshot": {
+    "building_footprints_tested": 1086,
+    "car_free_park_drives_matched": 48,
+    "density_lane_km": 28.218,
+    "density_sidewalk_m2": 25034,
+    "density_target_pedestrians": 2373.5,
+    "density_target_vehicles": 629.1,
+    "dow": 1,
+    "hour": 14,
+    "lanes_considered": 282,
+    "lanes_with_nta": 282,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.72,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_archetypes_available": 36,
+    "npc_bodies_imported": 36,
+    "npc_templates_baked": 156,
+    "pavement_polygons_tested": 1962,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 3000,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 741
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1080717,
+   "vehicle_lods": {
+    "LOD1": 9,
+    "LOD2": 44
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 503074
+  },
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-3_6",
+    "t_-3_7",
+    "t_-3_8",
+    "t_-4_7",
+    "t_-4_8"
+   ],
+   "landmark_bins_suppressed": 27,
+   "landmark_faces_suppressed": 4266,
+   "lod_substituted": [],
+   "missing": [],
+   "new_jersey": [],
+   "per_tile": {
+    "t_-3_6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 17,
+     "triangles": 39682
+    },
+    "t_-3_7": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 16,
+     "triangles": 30666
+    },
+    "t_-3_8": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 16,
+     "triangles": 89158
+    },
+    "t_-4_7": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 13,
+     "triangles": 54098
+    },
+    "t_-4_8": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 10,
+     "triangles": 5774
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 5,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 0,
+   "tiles_wanted": 5,
+   "tiles_with_new_jersey": 0,
+   "triangle_budget": 3510000,
+   "triangles": 219378
+  },
+  "centre_tm": [
+   -2675.04,
+   7613.43
+  ],
+  "kit": {
+   "capped": "triangle budget 1361019",
+   "per_category": {
+    "bulkhead": 10,
+    "cornice": 2,
+    "door_entry": 21,
+    "hvac": 13,
+    "parapet": 21,
+    "pilaster": 10,
+    "quoin": 1,
+    "scaffold": 33,
+    "storefront": 147,
+    "storefront_interior": 11,
+    "string_course": 2,
+    "water_tower": 3,
+    "window": 7526,
+    "window_accessory": 35
+   },
+   "placed": 7835,
+   "radius_m": 177.96509587727365,
+   "records_in_range": 15825,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 2500,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_7"
+   ],
+   "triangles": 1361144,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 56.3,
+     "id": "b_columbus_circle_monument",
+     "lod": 0,
+     "name": "Columbus Circle Monument and Deutsche Bank Center",
+     "own_ground_m2": 3308.8,
+     "own_ground_note": {
+      "above_heightmap_m": 0.82,
+      "heightmap_median_m": 24.78
+     },
+     "own_ground_parts": 1,
+     "triangles": 2856
+    },
+    {
+     "distance_m": 274.7,
+     "id": "c_hearst_tower",
+     "lod": 0,
+     "name": "Hearst Tower",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 13818
+    },
+    {
+     "distance_m": 421.7,
+     "id": "c_carnegie_hall",
+     "lod": 0,
+     "name": "Carnegie Hall",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 19122
+    },
+    {
+     "distance_m": 529.8,
+     "id": "c_billionaires_row",
+     "lod": 0,
+     "name": "Billionaires' Row (West 57th Street corridor)",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 220910
+    },
+    {
+     "distance_m": 541.8,
+     "id": "c_lincoln_center",
+     "lod": 0,
+     "name": "Lincoln Center for the Performing Arts",
+     "own_ground_note": {
+      "above_heightmap_m": -1.04,
+      "heightmap_median_m": 25.52,
+      "reason": "the model's ground stands -1.04 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
+     "triangles": 4625
+    },
+    {
+     "distance_m": 2218.7,
+     "id": "b_central_park_walls_gates",
+     "lod": 0,
+     "name": "Central Park perimeter wall and gates",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 18448
+    }
+   ],
+   "own_ground_from": [
+    "b_columbus_circle_monument"
+   ],
+   "own_ground_m2": 3308.8,
+   "placed": 6,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 279779
+  },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brown_brick": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.22,
+      "texture_albedo": 0.2375
+     },
+     "asset_id": "Bricks054",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brownstone": {
+     "albedo": {
+      "scale": 2.682,
+      "target_albedo": 0.2367,
+      "texture_albedo": 0.0882
+     },
+     "asset_id": "Travertine005",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete": {
+     "albedo": {
+      "scale": 1.799,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.2965
+     },
+     "asset_id": "Concrete037",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "granite": {
+     "albedo": {
+      "scale": 0.859,
+      "target_albedo": 0.39,
+      "texture_albedo": 0.4542
+     },
+     "asset_id": "Granite002A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "limestone": {
+     "albedo": {
+      "scale": 1.128,
+      "target_albedo": 0.66,
+      "texture_albedo": 0.5853
+     },
+     "asset_id": "Travertine009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "precast": {
+     "albedo": {
+      "scale": 1.273,
+      "target_albedo": 0.6133,
+      "texture_albedo": 0.4818
+     },
+     "asset_id": "Concrete034",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "stone_rubble": {
+     "albedo": {
+      "scale": 2.415,
+      "target_albedo": 0.4233,
+      "texture_albedo": 0.1753
+     },
+     "asset_id": "Bricks102",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "stucco": {
+     "albedo": {
+      "scale": 1.0,
+      "target_albedo": 0.6667,
+      "texture_albedo": 0.6543
+     },
+     "asset_id": "Plaster001",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "terracotta": {
+     "albedo": {
+      "scale": 0.945,
+      "target_albedo": 0.3833,
+      "texture_albedo": 0.4055
+     },
+     "asset_id": "Marble026",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "white_glazed_brick": {
+     "albedo": {
+      "scale": 1.13,
+      "target_albedo": 0.7767,
+      "texture_albedo": 0.6874
+     },
+     "asset_id": "Bricks060",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "wood_clapboard": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 1.384,
+      "scale": 4.0,
+      "target_albedo": 0.5467,
+      "texture_albedo": 0.0988
+     },
+     "asset_id": "WoodSiding013",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.032,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    }
+   },
+   "enabled": true,
+   "flat": {
+    "glass_curtain": "analytic: the catalogue has no photographic set for it"
+   },
+   "resolution": "2K",
+   "slots": 190
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 611,
+    "curb": 2589,
+    "marking_white": 8675,
+    "marking_yellow": 74,
+    "median": 735,
+    "parking_lot": 34,
+    "plaza": 640,
+    "roadbed": 5286,
+    "sidewalk": 3965
+   },
+   "placed": 22609,
+   "radius_m": 641.4216264191966,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_6",
+    "t_-3_7",
+    "t_-3_8",
+    "t_-4_7",
+    "t_-4_8"
+   ],
+   "triangles": 160243,
+   "triangles_cut_for_landmark_ground": 950,
+   "vertices": 206287
+  },
+  "props": {
+   "capped": "triangle budget 1315085",
+   "impostor_cards_dropped": 14,
+   "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 65
+   },
+   "leaf_off": true,
+   "per_kind": {
+    "bench": 20,
+    "bike_rack": 5,
+    "bus_shelter": 5,
+    "bus_stop_sign": 10,
+    "citibike_dock": 2,
+    "cooling_tower": 36,
+    "flagpole": 1,
+    "hydrant": 33,
+    "linknyc": 8,
+    "mailbox": 2,
+    "manhole": 77,
+    "newsstand": 3,
+    "steam_vent": 11,
+    "street_lamp": 87,
+    "subway_entrance": 15,
+    "subway_vent_grate": 24,
+    "tree": 259,
+    "waste_basket": 10
+   },
+   "placed": 608,
+   "radius_m": 307.96509587727365,
+   "rows_in_range": 1251,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_7"
+   ],
+   "tree_instances_scaled": 259,
+   "tree_mean_scale": 0.903,
+   "tree_scale_out_of_band": 0,
+   "tree_species_substituted": 159,
+   "triangles": 1315652,
+   "unmapped_kinds": {
+    "artwork": 3,
+    "drinking_fountain": 3,
+    "misc_structure": 1,
+    "parks_building": 2,
+    "parks_comfort_station": 1,
+    "rtpi_sign": 1,
+    "swimming_pool": 1
+   }
+  },
+  "radius_m": 641.4216264191966,
+  "seconds": 184.48,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 830,
+   "samples": 207,
+   "spacing_m": 2.0,
+   "triangles": 83212,
+   "water_bodies": [
+    {
+     "kind": "lake",
+     "name": "The Pond",
+     "water_z_m": 9.17
+    }
+   ],
+   "water_quads": 4,
+   "z_max_m": 30.74,
+   "z_min_m": 7.72
+  },
+  "triangles": 4500125
+ },
+ "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
+  "kit_radius_m": 177.96509587727365,
+  "prop_radius_m": 307.96509587727365,
+  "radius_m": 641.4216264191966
+ },
+ "seconds": {
+  "render": 45.1,
+  "scene": 186.7,
+  "total": 231.7
+ },
+ "sightline": {
+  "subject_aimed_at": "the subject's mid-height, 117.6 m above its ground",
+  "subject_blocked_at_m": 120.3,
+  "subject_blocked_by": "lm_b_columbus_circle_monument.5",
+  "subject_fan_from": "the subject's own measured height (J74)",
+  "subject_fan_half_angle_deg": 15.0,
+  "subject_fan_m": 235.2,
+  "subject_lands_at_m": 157.5,
+  "subject_lands_on": "lm_b_columbus_circle_monument.7",
+  "subject_range_m": 163.9,
+  "subject_rays": 5,
+  "subject_rays_clear": 2,
+  "subject_rays_into_nothing": 1,
+  "subject_rays_on_subject": 1,
+  "subject_reach_m": 25.0,
+  "subject_visible": false
+ },
+ "slug": "landmark_columbus_circle",
+ "status": "rendered",
+ "subject": {
+  "distance_from": "the placed camera, after the clearance walk",
+  "distance_m": 114.7,
+  "height_probe": {
+   "ground_z_m": 24.56,
+   "height_above_ground_m": 235.64,
+   "nearest_catalogue_origin": {
+    "distance_m": 94.7,
+    "height_m": 228.6,
+    "id": "b_columbus_circle_monument",
+    "within_120_m": true
+   },
+   "object": "lm_b_columbus_circle_monument.6",
+   "rays_cast": 17,
+   "rays_on_built_fabric": 17,
+   "z": 260.2
+  },
+  "name": "Deutsche Bank Center (formerly Time Warner Center)",
+  "origin_distance_m": 114.7
+ },
+ "sun": {
+  "azimuth_deg": 211.30532866011535,
+  "elevation_deg": 46.50876712681963,
+  "local": "2018-03-24T14:26:00-04:00",
+  "time_source": "EXIF DateTimeOriginal (minutes)",
+  "utc": "2018-03-24T18:26:00Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 258.8,
+  "lat": 40.7686,
+  "lon": -73.981,
+  "note": "Merchants' Gate (south-west corner of Central Park), looking south-west across the circle to the twin towers"
+ }
+}

@@ -12,7 +12,7 @@
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
-  "focal_mm": 18.0,
+  "focal_mm": 27.35071546730961,
   "ground_detail": {
    "below_point_excluded": 40,
    "chosen_m": 3.01,
@@ -27,11 +27,11 @@
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
-  "hfov_deg": 67.421,
+  "hfov_deg": 47.411,
   "lat": 40.68882,
   "lon": -74.043686,
-  "long_side_fov_deg": 90.0,
-  "pitch_deg": 0.0,
+  "long_side_fov_deg": 66.699,
+  "pitch_deg": 0.4287810466039126,
   "portrait": true,
   "resolution": [
    854,
@@ -44,7 +44,7 @@
   "y": -1237.296,
   "z": 4.611
  },
- "camera_caption": "camera 40.68882, -74.04369 (NYC_TM -7919, -1237) z 4.6 m NAVD88 | azimuth 304.8deg pitch +0.0deg | 18 mm on 36 mm (67.4deg horizontal, 90.0deg vertical, portrait) | 854x1280",
+ "camera_caption": "camera 40.68882, -74.04369 (NYC_TM -7919, -1237) z 4.6 m NAVD88 | azimuth 304.8deg pitch +0.4deg | 27 mm on 36 mm (47.4deg horizontal, 66.7deg vertical, portrait) | 854x1280",
  "camera_origin": {
   "from_photograph_gps": true,
   "lat": 40.68882,
@@ -55,24 +55,31 @@
  "clearance": {
   "min_view_m": 41.9,
   "moved": false,
+  "nearest_agent": null,
+  "nearest_agent_m": null,
+  "nearest_agent_probe_m": 60.0,
   "nearest_obstruction": "lm_b_statue_of_liberty.4",
-  "nearest_obstruction_m": 46.1,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is lm_b_statue_of_liberty.4 46.1 m away, and the view azimuth is clear for 47 m",
+  "nearest_obstruction_at_deg": [
+   -23.7,
+   0.0
+  ],
+  "nearest_obstruction_m": 43.5,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is lm_b_statue_of_liberty.4 43.5 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 47 m",
   "offset_m": 0.0,
   "view_m": 47.4
  },
  "frame": {
-  "mean": 0.6219,
+  "mean": 0.4561,
   "reason": null,
-  "sd": 0.0641,
+  "sd": 0.1476,
   "usable": true
  },
  "frame_retry": null,
  "group": "landmark",
  "interior": false,
- "lens_reason": "widened from 35 mm to 18 mm (90 deg vertical) so that a level axis contains the subject: the b_statue_of_liberty model's published 93 m height stands 93 m above the lens at 84 m, 48 deg above the horizon; held at the 18 mm floor, so the top of the subject is still cut off -- past that point the distortion would stop the two frames being comparable",
+ "lens_reason": "widened from 35 mm to 27 mm (67 deg vertical) so that a level axis contains the subject: the top of lm_b_statue_of_liberty.11, the built thing standing at the subject's coordinate, 48 m above the ground there stands 48 m above the lens at 84 m, 30 deg above the horizon",
  "lighting": {
-  "background_strength": 0.25,
+  "background_strength": 0.03475267067551613,
   "direct_normal_irradiance_w_m2": 804.1,
   "emissive": {
    "cone_faces_deleted": 8,
@@ -85,12 +92,12 @@
   "sky_azimuth_deg": 225.771,
   "sky_elevation_deg": 34.207,
   "sun_lamp": true,
-  "sun_strength_blender": 1.489,
+  "sun_strength_blender": 2.811,
   "view_transform": "Filmic"
  },
  "name": "Statue of Liberty",
  "night": false,
- "pitch_reason": "level optical axis (Statue of Liberty is 84 m away and would need +29 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "pitch_reason": "tilted +0.4 deg to contain the subject: the top of lm_b_statue_of_liberty.11, the built thing standing at the subject's coordinate, 48 m above the ground there tops out 48 m above the lens 84 m away, 30 deg above the horizon, and the frame is only 67 deg tall at 27 mm. **The verticals converge, so this frame is not comparable with the photograph on proportion** -- it is here to show the subject at all",
  "reference_photo": {
   "author": "Jakub Ha\u0142un",
   "confidence": "high",
@@ -105,7 +112,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_statue_of_liberty/render.png",
- "rendered_at": "2026-09-07T22:44:04Z",
+ "rendered_at": "2026-09-09T01:41:07Z",
  "resolution_note": "854x1280; the reference photograph is 1920x2876 (0.67:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -135,13 +142,14 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.13,
+     "load_seconds": 1.66,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
      "segments": 122235,
      "signal_plans": 19814
     },
+    "npc_archetypes_available": 36,
     "npc_bodies_imported": 0,
     "npc_templates_baked": 0,
     "pavement_polygons_tested": 16,
@@ -234,14 +242,18 @@
   "kit": {
    "capped": null,
    "per_category": {
-    "bulkhead": 2,
+    "bulkhead": 3,
+    "cornice": 7,
+    "door_entry": 2,
     "hvac": 10,
+    "quoin": 8,
+    "string_course": 7,
     "water_tower": 1,
-    "window": 1040
+    "window": 1413
    },
-   "placed": 1053,
-   "radius_m": 120.0,
-   "records_in_range": 1053,
+   "placed": 1451,
+   "radius_m": 172.533436201959,
+   "records_in_range": 1451,
    "stale_registry_ids": {},
    "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
@@ -249,7 +261,7 @@
     "t_-8_-2",
     "t_-9_-2"
    ],
-   "triangles": 328082,
+   "triangles": 448618,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -285,14 +297,196 @@
    "skipped_detail": [],
    "triangles": 97417
   },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete": {
+     "albedo": {
+      "scale": 1.799,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.2965
+     },
+     "asset_id": "Concrete037",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "stone_rubble": {
+     "albedo": {
+      "scale": 2.415,
+      "target_albedo": 0.4233,
+      "texture_albedo": 0.1753
+     },
+     "asset_id": "Bricks102",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "wood_clapboard": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 1.384,
+      "scale": 4.0,
+      "target_albedo": 0.5467,
+      "texture_albedo": 0.0988
+     },
+     "asset_id": "WoodSiding013",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.032,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    }
+   },
+   "enabled": true,
+   "flat": {},
+   "resolution": "2K",
+   "slots": 44
+  },
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "plaza": 3,
-    "sidewalk": 5
+    "plaza": 277,
+    "sidewalk": 632
    },
-   "placed": 8,
-   "radius_m": 534.0043736737133,
+   "placed": 909,
+   "radius_m": 586.5378098756723,
    "tiles_missing": [],
    "tiles_read": [
     "t_-8_-1",
@@ -300,39 +494,46 @@
     "t_-9_-1",
     "t_-9_-2"
    ],
-   "triangles": 393,
+   "triangles": 2197,
    "triangles_cut_for_landmark_ground": 0,
-   "vertices": 407
+   "vertices": 4015
   },
   "props": {
    "capped": null,
    "impostor_cards_dropped": 3,
    "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {},
    "leaf_off": false,
    "per_kind": {
-    "manhole": 16,
-    "steam_vent": 1,
-    "street_lamp": 18,
-    "tree": 227,
-    "waste_basket": 14
+    "bench": 8,
+    "flagpole": 1,
+    "manhole": 22,
+    "steam_vent": 2,
+    "street_lamp": 25,
+    "tree": 262,
+    "waste_basket": 24
    },
-   "placed": 276,
-   "radius_m": 250.0,
-   "rows_in_range": 278,
+   "placed": 344,
+   "radius_m": 302.53343620195903,
+   "rows_in_range": 346,
    "tiles_missing": [],
    "tiles_read": [
     "t_-8_-1",
     "t_-8_-2",
+    "t_-9_-1",
     "t_-9_-2"
    ],
-   "tree_species_substituted": 227,
-   "triangles": 1287872,
+   "tree_instances_scaled": 262,
+   "tree_mean_scale": 0.999,
+   "tree_scale_out_of_band": 0,
+   "tree_species_substituted": 262,
+   "triangles": 1367324,
    "unmapped_kinds": {
     "artwork": 2
    }
   },
-  "radius_m": 534.0043736737133,
-  "seconds": 10.71,
+  "radius_m": 586.5378098756723,
+  "seconds": 11.35,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -341,9 +542,9 @@
    "near_m": 150.0,
    "near_spacing_m": 2.0,
    "quads_cut_for_landmark_ground": 0,
-   "samples": 201,
+   "samples": 205,
    "spacing_m": 2.0,
-   "triangles": 80000,
+   "triangles": 83232,
    "water_bodies": [
     {
      "kind": "bay",
@@ -356,29 +557,62 @@
      "water_z_m": 0.0
     }
    ],
-   "water_quads": 31395,
+   "water_quads": 33011,
    "z_max_m": 6.02,
    "z_min_m": -0.2
   },
-  "triangles": 1797284
+  "triangles": 2002308
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
   "agent_vehicle_radius_m": 320.0,
-  "kit_radius_m": 120.0,
-  "prop_radius_m": 250.0,
-  "radius_m": 534.0043736737133
+  "kit_radius_m": 172.533436201959,
+  "prop_radius_m": 302.53343620195903,
+  "radius_m": 586.5378098756723
  },
  "seconds": {
-  "render": 87.6,
-  "scene": 10.9,
-  "total": 98.5
+  "render": 42.8,
+  "scene": 11.7,
+  "total": 54.5
+ },
+ "sightline": {
+  "subject_aimed_at": "the subject's mid-height, 24.1 m above its ground",
+  "subject_blocked_at_m": 47.0,
+  "subject_blocked_by": "lm_b_statue_of_liberty.4",
+  "subject_fan_from": "the subject's own measured height (J74)",
+  "subject_fan_half_angle_deg": 15.0,
+  "subject_fan_m": 48.1,
+  "subject_lands_at_m": null,
+  "subject_lands_on": null,
+  "subject_range_m": 87.2,
+  "subject_rays": 5,
+  "subject_rays_clear": 0,
+  "subject_rays_into_nothing": 0,
+  "subject_rays_on_subject": 0,
+  "subject_reach_m": 25.0,
+  "subject_visible": false
  },
  "slug": "landmark_statue_of_liberty",
  "status": "rendered",
  "subject": {
+  "distance_from": "the placed camera, after the clearance walk",
   "distance_m": 83.8,
-  "name": "Statue of Liberty"
+  "height_probe": {
+   "ground_z_m": 4.65,
+   "height_above_ground_m": 48.29,
+   "nearest_catalogue_origin": {
+    "distance_m": 10.9,
+    "height_m": 92.99,
+    "id": "b_statue_of_liberty",
+    "within_120_m": true
+   },
+   "object": "lm_b_statue_of_liberty.11",
+   "rays_cast": 17,
+   "rays_on_built_fabric": 17,
+   "z": 52.94
+  },
+  "name": "Statue of Liberty",
+  "origin_distance_m": 83.8
  },
  "sun": {
   "azimuth_deg": 225.77098308456982,

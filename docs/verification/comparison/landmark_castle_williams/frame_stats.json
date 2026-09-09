@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_castle_williams",
+ "rendered_at": "2026-09-09T04:18:26Z",
+ "reference_file": "3.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.3145,
+  "sd": 0.194,
+  "p05": 0.0028,
+  "p95": 0.5423,
+  "chroma": 0.0555
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.5069,
+  "sd": 0.2281,
+  "p05": 0.0084,
+  "p95": 0.8686,
+  "chroma": 0.105
+ },
+ "render_over_reference": {
+  "mean": 0.62,
+  "sd": 0.851,
+  "chroma": 0.529
+ }
+}

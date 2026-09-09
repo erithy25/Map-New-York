@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_new_york_times_building",
+ "rendered_at": "2026-09-09T00:43:35Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.3728,
+  "sd": 0.1674,
+  "p05": 0.0885,
+  "p95": 0.6568,
+  "chroma": 0.0763
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.4115,
+  "sd": 0.2521,
+  "p05": 0.07,
+  "p95": 0.8269,
+  "chroma": 0.0406
+ },
+ "render_over_reference": {
+  "mean": 0.906,
+  "sd": 0.664,
+  "chroma": 1.879
+ }
+}

@@ -1,0 +1,30 @@
+{
+ "slug": "vehicle_yellow_cab",
+ "rendered_at": "2026-09-09T10:21:03Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 704,
+  "mean": 0.0947,
+  "sd": 0.0707,
+  "p05": 0.0196,
+  "p95": 0.1785,
+  "chroma": 0.0247
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1056,
+  "mean": 0.4146,
+  "sd": 0.2434,
+  "p05": 0.0689,
+  "p95": 0.879,
+  "chroma": 0.1404
+ },
+ "render_over_reference": {
+  "mean": 0.228,
+  "sd": 0.29,
+  "chroma": 0.176
+ }
+}

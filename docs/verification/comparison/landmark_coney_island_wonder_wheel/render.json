@@ -1,0 +1,761 @@
+{
+ "agent_request": {
+  "dow": 0,
+  "hour": 13,
+  "local_clock": "2022-08-12 13:36 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "25.3 deg, the bearing from this photograph's own GPS position to Wonder Wheel; heading and position both come from the photograph.  The item's recorded azimuth is 9.9 deg, 15.4 deg away, and belongs to its nominal viewpoint",
+ "camera": {
+  "azimuth_deg": 25.29965789708678,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "below_point_excluded": null,
+   "chosen_m": 2.81,
+   "max_m": 3.15,
+   "median_m": 2.87,
+   "min_m": 2.57,
+   "mode": "local",
+   "percentile": null,
+   "point_m": 2.81,
+   "radius_m": 5.0,
+   "samples": 16
+  },
+  "ground_mode": "local",
+  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap height at the point itself is the ground (the neighbourhood is still measured and printed, because a terrace can stand metres above the plaza 4 m away and a median across that step would put the camera underground)",
+  "hfov_deg": 54.432,
+  "lat": 40.573422,
+  "lon": -73.979058,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_coney_island_wonder_wheel",
+  "terrain_z_m": 2.814,
+  "x": -2467.727,
+  "y": -14052.269,
+  "z": 4.414
+ },
+ "camera_caption": "camera 40.57342, -73.97906 (NYC_TM -2468, -14052) z 4.4 m NAVD88 | azimuth 25.3deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.573422,
+  "lon": -73.979058,
+  "offset_from_recorded_m": 80.3,
+  "source": "this photograph's own EXIF camera GPS (40.57342, -73.97906), 80 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
+ "clearance": {
+  "direction": "to the left",
+  "min_view_m": 35.5,
+  "moved": true,
+  "nearest_agent": null,
+  "nearest_agent_m": null,
+  "nearest_agent_probe_m": 20.0,
+  "nearest_obstruction": "t_-3_-15_red_brick",
+  "nearest_obstruction_at_deg": [
+   27.2,
+   10.5
+  ],
+  "nearest_obstruction_m": 8.7,
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 7 m ahead, less than the 35 m this frame needs to show its subject; the camera was moved 8 m to the left -- the nearest point in open air -- keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there, and the nearest built thing in the frame is t_-3_-15_red_brick 8.7 m away, and no simulated agent stands within 20 m of it",
+  "offset_m": 8.0,
+  "reason": "boxed in: the view azimuth is closed off 7 m ahead, less than the 35 m this frame needs to show its subject",
+  "rule": "radial search with a clear frame",
+  "view_m": 60.0
+ },
+ "frame": {
+  "mean": 0.4358,
+  "reason": null,
+  "sd": 0.164,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal); nothing built stands within 6 m of the subject's coordinate; the nearest built thing is t_-3_-14_tan_brick, 48 m away at bearing 45 deg, so the coordinate the item records is that far off the fabric it names, so the lens was not widened to contain it",
+ "lighting": {
+  "background_strength": 0.030823571607470512,
+  "direct_normal_irradiance_w_m2": 925.8,
+  "emissive": {
+   "cone_faces_deleted": 24,
+   "cones_hidden": 2,
+   "lamps_switched_off": 3,
+   "night": false,
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 199.238,
+  "sky_elevation_deg": 63.114,
+  "sun_lamp": true,
+  "sun_strength_blender": 3.237,
+  "view_transform": "Filmic"
+ },
+ "name": "Deno's Wonder Wheel",
+ "night": false,
+ "pitch_reason": "level optical axis (nothing built stands at Wonder Wheel's coordinate, so its mid-height is not known and there is nothing to tilt towards)",
+ "reference_photo": {
+  "author": "Kidfly182",
+  "confidence": "high",
+  "date_taken": "2022-08-12 13:36:25",
+  "estimated_azimuth_deg": 25.2,
+  "file": "3.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Wonder_Wheel_Coney_Island_015.jpg",
+  "title": "File:Wonder Wheel Coney Island 015.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_coney_island_wonder_wheel/render.png",
+ "rendered_at": "2026-09-09T04:56:39Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "agents": {
+   "caption": "Agents: 36 vehicles within 320 m and 28 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 69 vehicles and 165 people over the whole simulated ring, of which 91 and 195 were simulated; 222 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_not_on_walkable_surface": 57,
+    "pedestrian_outside_radius": 110,
+    "vehicle_body_has_no_rider": 2,
+    "vehicle_not_on_carriageway": 5,
+    "vehicle_outside_radius": 48
+   },
+   "ped_lods": {
+    "LOD2": 28
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 36876,
+   "per_class": {
+    "box_truck": 3,
+    "mta_bus": 1,
+    "sedan": 23,
+    "suv": 8,
+    "van": 1
+   },
+   "placed_pedestrians": 28,
+   "placed_vehicles": 36,
+   "reason": null,
+   "seconds": 24.17,
+   "snapshot": {
+    "building_footprints_tested": 609,
+    "density_lane_km": 8.956,
+    "density_sidewalk_m2": 7420,
+    "density_target_pedestrians": 165.2,
+    "density_target_vehicles": 68.6,
+    "dow": 0,
+    "hour": 13,
+    "lanes_considered": 95,
+    "lanes_with_nta": 95,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.75,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_archetypes_available": 36,
+    "npc_bodies_imported": 19,
+    "npc_templates_baked": 25,
+    "pavement_polygons_tested": 630,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 195,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 91
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 239472,
+   "vehicle_lods": {
+    "LOD2": 36
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 202596
+  },
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-2_-14",
+    "t_-2_-15",
+    "t_-3_-14",
+    "t_-3_-15",
+    "t_-4_-14",
+    "t_-4_-15"
+   ],
+   "landmark_bins_suppressed": 7,
+   "landmark_faces_suppressed": 280,
+   "lod_substituted": [],
+   "missing": [],
+   "new_jersey": [],
+   "per_tile": {
+    "t_-2_-14": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 12,
+     "triangles": 45770
+    },
+    "t_-2_-15": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 2,
+     "triangles": 36
+    },
+    "t_-3_-14": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 12,
+     "triangles": 22276
+    },
+    "t_-3_-15": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 6,
+     "triangles": 1966
+    },
+    "t_-4_-14": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 13,
+     "triangles": 27670
+    },
+    "t_-4_-15": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 10,
+     "triangles": 4470
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 6,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 0,
+   "tiles_wanted": 6,
+   "tiles_with_new_jersey": 0,
+   "triangle_budget": 3510000,
+   "triangles": 102188
+  },
+  "centre_tm": [
+   -2460.49,
+   -14055.69
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 21,
+    "cornice": 28,
+    "door_entry": 45,
+    "parapet": 58,
+    "pilaster": 8,
+    "quoin": 41,
+    "storefront": 299,
+    "storefront_interior": 34,
+    "string_course": 27,
+    "window": 256
+   },
+   "placed": 817,
+   "radius_m": 200.32525499072625,
+   "records_in_range": 958,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 141,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_-14",
+    "t_-3_-15"
+   ],
+   "triangles": 184490,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 97.2,
+     "id": "b_coney_island",
+     "lod": 0,
+     "name": "Coney Island: Cyclone, Wonder Wheel, Parachute Jump and Boardwalk",
+     "own_ground_m2": 374.1,
+     "own_ground_note": {
+      "above_heightmap_m": -0.07,
+      "heightmap_median_m": 2.07
+     },
+     "own_ground_parts": 1,
+     "triangles": 37308
+    }
+   ],
+   "own_ground_from": [
+    "b_coney_island"
+   ],
+   "own_ground_m2": 374.1,
+   "placed": 1,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 37308
+  },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brown_brick": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.22,
+      "texture_albedo": 0.2375
+     },
+     "asset_id": "Bricks054",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brownstone": {
+     "albedo": {
+      "scale": 2.682,
+      "target_albedo": 0.2367,
+      "texture_albedo": 0.0882
+     },
+     "asset_id": "Travertine005",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete": {
+     "albedo": {
+      "scale": 1.799,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.2965
+     },
+     "asset_id": "Concrete037",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "limestone": {
+     "albedo": {
+      "scale": 1.128,
+      "target_albedo": 0.66,
+      "texture_albedo": 0.5853
+     },
+     "asset_id": "Travertine009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "precast": {
+     "albedo": {
+      "scale": 1.273,
+      "target_albedo": 0.6133,
+      "texture_albedo": 0.4818
+     },
+     "asset_id": "Concrete034",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "stucco": {
+     "albedo": {
+      "scale": 1.0,
+      "target_albedo": 0.6667,
+      "texture_albedo": 0.6543
+     },
+     "asset_id": "Plaster001",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "vinyl_siding": {
+     "albedo": {
+      "scale": 1.402,
+      "target_albedo": 0.6867,
+      "texture_albedo": 0.4898
+     },
+     "asset_id": "WoodSiding009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.626,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "wood_clapboard": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 1.384,
+      "scale": 4.0,
+      "target_albedo": 0.5467,
+      "texture_albedo": 0.0988
+     },
+     "asset_id": "WoodSiding013",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.032,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    }
+   },
+   "enabled": true,
+   "flat": {
+    "glass_curtain": "analytic: the catalogue has no photographic set for it"
+   },
+   "resolution": "2K",
+   "slots": 110
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 65,
+    "curb": 470,
+    "marking_white": 1626,
+    "marking_yellow": 134,
+    "median": 68,
+    "parking_lot": 604,
+    "plaza": 81,
+    "roadbed": 592,
+    "sidewalk": 917
+   },
+   "placed": 4557,
+   "radius_m": 593.8976871320681,
+   "tiles_missing": [
+    "t_-2_-15"
+   ],
+   "tiles_read": [
+    "t_-2_-14",
+    "t_-3_-14",
+    "t_-3_-15",
+    "t_-4_-14",
+    "t_-4_-15"
+   ],
+   "triangles": 35923,
+   "triangles_cut_for_landmark_ground": 9,
+   "vertices": 45014
+  },
+  "props": {
+   "capped": null,
+   "impostor_cards_dropped": 6,
+   "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 32
+   },
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 86,
+    "bike_rack": 4,
+    "bike_shelter": 1,
+    "bus_stop_sign": 4,
+    "cooling_tower": 60,
+    "flagpole": 7,
+    "hydrant": 33,
+    "manhole": 43,
+    "street_lamp": 70,
+    "subway_entrance": 3,
+    "tree": 66,
+    "waste_basket": 4
+   },
+   "placed": 381,
+   "radius_m": 330.32525499072625,
+   "rows_in_range": 439,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_-14",
+    "t_-3_-15"
+   ],
+   "tree_instances_scaled": 66,
+   "tree_mean_scale": 0.798,
+   "tree_scale_out_of_band": 0,
+   "tree_species_substituted": 55,
+   "triangles": 674216,
+   "unmapped_kinds": {
+    "artwork": 1,
+    "billboard": 5,
+    "drinking_fountain": 3,
+    "misc_structure": 3,
+    "parks_building": 7,
+    "parks_comfort_station": 2,
+    "vending_machine": 5
+   }
+  },
+  "radius_m": 593.8976871320681,
+  "seconds": 42.98,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 8,
+   "samples": 205,
+   "spacing_m": 2.0,
+   "triangles": 83216,
+   "water_bodies": [
+    {
+     "kind": "bay",
+     "name": "ROCKAWAY INLET",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "ROCKAWAY INLET",
+     "water_z_m": 0.0
+    }
+   ],
+   "water_quads": 4421,
+   "z_max_m": 5.08,
+   "z_min_m": -0.18
+  },
+  "triangles": 1356813
+ },
+ "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
+  "kit_radius_m": 200.32525499072625,
+  "prop_radius_m": 330.32525499072625,
+  "radius_m": 593.8976871320681
+ },
+ "seconds": {
+  "render": 43.7,
+  "scene": 46.0,
+  "total": 89.7
+ },
+ "sightline": {
+  "subject_note": "nothing built stands within 6 m of the subject's coordinate; the nearest built thing is t_-3_-14_tan_brick, 48 m away at bearing 45 deg, so the coordinate the item records is that far off the fabric it names; no sightline was tested",
+  "subject_visible": null
+ },
+ "slug": "landmark_coney_island_wonder_wheel",
+ "status": "rendered",
+ "subject": {
+  "distance_from": "the placed camera, after the clearance walk",
+  "distance_m": 71.4,
+  "height_probe": {
+   "ground_z_m": 2.58,
+   "nearest_built": {
+    "bearing_deg": 45.0,
+    "distance_m": 48.3,
+    "object": "t_-3_-14_tan_brick",
+    "reach_m": 120.0
+   },
+   "nearest_catalogue_origin": {
+    "distance_m": 43.2,
+    "height_m": 79.86,
+    "id": "b_coney_island",
+    "within_120_m": true
+   },
+   "note": "nothing built stands within 6 m of the subject's coordinate; the nearest built thing is t_-3_-14_tan_brick, 48 m away at bearing 45 deg, so the coordinate the item records is that far off the fabric it names",
+   "object": null,
+   "rays_cast": 17,
+   "rays_on_built_fabric": 0,
+   "z": null
+  },
+  "name": "Wonder Wheel",
+  "origin_distance_m": 71.0
+ },
+ "sun": {
+  "azimuth_deg": 199.23791353299907,
+  "elevation_deg": 63.11384818234465,
+  "local": "2022-08-12T13:36:25-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2022-08-12T17:36:25Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 9.9,
+  "lat": 40.5727,
+  "lon": -73.979,
+  "note": "Riegelmann Boardwalk at West 12th Street, looking north at the wheel"
+ }
+}

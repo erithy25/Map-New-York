@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_citi_field",
+ "rendered_at": "2026-09-09T04:41:14Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.3345,
+  "sd": 0.2438,
+  "p05": 0.0,
+  "p95": 0.6148,
+  "chroma": 0.0449
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.5997,
+  "sd": 0.2655,
+  "p05": 0.1303,
+  "p95": 0.8467,
+  "chroma": 0.1378
+ },
+ "render_over_reference": {
+  "mean": 0.558,
+  "sd": 0.918,
+  "chroma": 0.326
+ }
+}

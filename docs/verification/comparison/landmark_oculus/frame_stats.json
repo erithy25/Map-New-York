@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_oculus",
+ "rendered_at": "2026-09-09T00:58:33Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 854,
+  "mean": 0.1729,
+  "sd": 0.1143,
+  "p05": 0.0227,
+  "p95": 0.3717,
+  "chroma": 0.0215
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1281,
+  "mean": 0.7648,
+  "sd": 0.2281,
+  "p05": 0.2614,
+  "p95": 0.9684,
+  "chroma": 0.0613
+ },
+ "render_over_reference": {
+  "mean": 0.226,
+  "sd": 0.501,
+  "chroma": 0.351
+ }
+}

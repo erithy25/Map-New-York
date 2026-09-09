@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_central_park_wall_gates",
+ "rendered_at": "2026-09-09T04:33:41Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 854,
+  "mean": 0.1749,
+  "sd": 0.1176,
+  "p05": 0.0036,
+  "p95": 0.4006,
+  "chroma": 0.0345
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1280,
+  "mean": 0.3612,
+  "sd": 0.256,
+  "p05": 0.0448,
+  "p95": 0.9527,
+  "chroma": 0.0668
+ },
+ "render_over_reference": {
+  "mean": 0.484,
+  "sd": 0.459,
+  "chroma": 0.516
+ }
+}

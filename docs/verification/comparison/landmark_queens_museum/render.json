@@ -1,0 +1,745 @@
+{
+ "agent_request": {
+  "dow": 1,
+  "hour": 17,
+  "local_clock": "2022-08-13 17:03 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "70.0 deg as recorded; it agrees with the bearing from the camera position used to Queens Museum (New York City Building) (70.0 deg) to 0.0 deg",
+ "camera": {
+  "azimuth_deg": 70.0,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "below_point_excluded": null,
+   "chosen_m": 6.84,
+   "max_m": 7.05,
+   "median_m": 6.78,
+   "min_m": 5.98,
+   "mode": "local",
+   "percentile": null,
+   "point_m": 6.84,
+   "radius_m": 5.0,
+   "samples": 16
+  },
+  "ground_mode": "local",
+  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap height at the point itself is the ground (the neighbourhood is still measured and printed, because a terrace can stand metres above the plaza 4 m away and a median across that step would put the camera underground)",
+  "hfov_deg": 54.432,
+  "lat": 40.745464,
+  "lon": -73.848006,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 2.672366815391975,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_queens_museum",
+  "terrain_z_m": 6.841,
+  "x": 8614.212,
+  "y": 5053.716,
+  "z": 8.441
+ },
+ "camera_caption": "camera 40.74546, -73.84801 (NYC_TM 8614, 5054) z 8.4 m NAVD88 | azimuth 70.0deg pitch +2.7deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_origin": {
+  "from_photograph_gps": false,
+  "lat": 40.745464,
+  "lon": -73.848006,
+  "offset_from_recorded_m": 0.0,
+  "photograph_gps_offset_m": 129.4,
+  "source": "the item's recorded viewpoint.  This photograph's own EXIF GPS is 129 m away, but the eye point there is inside lm_c_flushing_meadows.2 (a ray straight up from the eye point hits its roof), while the recorded viewpoint is in open air"
+ },
+ "clearance": {
+  "min_view_m": 60.1,
+  "moved": false,
+  "nearest_agent": null,
+  "nearest_agent_m": null,
+  "nearest_agent_probe_m": 60.0,
+  "nearest_obstruction": "prop_manhole_coned_58",
+  "nearest_obstruction_at_deg": [
+   0.0,
+   -10.5
+  ],
+  "nearest_obstruction_m": 18.9,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_manhole_coned_58 18.9 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 89 m",
+  "offset_m": 0.0,
+  "view_m": 89.2
+ },
+ "frame": {
+  "mean": 0.4399,
+  "reason": null,
+  "sd": 0.1876,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.03537013381719589,
+  "direct_normal_irradiance_w_m2": 782.6,
+  "emissive": {
+   "cone_faces_deleted": 8,
+   "cones_hidden": 1,
+   "lamps_switched_off": 1,
+   "night": false,
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.45,
+  "sky_azimuth_deg": 261.944,
+  "sky_elevation_deg": 31.459,
+  "sun_lamp": true,
+  "sun_strength_blender": 2.736,
+  "view_transform": "Filmic"
+ },
+ "name": "Queens Museum (New York City Building)",
+ "night": false,
+ "pitch_reason": "aimed at Queens Museum (New York City Building) 120 m away, at its mid-height (the top of lm_c_flushing_meadows.2, the built thing standing at the subject's coordinate, 14 m above the ground there); +2.7 deg from horizontal",
+ "reference_photo": {
+  "author": "Wil540 art",
+  "confidence": "high",
+  "date_taken": "2022-08-13 17:03:12",
+  "estimated_azimuth_deg": 326.7,
+  "file": "1.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:08132022_WMNYC_Wiki_Worlds_Fair_Wikimania_Queens_Museum.jpg",
+  "title": "File:08132022 WMNYC Wiki Worlds Fair Wikimania Queens Museum.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_queens_museum/render.png",
+ "rendered_at": "2026-09-09T07:03:07Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "agents": {
+   "caption": "Agents: 64 vehicles within 320 m and 27 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 219 vehicles and 292 people over the whole simulated ring, of which 242 and 420 were simulated; 571 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 20,
+    "pedestrian_not_on_walkable_surface": 89,
+    "pedestrian_outside_radius": 284,
+    "vehicle_body_has_no_rider": 7,
+    "vehicle_not_on_carriageway": 2,
+    "vehicle_outside_radius": 169
+   },
+   "ped_lods": {
+    "LOD2": 27
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 35982,
+   "per_class": {
+    "boro_taxi": 3,
+    "dsny_truck": 1,
+    "sedan": 40,
+    "suv": 16,
+    "taxi": 3,
+    "van": 1
+   },
+   "placed_pedestrians": 27,
+   "placed_vehicles": 64,
+   "reason": null,
+   "seconds": 23.5,
+   "snapshot": {
+    "building_footprints_tested": 2421,
+    "density_lane_km": 16.621,
+    "density_sidewalk_m2": 4420,
+    "density_target_pedestrians": 291.8,
+    "density_target_vehicles": 218.9,
+    "dow": 1,
+    "hour": 17,
+    "lanes_considered": 120,
+    "lanes_with_nta": 120,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.81,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_archetypes_available": 36,
+    "npc_bodies_imported": 19,
+    "npc_templates_baked": 26,
+    "pavement_polygons_tested": 4168,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 420,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 242
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 401698,
+   "vehicle_lods": {
+    "LOD2": 64
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 365716
+  },
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_8_4",
+    "t_8_5",
+    "t_9_4",
+    "t_9_5"
+   ],
+   "landmark_bins_suppressed": 5,
+   "landmark_faces_suppressed": 6532,
+   "lod_substituted": [],
+   "missing": [],
+   "new_jersey": [],
+   "per_tile": {
+    "t_8_4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 11,
+     "triangles": 34242
+    },
+    "t_8_5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 10,
+     "triangles": 23564
+    },
+    "t_9_4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 6,
+     "triangles": 5254
+    },
+    "t_9_5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 10,
+     "triangles": 10802
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 4,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 0,
+   "tiles_wanted": 4,
+   "tiles_with_new_jersey": 0,
+   "triangle_budget": 3510000,
+   "triangles": 73862
+  },
+  "centre_tm": [
+   8742.31,
+   5072.08
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "door_entry": 7,
+    "window": 26
+   },
+   "placed": 33,
+   "radius_m": 249.4106842238898,
+   "records_in_range": 901,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 868,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_8_4",
+    "t_8_5"
+   ],
+   "triangles": 7406,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 146.8,
+     "id": "b_unisphere",
+     "lod": 0,
+     "name": "Unisphere",
+     "own_ground_m2": 6992.3,
+     "own_ground_note": {
+      "above_heightmap_m": 0.57,
+      "heightmap_median_m": 6.73
+     },
+     "own_ground_parts": 1,
+     "triangles": 17236
+    },
+    {
+     "distance_m": 294.9,
+     "id": "c_flushing_meadows",
+     "lod": 0,
+     "name": "New York State Pavilion and Queens Museum",
+     "own_ground_m2": 5294.0,
+     "own_ground_note": {
+      "above_heightmap_m": -0.02,
+      "heightmap_median_m": 6.57
+     },
+     "own_ground_parts": 1,
+     "triangles": 14049
+    },
+    {
+     "distance_m": 475.3,
+     "id": "c_usta_arthur_ashe",
+     "lod": 0,
+     "name": "Arthur Ashe Stadium",
+     "own_ground_m2": 669.8,
+     "own_ground_note": {
+      "above_heightmap_m": 0.1,
+      "heightmap_median_m": 4.47
+     },
+     "own_ground_parts": 1,
+     "triangles": 2452
+    }
+   ],
+   "own_ground_from": [
+    "b_unisphere",
+    "c_flushing_meadows",
+    "c_usta_arthur_ashe"
+   ],
+   "own_ground_m2": 12956.1,
+   "placed": 3,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 33737
+  },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brown_brick": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.22,
+      "texture_albedo": 0.2375
+     },
+     "asset_id": "Bricks054",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete": {
+     "albedo": {
+      "scale": 1.799,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.2965
+     },
+     "asset_id": "Concrete037",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "limestone": {
+     "albedo": {
+      "scale": 1.128,
+      "target_albedo": 0.66,
+      "texture_albedo": 0.5853
+     },
+     "asset_id": "Travertine009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "precast": {
+     "albedo": {
+      "scale": 1.273,
+      "target_albedo": 0.6133,
+      "texture_albedo": 0.4818
+     },
+     "asset_id": "Concrete034",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "vinyl_siding": {
+     "albedo": {
+      "scale": 1.402,
+      "target_albedo": 0.6867,
+      "texture_albedo": 0.4898
+     },
+     "asset_id": "WoodSiding009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.626,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "wood_clapboard": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 1.384,
+      "scale": 4.0,
+      "target_albedo": 0.5467,
+      "texture_albedo": 0.0988
+     },
+     "asset_id": "WoodSiding013",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.032,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    }
+   },
+   "enabled": true,
+   "flat": {
+    "glass_curtain": "analytic: the catalogue has no photographic set for it"
+   },
+   "resolution": "2K",
+   "slots": 74
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 96,
+    "curb": 3540,
+    "marking_white": 2856,
+    "marking_yellow": 134,
+    "median": 1587,
+    "parking_lot": 764,
+    "plaza": 122,
+    "roadbed": 6835,
+    "sidewalk": 1067
+   },
+   "placed": 17001,
+   "radius_m": 629.4106842238898,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_8_4",
+    "t_8_5",
+    "t_9_4",
+    "t_9_5"
+   ],
+   "triangles": 149651,
+   "triangles_cut_for_landmark_ground": 709,
+   "vertices": 184078
+  },
+  "props": {
+   "capped": "triangle budget 1456504",
+   "impostor_cards_dropped": 3,
+   "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 8
+   },
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 51,
+    "bike_rack": 2,
+    "cooling_tower": 3,
+    "hydrant": 4,
+    "manhole": 48,
+    "street_lamp": 30,
+    "tree": 255
+   },
+   "placed": 393,
+   "radius_m": 379.4106842238898,
+   "rows_in_range": 770,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_8_4",
+    "t_8_5",
+    "t_9_4",
+    "t_9_5"
+   ],
+   "tree_instances_scaled": 255,
+   "tree_mean_scale": 0.909,
+   "tree_scale_out_of_band": 0,
+   "tree_species_substituted": 255,
+   "triangles": 1457364,
+   "unmapped_kinds": {
+    "artwork": 3,
+    "drinking_fountain": 5,
+    "memorial": 4,
+    "misc_structure": 7,
+    "parks_building": 14
+   }
+  },
+  "radius_m": 629.4106842238898,
+  "seconds": 43.66,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 1781,
+   "samples": 207,
+   "spacing_m": 2.0,
+   "triangles": 81310,
+   "water_bodies": [
+    {
+     "kind": "lake",
+     "name": "FLUSHING CREEK",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "pond",
+     "name": "Industry Pond",
+     "water_z_m": 0.19
+    },
+    {
+     "kind": "pond",
+     "name": "Waterfowl Marsh",
+     "water_z_m": 6.51
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 7.08
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 7.94
+    }
+   ],
+   "water_quads": 16,
+   "z_max_m": 18.23,
+   "z_min_m": 0.19
+  },
+  "triangles": 2205028
+ },
+ "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
+  "kit_radius_m": 249.4106842238898,
+  "prop_radius_m": 379.4106842238898,
+  "radius_m": 629.4106842238898
+ },
+ "seconds": {
+  "render": 34.0,
+  "scene": 43.8,
+  "total": 77.9
+ },
+ "sightline": {
+  "subject_aimed_at": "the subject's mid-height, 6.8 m above its ground",
+  "subject_blocked_at_m": 89.2,
+  "subject_blocked_by": "lm_c_flushing_meadows.4",
+  "subject_fan_from": "the subject's own measured height (J74)",
+  "subject_fan_half_angle_deg": 3.21,
+  "subject_fan_m": 13.5,
+  "subject_lands_at_m": null,
+  "subject_lands_on": null,
+  "subject_range_m": 120.4,
+  "subject_rays": 5,
+  "subject_rays_clear": 0,
+  "subject_rays_into_nothing": 0,
+  "subject_rays_on_subject": 0,
+  "subject_reach_m": 25.0,
+  "subject_visible": false
+ },
+ "slug": "landmark_queens_museum",
+ "status": "rendered",
+ "subject": {
+  "distance_from": "the placed camera, after the clearance walk",
+  "distance_m": 120.3,
+  "height_probe": {
+   "ground_z_m": 7.26,
+   "height_above_ground_m": 13.6,
+   "nearest_catalogue_origin": {
+    "distance_m": 148.3,
+    "height_m": 42.67,
+    "id": "b_unisphere",
+    "within_120_m": false
+   },
+   "note_origin_rule": "the nearest landmark model origin is 148 m away, past the 120 m the old rule looked in, so this height comes from the geometry and not from the catalogue (J74)",
+   "object": "lm_c_flushing_meadows.2",
+   "rays_cast": 17,
+   "rays_on_built_fabric": 17,
+   "z": 20.85
+  },
+  "name": "Queens Museum (New York City Building)",
+  "origin_distance_m": 120.3,
+  "rejected_origin_distance_m": 27.3
+ },
+ "sun": {
+  "azimuth_deg": 261.9439076520777,
+  "elevation_deg": 31.458999148192273,
+  "local": "2022-08-13T17:03:12-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2022-08-13T21:03:12Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 70.0,
+  "lat": 40.745464,
+  "lon": -73.848006,
+  "note": "the Flushing Meadows walkway west-south-west of the museum, about 120 m away, looking east-north-east at the 1939 New York City Building"
+ }
+}

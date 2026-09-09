@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_george_washington_bridge",
+ "rendered_at": "2026-09-09T05:11:04Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 854,
+  "mean": 0.4188,
+  "sd": 0.0856,
+  "p05": 0.3131,
+  "p95": 0.5731,
+  "chroma": 0.0572
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1280,
+  "mean": 0.4978,
+  "sd": 0.3209,
+  "p05": 0.0619,
+  "p95": 0.8873,
+  "chroma": 0.0898
+ },
+ "render_over_reference": {
+  "mean": 0.841,
+  "sd": 0.267,
+  "chroma": 0.637
+ }
+}

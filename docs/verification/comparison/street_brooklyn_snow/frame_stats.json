@@ -1,0 +1,30 @@
+{
+ "slug": "street_brooklyn_snow",
+ "rendered_at": "2026-09-09T08:48:18Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 852,
+  "mean": 0.3306,
+  "sd": 0.1889,
+  "p05": 0.0342,
+  "p95": 0.6645,
+  "chroma": 0.0519
+ },
+ "reference": {
+  "width": 1280,
+  "height": 853,
+  "mean": 0.738,
+  "sd": 0.1796,
+  "p05": 0.41,
+  "p95": 0.945,
+  "chroma": 0.2124
+ },
+ "render_over_reference": {
+  "mean": 0.448,
+  "sd": 1.052,
+  "chroma": 0.244
+ }
+}

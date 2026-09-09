@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_50_hudson_yards",
+ "rendered_at": "2026-09-09T03:23:43Z",
+ "reference_file": "2.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 904,
+  "height": 1206,
+  "mean": 0.171,
+  "sd": 0.1253,
+  "p05": 0.0199,
+  "p95": 0.4161,
+  "chroma": 0.0473
+ },
+ "reference": {
+  "width": 1280,
+  "height": 1707,
+  "mean": 0.3583,
+  "sd": 0.2044,
+  "p05": 0.099,
+  "p95": 0.75,
+  "chroma": 0.2821
+ },
+ "render_over_reference": {
+  "mean": 0.477,
+  "sd": 0.613,
+  "chroma": 0.168
+ }
+}

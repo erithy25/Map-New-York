@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_chelsea_market",
+ "rendered_at": "2026-09-09T04:38:43Z",
+ "reference_file": "3.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.3288,
+  "sd": 0.1962,
+  "p05": 0.0212,
+  "p95": 0.5809,
+  "chroma": 0.0435
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.6431,
+  "sd": 0.3176,
+  "p05": 0.1277,
+  "p95": 0.9451,
+  "chroma": 0.0418
+ },
+ "render_over_reference": {
+  "mean": 0.511,
+  "sd": 0.618,
+  "chroma": 1.041
+ }
+}

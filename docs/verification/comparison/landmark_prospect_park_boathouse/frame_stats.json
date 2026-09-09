@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_prospect_park_boathouse",
+ "rendered_at": "2026-09-09T06:54:13Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 848,
+  "mean": 0.4365,
+  "sd": 0.1464,
+  "p05": 0.1543,
+  "p95": 0.6248,
+  "chroma": 0.1002
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1272,
+  "mean": 0.4602,
+  "sd": 0.2318,
+  "p05": 0.105,
+  "p95": 0.8035,
+  "chroma": 0.2041
+ },
+ "render_over_reference": {
+  "mean": 0.949,
+  "sd": 0.632,
+  "chroma": 0.491
+ }
+}

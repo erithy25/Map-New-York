@@ -1,0 +1,612 @@
+{
+ "agent_request": {
+  "dow": 0,
+  "hour": 10,
+  "local_clock": "2018-01-01 10:51 EST",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "170.0 deg as recorded; it agrees with the bearing from the camera position used to Ellis Island Main Building (170.0 deg) to 0.0 deg",
+ "camera": {
+  "azimuth_deg": 170.0,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "below_point_excluded": null,
+   "chosen_m": -0.0,
+   "max_m": -0.0,
+   "median_m": -0.0,
+   "min_m": -0.0,
+   "mode": "local",
+   "percentile": null,
+   "point_m": -0.0,
+   "radius_m": 5.0,
+   "samples": 16
+  },
+  "ground_mode": "local",
+  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap height at the point itself is the ground (the neighbourhood is still measured and printed, because a terrace can stand metres above the plaza 4 m away and a median across that step would put the camera underground)",
+  "hfov_deg": 54.432,
+  "lat": 40.701658,
+  "lon": -74.040237,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 4.0537555940429595,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_ellis_island",
+  "terrain_z_m": -0.0,
+  "x": -7626.237,
+  "y": 188.034,
+  "z": 1.6
+ },
+ "camera_caption": "camera 40.70166, -74.04024 (NYC_TM -7626, 188) z 1.6 m NAVD88 | azimuth 170.0deg pitch +4.1deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_origin": {
+  "from_photograph_gps": false,
+  "lat": 40.701658,
+  "lon": -74.040237,
+  "offset_from_recorded_m": 369.5,
+  "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 370 m away, past the 250 m at which it could still be the same view, so the camera was not stood on it.  That is a statement about this pairing and not about the photograph: a fix this far out is usually correct and simply of somewhere else"
+ },
+ "clearance": {
+  "min_view_m": 80.0,
+  "moved": false,
+  "nearest_agent": null,
+  "nearest_agent_m": null,
+  "nearest_agent_probe_m": 60.0,
+  "nearest_obstruction": null,
+  "nearest_obstruction_at_deg": [
+   0.0,
+   0.0
+  ],
+  "nearest_obstruction_m": 60.0,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; nothing built stands within 60 m of the lens, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 94 m",
+  "offset_m": 0.0,
+  "view_m": 94.4
+ },
+ "frame": {
+  "mean": 0.6687,
+  "reason": null,
+  "sd": 0.1229,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.038250695914030075,
+  "direct_normal_irradiance_w_m2": 712.5,
+  "emissive": {
+   "cone_faces_deleted": 0,
+   "cones_hidden": 0,
+   "lamps_switched_off": 0,
+   "night": false,
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.82,
+  "sky_azimuth_deg": 162.728,
+  "sky_elevation_deg": 24.416,
+  "sun_lamp": true,
+  "sun_strength_blender": 2.491,
+  "view_transform": "Filmic"
+ },
+ "name": "Ellis Island Main Building",
+ "night": false,
+ "pitch_reason": "aimed at Ellis Island Main Building 250 m away, at its mid-height (the top of lm_b_ellis_island_main.6, the built thing standing at the subject's coordinate, 33 m above the ground there); +4.1 deg from horizontal",
+ "reference_photo": {
+  "author": "Z22",
+  "confidence": "high",
+  "date_taken": "2018-01-01 10:51:29",
+  "estimated_azimuth_deg": 67.1,
+  "file": "2.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Ellis_Island_Immigrant_Hospital_-_Tour.jpg",
+  "title": "File:Ellis Island Immigrant Hospital - Tour.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_ellis_island/render.png",
+ "rendered_at": "2026-09-09T05:01:06Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "agents": {
+   "caption": "Agents: none placed - the simulation frame is empty here",
+   "dropped": {},
+   "ped_lods": {},
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 0,
+   "per_class": {},
+   "placed_pedestrians": 0,
+   "placed_vehicles": 0,
+   "reason": "the simulation frame is empty here",
+   "seconds": 0.01,
+   "snapshot": {
+    "building_footprints_tested": 13,
+    "density_lane_km": 0.0,
+    "density_sidewalk_m2": 0,
+    "density_target_pedestrians": 0.0,
+    "density_target_vehicles": 0.0,
+    "dow": 0,
+    "hour": 10,
+    "lanes_considered": 0,
+    "lanes_with_nta": 0,
+    "min_leader_gap_m": 1000000.0,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.7,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_archetypes_available": 36,
+    "npc_bodies_imported": 0,
+    "npc_templates_baked": 0,
+    "pavement_polygons_tested": 8,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 0,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 0
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 0,
+   "vehicle_lods": {},
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 0
+  },
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-8_-1",
+    "t_-8_0",
+    "t_-9_-1",
+    "t_-9_0"
+   ],
+   "landmark_bins_suppressed": 1,
+   "landmark_faces_suppressed": 1724,
+   "lod_substituted": [],
+   "missing": [
+    "t_-7_-1",
+    "t_-7_0"
+   ],
+   "new_jersey": [
+    "t_-8_-1",
+    "t_-8_0",
+    "t_-9_-1",
+    "t_-9_0"
+   ],
+   "per_tile": {
+    "t_-8_-1": {
+     "files": [
+      "tile_buildings.glb",
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 0,
+     "objects": 5,
+     "triangles": 2988
+    },
+    "t_-8_0": {
+     "files": [
+      "tile_buildings.glb",
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 0,
+     "objects": 6,
+     "triangles": 328
+    },
+    "t_-9_-1": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 0,
+     "objects": 3,
+     "triangles": 136
+    },
+    "t_-9_0": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 0,
+     "objects": 2,
+     "triangles": 560
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 4,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 2,
+   "tiles_wanted": 6,
+   "tiles_with_new_jersey": 4,
+   "triangle_budget": 3510000,
+   "triangles": 4012
+  },
+  "centre_tm": [
+   -7626.24,
+   188.03
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "quoin": 1,
+    "window": 2
+   },
+   "placed": 3,
+   "radius_m": 120.0,
+   "records_in_range": 3,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-8_0"
+   ],
+   "triangles": 696,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 230.7,
+     "id": "b_ellis_island_main",
+     "lod": 0,
+     "name": "Ellis Island Main Immigration Building",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 5992
+    },
+    {
+     "distance_m": 2296.3,
+     "id": "c_whitehall_and_st_george_ferry_terminals",
+     "lod": 0,
+     "name": "Whitehall, Battery Maritime and St. George ferry terminals",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 77605
+    }
+   ],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
+   "placed": 2,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 83597
+  },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete": {
+     "albedo": {
+      "scale": 1.799,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.2965
+     },
+     "asset_id": "Concrete037",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "wood_clapboard": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 1.384,
+      "scale": 4.0,
+      "target_albedo": 0.5467,
+      "texture_albedo": 0.0988
+     },
+     "asset_id": "WoodSiding013",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.032,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    }
+   },
+   "enabled": true,
+   "flat": {},
+   "resolution": "2K",
+   "slots": 48
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "parking_lot": 286,
+    "plaza": 27,
+    "roadbed": 353,
+    "sidewalk": 237
+   },
+   "placed": 903,
+   "radius_m": 799.4938690438457,
+   "tiles_missing": [
+    "t_-7_0"
+   ],
+   "tiles_read": [
+    "t_-7_-1",
+    "t_-8_-1",
+    "t_-8_0",
+    "t_-9_-1",
+    "t_-9_0"
+   ],
+   "triangles": 3545,
+   "triangles_cut_for_landmark_ground": 0,
+   "vertices": 5349
+  },
+  "props": {
+   "capped": null,
+   "impostor_cards_dropped": 3,
+   "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {},
+   "leaf_off": true,
+   "per_kind": {
+    "bench": 1,
+    "cooling_tower": 1,
+    "tree": 16
+   },
+   "placed": 18,
+   "radius_m": 250.0,
+   "rows_in_range": 18,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-8_-1",
+    "t_-8_0"
+   ],
+   "tree_instances_scaled": 16,
+   "tree_mean_scale": 0.816,
+   "tree_scale_out_of_band": 0,
+   "tree_species_substituted": 16,
+   "triangles": 53480,
+   "unmapped_kinds": {}
+  },
+  "radius_m": 799.4938690438457,
+  "seconds": 9.24,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
+   "samples": 215,
+   "spacing_m": 2.0,
+   "triangles": 91592,
+   "water_bodies": [
+    {
+     "kind": "bay",
+     "name": "UPPER NEW YORK BAY",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "UPPER NEW YORK BAY",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "UPPER NEW YORK BAY",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "canal",
+     "name": "Morris Canal Basin",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    }
+   ],
+   "water_quads": 37405,
+   "z_max_m": 4.27,
+   "z_min_m": -1.08
+  },
+  "triangles": 236922
+ },
+ "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 799.4938690438457
+ },
+ "seconds": {
+  "render": 20.3,
+  "scene": 9.3,
+  "total": 29.5
+ },
+ "sightline": {
+  "subject_aimed_at": "the subject's mid-height, 16.4 m above its ground",
+  "subject_blocked_at_m": 137.3,
+  "subject_blocked_by": "lm_b_ellis_island_main.4",
+  "subject_fan_from": "the subject's own measured height (J74)",
+  "subject_fan_half_angle_deg": 3.74,
+  "subject_fan_m": 32.8,
+  "subject_lands_at_m": null,
+  "subject_lands_on": null,
+  "subject_range_m": 250.3,
+  "subject_rays": 5,
+  "subject_rays_clear": 0,
+  "subject_rays_into_nothing": 0,
+  "subject_rays_on_subject": 0,
+  "subject_reach_m": 25.0,
+  "subject_visible": false
+ },
+ "slug": "landmark_ellis_island",
+ "status": "rendered",
+ "subject": {
+  "distance_from": "the placed camera, after the clearance walk",
+  "distance_m": 249.7,
+  "height_probe": {
+   "ground_z_m": 2.81,
+   "height_above_ground_m": 32.97,
+   "nearest_catalogue_origin": {
+    "distance_m": 27.2,
+    "height_m": 45.3,
+    "id": "b_ellis_island_main",
+    "within_120_m": true
+   },
+   "object": "lm_b_ellis_island_main.6",
+   "rays_cast": 17,
+   "rays_on_built_fabric": 17,
+   "z": 35.78
+  },
+  "name": "Ellis Island Main Building",
+  "origin_distance_m": 249.7
+ },
+ "sun": {
+  "azimuth_deg": 162.72841931358278,
+  "elevation_deg": 24.416132973431086,
+  "local": "2018-01-01T10:51:29-05:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2018-01-01T15:51:29Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 170.0,
+  "lat": 40.701658,
+  "lon": -74.040237,
+  "note": "the ferry basin north of the Main Building, about 250 m from the entrance canopy, looking south at the four-turreted immigration building"
+ }
+}

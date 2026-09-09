@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_citigroup_center",
+ "rendered_at": "2026-09-09T04:46:11Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 904,
+  "height": 1206,
+  "mean": 0.1679,
+  "sd": 0.1771,
+  "p05": 0.0081,
+  "p95": 0.5458,
+  "chroma": 0.056
+ },
+ "reference": {
+  "width": 1280,
+  "height": 1707,
+  "mean": 0.4942,
+  "sd": 0.2384,
+  "p05": 0.0348,
+  "p95": 0.918,
+  "chroma": 0.1416
+ },
+ "render_over_reference": {
+  "mean": 0.34,
+  "sd": 0.743,
+  "chroma": 0.395
+ }
+}

@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_one_world_trade_center",
+ "rendered_at": "2026-09-09T01:19:40Z",
+ "reference_file": "3.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 884,
+  "height": 1234,
+  "mean": 0.1613,
+  "sd": 0.1387,
+  "p05": 0.0126,
+  "p95": 0.4744,
+  "chroma": 0.0571
+ },
+ "reference": {
+  "width": 1920,
+  "height": 2682,
+  "mean": 0.6437,
+  "sd": 0.1704,
+  "p05": 0.3191,
+  "p95": 0.8467,
+  "chroma": 0.0827
+ },
+ "render_over_reference": {
+  "mean": 0.251,
+  "sd": 0.814,
+  "chroma": 0.69
+ }
+}

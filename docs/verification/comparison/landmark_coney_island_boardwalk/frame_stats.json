@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_coney_island_boardwalk",
+ "rendered_at": "2026-09-09T04:51:35Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 854,
+  "mean": 0.4686,
+  "sd": 0.1499,
+  "p05": 0.2042,
+  "p95": 0.636,
+  "chroma": 0.1029
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1280,
+  "mean": 0.3872,
+  "sd": 0.1966,
+  "p05": 0.0801,
+  "p95": 0.716,
+  "chroma": 0.3464
+ },
+ "render_over_reference": {
+  "mean": 1.21,
+  "sd": 0.762,
+  "chroma": 0.297
+ }
+}

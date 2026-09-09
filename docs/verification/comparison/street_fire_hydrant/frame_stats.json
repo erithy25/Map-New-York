@@ -1,0 +1,30 @@
+{
+ "slug": "street_fire_hydrant",
+ "rendered_at": "2026-09-09T09:02:04Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 904,
+  "height": 1206,
+  "mean": 0.2125,
+  "sd": 0.1476,
+  "p05": 0.0499,
+  "p95": 0.5686,
+  "chroma": 0.0238
+ },
+ "reference": {
+  "width": 1920,
+  "height": 2560,
+  "mean": 0.4286,
+  "sd": 0.2017,
+  "p05": 0.1117,
+  "p95": 0.7967,
+  "chroma": 0.0946
+ },
+ "render_over_reference": {
+  "mean": 0.496,
+  "sd": 0.732,
+  "chroma": 0.252
+ }
+}

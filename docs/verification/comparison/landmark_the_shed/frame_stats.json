@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_the_shed",
+ "rendered_at": "2026-09-09T07:51:45Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.1039,
+  "sd": 0.0894,
+  "p05": 0.0,
+  "p95": 0.2783,
+  "chroma": 0.0413
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.5181,
+  "sd": 0.2934,
+  "p05": 0.0986,
+  "p95": 1.0,
+  "chroma": 0.0723
+ },
+ "render_over_reference": {
+  "mean": 0.201,
+  "sd": 0.305,
+  "chroma": 0.571
+ }
+}

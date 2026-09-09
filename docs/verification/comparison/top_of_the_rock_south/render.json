@@ -55,16 +55,23 @@
  "clearance": {
   "min_view_m": 80.0,
   "moved": false,
-  "nearest_obstruction": null,
-  "nearest_obstruction_m": 60.0,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is further than 60 m, and the view azimuth is clear for 150 m",
+  "nearest_agent": null,
+  "nearest_agent_m": null,
+  "nearest_agent_probe_m": 60.0,
+  "nearest_obstruction": "lm_30_rockefeller_plaza.24",
+  "nearest_obstruction_at_deg": [
+   36.9,
+   -14.7
+  ],
+  "nearest_obstruction_m": 28.5,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is lm_30_rockefeller_plaza.24 28.5 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 150 m",
   "offset_m": 0.0,
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.6652,
+  "mean": 0.4659,
   "reason": null,
-  "sd": 0.2687,
+  "sd": 0.2057,
   "usable": true
  },
  "frame_retry": null,
@@ -72,7 +79,7 @@
  "interior": false,
  "lens_reason": "observation-deck panorama: the reference frames span the whole Midtown-to-Lower-Manhattan skyline, which needs 74 deg horizontal (24 mm)",
  "lighting": {
-  "background_strength": 0.25,
+  "background_strength": 0.03421638533473015,
   "direct_normal_irradiance_w_m2": 821.2,
   "emissive": {
    "cone_faces_deleted": 0,
@@ -85,7 +92,7 @@
   "sky_azimuth_deg": 187.927,
   "sky_elevation_deg": 36.675,
   "sun_lamp": true,
-  "sun_strength_blender": 1.521,
+  "sun_strength_blender": 2.871,
   "view_transform": "Filmic"
  },
  "name": "Top of the Rock looking south (Empire State Building centred)",
@@ -105,7 +112,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/top_of_the_rock_south/render.png",
- "rendered_at": "2026-09-07T23:46:35Z",
+ "rendered_at": "2026-09-09T02:33:38Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -1525,18 +1532,374 @@
    "skipped_detail": [],
    "triangles": 1878804
   },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brown_brick": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.22,
+      "texture_albedo": 0.2375
+     },
+     "asset_id": "Bricks054",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brownstone": {
+     "albedo": {
+      "scale": 2.682,
+      "target_albedo": 0.2367,
+      "texture_albedo": 0.0882
+     },
+     "asset_id": "Travertine005",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "cast_iron": {
+     "albedo": {
+      "scale": 0.323,
+      "target_albedo": 0.1667,
+      "texture_albedo": 0.5157
+     },
+     "asset_id": "Metal055A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete": {
+     "albedo": {
+      "scale": 1.799,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.2965
+     },
+     "asset_id": "Concrete037",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "granite": {
+     "albedo": {
+      "scale": 0.859,
+      "target_albedo": 0.39,
+      "texture_albedo": 0.4542
+     },
+     "asset_id": "Granite002A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "limestone": {
+     "albedo": {
+      "scale": 1.128,
+      "target_albedo": 0.66,
+      "texture_albedo": 0.5853
+     },
+     "asset_id": "Travertine009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "precast": {
+     "albedo": {
+      "scale": 1.273,
+      "target_albedo": 0.6133,
+      "texture_albedo": 0.4818
+     },
+     "asset_id": "Concrete034",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "stone_rubble": {
+     "albedo": {
+      "scale": 2.415,
+      "target_albedo": 0.4233,
+      "texture_albedo": 0.1753
+     },
+     "asset_id": "Bricks102",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "stucco": {
+     "albedo": {
+      "scale": 1.0,
+      "target_albedo": 0.6667,
+      "texture_albedo": 0.6543
+     },
+     "asset_id": "Plaster001",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "terracotta": {
+     "albedo": {
+      "scale": 0.945,
+      "target_albedo": 0.3833,
+      "texture_albedo": 0.4055
+     },
+     "asset_id": "Marble026",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "vinyl_siding": {
+     "albedo": {
+      "scale": 1.402,
+      "target_albedo": 0.6867,
+      "texture_albedo": 0.4898
+     },
+     "asset_id": "WoodSiding009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.626,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "white_glazed_brick": {
+     "albedo": {
+      "scale": 1.13,
+      "target_albedo": 0.7767,
+      "texture_albedo": 0.6874
+     },
+     "asset_id": "Bricks060",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "wood_clapboard": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 1.384,
+      "scale": 4.0,
+      "target_albedo": 0.5467,
+      "texture_albedo": 0.0988
+     },
+     "asset_id": "WoodSiding013",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.032,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    }
+   },
+   "enabled": true,
+   "flat": {
+    "glass_curtain": "analytic: the catalogue has no photographic set for it"
+   },
+   "resolution": "2K",
+   "slots": 2413
+  },
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 739,
-    "curb": 1372,
-    "median": 153,
+    "crosswalk": 812,
+    "curb": 3758,
+    "marking_white": 19989,
+    "marking_yellow": 82,
+    "median": 256,
     "parking_lot": 11,
-    "plaza": 121,
-    "roadbed": 625,
-    "sidewalk": 350
+    "plaza": 1423,
+    "roadbed": 4287,
+    "sidewalk": 5638
    },
-   "placed": 3371,
+   "placed": 36256,
    "radius_m": 900.0,
    "tiles_missing": [],
    "tiles_read": [
@@ -1550,16 +1913,16 @@
     "t_-4_6",
     "t_-4_7"
    ],
-   "triangles": 255488,
-   "triangles_cut_for_landmark_ground": 6,
-   "vertices": 261834
+   "triangles": 321497,
+   "triangles_cut_for_landmark_ground": 330,
+   "vertices": 394003
   },
   "props": {
    "placed": 0,
    "reason": "disabled"
   },
   "radius_m": 4500.0,
-  "seconds": 152.96,
+  "seconds": 102.95,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -1787,7 +2150,7 @@
    "z_max_m": 80.15,
    "z_min_m": -2.61
   },
-  "triangles": 3997066
+  "triangles": 4063075
  },
  "scene_request": {
   "agent_ped_radius_m": 0.0,
@@ -1797,15 +2160,48 @@
   "radius_m": 4500.0
  },
  "seconds": {
-  "render": 72.9,
-  "scene": 153.5,
-  "total": 226.4
+  "render": 39.2,
+  "scene": 103.5,
+  "total": 142.7
+ },
+ "sightline": {
+  "subject_aimed_at": "the subject's mid-height, 215.4 m above its ground",
+  "subject_blocked_at_m": null,
+  "subject_blocked_by": null,
+  "subject_fan_from": "the subject's own measured height (J74)",
+  "subject_fan_half_angle_deg": 9.16,
+  "subject_fan_m": 430.8,
+  "subject_lands_at_m": 1314.8,
+  "subject_lands_on": "lm_empire_state.16",
+  "subject_range_m": 1335.2,
+  "subject_rays": 5,
+  "subject_rays_clear": 5,
+  "subject_rays_into_nothing": 2,
+  "subject_rays_on_subject": 3,
+  "subject_reach_m": 25.0,
+  "subject_visible": true
  },
  "slug": "top_of_the_rock_south",
  "status": "rendered",
  "subject": {
+  "distance_from": "the placed camera, after the clearance walk",
   "distance_m": 1334.3,
-  "name": "Empire State Building"
+  "height_probe": {
+   "ground_z_m": 15.08,
+   "height_above_ground_m": 431.0,
+   "nearest_catalogue_origin": {
+    "distance_m": 3.6,
+    "height_m": 443.2,
+    "id": "empire_state",
+    "within_120_m": true
+   },
+   "object": "lm_empire_state.3",
+   "rays_cast": 17,
+   "rays_on_built_fabric": 17,
+   "z": 446.08
+  },
+  "name": "Empire State Building",
+  "origin_distance_m": 1334.3
  },
  "sun": {
   "azimuth_deg": 187.9268058156653,

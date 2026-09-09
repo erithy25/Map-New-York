@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_coney_island_cyclone",
+ "rendered_at": "2026-09-09T04:54:00Z",
+ "reference_file": "3.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.4872,
+  "sd": 0.1081,
+  "p05": 0.3333,
+  "p95": 0.6271,
+  "chroma": 0.0649
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.5052,
+  "sd": 0.1769,
+  "p05": 0.1372,
+  "p95": 0.7613,
+  "chroma": 0.2616
+ },
+ "render_over_reference": {
+  "mean": 0.964,
+  "sd": 0.611,
+  "chroma": 0.248
+ }
+}

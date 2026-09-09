@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_woolworth_building",
+ "rendered_at": "2026-09-09T02:07:14Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 904,
+  "height": 1206,
+  "mean": 0.3159,
+  "sd": 0.2065,
+  "p05": 0.0064,
+  "p95": 0.6185,
+  "chroma": 0.0621
+ },
+ "reference": {
+  "width": 1920,
+  "height": 2560,
+  "mean": 0.5255,
+  "sd": 0.1725,
+  "p05": 0.2387,
+  "p95": 0.7733,
+  "chroma": 0.1939
+ },
+ "render_over_reference": {
+  "mean": 0.601,
+  "sd": 1.197,
+  "chroma": 0.32
+ }
+}

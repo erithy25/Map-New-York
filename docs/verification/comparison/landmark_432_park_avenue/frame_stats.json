@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_432_park_avenue",
+ "rendered_at": "2026-09-09T03:13:38Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.0996,
+  "sd": 0.1058,
+  "p05": 0.0076,
+  "p95": 0.244,
+  "chroma": 0.0361
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.4714,
+  "sd": 0.2781,
+  "p05": 0.0445,
+  "p95": 0.9211,
+  "chroma": 0.0732
+ },
+ "render_over_reference": {
+  "mean": 0.211,
+  "sd": 0.38,
+  "chroma": 0.493
+ }
+}

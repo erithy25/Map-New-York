@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_one_vanderbilt",
+ "rendered_at": "2026-09-09T01:09:20Z",
+ "reference_file": "3.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 904,
+  "height": 1206,
+  "mean": 0.1824,
+  "sd": 0.1053,
+  "p05": 0.0345,
+  "p95": 0.3246,
+  "chroma": 0.0651
+ },
+ "reference": {
+  "width": 1280,
+  "height": 1707,
+  "mean": 0.6946,
+  "sd": 0.2889,
+  "p05": 0.1723,
+  "p95": 0.9785,
+  "chroma": 0.0488
+ },
+ "render_over_reference": {
+  "mean": 0.263,
+  "sd": 0.364,
+  "chroma": 1.334
+ }
+}

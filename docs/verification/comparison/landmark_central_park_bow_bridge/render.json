@@ -1,0 +1,907 @@
+{
+ "agent_request": {
+  "dow": 1,
+  "hour": 8,
+  "local_clock": "2026-04-18 08:28 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "200.4 deg, the bearing from this photograph's own GPS position to Bow Bridge; heading and position both come from the photograph.  The item's recorded azimuth is 322.9 deg, 122.5 deg away, and belongs to its nominal viewpoint",
+ "camera": {
+  "azimuth_deg": 200.41995350384684,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "below_point_excluded": null,
+   "chosen_m": 17.59,
+   "max_m": 18.36,
+   "median_m": 17.55,
+   "min_m": 17.12,
+   "mode": "local",
+   "percentile": null,
+   "point_m": 17.59,
+   "radius_m": 5.0,
+   "samples": 16
+  },
+  "ground_mode": "local",
+  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap height at the point itself is the ground (the neighbourhood is still measured and printed, because a terrace can stand metres above the plaza 4 m away and a median across that step would put the camera underground)",
+  "hfov_deg": 54.432,
+  "lat": 40.776029,
+  "lon": -73.971639,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 2.0466751576700255,
+  "portrait": false,
+  "resolution": [
+   1280,
+   720
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_central_park_bow_bridge",
+  "terrain_z_m": 17.592,
+  "x": -1826.75,
+  "y": 8443.158,
+  "z": 19.192
+ },
+ "camera_caption": "camera 40.77603, -73.97164 (NYC_TM -1827, 8443) z 19.2 m NAVD88 | azimuth 200.4deg pitch +2.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x720",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.776029,
+  "lon": -73.971639,
+  "offset_from_recorded_m": 177.4,
+  "source": "this photograph's own EXIF camera GPS (40.77603, -73.97164), 177 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
+ "clearance": {
+  "min_view_m": 20.0,
+  "moved": false,
+  "nearest_agent": null,
+  "nearest_agent_m": null,
+  "nearest_agent_probe_m": 60.0,
+  "nearest_obstruction": "lm_b_bow_bridge.0",
+  "nearest_obstruction_at_deg": [
+   27.2,
+   0.0
+  ],
+  "nearest_obstruction_m": 21.6,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is lm_b_bow_bridge.0 21.6 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 150 m",
+  "offset_m": 0.0,
+  "view_m": 150.0
+ },
+ "frame": {
+  "mean": 0.3793,
+  "reason": null,
+  "sd": 0.1341,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.03804697468876839,
+  "direct_normal_irradiance_w_m2": 717.4,
+  "emissive": {
+   "cone_faces_deleted": 24,
+   "cones_hidden": 2,
+   "lamps_switched_off": 3,
+   "night": false,
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.8,
+  "sky_azimuth_deg": 97.04,
+  "sky_elevation_deg": 24.836,
+  "sun_lamp": true,
+  "sun_strength_blender": 2.508,
+  "view_transform": "Filmic"
+ },
+ "name": "Central Park: Bow Bridge",
+ "night": false,
+ "pitch_reason": "aimed at Bow Bridge 39 m away, at its mid-height (the top of lm_b_bow_bridge.6, the built thing standing at the subject's coordinate, 8 m above the ground there); +2.0 deg from horizontal",
+ "reference_photo": {
+  "author": "Christian David",
+  "confidence": "high",
+  "date_taken": "2026-04-18 08:28:54",
+  "estimated_azimuth_deg": 200.3,
+  "file": "1.jpg",
+  "height": 1080,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Bow_Bridge_over_the_Lake,_Central_Park,_Manhattan,_New_York.jpg",
+  "title": "File:Bow Bridge over the Lake, Central Park, Manhattan, New York.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_central_park_bow_bridge/render.png",
+ "rendered_at": "2026-09-09T04:19:20Z",
+ "resolution_note": "1280x720; the reference photograph is 1920x1080 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "agents": {
+   "caption": "Agents: none placed - the simulation put no agent on a paved surface inside the frame's radius",
+   "dropped": {
+    "pedestrian_not_on_walkable_surface": 5,
+    "pedestrian_outside_radius": 7,
+    "vehicle_not_on_carriageway": 4,
+    "vehicle_on_a_car_free_park_drive": 11,
+    "vehicle_outside_radius": 107
+   },
+   "ped_lods": {},
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 0,
+   "per_class": {},
+   "placed_pedestrians": 0,
+   "placed_vehicles": 0,
+   "reason": "the simulation put no agent on a paved surface inside the frame's radius",
+   "seconds": 0.3,
+   "snapshot": {
+    "building_footprints_tested": 1403,
+    "car_free_park_drives_matched": 11,
+    "density_lane_km": 11.03,
+    "density_sidewalk_m2": 3244,
+    "density_target_pedestrians": 6.9,
+    "density_target_vehicles": 90.1,
+    "dow": 1,
+    "hour": 8,
+    "lanes_considered": 102,
+    "lanes_with_nta": 102,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.63,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_archetypes_available": 36,
+    "npc_bodies_imported": 0,
+    "npc_templates_baked": 0,
+    "pavement_polygons_tested": 1563,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 12,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 122
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 0,
+   "vehicle_lods": {},
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 0
+  },
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-2_7",
+    "t_-2_8",
+    "t_-2_9",
+    "t_-3_7",
+    "t_-3_8",
+    "t_-3_9"
+   ],
+   "landmark_bins_suppressed": 19,
+   "landmark_faces_suppressed": 3724,
+   "lod_substituted": [],
+   "missing": [],
+   "new_jersey": [],
+   "per_tile": {
+    "t_-2_7": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 16,
+     "triangles": 81298
+    },
+    "t_-2_8": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 15,
+     "triangles": 30070
+    },
+    "t_-2_9": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 13,
+     "triangles": 51870
+    },
+    "t_-3_7": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 16,
+     "triangles": 30666
+    },
+    "t_-3_8": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 16,
+     "triangles": 89158
+    },
+    "t_-3_9": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 15,
+     "triangles": 45480
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 6,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 0,
+   "tiles_wanted": 6,
+   "tiles_with_new_jersey": 0,
+   "triangle_budget": 3510000,
+   "triangles": 328542
+  },
+  "centre_tm": [
+   -1826.75,
+   8443.16
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "door_entry": 2,
+    "parapet": 18,
+    "window": 120
+   },
+   "placed": 140,
+   "radius_m": 297.3874152501,
+   "records_in_range": 496,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 356,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-2_8",
+    "t_-3_8"
+   ],
+   "triangles": 41788,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 31.8,
+     "id": "b_bow_bridge",
+     "lod": 0,
+     "name": "Bow Bridge",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 2672
+    },
+    {
+     "distance_m": 202.1,
+     "id": "b_bethesda_terrace",
+     "lod": 0,
+     "name": "Bethesda Terrace and Fountain",
+     "own_ground_m2": 4286.5,
+     "own_ground_note": {
+      "above_heightmap_m": 0.42,
+      "heightmap_median_m": 17.28
+     },
+     "own_ground_parts": 1,
+     "triangles": 10808
+    },
+    {
+     "distance_m": 390.4,
+     "id": "c_the_dakota",
+     "lod": 0,
+     "name": "The Dakota",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 20808
+    },
+    {
+     "distance_m": 435.1,
+     "id": "b_belvedere_castle",
+     "lod": 0,
+     "name": "Belvedere Castle",
+     "own_ground_m2": 763.3,
+     "own_ground_note": {
+      "above_heightmap_m": 0.7,
+      "heightmap_median_m": 41.97
+     },
+     "own_ground_parts": 1,
+     "triangles": 4456
+    },
+    {
+     "distance_m": 585.0,
+     "id": "c_american_museum_natural_history",
+     "lod": 0,
+     "name": "American Museum of Natural History + Rose Center",
+     "own_ground_note": {
+      "above_heightmap_m": -2.35,
+      "heightmap_median_m": 27.04,
+      "reason": "the model's ground stands -2.35 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
+     "triangles": 58762
+    },
+    {
+     "distance_m": 789.1,
+     "id": "c_metropolitan_museum",
+     "lod": 0,
+     "name": "The Metropolitan Museum of Art",
+     "own_ground_note": {
+      "above_heightmap_m": 2.59,
+      "heightmap_median_m": 27.89,
+      "reason": "the model's ground stands +2.59 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
+     "triangles": 84671
+    },
+    {
+     "distance_m": 1043.8,
+     "id": "b_central_park_walls_gates",
+     "lod": 0,
+     "name": "Central Park perimeter wall and gates",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 18448
+    }
+   ],
+   "own_ground_from": [
+    "b_bethesda_terrace",
+    "b_belvedere_castle"
+   ],
+   "own_ground_m2": 5049.8,
+   "placed": 7,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 200625
+  },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brown_brick": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.22,
+      "texture_albedo": 0.2375
+     },
+     "asset_id": "Bricks054",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brownstone": {
+     "albedo": {
+      "scale": 2.682,
+      "target_albedo": 0.2367,
+      "texture_albedo": 0.0882
+     },
+     "asset_id": "Travertine005",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "cast_iron": {
+     "albedo": {
+      "scale": 0.323,
+      "target_albedo": 0.1667,
+      "texture_albedo": 0.5157
+     },
+     "asset_id": "Metal055A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete": {
+     "albedo": {
+      "scale": 1.799,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.2965
+     },
+     "asset_id": "Concrete037",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "granite": {
+     "albedo": {
+      "scale": 0.859,
+      "target_albedo": 0.39,
+      "texture_albedo": 0.4542
+     },
+     "asset_id": "Granite002A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "limestone": {
+     "albedo": {
+      "scale": 1.128,
+      "target_albedo": 0.66,
+      "texture_albedo": 0.5853
+     },
+     "asset_id": "Travertine009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "precast": {
+     "albedo": {
+      "scale": 1.273,
+      "target_albedo": 0.6133,
+      "texture_albedo": 0.4818
+     },
+     "asset_id": "Concrete034",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "stone_rubble": {
+     "albedo": {
+      "scale": 2.415,
+      "target_albedo": 0.4233,
+      "texture_albedo": 0.1753
+     },
+     "asset_id": "Bricks102",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "stucco": {
+     "albedo": {
+      "scale": 1.0,
+      "target_albedo": 0.6667,
+      "texture_albedo": 0.6543
+     },
+     "asset_id": "Plaster001",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "terracotta": {
+     "albedo": {
+      "scale": 0.945,
+      "target_albedo": 0.3833,
+      "texture_albedo": 0.4055
+     },
+     "asset_id": "Marble026",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "vinyl_siding": {
+     "albedo": {
+      "scale": 1.402,
+      "target_albedo": 0.6867,
+      "texture_albedo": 0.4898
+     },
+     "asset_id": "WoodSiding009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.626,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "white_glazed_brick": {
+     "albedo": {
+      "scale": 1.13,
+      "target_albedo": 0.7767,
+      "texture_albedo": 0.6874
+     },
+     "asset_id": "Bricks060",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "wood_clapboard": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 1.384,
+      "scale": 4.0,
+      "target_albedo": 0.5467,
+      "texture_albedo": 0.0988
+     },
+     "asset_id": "WoodSiding013",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.032,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    }
+   },
+   "enabled": true,
+   "flat": {
+    "glass_curtain": "analytic: the catalogue has no photographic set for it"
+   },
+   "resolution": "2K",
+   "slots": 214
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 141,
+    "curb": 1090,
+    "marking_white": 3316,
+    "marking_yellow": 146,
+    "median": 138,
+    "parking_lot": 33,
+    "plaza": 3,
+    "roadbed": 1157,
+    "sidewalk": 1859
+   },
+   "placed": 7883,
+   "radius_m": 677.3874152501,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-2_7",
+    "t_-2_8",
+    "t_-2_9",
+    "t_-3_7",
+    "t_-3_8",
+    "t_-3_9"
+   ],
+   "triangles": 143395,
+   "triangles_cut_for_landmark_ground": 126,
+   "vertices": 158963
+  },
+  "props": {
+   "capped": "triangle budget 1309522",
+   "impostor_cards_dropped": 13,
+   "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 18
+   },
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 67,
+    "bike_rack": 3,
+    "bus_stop_sign": 8,
+    "citibike_dock": 2,
+    "cooling_tower": 17,
+    "flagpole": 1,
+    "hydrant": 17,
+    "mailbox": 3,
+    "manhole": 110,
+    "steam_vent": 12,
+    "street_lamp": 109,
+    "subway_entrance": 2,
+    "subway_vent_grate": 23,
+    "tree": 130
+   },
+   "placed": 504,
+   "radius_m": 427.3874152501,
+   "rows_in_range": 609,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-2_8",
+    "t_-3_8"
+   ],
+   "tree_instances_scaled": 130,
+   "tree_mean_scale": 0.956,
+   "tree_scale_out_of_band": 0,
+   "tree_species_substituted": 76,
+   "triangles": 1310180,
+   "unmapped_kinds": {
+    "artwork": 10,
+    "drinking_fountain": 8,
+    "memorial": 5,
+    "parks_building": 7,
+    "parks_comfort_station": 3,
+    "rtpi_sign": 1
+   }
+  },
+  "radius_m": 677.3874152501,
+  "seconds": 20.13,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 292,
+   "samples": 209,
+   "spacing_m": 2.0,
+   "triangles": 85944,
+   "water_bodies": [
+    {
+     "kind": "basin",
+     "name": "BOAT BASIN",
+     "water_z_m": 12.16
+    },
+    {
+     "kind": "lake",
+     "name": "THE LAKE",
+     "water_z_m": 16.55
+    },
+    {
+     "kind": "lake",
+     "name": "Turtle Pond",
+     "water_z_m": 30.1
+    }
+   ],
+   "water_quads": 12739,
+   "z_max_m": 41.63,
+   "z_min_m": 12.15
+  },
+  "triangles": 2110474
+ },
+ "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
+  "kit_radius_m": 297.3874152501,
+  "prop_radius_m": 427.3874152501,
+  "radius_m": 677.3874152501
+ },
+ "seconds": {
+  "render": 31.3,
+  "scene": 20.3,
+  "total": 51.6
+ },
+ "sightline": {
+  "subject_aimed_at": "the subject's mid-height, 4.0 m above its ground",
+  "subject_blocked_at_m": null,
+  "subject_blocked_by": null,
+  "subject_fan_from": "the 12 m floor: the subject measures 8.1 m, which is under it, so the fan is the floor rather than the subject",
+  "subject_fan_half_angle_deg": 8.74,
+  "subject_fan_m": 12.0,
+  "subject_lands_at_m": 35.3,
+  "subject_lands_on": "prop_lamp_cobra_davit_2",
+  "subject_range_m": 39.0,
+  "subject_rays": 5,
+  "subject_rays_clear": 5,
+  "subject_rays_into_nothing": 2,
+  "subject_rays_on_subject": 3,
+  "subject_reach_m": 25.0,
+  "subject_visible": true
+ },
+ "slug": "landmark_central_park_bow_bridge",
+ "status": "rendered",
+ "subject": {
+  "distance_from": "the placed camera, after the clearance walk",
+  "distance_m": 39.0,
+  "height_probe": {
+   "ground_z_m": 16.55,
+   "height_above_ground_m": 8.07,
+   "nearest_catalogue_origin": {
+    "distance_m": 7.2,
+    "height_m": 3.8,
+    "id": "b_bow_bridge",
+    "within_120_m": true
+   },
+   "object": "lm_b_bow_bridge.6",
+   "rays_cast": 17,
+   "rays_on_built_fabric": 2,
+   "z": 24.62
+  },
+  "name": "Bow Bridge",
+  "origin_distance_m": 39.0
+ },
+ "sun": {
+  "azimuth_deg": 97.04038397070826,
+  "elevation_deg": 24.835821043546296,
+  "local": "2026-04-18T08:28:54-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2026-04-18T12:28:54Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 322.9,
+  "lat": 40.7746,
+  "lon": -73.9707,
+  "note": "east shore of the Lake near Bethesda Terrace, looking north-west at Bow Bridge"
+ }
+}

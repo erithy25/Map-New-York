@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_tkts_booth",
+ "rendered_at": "2026-09-09T01:47:04Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 854,
+  "mean": 0.2373,
+  "sd": 0.1655,
+  "p05": 0.0311,
+  "p95": 0.5171,
+  "chroma": 0.0325
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1281,
+  "mean": 0.3699,
+  "sd": 0.2422,
+  "p05": 0.0255,
+  "p95": 0.8238,
+  "chroma": 0.1257
+ },
+ "render_over_reference": {
+  "mean": 0.642,
+  "sd": 0.683,
+  "chroma": 0.259
+ }
+}

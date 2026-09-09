@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_rose_center",
+ "rendered_at": "2026-09-09T07:25:54Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 902,
+  "mean": 0.3203,
+  "sd": 0.2113,
+  "p05": 0.0028,
+  "p95": 0.549,
+  "chroma": 0.0528
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1434,
+  "mean": 0.4069,
+  "sd": 0.2545,
+  "p05": 0.0644,
+  "p95": 0.9446,
+  "chroma": 0.0548
+ },
+ "render_over_reference": {
+  "mean": 0.787,
+  "sd": 0.83,
+  "chroma": 0.964
+ }
+}

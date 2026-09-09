@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_queens_museum",
+ "rendered_at": "2026-09-09T07:03:07Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.4414,
+  "sd": 0.1872,
+  "p05": 0.1148,
+  "p95": 0.6905,
+  "chroma": 0.0631
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.5061,
+  "sd": 0.2535,
+  "p05": 0.039,
+  "p95": 0.8449,
+  "chroma": 0.105
+ },
+ "render_over_reference": {
+  "mean": 0.872,
+  "sd": 0.738,
+  "chroma": 0.601
+ }
+}

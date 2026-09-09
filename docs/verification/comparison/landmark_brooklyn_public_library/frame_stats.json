@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_brooklyn_public_library",
+ "rendered_at": "2026-09-09T04:12:01Z",
+ "reference_file": "2.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 720,
+  "mean": 0.3967,
+  "sd": 0.1546,
+  "p05": 0.1082,
+  "p95": 0.619,
+  "chroma": 0.0786
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1080,
+  "mean": 0.7113,
+  "sd": 0.2224,
+  "p05": 0.2544,
+  "p95": 0.9598,
+  "chroma": 0.1042
+ },
+ "render_over_reference": {
+  "mean": 0.558,
+  "sd": 0.695,
+  "chroma": 0.754
+ }
+}

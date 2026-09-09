@@ -1,0 +1,30 @@
+{
+ "slug": "street_linknyc_kiosk",
+ "rendered_at": "2026-09-09T09:06:41Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 854,
+  "mean": 0.087,
+  "sd": 0.0503,
+  "p05": 0.023,
+  "p95": 0.1538,
+  "chroma": 0.0132
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1280,
+  "mean": 0.4575,
+  "sd": 0.2596,
+  "p05": 0.1211,
+  "p95": 0.923,
+  "chroma": 0.1342
+ },
+ "render_over_reference": {
+  "mean": 0.19,
+  "sd": 0.194,
+  "chroma": 0.098
+ }
+}

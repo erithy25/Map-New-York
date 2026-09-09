@@ -1,0 +1,925 @@
+{
+ "agent_request": {
+  "dow": 0,
+  "hour": 15,
+  "local_clock": "2025-07-09 15:17 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "222.1 deg as recorded; it agrees with the bearing from the camera position used to Verrazzano-Narrows Bridge (222.2 deg) to 0.1 deg",
+ "camera": {
+  "azimuth_deg": 222.1,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "below_point_excluded": 0,
+   "chosen_m": 21.17,
+   "max_m": 21.58,
+   "median_m": 21.29,
+   "min_m": 21.1,
+   "mode": "street",
+   "percentile": 10.0,
+   "point_m": 21.29,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.614,
+  "lon": -74.0372,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1204,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_verrazzano_narrows_bridge",
+  "terrain_z_m": 21.169,
+  "x": -7379.222,
+  "y": -9546.411,
+  "z": 22.769
+ },
+ "camera_caption": "camera 40.61400, -74.03720 (NYC_TM -7379, -9546) z 22.8 m NAVD88 | azimuth 222.1deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1204x906",
+ "camera_origin": {
+  "from_photograph_gps": false,
+  "lat": 40.614,
+  "lon": -74.0372,
+  "offset_from_recorded_m": 929.7,
+  "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 930 m away, past the 250 m at which it could still be the same view, so the camera was not stood on it.  That is a statement about this pairing and not about the photograph: a fix this far out is usually correct and simply of somewhere else"
+ },
+ "clearance": {
+  "min_view_m": 80.0,
+  "moved": false,
+  "nearest_agent": null,
+  "nearest_agent_m": null,
+  "nearest_agent_probe_m": 60.0,
+  "nearest_obstruction": "prop_tree_honeylocust_medium_1",
+  "nearest_obstruction_at_deg": [
+   9.1,
+   21.2
+  ],
+  "nearest_obstruction_m": 8.4,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_tree_honeylocust_medium_1 8.4 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 150 m",
+  "offset_m": 0.0,
+  "view_m": 150.0
+ },
+ "frame": {
+  "mean": 0.4439,
+  "reason": null,
+  "sd": 0.1499,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal); nothing built stands within 6 m of the subject's coordinate, so the lens was not widened to contain it",
+ "lighting": {
+  "background_strength": 0.0313810259103775,
+  "direct_normal_irradiance_w_m2": 908.1,
+  "emissive": {
+   "cone_faces_deleted": 8,
+   "cones_hidden": 1,
+   "lamps_switched_off": 1,
+   "night": false,
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 247.614,
+  "sky_elevation_deg": 56.072,
+  "sun_lamp": true,
+  "sun_strength_blender": 3.175,
+  "view_transform": "Filmic"
+ },
+ "name": "Verrazzano-Narrows Bridge",
+ "night": false,
+ "pitch_reason": "level optical axis (the subject is 1109 m away; anything that far is photographed with a level camera)",
+ "reference_photo": {
+  "author": "Mr. Matt\u00e9 (if there is an issue with this image, contact me using this image's Commons talk page , my Commons user talk page , or my English Wikipedia user talk page ; I'll know about it a lot faster)",
+  "confidence": "high",
+  "date_taken": "2025-07-09 15:17:06",
+  "estimated_azimuth_deg": 237.9,
+  "file": "3.jpg",
+  "height": 1446,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:I-278_wb_HOV_lane_at_start_of_Verrazzano_Bridge,_Brooklyn,_July_2025.jpg",
+  "title": "File:I-278 wb HOV lane at start of Verrazzano Bridge, Brooklyn, July 2025.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_verrazzano_narrows_bridge/render.png",
+ "rendered_at": "2026-09-09T08:31:51Z",
+ "resolution_note": "1204x906; the reference photograph is 1920x1446 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "agents": {
+   "caption": "Agents: 8 vehicles within 150 m and 75 people within 120 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 275 vehicles and 613 people over the whole simulated ring, of which 297 and 787 were simulated; 1001 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 10,
+    "pedestrian_not_on_walkable_surface": 41,
+    "pedestrian_outside_radius": 661,
+    "vehicle_body_has_no_rider": 1,
+    "vehicle_outside_radius": 288
+   },
+   "ped_lods": {
+    "LOD0": 1,
+    "LOD1": 18,
+    "LOD2": 56
+   },
+   "ped_radius_m": 120.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 189458,
+   "per_class": {
+    "sedan": 5,
+    "suv": 3
+   },
+   "placed_pedestrians": 75,
+   "placed_vehicles": 8,
+   "reason": null,
+   "seconds": 50.76,
+   "snapshot": {
+    "building_footprints_tested": 879,
+    "density_lane_km": 20.667,
+    "density_sidewalk_m2": 15771,
+    "density_target_pedestrians": 613.3,
+    "density_target_vehicles": 275.3,
+    "dow": 0,
+    "hour": 15,
+    "lanes_considered": 176,
+    "lanes_with_nta": 176,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.64,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_archetypes_available": 36,
+    "npc_bodies_imported": 32,
+    "npc_templates_baked": 65,
+    "pavement_polygons_tested": 471,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 787,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 297
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 235234,
+   "vehicle_lods": {
+    "LOD2": 8
+   },
+   "vehicle_radius_m": 150.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 45776
+  },
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-10_-10",
+    "t_-10_-11",
+    "t_-10_-9",
+    "t_-6_-10",
+    "t_-6_-11",
+    "t_-6_-12",
+    "t_-6_-8",
+    "t_-6_-9",
+    "t_-7_-10",
+    "t_-7_-11",
+    "t_-7_-8",
+    "t_-7_-9",
+    "t_-8_-10",
+    "t_-8_-11",
+    "t_-8_-8",
+    "t_-8_-9",
+    "t_-9_-11",
+    "t_-9_-12"
+   ],
+   "landmark_bins_suppressed": 0,
+   "landmark_faces_suppressed": 0,
+   "lod_substituted": [
+    "t_-6_-12 (LOD2 -> LOD1)",
+    "t_-6_-8 (LOD2 -> LOD1)"
+   ],
+   "missing": [
+    "t_-7_-12",
+    "t_-8_-12",
+    "t_-9_-10",
+    "t_-9_-8",
+    "t_-9_-9"
+   ],
+   "new_jersey": [],
+   "per_tile": {
+    "t_-10_-10": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 14,
+     "triangles": 14452
+    },
+    "t_-10_-11": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 11,
+     "triangles": 13914
+    },
+    "t_-10_-9": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 2,
+     "triangles": 12
+    },
+    "t_-6_-10": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 10,
+     "triangles": 29850
+    },
+    "t_-6_-11": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 9,
+     "triangles": 30480
+    },
+    "t_-6_-12": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 4,
+     "triangles": 36
+    },
+    "t_-6_-8": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 11,
+     "triangles": 43456
+    },
+    "t_-6_-9": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 8,
+     "triangles": 78976
+    },
+    "t_-7_-10": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 11,
+     "triangles": 54318
+    },
+    "t_-7_-11": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 5,
+     "triangles": 3610
+    },
+    "t_-7_-8": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 11,
+     "triangles": 70826
+    },
+    "t_-7_-9": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 11,
+     "triangles": 67482
+    },
+    "t_-8_-10": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 11,
+     "triangles": 37558
+    },
+    "t_-8_-11": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 2,
+     "triangles": 12
+    },
+    "t_-8_-8": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 8,
+     "triangles": 29942
+    },
+    "t_-8_-9": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 9,
+     "triangles": 65458
+    },
+    "t_-9_-11": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 4,
+     "triangles": 614
+    },
+    "t_-9_-12": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 3,
+     "triangles": 60
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 18,
+   "tiles_lod_substituted": 2,
+   "tiles_missing": 5,
+   "tiles_wanted": 23,
+   "tiles_with_new_jersey": 0,
+   "triangle_budget": 3510000,
+   "triangles": 541056
+  },
+  "centre_tm": [
+   -7379.22,
+   -9546.41
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 3,
+    "cornice": 5,
+    "door_entry": 6,
+    "hvac": 2,
+    "parapet": 48,
+    "quoin": 10,
+    "storefront": 29,
+    "storefront_interior": 4,
+    "string_course": 16,
+    "water_tower": 2,
+    "window": 687,
+    "window_accessory": 114
+   },
+   "placed": 926,
+   "radius_m": 70.0,
+   "records_in_range": 926,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-8_-10"
+   ],
+   "triangles": 217622,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 1100.2,
+     "id": "b_verrazzano_narrows",
+     "lod": 0,
+     "name": "Verrazzano-Narrows Bridge",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 117032
+    }
+   ],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
+   "placed": 1,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 117032
+  },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brown_brick": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.22,
+      "texture_albedo": 0.2375
+     },
+     "asset_id": "Bricks054",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete": {
+     "albedo": {
+      "scale": 1.799,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.2965
+     },
+     "asset_id": "Concrete037",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "granite": {
+     "albedo": {
+      "scale": 0.859,
+      "target_albedo": 0.39,
+      "texture_albedo": 0.4542
+     },
+     "asset_id": "Granite002A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "limestone": {
+     "albedo": {
+      "scale": 1.128,
+      "target_albedo": 0.66,
+      "texture_albedo": 0.5853
+     },
+     "asset_id": "Travertine009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "precast": {
+     "albedo": {
+      "scale": 1.273,
+      "target_albedo": 0.6133,
+      "texture_albedo": 0.4818
+     },
+     "asset_id": "Concrete034",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "stone_rubble": {
+     "albedo": {
+      "scale": 2.415,
+      "target_albedo": 0.4233,
+      "texture_albedo": 0.1753
+     },
+     "asset_id": "Bricks102",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "vinyl_siding": {
+     "albedo": {
+      "scale": 1.402,
+      "target_albedo": 0.6867,
+      "texture_albedo": 0.4898
+     },
+     "asset_id": "WoodSiding009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.626,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "wood_clapboard": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 1.384,
+      "scale": 4.0,
+      "target_albedo": 0.5467,
+      "texture_albedo": 0.0988
+     },
+     "asset_id": "WoodSiding013",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.032,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    }
+   },
+   "enabled": true,
+   "flat": {
+    "glass_curtain": "analytic: the catalogue has no photographic set for it"
+   },
+   "resolution": "2K",
+   "slots": 288
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 335,
+    "curb": 2815,
+    "marking_white": 7443,
+    "marking_yellow": 384,
+    "median": 16,
+    "parking_lot": 297,
+    "plaza": 2,
+    "roadbed": 2249,
+    "sidewalk": 2282
+   },
+   "placed": 15823,
+   "radius_m": 900.0,
+   "tiles_missing": [
+    "t_-9_-10",
+    "t_-9_-9"
+   ],
+   "tiles_read": [
+    "t_-7_-10",
+    "t_-7_-11",
+    "t_-7_-9",
+    "t_-8_-10",
+    "t_-8_-11",
+    "t_-8_-9",
+    "t_-9_-11"
+   ],
+   "triangles": 159283,
+   "triangles_cut_for_landmark_ground": 0,
+   "vertices": 190865
+  },
+  "props": {
+   "capped": null,
+   "impostor_cards_dropped": 12,
+   "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 8
+   },
+   "leaf_off": false,
+   "per_kind": {
+    "bus_stop_sign": 3,
+    "hydrant": 7,
+    "mailbox": 1,
+    "manhole": 18,
+    "street_lamp": 20,
+    "tree": 71,
+    "waste_basket": 1
+   },
+   "placed": 121,
+   "radius_m": 150.0,
+   "rows_in_range": 133,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-8_-10"
+   ],
+   "tree_instances_scaled": 71,
+   "tree_mean_scale": 0.899,
+   "tree_scale_out_of_band": 0,
+   "tree_species_substituted": 42,
+   "triangles": 463232,
+   "unmapped_kinds": {
+    "drinking_fountain": 3,
+    "misc_structure": 1
+   }
+  },
+  "radius_m": 2174.4074287329827,
+  "seconds": 84.44,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
+   "samples": 283,
+   "spacing_m": 2.0,
+   "triangles": 159048,
+   "water_bodies": [
+    {
+     "kind": "bay",
+     "name": "GRAVESEND BAY",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "GRAVESEND BAY",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "LOWER NEW YORK BAY",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "LOWER NEW YORK BAY",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "The Narrows",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "The Narrows",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "UPPER NEW YORK BAY",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "lake",
+     "name": "lake",
+     "water_z_m": 1.36
+    },
+    {
+     "kind": "marsh",
+     "name": "marsh",
+     "water_z_m": null
+    },
+    {
+     "kind": "pond",
+     "name": "Clifton Lake",
+     "water_z_m": 13.92
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 30.21
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 12.85
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 13.83
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 17.06
+    }
+   ],
+   "water_quads": 24069,
+   "z_max_m": 43.67,
+   "z_min_m": -0.48
+  },
+  "triangles": 1892507
+ },
+ "scene_request": {
+  "agent_ped_radius_m": 120.0,
+  "agent_vehicle_radius_m": 150.0,
+  "kit_radius_m": 70.0,
+  "prop_radius_m": 150.0,
+  "radius_m": 2174.4074287329827
+ },
+ "seconds": {
+  "render": 52.0,
+  "scene": 85.0,
+  "total": 137.0
+ },
+ "sightline": {
+  "subject_note": "nothing built stands within 6 m of the subject's coordinate; no sightline was tested",
+  "subject_visible": null
+ },
+ "slug": "landmark_verrazzano_narrows_bridge",
+ "status": "rendered",
+ "subject": {
+  "distance_from": "the placed camera, after the clearance walk",
+  "distance_m": 1109.0,
+  "height_probe": {
+   "ground_z_m": 0.0,
+   "nearest_built": {
+    "note": "nothing built within 120 m of the coordinate either",
+    "object": null,
+    "reach_m": 120.0
+   },
+   "nearest_catalogue_origin": {
+    "distance_m": 55.5,
+    "height_m": 211.2,
+    "id": "b_verrazzano_narrows",
+    "within_120_m": true
+   },
+   "note": "nothing built stands within 6 m of the subject's coordinate",
+   "object": null,
+   "rays_cast": 17,
+   "rays_on_built_fabric": 0,
+   "z": null
+  },
+  "name": "Verrazzano-Narrows Bridge",
+  "origin_distance_m": 1109.0
+ },
+ "sun": {
+  "azimuth_deg": 247.61387341346955,
+  "elevation_deg": 56.07186707445135,
+  "local": "2025-07-09T15:17:06-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2025-07-09T19:17:06Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 222.1,
+  "lat": 40.614,
+  "lon": -74.0372,
+  "note": "Shore Parkway greenway near 92nd Street, Bay Ridge, looking south-west at the span"
+ }
+}

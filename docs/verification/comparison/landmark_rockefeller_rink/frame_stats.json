@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_rockefeller_rink",
+ "rendered_at": "2026-09-09T07:18:07Z",
+ "reference_file": "3.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 720,
+  "mean": 0.1018,
+  "sd": 0.0492,
+  "p05": 0.0162,
+  "p95": 0.1748,
+  "chroma": 0.0282
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1080,
+  "mean": 0.457,
+  "sd": 0.2288,
+  "p05": 0.1258,
+  "p95": 0.8,
+  "chroma": 0.0423
+ },
+ "render_over_reference": {
+  "mean": 0.223,
+  "sd": 0.215,
+  "chroma": 0.667
+ }
+}

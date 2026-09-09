@@ -1,0 +1,780 @@
+{
+ "agent_request": {
+  "dow": 1,
+  "hour": 15,
+  "local_clock": "2021-08-07 15:14 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "4.0 deg, the bearing from this photograph's own GPS position to Citi Field (Jackie Robinson Rotunda); heading and position both come from the photograph.  The item's recorded azimuth is 0.0 deg, 4.0 deg away, and belongs to its nominal viewpoint",
+ "camera": {
+  "azimuth_deg": 4.021814180672017,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "below_point_excluded": 0,
+   "chosen_m": 3.17,
+   "max_m": 3.47,
+   "median_m": 3.31,
+   "min_m": 3.1,
+   "mode": "street",
+   "percentile": 10.0,
+   "point_m": 3.31,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.754739,
+  "lon": -73.846022,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_citi_field",
+  "terrain_z_m": 3.173,
+  "x": 8780.557,
+  "y": 6083.893,
+  "z": 4.773
+ },
+ "camera_caption": "camera 40.75474, -73.84602 (NYC_TM 8781, 6084) z 4.8 m NAVD88 | azimuth 4.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.754739,
+  "lon": -73.846022,
+  "offset_from_recorded_m": 19.2,
+  "source": "this photograph's own EXIF camera GPS (40.75474, -73.84602), 19 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
+ "clearance": {
+  "min_view_m": 80.0,
+  "moved": false,
+  "nearest_agent": null,
+  "nearest_agent_m": null,
+  "nearest_agent_probe_m": 60.0,
+  "nearest_obstruction": "prop_tree_honeylocust_large_12",
+  "nearest_obstruction_at_deg": [
+   0.0,
+   21.1
+  ],
+  "nearest_obstruction_m": 31.6,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_tree_honeylocust_large_12 31.6 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 112 m",
+  "offset_m": 0.0,
+  "view_m": 111.8
+ },
+ "frame": {
+  "mean": 0.3331,
+  "reason": null,
+  "sd": 0.2452,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.031767431646585464,
+  "direct_normal_irradiance_w_m2": 896.0,
+  "emissive": {
+   "cone_faces_deleted": 24,
+   "cones_hidden": 2,
+   "lamps_switched_off": 3,
+   "night": false,
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 239.261,
+  "sky_elevation_deg": 52.236,
+  "sun_lamp": true,
+  "sun_strength_blender": 3.133,
+  "view_transform": "Filmic"
+ },
+ "name": "Citi Field",
+ "night": false,
+ "pitch_reason": "level optical axis (the subject is 263 m away; anything that far is photographed with a level camera)",
+ "reference_photo": {
+  "author": "Kidfly182",
+  "confidence": "high",
+  "date_taken": "2021-08-07 15:14:05",
+  "estimated_azimuth_deg": 4.1,
+  "file": "1.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Citi_Field_August_2021.jpg",
+  "title": "File:Citi Field August 2021.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_citi_field/render.png",
+ "rendered_at": "2026-09-09T04:41:14Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "agents": {
+   "caption": "Agents: 70 vehicles within 320 m and 97 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 246 vehicles and 299 people over the whole simulated ring, of which 283 and 388 were simulated; 504 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 19,
+    "pedestrian_not_on_walkable_surface": 88,
+    "pedestrian_outside_radius": 184,
+    "vehicle_body_has_no_rider": 2,
+    "vehicle_outside_radius": 211
+   },
+   "ped_lods": {
+    "LOD2": 97
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 130494,
+   "per_class": {
+    "black_car": 1,
+    "mta_bus": 1,
+    "sedan": 45,
+    "suv": 17,
+    "taxi": 6
+   },
+   "placed_pedestrians": 97,
+   "placed_vehicles": 70,
+   "reason": null,
+   "seconds": 49.63,
+   "snapshot": {
+    "building_footprints_tested": 1558,
+    "density_lane_km": 16.677,
+    "density_sidewalk_m2": 6268,
+    "density_target_pedestrians": 299.3,
+    "density_target_vehicles": 246.3,
+    "dow": 1,
+    "hour": 15,
+    "lanes_considered": 149,
+    "lanes_with_nta": 149,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.71,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_archetypes_available": 36,
+    "npc_bodies_imported": 36,
+    "npc_templates_baked": 75,
+    "pavement_polygons_tested": 3371,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 388,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 283
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 574913,
+   "vehicle_lods": {
+    "LOD1": 2,
+    "LOD2": 68
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 444419
+  },
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_7_5",
+    "t_7_6",
+    "t_8_5",
+    "t_8_6",
+    "t_9_5",
+    "t_9_6"
+   ],
+   "landmark_bins_suppressed": 3,
+   "landmark_faces_suppressed": 1220,
+   "lod_substituted": [],
+   "missing": [],
+   "new_jersey": [],
+   "per_tile": {
+    "t_7_5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 12,
+     "triangles": 52194
+    },
+    "t_7_6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 12,
+     "triangles": 40116
+    },
+    "t_8_5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 10,
+     "triangles": 23564
+    },
+    "t_8_6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 8,
+     "triangles": 2060
+    },
+    "t_9_5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 10,
+     "triangles": 10802
+    },
+    "t_9_6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 11,
+     "triangles": 19654
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 6,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 0,
+   "tiles_wanted": 6,
+   "tiles_with_new_jersey": 0,
+   "triangle_budget": 3510000,
+   "triangles": 148390
+  },
+  "centre_tm": [
+   8780.56,
+   6083.89
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "door_entry": 2,
+    "parapet": 4,
+    "window": 120
+   },
+   "placed": 126,
+   "radius_m": 139.2408574982586,
+   "records_in_range": 126,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_8_5",
+    "t_8_6"
+   ],
+   "triangles": 23480,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 253.7,
+     "id": "c_citi_field",
+     "lod": 0,
+     "name": "Citi Field",
+     "own_ground_m2": 10029.8,
+     "own_ground_note": {
+      "above_heightmap_m": -0.06,
+      "heightmap_median_m": 4.02
+     },
+     "own_ground_parts": 1,
+     "triangles": 8986
+    },
+    {
+     "distance_m": 545.6,
+     "id": "c_usta_arthur_ashe",
+     "lod": 0,
+     "name": "Arthur Ashe Stadium",
+     "own_ground_m2": 669.8,
+     "own_ground_note": {
+      "above_heightmap_m": 0.1,
+      "heightmap_median_m": 4.47
+     },
+     "own_ground_parts": 1,
+     "triangles": 2452
+    }
+   ],
+   "own_ground_from": [
+    "c_citi_field",
+    "c_usta_arthur_ashe"
+   ],
+   "own_ground_m2": 10699.6,
+   "placed": 2,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 11438
+  },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brown_brick": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.22,
+      "texture_albedo": 0.2375
+     },
+     "asset_id": "Bricks054",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete": {
+     "albedo": {
+      "scale": 1.799,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.2965
+     },
+     "asset_id": "Concrete037",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "limestone": {
+     "albedo": {
+      "scale": 1.128,
+      "target_albedo": 0.66,
+      "texture_albedo": 0.5853
+     },
+     "asset_id": "Travertine009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "precast": {
+     "albedo": {
+      "scale": 1.273,
+      "target_albedo": 0.6133,
+      "texture_albedo": 0.4818
+     },
+     "asset_id": "Concrete034",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "stone_rubble": {
+     "albedo": {
+      "scale": 2.415,
+      "target_albedo": 0.4233,
+      "texture_albedo": 0.1753
+     },
+     "asset_id": "Bricks102",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "vinyl_siding": {
+     "albedo": {
+      "scale": 1.402,
+      "target_albedo": 0.6867,
+      "texture_albedo": 0.4898
+     },
+     "asset_id": "WoodSiding009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.626,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "wood_clapboard": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 1.384,
+      "scale": 4.0,
+      "target_albedo": 0.5467,
+      "texture_albedo": 0.0988
+     },
+     "asset_id": "WoodSiding013",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.032,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    }
+   },
+   "enabled": true,
+   "flat": {
+    "glass_curtain": "analytic: the catalogue has no photographic set for it"
+   },
+   "resolution": "2K",
+   "slots": 126
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 260,
+    "curb": 1725,
+    "marking_white": 6565,
+    "marking_yellow": 454,
+    "median": 905,
+    "parking_lot": 6468,
+    "plaza": 2124,
+    "roadbed": 2959,
+    "sidewalk": 1387
+   },
+   "placed": 22847,
+   "radius_m": 839.8116561454227,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_7_5",
+    "t_7_6",
+    "t_8_5",
+    "t_8_6",
+    "t_9_5",
+    "t_9_6"
+   ],
+   "triangles": 165118,
+   "triangles_cut_for_landmark_ground": 0,
+   "vertices": 210534
+  },
+  "props": {
+   "capped": null,
+   "impostor_cards_dropped": 4,
+   "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 18
+   },
+   "leaf_off": false,
+   "per_kind": {
+    "bike_rack": 3,
+    "bus_stop_sign": 2,
+    "citibike_dock": 1,
+    "cooling_tower": 4,
+    "hydrant": 17,
+    "manhole": 29,
+    "street_lamp": 28,
+    "subway_entrance": 6,
+    "tree": 133
+   },
+   "placed": 223,
+   "radius_m": 269.2408574982586,
+   "rows_in_range": 254,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_8_5",
+    "t_8_6",
+    "t_9_5",
+    "t_9_6"
+   ],
+   "tree_instances_scaled": 133,
+   "tree_mean_scale": 0.916,
+   "tree_scale_out_of_band": 0,
+   "tree_species_substituted": 123,
+   "triangles": 776354,
+   "unmapped_kinds": {
+    "artwork": 3,
+    "memorial": 7,
+    "parks_building": 3
+   }
+  },
+  "radius_m": 839.8116561454227,
+  "seconds": 73.05,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 372,
+   "samples": 217,
+   "spacing_m": 2.0,
+   "triangles": 92568,
+   "water_bodies": [
+    {
+     "kind": "bay",
+     "name": "Flushing Bay",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "lake",
+     "name": "FLUSHING CREEK",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "marsh",
+     "name": "marsh",
+     "water_z_m": null
+    },
+    {
+     "kind": "pond",
+     "name": "Industry Pond",
+     "water_z_m": 0.19
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 1.03
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "EAST RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "FLUSHING CREEK",
+     "water_z_m": 0.0
+    }
+   ],
+   "water_quads": 864,
+   "z_max_m": 16.15,
+   "z_min_m": -0.49
+  },
+  "triangles": 1792261
+ },
+ "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
+  "kit_radius_m": 139.2408574982586,
+  "prop_radius_m": 269.2408574982586,
+  "radius_m": 839.8116561454227
+ },
+ "seconds": {
+  "render": 73.8,
+  "scene": 73.4,
+  "total": 147.3
+ },
+ "sightline": {
+  "subject_aimed_at": "the subject's mid-height, 6.0 m above its ground",
+  "subject_blocked_at_m": 85.3,
+  "subject_blocked_by": "prop_tree_honeylocust_small_64",
+  "subject_fan_from": "the subject's own measured height (J74)",
+  "subject_fan_half_angle_deg": 1.32,
+  "subject_fan_m": 12.1,
+  "subject_lands_at_m": null,
+  "subject_lands_on": null,
+  "subject_range_m": 262.9,
+  "subject_rays": 5,
+  "subject_rays_clear": 0,
+  "subject_rays_into_nothing": 0,
+  "subject_rays_on_subject": 0,
+  "subject_reach_m": 25.0,
+  "subject_visible": false
+ },
+ "slug": "landmark_citi_field",
+ "status": "rendered",
+ "subject": {
+  "distance_from": "the placed camera, after the clearance walk",
+  "distance_m": 262.9,
+  "height_probe": {
+   "ground_z_m": 3.98,
+   "height_above_ground_m": 12.11,
+   "nearest_catalogue_origin": {
+    "distance_m": 9.2,
+    "height_m": 39.0,
+    "id": "c_citi_field",
+    "within_120_m": true
+   },
+   "object": "lm_c_citi_field.2",
+   "rays_cast": 17,
+   "rays_on_built_fabric": 17,
+   "z": 16.1
+  },
+  "name": "Citi Field (Jackie Robinson Rotunda)",
+  "origin_distance_m": 262.9
+ },
+ "sun": {
+  "azimuth_deg": 239.26056429046542,
+  "elevation_deg": 52.236141685559765,
+  "local": "2021-08-07T15:14:05-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2021-08-07T19:14:05Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 0.0,
+  "lat": 40.7547,
+  "lon": -73.8458,
+  "note": "Mets-Willets Point station ramp / 126th Street plaza, looking north at the Jackie Robinson Rotunda"
+ }
+}

@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_javits_center",
+ "rendered_at": "2026-09-09T05:44:01Z",
+ "reference_file": "2.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.2864,
+  "sd": 0.2519,
+  "p05": 0.0378,
+  "p95": 0.926,
+  "chroma": 0.0508
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.565,
+  "sd": 0.3514,
+  "p05": 0.1437,
+  "p95": 1.0,
+  "chroma": 0.0425
+ },
+ "render_over_reference": {
+  "mean": 0.507,
+  "sd": 0.717,
+  "chroma": 1.195
+ }
+}

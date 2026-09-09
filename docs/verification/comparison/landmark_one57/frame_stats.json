@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_one57",
+ "rendered_at": "2026-09-09T06:37:42Z",
+ "reference_file": "2.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 784,
+  "height": 1394,
+  "mean": 0.116,
+  "sd": 0.0817,
+  "p05": 0.0126,
+  "p95": 0.2789,
+  "chroma": 0.0434
+ },
+ "reference": {
+  "width": 1920,
+  "height": 3412,
+  "mean": 0.5354,
+  "sd": 0.2737,
+  "p05": 0.1082,
+  "p95": 0.9294,
+  "chroma": 0.0468
+ },
+ "render_over_reference": {
+  "mean": 0.217,
+  "sd": 0.299,
+  "chroma": 0.927
+ }
+}

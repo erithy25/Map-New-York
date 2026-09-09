@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_riverside_church",
+ "rendered_at": "2026-09-09T07:13:41Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.2374,
+  "sd": 0.153,
+  "p05": 0.0698,
+  "p95": 0.5131,
+  "chroma": 0.0188
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.4588,
+  "sd": 0.19,
+  "p05": 0.1398,
+  "p95": 0.8416,
+  "chroma": 0.2347
+ },
+ "render_over_reference": {
+  "mean": 0.517,
+  "sd": 0.805,
+  "chroma": 0.08
+ }
+}

@@ -31,7 +31,7 @@
   "lat": 40.758469,
   "lon": -73.984824,
   "long_side_fov_deg": 54.432,
-  "pitch_deg": 3.3000890690065137,
+  "pitch_deg": 0.0,
   "portrait": false,
   "resolution": [
    1280,
@@ -44,7 +44,7 @@
   "y": 6495.741,
   "z": 15.918
  },
- "camera_caption": "camera 40.75847, -73.98482 (NYC_TM -2960, 6496) z 15.9 m NAVD88 | azimuth 10.0deg pitch +3.3deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x854",
+ "camera_caption": "camera 40.75847, -73.98482 (NYC_TM -2960, 6496) z 15.9 m NAVD88 | azimuth 10.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x854",
  "camera_origin": {
   "from_photograph_gps": false,
   "lat": 40.758469,
@@ -56,30 +56,43 @@
   "direction": "onto the nearest crosswalk",
   "min_view_m": 29.9,
   "moved": true,
-  "nearest_obstruction_m": 20.0,
-  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 12 m ahead, less than the 30 m this frame needs to show its subject; the camera was moved 18 m onto the nearest real crosswalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there",
+  "nearest_agent": "agent_veh_suburban_black_car_741.49",
+  "nearest_agent_at_deg": [
+   9.1,
+   0.0
+  ],
+  "nearest_agent_m": 20.0,
+  "nearest_agent_measured": "after the cull over the observer",
+  "nearest_agent_probe_m": 20.0,
+  "nearest_obstruction": "prop_lamp_cobra_davit_2",
+  "nearest_obstruction_at_deg": [
+   18.1,
+   0.0
+  ],
+  "nearest_obstruction_m": 11.1,
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 12 m ahead, less than the 30 m this frame needs to show its subject; the camera was moved 18 m onto the nearest real crosswalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there, and the nearest built thing in the frame is prop_lamp_cobra_davit_2 11.1 m away at +18 deg yaw, +0 deg pitch, and the nearest simulated agent is agent_veh_suburban_black_car_741.49 20.0 m away",
   "offset_m": 18.3,
   "reason": "boxed in: the view azimuth is closed off 12 m ahead, less than the 30 m this frame needs to show its subject",
-  "rule": "pavement snap with a clear view",
+  "rule": "pavement snap with a clear frame",
   "view_m": 60.0
  },
  "frame": {
-  "mean": 0.295,
+  "mean": 0.2373,
   "reason": null,
-  "sd": 0.2018,
+  "sd": 0.1659,
   "usable": true
  },
  "frame_retry": null,
  "group": "landmark",
  "interior": false,
- "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal); nothing built stands within 6 m of the subject's coordinate; the nearest built thing is lm_c_times_square.58, 8 m away at bearing 112 deg, so the coordinate the item records is that far off the fabric it names, so the lens was not widened to contain it",
  "lighting": {
-  "background_strength": 0.25,
+  "background_strength": 0.03250904753804207,
   "direct_normal_irradiance_w_m2": 867.7,
   "emissive": {
-   "cone_faces_deleted": 16,
-   "cones_hidden": 2,
-   "lamps_switched_off": 4,
+   "cone_faces_deleted": 8,
+   "cones_hidden": 1,
+   "lamps_switched_off": 3,
    "night": false,
    "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
@@ -87,12 +100,12 @@
   "sky_azimuth_deg": 175.743,
   "sky_elevation_deg": 45.13,
   "sun_lamp": true,
-  "sun_strength_blender": 1.607,
+  "sun_strength_blender": 3.034,
   "view_transform": "Filmic"
  },
  "name": "TKTS booth and red steps, Duffy Square",
  "night": false,
- "pitch_reason": "aimed at TKTS booth and red steps, Duffy Square 60 m away, at its mid-height (a nominal 10 m subject); +3.3 deg from horizontal",
+ "pitch_reason": "level optical axis (nothing built stands at TKTS booth and red steps, Duffy Square's coordinate, so its mid-height is not known and there is nothing to tilt towards)",
  "reference_photo": {
   "author": "Jakub Ha\u0142un",
   "confidence": "medium",
@@ -107,46 +120,51 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_tkts_booth/render.png",
- "rendered_at": "2026-09-07T22:51:01Z",
+ "rendered_at": "2026-09-09T01:47:04Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1281 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
-   "caption": "Agents: 73 vehicles within 320 m and 261 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 1215 vehicles and 2966 people over the whole simulated ring, of which 1468 and 3000 were simulated; 4134 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "caption": "Agents: 73 vehicles within 320 m and 283 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 1215 vehicles and 2966 people over the whole simulated ring, of which 1468 and 2999 were simulated; 4111 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "culled_after_camera_move": {
+    "pedestrian_over_the_observer": 1,
+    "vehicle_over_the_observer": 0
+   },
    "dropped": {
-    "pedestrian_in_the_carriageway_not_crossing": 261,
-    "pedestrian_inside_building": 2,
-    "pedestrian_not_on_walkable_surface": 153,
-    "pedestrian_outside_radius": 1249,
-    "pedestrian_triangle_budget": 1074,
+    "pedestrian_in_the_carriageway_not_crossing": 246,
+    "pedestrian_inside_building": 1,
+    "pedestrian_not_on_walkable_surface": 156,
+    "pedestrian_outside_radius": 1242,
+    "pedestrian_over_the_observer": 1,
+    "pedestrian_triangle_budget": 1071,
     "vehicle_body_has_no_rider": 34,
-    "vehicle_not_on_carriageway": 28,
-    "vehicle_outside_radius": 742,
-    "vehicle_triangle_budget": 591
+    "vehicle_not_on_carriageway": 27,
+    "vehicle_outside_radius": 739,
+    "vehicle_triangle_budget": 595
    },
    "ped_lods": {
     "LOD0": 3,
     "LOD1": 42,
-    "LOD2": 216
+    "LOD2": 238
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 582639,
+   "pedestrian_triangles": 580525,
    "per_class": {
-    "black_car": 15,
+    "black_car": 14,
     "boro_taxi": 7,
     "box_truck": 2,
     "dsny_truck": 1,
-    "mta_bus": 1,
-    "sedan": 13,
+    "mta_bus": 2,
+    "sedan": 15,
     "suv": 1,
-    "taxi": 31,
+    "taxi": 29,
     "van": 2
    },
-   "placed_pedestrians": 261,
+   "placed_pedestrians": 282,
    "placed_vehicles": 73,
    "reason": null,
-   "seconds": 105.62,
+   "seconds": 126.24,
    "snapshot": {
     "building_footprints_tested": 1656,
     "density_lane_km": 25.344,
@@ -161,18 +179,19 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.99,
+     "load_seconds": 1.58,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
      "segments": 122235,
      "signal_plans": 19814
     },
-    "npc_bodies_imported": 12,
-    "npc_templates_baked": 95,
+    "npc_archetypes_available": 36,
+    "npc_bodies_imported": 36,
+    "npc_templates_baked": 178,
     "pavement_polygons_tested": 2894,
     "ped_spawn_radius_m": 220.0,
-    "peds_in_snapshot": 3000,
+    "peds_in_snapshot": 2999,
     "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
     "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
     "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
@@ -187,14 +206,14 @@
    },
    "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1086009,
+   "triangles": 1084630,
    "vehicle_lods": {
     "LOD1": 4,
     "LOD2": 69
    },
    "vehicle_radius_m": 320.0,
    "vehicle_triangle_budget": 506250,
-   "vehicle_triangles": 503370
+   "vehicle_triangles": 504105
   },
   "buildings": {
    "dropped_for_budget": [],
@@ -260,7 +279,7 @@
    "capped": null,
    "per_category": {
     "billboard": 331,
-    "bulkhead": 29,
+    "bulkhead": 28,
     "cornice": 32,
     "door_entry": 55,
     "fire_escape": 21,
@@ -272,13 +291,13 @@
     "storefront": 256,
     "storefront_interior": 38,
     "string_course": 28,
-    "water_tower": 9,
-    "window": 8121,
+    "water_tower": 8,
+    "window": 7949,
     "window_accessory": 14
    },
-   "placed": 9099,
+   "placed": 8925,
    "radius_m": 120.0,
-   "records_in_range": 13553,
+   "records_in_range": 13379,
    "stale_registry_ids": {},
    "suppressed_with_landmark_shells": 4454,
    "tiles_missing": [],
@@ -286,7 +305,7 @@
     "t_-3_6",
     "t_-4_6"
    ],
-   "triangles": 1740661,
+   "triangles": 1711815,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -339,18 +358,374 @@
    "skipped_detail": [],
    "triangles": 505750
   },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brown_brick": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.22,
+      "texture_albedo": 0.2375
+     },
+     "asset_id": "Bricks054",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brownstone": {
+     "albedo": {
+      "scale": 2.682,
+      "target_albedo": 0.2367,
+      "texture_albedo": 0.0882
+     },
+     "asset_id": "Travertine005",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "cast_iron": {
+     "albedo": {
+      "scale": 0.323,
+      "target_albedo": 0.1667,
+      "texture_albedo": 0.5157
+     },
+     "asset_id": "Metal055A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete": {
+     "albedo": {
+      "scale": 1.799,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.2965
+     },
+     "asset_id": "Concrete037",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "granite": {
+     "albedo": {
+      "scale": 0.859,
+      "target_albedo": 0.39,
+      "texture_albedo": 0.4542
+     },
+     "asset_id": "Granite002A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "limestone": {
+     "albedo": {
+      "scale": 1.128,
+      "target_albedo": 0.66,
+      "texture_albedo": 0.5853
+     },
+     "asset_id": "Travertine009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "precast": {
+     "albedo": {
+      "scale": 1.273,
+      "target_albedo": 0.6133,
+      "texture_albedo": 0.4818
+     },
+     "asset_id": "Concrete034",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "stone_rubble": {
+     "albedo": {
+      "scale": 2.415,
+      "target_albedo": 0.4233,
+      "texture_albedo": 0.1753
+     },
+     "asset_id": "Bricks102",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "stucco": {
+     "albedo": {
+      "scale": 1.0,
+      "target_albedo": 0.6667,
+      "texture_albedo": 0.6543
+     },
+     "asset_id": "Plaster001",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "terracotta": {
+     "albedo": {
+      "scale": 0.945,
+      "target_albedo": 0.3833,
+      "texture_albedo": 0.4055
+     },
+     "asset_id": "Marble026",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "vinyl_siding": {
+     "albedo": {
+      "scale": 1.402,
+      "target_albedo": 0.6867,
+      "texture_albedo": 0.4898
+     },
+     "asset_id": "WoodSiding009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.626,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "white_glazed_brick": {
+     "albedo": {
+      "scale": 1.13,
+      "target_albedo": 0.7767,
+      "texture_albedo": 0.6874
+     },
+     "asset_id": "Bricks060",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "wood_clapboard": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 1.384,
+      "scale": 4.0,
+      "target_albedo": 0.5467,
+      "texture_albedo": 0.0988
+     },
+     "asset_id": "WoodSiding013",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.032,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    }
+   },
+   "enabled": true,
+   "flat": {
+    "glass_curtain": "analytic: the catalogue has no photographic set for it"
+   },
+   "resolution": "2K",
+   "slots": 207
+  },
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 171,
-    "curb": 368,
-    "median": 62,
-    "parking_lot": 4,
-    "plaza": 45,
-    "roadbed": 164,
-    "sidewalk": 105
+    "crosswalk": 320,
+    "curb": 2911,
+    "marking_white": 5028,
+    "marking_yellow": 12,
+    "median": 173,
+    "parking_lot": 30,
+    "plaza": 1406,
+    "roadbed": 4048,
+    "sidewalk": 5378
    },
-   "placed": 919,
+   "placed": 19306,
    "radius_m": 500.0,
    "tiles_missing": [],
    "tiles_read": [
@@ -359,20 +734,24 @@
     "t_-4_5",
     "t_-4_6"
    ],
-   "triangles": 64207,
+   "triangles": 97076,
    "triangles_cut_for_landmark_ground": 4,
-   "vertices": 65921
+   "vertices": 135634
   },
   "props": {
    "capped": null,
-   "impostor_cards_dropped": 9,
+   "impostor_cards_dropped": 8,
    "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 80
+   },
    "leaf_off": false,
    "per_kind": {
     "bench": 15,
     "bike_rack": 8,
     "bus_stop_sign": 1,
     "citibike_dock": 2,
+    "cooling_tower": 135,
     "flagpole": 2,
     "hydrant": 49,
     "linknyc": 12,
@@ -387,7 +766,7 @@
     "tree": 35,
     "waste_basket": 5
    },
-   "placed": 340,
+   "placed": 475,
    "radius_m": 250.0,
    "rows_in_range": 574,
    "tiles_missing": [],
@@ -395,19 +774,20 @@
     "t_-3_6",
     "t_-4_6"
    ],
+   "tree_instances_scaled": 35,
+   "tree_mean_scale": 0.888,
+   "tree_scale_out_of_band": 0,
    "tree_species_substituted": 12,
-   "triangles": 625804,
+   "triangles": 655188,
    "unmapped_kinds": {
     "artwork": 4,
-    "cooling_tower": 135,
-    "curb_ramp": 80,
     "memorial": 1,
     "misc_structure": 12,
     "vending_machine": 2
    }
   },
   "radius_m": 500.0,
-  "seconds": 199.12,
+  "seconds": 199.5,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -424,7 +804,7 @@
    "z_max_m": 21.91,
    "z_min_m": 7.56
   },
-  "triangles": 4348521
+  "triangles": 4380549
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -434,15 +814,41 @@
   "radius_m": 500.0
  },
  "seconds": {
-  "render": 209.9,
-  "scene": 206.0,
-  "total": 415.9
+  "render": 140.5,
+  "scene": 214.2,
+  "total": 354.7
+ },
+ "sightline": {
+  "subject_note": "nothing built stands within 6 m of the subject's coordinate; the nearest built thing is lm_c_times_square.58, 8 m away at bearing 112 deg, so the coordinate the item records is that far off the fabric it names; no sightline was tested",
+  "subject_visible": null
  },
  "slug": "landmark_tkts_booth",
  "status": "rendered",
  "subject": {
-  "distance_m": 59.9,
-  "name": "TKTS booth and red steps, Duffy Square"
+  "distance_from": "the placed camera, after the clearance walk",
+  "distance_m": 64.2,
+  "height_probe": {
+   "ground_z_m": 14.6,
+   "nearest_built": {
+    "bearing_deg": 112.5,
+    "distance_m": 7.9,
+    "object": "lm_c_times_square.58",
+    "reach_m": 120.0
+   },
+   "nearest_catalogue_origin": {
+    "distance_m": 347.4,
+    "height_m": 365.8,
+    "id": "c_times_square",
+    "within_120_m": false
+   },
+   "note": "nothing built stands within 6 m of the subject's coordinate; the nearest built thing is lm_c_times_square.58, 8 m away at bearing 112 deg, so the coordinate the item records is that far off the fabric it names",
+   "object": null,
+   "rays_cast": 17,
+   "rays_on_built_fabric": 0,
+   "z": null
+  },
+  "name": "TKTS booth and red steps, Duffy Square",
+  "origin_distance_m": 59.9
  },
  "sun": {
   "azimuth_deg": 175.7430662806703,

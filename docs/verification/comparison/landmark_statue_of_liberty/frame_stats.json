@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_statue_of_liberty",
+ "rendered_at": "2026-09-09T01:41:07Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 854,
+  "height": 1280,
+  "mean": 0.4565,
+  "sd": 0.1466,
+  "p05": 0.2174,
+  "p95": 0.6003,
+  "chroma": 0.0285
+ },
+ "reference": {
+  "width": 1920,
+  "height": 2876,
+  "mean": 0.5707,
+  "sd": 0.1482,
+  "p05": 0.2315,
+  "p95": 0.7073,
+  "chroma": 0.2506
+ },
+ "render_over_reference": {
+  "mean": 0.8,
+  "sd": 0.989,
+  "chroma": 0.114
+ }
+}

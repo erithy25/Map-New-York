@@ -1,0 +1,906 @@
+{
+ "agent_request": {
+  "dow": 1,
+  "hour": 9,
+  "local_clock": "2026-04-18 09:53 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "249.0 deg, the bearing from this photograph's own GPS position to Belvedere Castle; heading and position both come from the photograph.  The item's recorded azimuth is 300.0 deg, 51.0 deg away, and belongs to its nominal viewpoint",
+ "camera": {
+  "azimuth_deg": 249.03189897245028,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "below_point_excluded": null,
+   "chosen_m": 31.03,
+   "max_m": 31.3,
+   "median_m": 31.02,
+   "min_m": 30.74,
+   "mode": "local",
+   "percentile": null,
+   "point_m": 31.03,
+   "radius_m": 5.0,
+   "samples": 16
+  },
+  "ground_mode": "local",
+  "ground_source": "no surface named in the note; heightmap median within 5 m",
+  "hfov_deg": 54.432,
+  "lat": 40.779865,
+  "lon": -73.967626,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 5.913579085896193,
+  "portrait": false,
+  "resolution": [
+   1280,
+   720
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_belvedere_castle",
+  "terrain_z_m": 31.031,
+  "x": -1487.89,
+  "y": 8869.069,
+  "z": 32.631
+ },
+ "camera_caption": "camera 40.77987, -73.96763 (NYC_TM -1488, 8869) z 32.6 m NAVD88 | azimuth 249.0deg pitch +5.9deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x720",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.779865,
+  "lon": -73.967626,
+  "offset_from_recorded_m": 121.6,
+  "source": "this photograph's own EXIF camera GPS (40.77987, -73.96763), 122 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
+ "clearance": {
+  "min_view_m": 64.8,
+  "moved": false,
+  "nearest_agent": null,
+  "nearest_agent_m": null,
+  "nearest_agent_probe_m": 60.0,
+  "nearest_obstruction": null,
+  "nearest_obstruction_at_deg": [
+   0.0,
+   0.0
+  ],
+  "nearest_obstruction_m": 60.0,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; nothing built stands within 60 m of the lens, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 150 m",
+  "offset_m": 0.0,
+  "view_m": 150.0
+ },
+ "frame": {
+  "mean": 0.3774,
+  "reason": null,
+  "sd": 0.1036,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.03347313404083252,
+  "direct_normal_irradiance_w_m2": 842.8,
+  "emissive": {
+   "cone_faces_deleted": 24,
+   "cones_hidden": 2,
+   "lamps_switched_off": 2,
+   "night": false,
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.1,
+  "sky_azimuth_deg": 113.606,
+  "sky_elevation_deg": 40.225,
+  "sun_lamp": true,
+  "sun_strength_blender": 2.947,
+  "view_transform": "Filmic"
+ },
+ "name": "Belvedere Castle",
+ "night": false,
+ "pitch_reason": "aimed at Belvedere Castle 130 m away, at its mid-height (the top of lm_b_belvedere_castle.2, the built thing standing at the subject's coordinate, 8 m above the ground there); +5.9 deg from horizontal",
+ "reference_photo": {
+  "author": "Christian David",
+  "confidence": "high",
+  "date_taken": "2026-04-18 09:53:19",
+  "estimated_azimuth_deg": 248.9,
+  "file": "1.jpg",
+  "height": 1080,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Belvedere_Castle_and_Turtle_Pond,_Central_Park,_Manhattan,_New_York.jpg",
+  "title": "File:Belvedere Castle and Turtle Pond, Central Park, Manhattan, New York.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_belvedere_castle/render.png",
+ "rendered_at": "2026-09-09T03:58:21Z",
+ "resolution_note": "1280x720; the reference photograph is 1920x1080 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "agents": {
+   "caption": "Agents: 18 vehicles within 320 m and 11 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 112 vehicles and 44 people over the whole simulated ring, of which 154 and 56 were simulated; 181 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 1,
+    "pedestrian_not_on_walkable_surface": 17,
+    "pedestrian_outside_radius": 27,
+    "vehicle_body_has_no_rider": 1,
+    "vehicle_on_a_car_free_park_drive": 21,
+    "vehicle_outside_radius": 114
+   },
+   "ped_lods": {
+    "LOD2": 11
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 13868,
+   "per_class": {
+    "boro_taxi": 4,
+    "box_truck": 1,
+    "sedan": 10,
+    "taxi": 3
+   },
+   "placed_pedestrians": 11,
+   "placed_vehicles": 18,
+   "reason": null,
+   "seconds": 11.83,
+   "snapshot": {
+    "building_footprints_tested": 1018,
+    "car_free_park_drives_matched": 21,
+    "density_lane_km": 9.866,
+    "density_sidewalk_m2": 10640,
+    "density_target_pedestrians": 43.6,
+    "density_target_vehicles": 112.4,
+    "dow": 1,
+    "hour": 9,
+    "lanes_considered": 67,
+    "lanes_with_nta": 67,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.64,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_archetypes_available": 36,
+    "npc_bodies_imported": 10,
+    "npc_templates_baked": 11,
+    "pavement_polygons_tested": 967,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 56,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 154
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 115887,
+   "vehicle_lods": {
+    "LOD2": 18
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 102019
+  },
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-1_8",
+    "t_-1_9",
+    "t_-2_8",
+    "t_-2_9",
+    "t_-3_8",
+    "t_-3_9"
+   ],
+   "landmark_bins_suppressed": 11,
+   "landmark_faces_suppressed": 3094,
+   "lod_substituted": [],
+   "missing": [],
+   "new_jersey": [],
+   "per_tile": {
+    "t_-1_8": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 16,
+     "triangles": 128466
+    },
+    "t_-1_9": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 18,
+     "triangles": 73838
+    },
+    "t_-2_8": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 15,
+     "triangles": 30070
+    },
+    "t_-2_9": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 13,
+     "triangles": 51870
+    },
+    "t_-3_8": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 16,
+     "triangles": 89158
+    },
+    "t_-3_9": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 15,
+     "triangles": 105578
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 6,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 0,
+   "tiles_wanted": 6,
+   "tiles_with_new_jersey": 0,
+   "triangle_budget": 3510000,
+   "triangles": 478980
+  },
+  "centre_tm": [
+   -1487.89,
+   8869.07
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "door_entry": 9,
+    "fence": 2,
+    "parapet": 54,
+    "window": 99
+   },
+   "placed": 164,
+   "radius_m": 241.61479377552263,
+   "records_in_range": 243,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 79,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-2_8",
+    "t_-2_9"
+   ],
+   "triangles": 39342,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 129.2,
+     "id": "b_belvedere_castle",
+     "lod": 0,
+     "name": "Belvedere Castle",
+     "own_ground_m2": 763.3,
+     "own_ground_note": {
+      "above_heightmap_m": 0.7,
+      "heightmap_median_m": 41.97
+     },
+     "own_ground_parts": 1,
+     "triangles": 4456
+    },
+    {
+     "distance_m": 357.1,
+     "id": "c_metropolitan_museum",
+     "lod": 0,
+     "name": "The Metropolitan Museum of Art",
+     "own_ground_note": {
+      "above_heightmap_m": 2.59,
+      "heightmap_median_m": 27.89,
+      "reason": "the model's ground stands +2.59 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
+     "triangles": 84671
+    },
+    {
+     "distance_m": 503.3,
+     "id": "b_central_park_walls_gates",
+     "lod": 0,
+     "name": "Central Park perimeter wall and gates",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 18448
+    },
+    {
+     "distance_m": 557.6,
+     "id": "c_american_museum_natural_history",
+     "lod": 0,
+     "name": "American Museum of Natural History + Rose Center",
+     "own_ground_note": {
+      "above_heightmap_m": -2.35,
+      "heightmap_median_m": 27.04,
+      "reason": "the model's ground stands -2.35 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
+     "triangles": 58762
+    },
+    {
+     "distance_m": 574.5,
+     "id": "b_bow_bridge",
+     "lod": 0,
+     "name": "Bow Bridge",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 2672
+    },
+    {
+     "distance_m": 673.1,
+     "id": "b_bethesda_terrace",
+     "lod": 0,
+     "name": "Bethesda Terrace and Fountain",
+     "own_ground_m2": 4286.5,
+     "own_ground_note": {
+      "above_heightmap_m": 0.42,
+      "heightmap_median_m": 17.28
+     },
+     "own_ground_parts": 1,
+     "triangles": 10808
+    }
+   ],
+   "own_ground_from": [
+    "b_belvedere_castle",
+    "b_bethesda_terrace"
+   ],
+   "own_ground_m2": 5049.8,
+   "placed": 6,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 179817
+  },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brown_brick": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.22,
+      "texture_albedo": 0.2375
+     },
+     "asset_id": "Bricks054",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brownstone": {
+     "albedo": {
+      "scale": 2.682,
+      "target_albedo": 0.2367,
+      "texture_albedo": 0.0882
+     },
+     "asset_id": "Travertine005",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "cast_iron": {
+     "albedo": {
+      "scale": 0.323,
+      "target_albedo": 0.1667,
+      "texture_albedo": 0.5157
+     },
+     "asset_id": "Metal055A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete": {
+     "albedo": {
+      "scale": 1.799,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.2965
+     },
+     "asset_id": "Concrete037",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "granite": {
+     "albedo": {
+      "scale": 0.859,
+      "target_albedo": 0.39,
+      "texture_albedo": 0.4542
+     },
+     "asset_id": "Granite002A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "limestone": {
+     "albedo": {
+      "scale": 1.128,
+      "target_albedo": 0.66,
+      "texture_albedo": 0.5853
+     },
+     "asset_id": "Travertine009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "precast": {
+     "albedo": {
+      "scale": 1.273,
+      "target_albedo": 0.6133,
+      "texture_albedo": 0.4818
+     },
+     "asset_id": "Concrete034",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "stone_rubble": {
+     "albedo": {
+      "scale": 2.415,
+      "target_albedo": 0.4233,
+      "texture_albedo": 0.1753
+     },
+     "asset_id": "Bricks102",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "stucco": {
+     "albedo": {
+      "scale": 1.0,
+      "target_albedo": 0.6667,
+      "texture_albedo": 0.6543
+     },
+     "asset_id": "Plaster001",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "terracotta": {
+     "albedo": {
+      "scale": 0.945,
+      "target_albedo": 0.3833,
+      "texture_albedo": 0.4055
+     },
+     "asset_id": "Marble026",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "vinyl_siding": {
+     "albedo": {
+      "scale": 1.402,
+      "target_albedo": 0.6867,
+      "texture_albedo": 0.4898
+     },
+     "asset_id": "WoodSiding009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.626,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "white_glazed_brick": {
+     "albedo": {
+      "scale": 1.13,
+      "target_albedo": 0.7767,
+      "texture_albedo": 0.6874
+     },
+     "asset_id": "Bricks060",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "wood_clapboard": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 1.384,
+      "scale": 4.0,
+      "target_albedo": 0.5467,
+      "texture_albedo": 0.0988
+     },
+     "asset_id": "WoodSiding013",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.032,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    }
+   },
+   "enabled": true,
+   "flat": {
+    "glass_curtain": "analytic: the catalogue has no photographic set for it"
+   },
+   "resolution": "2K",
+   "slots": 186
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 157,
+    "curb": 1354,
+    "marking_white": 4141,
+    "marking_yellow": 92,
+    "median": 126,
+    "parking_lot": 48,
+    "plaza": 61,
+    "roadbed": 1196,
+    "sidewalk": 2874
+   },
+   "placed": 10049,
+   "radius_m": 729.0477842374313,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-1_8",
+    "t_-1_9",
+    "t_-2_8",
+    "t_-2_9",
+    "t_-3_8",
+    "t_-3_9"
+   ],
+   "triangles": 145000,
+   "triangles_cut_for_landmark_ground": 126,
+   "vertices": 164908
+  },
+  "props": {
+   "capped": null,
+   "impostor_cards_dropped": 3,
+   "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {},
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 75,
+    "bus_stop_sign": 2,
+    "cooling_tower": 6,
+    "flagpole": 1,
+    "hydrant": 7,
+    "manhole": 75,
+    "steam_vent": 7,
+    "street_lamp": 62,
+    "tree": 85,
+    "waste_basket": 6
+   },
+   "placed": 326,
+   "radius_m": 371.6147937755226,
+   "rows_in_range": 351,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-2_8",
+    "t_-2_9"
+   ],
+   "tree_instances_scaled": 85,
+   "tree_mean_scale": 0.929,
+   "tree_scale_out_of_band": 0,
+   "tree_species_substituted": 85,
+   "triangles": 839360,
+   "unmapped_kinds": {
+    "artwork": 5,
+    "drinking_fountain": 9,
+    "memorial": 1,
+    "parks_building": 8,
+    "parks_comfort_station": 2
+   }
+  },
+  "radius_m": 729.0477842374313,
+  "seconds": 35.32,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 196,
+   "samples": 211,
+   "spacing_m": 2.0,
+   "triangles": 87808,
+   "water_bodies": [
+    {
+     "kind": "basin",
+     "name": "BOAT BASIN",
+     "water_z_m": 12.16
+    },
+    {
+     "kind": "lake",
+     "name": "RESERVOIR",
+     "water_z_m": 34.52
+    },
+    {
+     "kind": "lake",
+     "name": "THE LAKE",
+     "water_z_m": 16.55
+    },
+    {
+     "kind": "lake",
+     "name": "Turtle Pond",
+     "water_z_m": 30.1
+    }
+   ],
+   "water_quads": 2412,
+   "z_max_m": 42.63,
+   "z_min_m": 12.15
+  },
+  "triangles": 1886194
+ },
+ "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
+  "kit_radius_m": 241.61479377552263,
+  "prop_radius_m": 371.6147937755226,
+  "radius_m": 729.0477842374313
+ },
+ "seconds": {
+  "render": 19.9,
+  "scene": 35.5,
+  "total": 55.4
+ },
+ "sightline": {
+  "subject_aimed_at": "the subject's mid-height, 3.8 m above its ground",
+  "subject_blocked_at_m": null,
+  "subject_blocked_by": null,
+  "subject_fan_from": "the 12 m floor: the subject measures 7.7 m, which is under it, so the fan is the floor rather than the subject",
+  "subject_fan_half_angle_deg": 2.63,
+  "subject_fan_m": 12.0,
+  "subject_lands_at_m": 123.8,
+  "subject_lands_on": "lm_b_belvedere_castle.1",
+  "subject_range_m": 130.4,
+  "subject_rays": 5,
+  "subject_rays_clear": 5,
+  "subject_rays_into_nothing": 0,
+  "subject_rays_on_subject": 5,
+  "subject_reach_m": 25.0,
+  "subject_visible": true
+ },
+ "slug": "landmark_belvedere_castle",
+ "status": "rendered",
+ "subject": {
+  "distance_from": "the placed camera, after the clearance walk",
+  "distance_m": 129.6,
+  "height_probe": {
+   "ground_z_m": 41.85,
+   "height_above_ground_m": 8.42,
+   "nearest_catalogue_origin": {
+    "distance_m": 4.7,
+    "height_m": 23.75,
+    "id": "b_belvedere_castle",
+    "within_120_m": true
+   },
+   "object": "lm_b_belvedere_castle.2",
+   "rays_cast": 17,
+   "rays_on_built_fabric": 16,
+   "z": 50.27
+  },
+  "name": "Belvedere Castle",
+  "origin_distance_m": 129.6
+ },
+ "sun": {
+  "azimuth_deg": 113.60615876007421,
+  "elevation_deg": 40.224798871269336,
+  "local": "2026-04-18T09:53:19-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2026-04-18T13:53:19Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 300.0,
+  "lat": 40.778773,
+  "lon": -73.967517,
+  "note": "the north shore of Turtle Pond, about 150 m east-south-east of the castle, looking west-north-west at Belvedere Castle on Vista Rock"
+ }
+}

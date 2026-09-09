@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_kosciuszko_bridge",
+ "rendered_at": "2026-09-09T05:52:21Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.4662,
+  "sd": 0.1653,
+  "p05": 0.1837,
+  "p95": 0.6596,
+  "chroma": 0.054
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.5044,
+  "sd": 0.281,
+  "p05": 0.0709,
+  "p95": 0.9082,
+  "chroma": 0.1274
+ },
+ "render_over_reference": {
+  "mean": 0.924,
+  "sd": 0.588,
+  "chroma": 0.424
+ }
+}

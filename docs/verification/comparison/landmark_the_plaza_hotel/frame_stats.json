@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_the_plaza_hotel",
+ "rendered_at": "2026-09-09T07:47:35Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.2443,
+  "sd": 0.1418,
+  "p05": 0.0387,
+  "p95": 0.5363,
+  "chroma": 0.0503
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.347,
+  "sd": 0.2401,
+  "p05": 0.067,
+  "p95": 0.8769,
+  "chroma": 0.1805
+ },
+ "render_over_reference": {
+  "mean": 0.704,
+  "sd": 0.591,
+  "chroma": 0.279
+ }
+}

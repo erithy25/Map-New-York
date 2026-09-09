@@ -1,0 +1,848 @@
+{
+ "agent_request": {
+  "dow": 2,
+  "hour": 14,
+  "local_clock": "2010-06-20 14:33 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "10.4 deg, the bearing from this photograph's own GPS position to Fort Jay (Governors Island); heading and position both come from the photograph.  The item's recorded azimuth is 0.0 deg, 10.4 deg away, and belongs to its nominal viewpoint",
+ "camera": {
+  "azimuth_deg": 10.420270990610103,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "below_point_excluded": null,
+   "chosen_m": 3.45,
+   "max_m": 3.52,
+   "median_m": 3.47,
+   "min_m": 3.37,
+   "mode": "local",
+   "percentile": null,
+   "point_m": 3.45,
+   "radius_m": 5.0,
+   "samples": 16
+  },
+  "ground_mode": "local",
+  "ground_source": "no surface named in the note; heightmap median within 5 m",
+  "hfov_deg": 54.432,
+  "lat": 40.688415,
+  "lon": -74.016716,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_fort_jay",
+  "terrain_z_m": 3.453,
+  "x": -5639.514,
+  "y": -1284.351,
+  "z": 5.053
+ },
+ "camera_caption": "camera 40.68841, -74.01672 (NYC_TM -5640, -1284) z 5.1 m NAVD88 | azimuth 10.4deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.688415,
+  "lon": -74.016716,
+  "offset_from_recorded_m": 186.9,
+  "source": "this photograph's own EXIF camera GPS (40.68841, -74.01672), 187 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
+ "clearance": {
+  "min_view_m": 80.0,
+  "moved": false,
+  "nearest_agent": null,
+  "nearest_agent_m": null,
+  "nearest_agent_probe_m": 60.0,
+  "nearest_obstruction": "prop_tree_honeylocust_small_0",
+  "nearest_obstruction_at_deg": [
+   9.1,
+   21.1
+  ],
+  "nearest_obstruction_m": 8.8,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_tree_honeylocust_small_0 8.8 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 150 m",
+  "offset_m": 0.0,
+  "view_m": 150.0
+ },
+ "frame": {
+  "mean": 0.3827,
+  "reason": null,
+  "sd": 0.2125,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal); the highest built thing at the subject's coordinate is lm_b_governors_island.12, 0.7 m above the ground there -- below the 2 m at which a subject has a height worth aiming or framing by, so the lens was not widened to contain it",
+ "lighting": {
+  "background_strength": 0.03079669363796711,
+  "direct_normal_irradiance_w_m2": 926.9,
+  "emissive": {
+   "cone_faces_deleted": 24,
+   "cones_hidden": 2,
+   "lamps_switched_off": 3,
+   "night": false,
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 236.477,
+  "sky_elevation_deg": 63.605,
+  "sun_lamp": true,
+  "sun_strength_blender": 3.241,
+  "view_transform": "Filmic"
+ },
+ "name": "Fort Jay (Governors Island)",
+ "night": false,
+ "pitch_reason": "level optical axis (the subject is 332 m away; anything that far is photographed with a level camera)",
+ "reference_photo": {
+  "author": "Doug Kerr from Albany, NY, United States",
+  "confidence": "high",
+  "date_taken": "2010-06-20 14:33",
+  "estimated_azimuth_deg": 10.3,
+  "file": "2.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Governors_Island_-_New_York_City_(4889328533).jpg",
+  "title": "File:Governors Island - New York City (4889328533).jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_fort_jay/render.png",
+ "rendered_at": "2026-09-09T05:03:21Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "agents": {
+   "caption": "Agents: 50 vehicles within 320 m and 69 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 390 vehicles and 281 people over the whole simulated ring, of which 459 and 497 were simulated; 837 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 158,
+    "pedestrian_not_on_walkable_surface": 151,
+    "pedestrian_outside_radius": 119,
+    "vehicle_body_has_no_rider": 3,
+    "vehicle_not_on_carriageway": 10,
+    "vehicle_outside_radius": 224,
+    "vehicle_over_the_observer": 3,
+    "vehicle_triangle_budget": 169
+   },
+   "ped_lods": {
+    "LOD0": 2,
+    "LOD1": 2,
+    "LOD2": 65
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 137103,
+   "per_class": {
+    "box_truck": 2,
+    "dsny_truck": 1,
+    "sedan": 30,
+    "suv": 16,
+    "taxi": 1
+   },
+   "placed_pedestrians": 69,
+   "placed_vehicles": 50,
+   "reason": null,
+   "seconds": 47.15,
+   "snapshot": {
+    "building_footprints_tested": 123,
+    "density_lane_km": 11.569,
+    "density_sidewalk_m2": 16052,
+    "density_target_pedestrians": 281.2,
+    "density_target_vehicles": 390.0,
+    "dow": 2,
+    "hour": 14,
+    "lanes_considered": 129,
+    "lanes_with_nta": 129,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.72,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_archetypes_available": 36,
+    "npc_bodies_imported": 30,
+    "npc_templates_baked": 56,
+    "pavement_polygons_tested": 414,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 497,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 459
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 641835,
+   "vehicle_lods": {
+    "LOD1": 10,
+    "LOD2": 40
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 504732
+  },
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-5_-1",
+    "t_-5_-2",
+    "t_-5_-3",
+    "t_-6_-1",
+    "t_-6_-2",
+    "t_-6_-3",
+    "t_-7_-2"
+   ],
+   "landmark_bins_suppressed": 0,
+   "landmark_faces_suppressed": 0,
+   "lod_substituted": [],
+   "missing": [
+    "t_-7_-1",
+    "t_-7_-3"
+   ],
+   "new_jersey": [],
+   "per_tile": {
+    "t_-5_-1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 11,
+     "triangles": 4080
+    },
+    "t_-5_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 12,
+     "triangles": 45926
+    },
+    "t_-5_-3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 13,
+     "triangles": 26322
+    },
+    "t_-6_-1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 8,
+     "triangles": 4068
+    },
+    "t_-6_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 7,
+     "triangles": 6252
+    },
+    "t_-6_-3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 13,
+     "triangles": 12236
+    },
+    "t_-7_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 3,
+     "triangles": 734
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 7,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 2,
+   "tiles_wanted": 9,
+   "tiles_with_new_jersey": 0,
+   "triangle_budget": 3510000,
+   "triangles": 99618
+  },
+  "centre_tm": [
+   -5639.51,
+   -1284.35
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 29,
+    "cornice": 268,
+    "door_entry": 50,
+    "hvac": 12,
+    "quoin": 350,
+    "string_course": 191,
+    "window": 5491
+   },
+   "placed": 6391,
+   "radius_m": 306.853724570713,
+   "records_in_range": 6391,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-6_-1",
+    "t_-6_-2"
+   ],
+   "triangles": 1775122,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 420.4,
+     "id": "b_governors_island",
+     "lod": 0,
+     "name": "Governors Island: Castle Williams and Fort Jay",
+     "own_ground_note": {
+      "above_heightmap_m": 1.38,
+      "heightmap_median_m": 2.62,
+      "reason": "the model's ground stands +1.38 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
+     "triangles": 4122
+    },
+    {
+     "distance_m": 781.3,
+     "id": "b_hugh_carey_portals",
+     "lod": 0,
+     "name": "Hugh L. Carey Tunnel",
+     "own_ground_note": {
+      "above_heightmap_m": -3.2,
+      "heightmap_median_m": 3.2,
+      "reason": "the model's ground stands -3.20 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
+     "triangles": 43880
+    },
+    {
+     "distance_m": 1436.9,
+     "id": "c_whitehall_and_st_george_ferry_terminals",
+     "lod": 0,
+     "name": "Whitehall, Battery Maritime and St. George ferry terminals",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 77605
+    }
+   ],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
+   "placed": 3,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 125607
+  },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brown_brick": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.22,
+      "texture_albedo": 0.2375
+     },
+     "asset_id": "Bricks054",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brownstone": {
+     "albedo": {
+      "scale": 2.682,
+      "target_albedo": 0.2367,
+      "texture_albedo": 0.0882
+     },
+     "asset_id": "Travertine005",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete": {
+     "albedo": {
+      "scale": 1.799,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.2965
+     },
+     "asset_id": "Concrete037",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "granite": {
+     "albedo": {
+      "scale": 0.859,
+      "target_albedo": 0.39,
+      "texture_albedo": 0.4542
+     },
+     "asset_id": "Granite002A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "limestone": {
+     "albedo": {
+      "scale": 1.128,
+      "target_albedo": 0.66,
+      "texture_albedo": 0.5853
+     },
+     "asset_id": "Travertine009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "precast": {
+     "albedo": {
+      "scale": 1.273,
+      "target_albedo": 0.6133,
+      "texture_albedo": 0.4818
+     },
+     "asset_id": "Concrete034",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "stone_rubble": {
+     "albedo": {
+      "scale": 2.415,
+      "target_albedo": 0.4233,
+      "texture_albedo": 0.1753
+     },
+     "asset_id": "Bricks102",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "stucco": {
+     "albedo": {
+      "scale": 1.0,
+      "target_albedo": 0.6667,
+      "texture_albedo": 0.6543
+     },
+     "asset_id": "Plaster001",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "vinyl_siding": {
+     "albedo": {
+      "scale": 1.402,
+      "target_albedo": 0.6867,
+      "texture_albedo": 0.4898
+     },
+     "asset_id": "WoodSiding009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.626,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "wood_clapboard": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 1.384,
+      "scale": 4.0,
+      "target_albedo": 0.5467,
+      "texture_albedo": 0.0988
+     },
+     "asset_id": "WoodSiding013",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.032,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    }
+   },
+   "enabled": true,
+   "flat": {
+    "glass_curtain": "analytic: the catalogue has no photographic set for it"
+   },
+   "resolution": "2K",
+   "slots": 201
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "curb": 2173,
+    "marking_white": 319,
+    "marking_yellow": 196,
+    "median": 149,
+    "parking_lot": 166,
+    "plaza": 1,
+    "roadbed": 4561,
+    "sidewalk": 2145
+   },
+   "placed": 9710,
+   "radius_m": 900.0,
+   "tiles_missing": [
+    "t_-7_-3"
+   ],
+   "tiles_read": [
+    "t_-5_-1",
+    "t_-5_-2",
+    "t_-6_-1",
+    "t_-6_-2",
+    "t_-6_-3",
+    "t_-7_-1",
+    "t_-7_-2"
+   ],
+   "triangles": 63139,
+   "triangles_cut_for_landmark_ground": 0,
+   "vertices": 82543
+  },
+  "props": {
+   "capped": "triangle budget 1437042",
+   "impostor_cards_dropped": 3,
+   "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 8
+   },
+   "leaf_off": false,
+   "per_kind": {
+    "bike_rack": 1,
+    "citibike_dock": 1,
+    "manhole": 39,
+    "street_lamp": 6,
+    "tree": 271,
+    "waste_basket": 1
+   },
+   "placed": 319,
+   "radius_m": 436.853724570713,
+   "rows_in_range": 1282,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-6_-1",
+    "t_-6_-2",
+    "t_-7_-2"
+   ],
+   "tree_instances_scaled": 270,
+   "tree_mean_scale": 0.915,
+   "tree_scale_out_of_band": 1,
+   "tree_species_substituted": 271,
+   "triangles": 1441610,
+   "unmapped_kinds": {
+    "artwork": 1,
+    "drinking_fountain": 1,
+    "swimming_pool": 1
+   }
+  },
+  "radius_m": 1118.4512600609223,
+  "seconds": 71.87,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
+   "samples": 231,
+   "spacing_m": 2.0,
+   "triangles": 105800,
+   "water_bodies": [
+    {
+     "kind": "bay",
+     "name": "BUTTERMILK CHANNEL",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "BUTTERMILK CHANNEL",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "BUTTERMILK CHANNEL",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "UPPER NEW YORK BAY",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "UPPER NEW YORK BAY",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "EAST RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "EAST RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    }
+   ],
+   "water_quads": 15567,
+   "z_max_m": 14.57,
+   "z_min_m": -1.9
+  },
+  "triangles": 4252731
+ },
+ "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
+  "kit_radius_m": 306.853724570713,
+  "prop_radius_m": 436.853724570713,
+  "radius_m": 1118.4512600609223
+ },
+ "seconds": {
+  "render": 59.5,
+  "scene": 73.6,
+  "total": 133.0
+ },
+ "sightline": {
+  "subject_note": "the highest built thing at the subject's coordinate is lm_b_governors_island.12, 0.7 m above the ground there -- below the 2 m at which a subject has a height worth aiming or framing by; no sightline was tested",
+  "subject_visible": null
+ },
+ "slug": "landmark_fort_jay",
+ "status": "rendered",
+ "subject": {
+  "distance_from": "the placed camera, after the clearance walk",
+  "distance_m": 332.2,
+  "height_probe": {
+   "ground_z_m": 10.01,
+   "highest_built_z_m": 10.7,
+   "nearest_catalogue_origin": {
+    "distance_m": 162.8,
+    "height_m": 12.19,
+    "id": "b_governors_island",
+    "within_120_m": false
+   },
+   "note": "the highest built thing at the subject's coordinate is lm_b_governors_island.12, 0.7 m above the ground there -- below the 2 m at which a subject has a height worth aiming or framing by",
+   "object": "lm_b_governors_island.12",
+   "rays_cast": 17,
+   "rays_on_built_fabric": 17,
+   "z": null
+  },
+  "name": "Fort Jay (Governors Island)",
+  "origin_distance_m": 332.2
+ },
+ "sun": {
+  "azimuth_deg": 236.4765334790203,
+  "elevation_deg": 63.60540278726523,
+  "local": "2010-06-20T14:33:00-04:00",
+  "time_source": "EXIF DateTimeOriginal (minutes)",
+  "utc": "2010-06-20T18:33:00Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 0.0,
+  "lat": 40.690009,
+  "lon": -74.016008,
+  "note": "the parade ground south of the fort, about 150 m from the sally port, looking north at the Fort Jay gate and its sculpted trophy"
+ }
+}

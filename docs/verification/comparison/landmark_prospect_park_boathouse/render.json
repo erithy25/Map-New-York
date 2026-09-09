@@ -1,0 +1,940 @@
+{
+ "agent_request": {
+  "dow": 1,
+  "hour": 17,
+  "local_clock": "2015-05-02 17:30 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "58.6 deg, the bearing from this photograph's own GPS position to Prospect Park Boathouse; heading and position both come from the photograph.  The item's recorded azimuth is 300.0 deg, 118.6 deg away, and belongs to its nominal viewpoint",
+ "camera": {
+  "azimuth_deg": 58.646473481178056,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "below_point_excluded": null,
+   "chosen_m": 19.35,
+   "max_m": 19.91,
+   "median_m": 19.44,
+   "min_m": 19.11,
+   "mode": "local",
+   "percentile": null,
+   "point_m": 19.35,
+   "radius_m": 5.0,
+   "samples": 16
+  },
+  "ground_mode": "local",
+  "ground_source": "no surface named in the note; heightmap median within 5 m",
+  "hfov_deg": 54.432,
+  "lat": 40.660211,
+  "lon": -73.966618,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 2.1741786983706577,
+  "portrait": false,
+  "resolution": [
+   1280,
+   848
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_prospect_park_boathouse",
+  "terrain_z_m": 19.352,
+  "x": -1405.314,
+  "y": -4418.345,
+  "z": 20.952
+ },
+ "camera_caption": "camera 40.66021, -73.96662 (NYC_TM -1405, -4418) z 21.0 m NAVD88 | azimuth 58.6deg pitch +2.2deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x848",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.660211,
+  "lon": -73.966618,
+  "offset_from_recorded_m": 185.0,
+  "source": "this photograph's own EXIF camera GPS (40.66021, -73.96662), 185 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
+ "clearance": {
+  "min_view_m": 66.4,
+  "moved": false,
+  "nearest_agent": null,
+  "nearest_agent_m": null,
+  "nearest_agent_probe_m": 60.0,
+  "nearest_obstruction": null,
+  "nearest_obstruction_at_deg": [
+   0.0,
+   0.0
+  ],
+  "nearest_obstruction_m": 60.0,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; nothing built stands within 60 m of the lens, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 125 m",
+  "offset_m": 0.0,
+  "view_m": 124.6
+ },
+ "frame": {
+  "mean": 0.4332,
+  "reason": null,
+  "sd": 0.1475,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.03765593841671944,
+  "direct_normal_irradiance_w_m2": 726.7,
+  "emissive": {
+   "cone_faces_deleted": 24,
+   "cones_hidden": 2,
+   "lamps_switched_off": 3,
+   "night": false,
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.75,
+  "sky_azimuth_deg": 268.758,
+  "sky_elevation_deg": 25.654,
+  "sun_lamp": true,
+  "sun_strength_blender": 2.541,
+  "view_transform": "Filmic"
+ },
+ "name": "Prospect Park Boathouse",
+ "night": false,
+ "pitch_reason": "aimed at Prospect Park Boathouse 133 m away, at its mid-height (the top of lm_b_prospect_park_boathouse.9, the built thing standing at the subject's coordinate, 12 m above the ground there); +2.2 deg from horizontal",
+ "reference_photo": {
+  "author": "King of Hearts",
+  "confidence": "high",
+  "date_taken": "2015-05-02",
+  "estimated_azimuth_deg": 58.5,
+  "file": "1.jpg",
+  "height": 1272,
+  "licence": "CC BY-SA 3.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Prospect_Park_New_York_May_2015_005.jpg",
+  "title": "File:Prospect Park New York May 2015 005.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_prospect_park_boathouse/render.png",
+ "rendered_at": "2026-09-09T06:54:13Z",
+ "resolution_note": "1280x848; the reference photograph is 1920x1272 (1.51:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "agents": {
+   "caption": "Agents: 32 vehicles within 320 m and 11 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 98 vehicles and 69 people over the whole simulated ring, of which 119 and 104 were simulated; 180 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 9,
+    "pedestrian_not_on_walkable_surface": 38,
+    "pedestrian_outside_radius": 46,
+    "vehicle_body_has_no_rider": 1,
+    "vehicle_not_on_carriageway": 4,
+    "vehicle_outside_radius": 82
+   },
+   "ped_lods": {
+    "LOD2": 11
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 14585,
+   "per_class": {
+    "black_car": 6,
+    "boro_taxi": 2,
+    "sedan": 19,
+    "suv": 4,
+    "taxi": 1
+   },
+   "placed_pedestrians": 11,
+   "placed_vehicles": 32,
+   "reason": null,
+   "seconds": 13.85,
+   "snapshot": {
+    "building_footprints_tested": 63,
+    "density_lane_km": 9.484,
+    "density_sidewalk_m2": 9122,
+    "density_target_pedestrians": 69.3,
+    "density_target_vehicles": 98.0,
+    "dow": 1,
+    "hour": 17,
+    "lanes_considered": 75,
+    "lanes_with_nta": 74,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.66,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_archetypes_available": 36,
+    "npc_bodies_imported": 11,
+    "npc_templates_baked": 11,
+    "pavement_polygons_tested": 169,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 104,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 119
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 197686,
+   "vehicle_lods": {
+    "LOD2": 32
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 183101
+  },
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-1_-4",
+    "t_-1_-5",
+    "t_-1_-6",
+    "t_-2_-4",
+    "t_-2_-5",
+    "t_-2_-6",
+    "t_-3_-4",
+    "t_-3_-5"
+   ],
+   "landmark_bins_suppressed": 4,
+   "landmark_faces_suppressed": 862,
+   "lod_substituted": [],
+   "missing": [],
+   "new_jersey": [],
+   "per_tile": {
+    "t_-1_-4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 14,
+     "triangles": 47510
+    },
+    "t_-1_-5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 15,
+     "triangles": 170122
+    },
+    "t_-1_-6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 13,
+     "triangles": 46160
+    },
+    "t_-2_-4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 13,
+     "triangles": 21840
+    },
+    "t_-2_-5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 10,
+     "triangles": 6344
+    },
+    "t_-2_-6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 13,
+     "triangles": 60274
+    },
+    "t_-3_-4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 16,
+     "triangles": 71386
+    },
+    "t_-3_-5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 10,
+     "triangles": 123148
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 8,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 0,
+   "tiles_wanted": 8,
+   "tiles_with_new_jersey": 0,
+   "triangle_budget": 3510000,
+   "triangles": 546784
+  },
+  "centre_tm": [
+   -1405.31,
+   -4418.35
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "door_entry": 5,
+    "parapet": 22,
+    "pilaster": 4,
+    "window": 69
+   },
+   "placed": 100,
+   "radius_m": 305.04780407889916,
+   "records_in_range": 221,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 121,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-2_-5"
+   ],
+   "triangles": 25760,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 132.3,
+     "id": "b_prospect_park_boathouse",
+     "lod": 0,
+     "name": "Prospect Park Boathouse (Audubon Center)",
+     "own_ground_m2": 594.7,
+     "own_ground_note": {
+      "above_heightmap_m": 0.0,
+      "heightmap_median_m": 20.42
+     },
+     "own_ground_parts": 1,
+     "triangles": 6176
+    }
+   ],
+   "own_ground_from": [
+    "b_prospect_park_boathouse"
+   ],
+   "own_ground_m2": 594.7,
+   "placed": 1,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 6176
+  },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brown_brick": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.22,
+      "texture_albedo": 0.2375
+     },
+     "asset_id": "Bricks054",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brownstone": {
+     "albedo": {
+      "scale": 2.682,
+      "target_albedo": 0.2367,
+      "texture_albedo": 0.0882
+     },
+     "asset_id": "Travertine005",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "cast_iron": {
+     "albedo": {
+      "scale": 0.323,
+      "target_albedo": 0.1667,
+      "texture_albedo": 0.5157
+     },
+     "asset_id": "Metal055A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete": {
+     "albedo": {
+      "scale": 1.799,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.2965
+     },
+     "asset_id": "Concrete037",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "granite": {
+     "albedo": {
+      "scale": 0.859,
+      "target_albedo": 0.39,
+      "texture_albedo": 0.4542
+     },
+     "asset_id": "Granite002A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "limestone": {
+     "albedo": {
+      "scale": 1.128,
+      "target_albedo": 0.66,
+      "texture_albedo": 0.5853
+     },
+     "asset_id": "Travertine009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "precast": {
+     "albedo": {
+      "scale": 1.273,
+      "target_albedo": 0.6133,
+      "texture_albedo": 0.4818
+     },
+     "asset_id": "Concrete034",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "stone_rubble": {
+     "albedo": {
+      "scale": 2.415,
+      "target_albedo": 0.4233,
+      "texture_albedo": 0.1753
+     },
+     "asset_id": "Bricks102",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "stucco": {
+     "albedo": {
+      "scale": 1.0,
+      "target_albedo": 0.6667,
+      "texture_albedo": 0.6543
+     },
+     "asset_id": "Plaster001",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "terracotta": {
+     "albedo": {
+      "scale": 0.945,
+      "target_albedo": 0.3833,
+      "texture_albedo": 0.4055
+     },
+     "asset_id": "Marble026",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "vinyl_siding": {
+     "albedo": {
+      "scale": 1.402,
+      "target_albedo": 0.6867,
+      "texture_albedo": 0.4898
+     },
+     "asset_id": "WoodSiding009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.626,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "white_glazed_brick": {
+     "albedo": {
+      "scale": 1.13,
+      "target_albedo": 0.7767,
+      "texture_albedo": 0.6874
+     },
+     "asset_id": "Bricks060",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "wood_clapboard": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 1.384,
+      "scale": 4.0,
+      "target_albedo": 0.5467,
+      "texture_albedo": 0.0988
+     },
+     "asset_id": "WoodSiding013",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.032,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    }
+   },
+   "enabled": true,
+   "flat": {
+    "glass_curtain": "analytic: the catalogue has no photographic set for it"
+   },
+   "resolution": "2K",
+   "slots": 251
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 118,
+    "curb": 531,
+    "marking_white": 2848,
+    "marking_yellow": 180,
+    "median": 136,
+    "parking_lot": 100,
+    "plaza": 5,
+    "roadbed": 945,
+    "sidewalk": 1506
+   },
+   "placed": 6369,
+   "radius_m": 797.3826202697552,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-1_-4",
+    "t_-1_-5",
+    "t_-1_-6",
+    "t_-2_-4",
+    "t_-2_-5",
+    "t_-2_-6",
+    "t_-3_-4",
+    "t_-3_-5"
+   ],
+   "triangles": 116103,
+   "triangles_cut_for_landmark_ground": 0,
+   "vertices": 128483
+  },
+  "props": {
+   "capped": "triangle budget 1308873",
+   "impostor_cards_dropped": 11,
+   "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 8
+   },
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 145,
+    "bike_rack": 3,
+    "bus_stop_sign": 2,
+    "citibike_dock": 1,
+    "hydrant": 3,
+    "mailbox": 1,
+    "manhole": 73,
+    "street_lamp": 73,
+    "tree": 159,
+    "waste_basket": 3
+   },
+   "placed": 463,
+   "radius_m": 435.04780407889916,
+   "rows_in_range": 647,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-1_-5",
+    "t_-2_-4",
+    "t_-2_-5"
+   ],
+   "tree_instances_scaled": 159,
+   "tree_mean_scale": 0.959,
+   "tree_scale_out_of_band": 0,
+   "tree_species_substituted": 140,
+   "triangles": 1310578,
+   "unmapped_kinds": {
+    "artwork": 2,
+    "drinking_fountain": 4,
+    "memorial": 7,
+    "parks_building": 3,
+    "parks_comfort_station": 2
+   }
+  },
+  "radius_m": 797.3826202697552,
+  "seconds": 33.48,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 147,
+   "samples": 215,
+   "spacing_m": 2.0,
+   "triangles": 91298,
+   "water_bodies": [
+    {
+     "kind": "lake",
+     "name": "PROSPECT LAKE",
+     "water_z_m": 19.21
+    },
+    {
+     "kind": "lake",
+     "name": "lake",
+     "water_z_m": 22.46
+    },
+    {
+     "kind": "marsh",
+     "name": "marsh",
+     "water_z_m": null
+    },
+    {
+     "kind": "pond",
+     "name": "Ambergill Pond",
+     "water_z_m": 33.86
+    },
+    {
+     "kind": "pond",
+     "name": "Binnen Water",
+     "water_z_m": 25.37
+    },
+    {
+     "kind": "pond",
+     "name": "Duck and Waterfowl",
+     "water_z_m": 26.58
+    },
+    {
+     "kind": "pond",
+     "name": "Upper Pool",
+     "water_z_m": 35.97
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 38.19
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 30.13
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 27.08
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 27.4
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 25.99
+    },
+    {
+     "kind": "river",
+     "name": "Binnen Water",
+     "water_z_m": null
+    },
+    {
+     "kind": "river",
+     "name": "river",
+     "water_z_m": null
+    },
+    {
+     "kind": "river",
+     "name": "river",
+     "water_z_m": null
+    },
+    {
+     "kind": "river",
+     "name": "river",
+     "water_z_m": null
+    },
+    {
+     "kind": "river",
+     "name": "river",
+     "water_z_m": null
+    },
+    {
+     "kind": "river",
+     "name": "river",
+     "water_z_m": null
+    }
+   ],
+   "water_quads": 5084,
+   "z_max_m": 57.47,
+   "z_min_m": 12.5
+  },
+  "triangles": 2294385
+ },
+ "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
+  "kit_radius_m": 305.04780407889916,
+  "prop_radius_m": 435.04780407889916,
+  "radius_m": 797.3826202697552
+ },
+ "seconds": {
+  "render": 33.0,
+  "scene": 33.7,
+  "total": 66.7
+ },
+ "sightline": {
+  "subject_aimed_at": "the subject's mid-height, 5.8 m above its ground",
+  "subject_blocked_at_m": 72.0,
+  "subject_blocked_by": "prop_lamp_cobra_davit_6",
+  "subject_fan_from": "the 12 m floor: the subject measures 11.5 m, which is under it, so the fan is the floor rather than the subject",
+  "subject_fan_half_angle_deg": 2.59,
+  "subject_fan_m": 12.0,
+  "subject_lands_at_m": 127.3,
+  "subject_lands_on": "lm_b_prospect_park_boathouse.1",
+  "subject_range_m": 132.8,
+  "subject_rays": 5,
+  "subject_rays_clear": 1,
+  "subject_rays_into_nothing": 0,
+  "subject_rays_on_subject": 1,
+  "subject_reach_m": 25.0,
+  "subject_visible": false
+ },
+ "slug": "landmark_prospect_park_boathouse",
+ "status": "rendered",
+ "subject": {
+  "distance_from": "the placed camera, after the clearance walk",
+  "distance_m": 132.7,
+  "height_probe": {
+   "ground_z_m": 20.01,
+   "height_above_ground_m": 11.96,
+   "nearest_catalogue_origin": {
+    "distance_m": 0.4,
+    "height_m": 11.55,
+    "id": "b_prospect_park_boathouse",
+    "within_120_m": true
+   },
+   "object": "lm_b_prospect_park_boathouse.9",
+   "rays_cast": 17,
+   "rays_on_built_fabric": 17,
+   "z": 31.97
+  },
+  "name": "Prospect Park Boathouse",
+  "origin_distance_m": 132.7
+ },
+ "sun": {
+  "azimuth_deg": 268.7580239446071,
+  "elevation_deg": 25.654130790884075,
+  "local": "2015-05-02T17:30:00-04:00",
+  "time_source": "photograph date, no time, and 17:30 **chosen**, not measured: of the hours that put the Sun above 20 deg it is the one whose bearing (269 deg) comes closest to the view azimuth (300 deg), 31 deg off, so the Sun is behind the camera and lights what it looks at",
+  "utc": "2015-05-02T21:30:00Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 300.0,
+  "lat": 40.660473,
+  "lon": -73.964457,
+  "note": "the Lullwater bank about 80 m east-south-east of the Boathouse, looking west-north-west at the terracotta facade above the water"
+ }
+}

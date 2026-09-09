@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_two_times_square",
+ "rendered_at": "2026-09-09T08:23:27Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 852,
+  "mean": 0.3976,
+  "sd": 0.2186,
+  "p05": 0.0426,
+  "p95": 0.8417,
+  "chroma": 0.0415
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1278,
+  "mean": 0.352,
+  "sd": 0.2001,
+  "p05": 0.0549,
+  "p95": 0.7287,
+  "chroma": 0.0942
+ },
+ "render_over_reference": {
+  "mean": 1.13,
+  "sd": 1.092,
+  "chroma": 0.441
+ }
+}

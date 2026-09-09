@@ -1,0 +1,30 @@
+{
+ "slug": "street_nycha_tower_campus",
+ "rendered_at": "2026-09-09T09:33:02Z",
+ "reference_file": "3.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 904,
+  "height": 1206,
+  "mean": 0.2632,
+  "sd": 0.1615,
+  "p05": 0.102,
+  "p95": 0.5997,
+  "chroma": 0.0593
+ },
+ "reference": {
+  "width": 1280,
+  "height": 1707,
+  "mean": 0.4918,
+  "sd": 0.2624,
+  "p05": 0.1781,
+  "p95": 1.0,
+  "chroma": 0.0509
+ },
+ "render_over_reference": {
+  "mean": 0.535,
+  "sd": 0.615,
+  "chroma": 1.165
+ }
+}

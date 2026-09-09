@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_roosevelt_island_tram",
+ "rendered_at": "2026-09-09T07:22:04Z",
+ "reference_file": "2.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 852,
+  "height": 1278,
+  "mean": 0.3,
+  "sd": 0.1524,
+  "p05": 0.1729,
+  "p95": 0.5688,
+  "chroma": 0.0732
+ },
+ "reference": {
+  "width": 1920,
+  "height": 2880,
+  "mean": 0.4922,
+  "sd": 0.3426,
+  "p05": 0.0577,
+  "p95": 0.9653,
+  "chroma": 0.0472
+ },
+ "render_over_reference": {
+  "mean": 0.61,
+  "sd": 0.445,
+  "chroma": 1.551
+ }
+}

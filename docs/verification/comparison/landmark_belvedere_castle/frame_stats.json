@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_belvedere_castle",
+ "rendered_at": "2026-09-09T03:58:21Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 720,
+  "mean": 0.3797,
+  "sd": 0.104,
+  "p05": 0.2062,
+  "p95": 0.5357,
+  "chroma": 0.0903
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1080,
+  "mean": 0.4488,
+  "sd": 0.2221,
+  "p05": 0.1098,
+  "p95": 0.7622,
+  "chroma": 0.1785
+ },
+ "render_over_reference": {
+  "mean": 0.846,
+  "sd": 0.468,
+  "chroma": 0.506
+ }
+}

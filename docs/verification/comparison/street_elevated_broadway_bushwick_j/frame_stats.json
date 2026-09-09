@@ -1,0 +1,30 @@
+{
+ "slug": "street_elevated_broadway_bushwick_j",
+ "rendered_at": "2026-09-09T08:52:40Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.2898,
+  "sd": 0.1281,
+  "p05": 0.0314,
+  "p95": 0.4635,
+  "chroma": 0.0427
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.4255,
+  "sd": 0.2767,
+  "p05": 0.0941,
+  "p95": 0.8979,
+  "chroma": 0.0719
+ },
+ "render_over_reference": {
+  "mean": 0.681,
+  "sd": 0.463,
+  "chroma": 0.594
+ }
+}

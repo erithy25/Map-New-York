@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_tsx_broadway",
+ "rendered_at": "2026-09-09T08:16:44Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 854,
+  "mean": 0.1495,
+  "sd": 0.1099,
+  "p05": 0.0182,
+  "p95": 0.296,
+  "chroma": 0.0348
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1280,
+  "mean": 0.3792,
+  "sd": 0.2188,
+  "p05": 0.1003,
+  "p95": 0.7773,
+  "chroma": 0.1101
+ },
+ "render_over_reference": {
+  "mean": 0.394,
+  "sd": 0.502,
+  "chroma": 0.316
+ }
+}

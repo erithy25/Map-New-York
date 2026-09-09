@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_moynihan_train_hall",
+ "rendered_at": "2026-09-09T06:30:34Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.16,
+  "sd": 0.0594,
+  "p05": 0.0969,
+  "p95": 0.2518,
+  "chroma": 0.0304
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.3653,
+  "sd": 0.2747,
+  "p05": 0.0308,
+  "p95": 0.8835,
+  "chroma": 0.0322
+ },
+ "render_over_reference": {
+  "mean": 0.438,
+  "sd": 0.216,
+  "chroma": 0.944
+ }
+}

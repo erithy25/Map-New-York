@@ -1,0 +1,833 @@
+{
+ "agent_request": {
+  "dow": 1,
+  "hour": 14,
+  "local_clock": "2026-03-14 14:40 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "16.1 deg, the bearing from this photograph's own GPS position to General Grant National Memorial (Grant's Tomb); heading and position both come from the photograph.  The item's recorded azimuth is 0.0 deg, 16.1 deg away, and belongs to its nominal viewpoint",
+ "camera": {
+  "azimuth_deg": 16.09052794700837,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "below_point_excluded": 0,
+   "chosen_m": 38.47,
+   "max_m": 39.22,
+   "median_m": 38.7,
+   "min_m": 38.42,
+   "mode": "street",
+   "percentile": 10.0,
+   "point_m": 38.77,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 42.163,
+  "lat": 40.812321,
+  "lon": -73.96344,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": true,
+  "resolution": [
+   904,
+   1206
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_grants_tomb",
+  "terrain_z_m": 38.473,
+  "x": -1133.978,
+  "y": 12473.244,
+  "z": 40.073
+ },
+ "camera_caption": "camera 40.81232, -73.96344 (NYC_TM -1134, 12473) z 40.1 m NAVD88 | azimuth 16.1deg pitch +0.0deg | 35 mm on 36 mm (42.2deg horizontal, 54.4deg vertical, portrait) | 904x1206",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.812321,
+  "lon": -73.96344,
+  "offset_from_recorded_m": 33.2,
+  "source": "this photograph's own EXIF camera GPS (40.81232, -73.96344), 33 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
+ "clearance": {
+  "min_view_m": 58.5,
+  "moved": false,
+  "nearest_agent": null,
+  "nearest_agent_m": null,
+  "nearest_agent_probe_m": 60.0,
+  "nearest_obstruction": "prop_tree_planetree_medium_bare_15",
+  "nearest_obstruction_at_deg": [
+   21.1,
+   27.2
+  ],
+  "nearest_obstruction_m": 36.2,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_tree_planetree_medium_bare_15 36.2 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 117 m",
+  "offset_m": 0.0,
+  "view_m": 117.1
+ },
+ "frame": {
+  "mean": 0.4206,
+  "reason": null,
+  "sd": 0.1317,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.03316769003868103,
+  "direct_normal_irradiance_w_m2": 851.0,
+  "emissive": {
+   "cone_faces_deleted": 24,
+   "cones_hidden": 2,
+   "lamps_switched_off": 4,
+   "night": false,
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.05,
+  "sky_azimuth_deg": 212.75,
+  "sky_elevation_deg": 41.73,
+  "sun_lamp": true,
+  "sun_strength_blender": 2.975,
+  "view_transform": "Filmic"
+ },
+ "name": "General Grant National Memorial (Grant's Tomb)",
+ "night": false,
+ "pitch_reason": "level optical axis (General Grant National Memorial (Grant's Tomb) is 117 m away and would need +8 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "reference_photo": {
+  "author": "Epicgenius",
+  "confidence": "high",
+  "date_taken": "2026-03-14 14:40:17",
+  "estimated_azimuth_deg": 16.0,
+  "file": "1.jpg",
+  "height": 2560,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Grant%27s_Tomb_Mar_2026_03.jpg",
+  "title": "File:Grant's Tomb Mar 2026 03.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_grants_tomb/render.png",
+ "rendered_at": "2026-09-09T05:20:04Z",
+ "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "agents": {
+   "caption": "Agents: 53 vehicles within 320 m and 388 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 195 vehicles and 808 people over the whole simulated ring, of which 320 and 1406 were simulated; 1285 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 189,
+    "pedestrian_not_on_walkable_surface": 95,
+    "pedestrian_outside_radius": 546,
+    "pedestrian_triangle_budget": 188,
+    "vehicle_body_has_no_rider": 21,
+    "vehicle_not_on_carriageway": 2,
+    "vehicle_outside_radius": 125,
+    "vehicle_triangle_budget": 119
+   },
+   "ped_lods": {
+    "LOD1": 19,
+    "LOD2": 369
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 578162,
+   "per_class": {
+    "black_car": 3,
+    "mta_bus": 1,
+    "sedan": 36,
+    "suv": 11,
+    "taxi": 2
+   },
+   "placed_pedestrians": 388,
+   "placed_vehicles": 53,
+   "reason": null,
+   "seconds": 105.23,
+   "snapshot": {
+    "building_footprints_tested": 725,
+    "density_lane_km": 21.785,
+    "density_sidewalk_m2": 20318,
+    "density_target_pedestrians": 808.0,
+    "density_target_vehicles": 195.2,
+    "dow": 1,
+    "hour": 14,
+    "lanes_considered": 176,
+    "lanes_with_nta": 176,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.63,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_archetypes_available": 36,
+    "npc_bodies_imported": 36,
+    "npc_templates_baked": 173,
+    "pavement_polygons_tested": 1293,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 1406,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 320
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1082008,
+   "vehicle_lods": {
+    "LOD1": 9,
+    "LOD2": 44
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 503846
+  },
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-1_11",
+    "t_-1_12",
+    "t_-1_13",
+    "t_-2_11",
+    "t_-2_12",
+    "t_-2_13"
+   ],
+   "landmark_bins_suppressed": 4,
+   "landmark_faces_suppressed": 716,
+   "lod_substituted": [],
+   "missing": [],
+   "new_jersey": [
+    "t_-2_13"
+   ],
+   "per_tile": {
+    "t_-1_11": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 15,
+     "triangles": 114344
+    },
+    "t_-1_12": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 15,
+     "triangles": 64516
+    },
+    "t_-1_13": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 13,
+     "triangles": 24622
+    },
+    "t_-2_11": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 13,
+     "triangles": 76998
+    },
+    "t_-2_12": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 11,
+     "triangles": 6504
+    },
+    "t_-2_13": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 0,
+     "objects": 4,
+     "triangles": 200
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 6,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 0,
+   "tiles_wanted": 6,
+   "tiles_with_new_jersey": 1,
+   "triangle_budget": 3510000,
+   "triangles": 287184
+  },
+  "centre_tm": [
+   -1133.98,
+   12473.24
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 7,
+    "cornice": 14,
+    "door_entry": 10,
+    "hvac": 14,
+    "parapet": 14,
+    "quoin": 16,
+    "storefront": 79,
+    "storefront_interior": 4,
+    "string_course": 20,
+    "water_tower": 3,
+    "window": 2376
+   },
+   "placed": 2557,
+   "radius_m": 153.24274374074474,
+   "records_in_range": 3408,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 851,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-1_12",
+    "t_-2_12"
+   ],
+   "triangles": 681186,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 49.7,
+     "id": "c_riverside_church",
+     "lod": 0,
+     "name": "Riverside Church",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 18842
+    },
+    {
+     "distance_m": 130.9,
+     "id": "b_grants_tomb",
+     "lod": 0,
+     "name": "General Grant National Memorial",
+     "own_ground_m2": 1452.8,
+     "own_ground_note": {
+      "above_heightmap_m": -0.5,
+      "heightmap_median_m": 40.13
+     },
+     "own_ground_parts": 1,
+     "triangles": 10264
+    }
+   ],
+   "own_ground_from": [
+    "b_grants_tomb"
+   ],
+   "own_ground_m2": 1452.8,
+   "placed": 2,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 29106
+  },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brown_brick": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.22,
+      "texture_albedo": 0.2375
+     },
+     "asset_id": "Bricks054",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brownstone": {
+     "albedo": {
+      "scale": 2.682,
+      "target_albedo": 0.2367,
+      "texture_albedo": 0.0882
+     },
+     "asset_id": "Travertine005",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete": {
+     "albedo": {
+      "scale": 1.799,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.2965
+     },
+     "asset_id": "Concrete037",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "granite": {
+     "albedo": {
+      "scale": 0.859,
+      "target_albedo": 0.39,
+      "texture_albedo": 0.4542
+     },
+     "asset_id": "Granite002A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "limestone": {
+     "albedo": {
+      "scale": 1.128,
+      "target_albedo": 0.66,
+      "texture_albedo": 0.5853
+     },
+     "asset_id": "Travertine009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "precast": {
+     "albedo": {
+      "scale": 1.273,
+      "target_albedo": 0.6133,
+      "texture_albedo": 0.4818
+     },
+     "asset_id": "Concrete034",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "stone_rubble": {
+     "albedo": {
+      "scale": 2.415,
+      "target_albedo": 0.4233,
+      "texture_albedo": 0.1753
+     },
+     "asset_id": "Bricks102",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "terracotta": {
+     "albedo": {
+      "scale": 0.945,
+      "target_albedo": 0.3833,
+      "texture_albedo": 0.4055
+     },
+     "asset_id": "Marble026",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "vinyl_siding": {
+     "albedo": {
+      "scale": 1.402,
+      "target_albedo": 0.6867,
+      "texture_albedo": 0.4898
+     },
+     "asset_id": "WoodSiding009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.626,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "white_glazed_brick": {
+     "albedo": {
+      "scale": 1.13,
+      "target_albedo": 0.7767,
+      "texture_albedo": 0.6874
+     },
+     "asset_id": "Bricks060",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "wood_clapboard": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 1.384,
+      "scale": 4.0,
+      "target_albedo": 0.5467,
+      "texture_albedo": 0.0988
+     },
+     "asset_id": "WoodSiding013",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.032,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    }
+   },
+   "enabled": true,
+   "flat": {
+    "glass_curtain": "analytic: the catalogue has no photographic set for it"
+   },
+   "resolution": "2K",
+   "slots": 146
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 305,
+    "curb": 2404,
+    "marking_white": 5555,
+    "marking_yellow": 156,
+    "median": 492,
+    "parking_lot": 40,
+    "plaza": 125,
+    "roadbed": 3938,
+    "sidewalk": 4104
+   },
+   "placed": 17119,
+   "radius_m": 620.3785921714233,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-1_11",
+    "t_-1_12",
+    "t_-1_13",
+    "t_-2_11",
+    "t_-2_12",
+    "t_-2_13"
+   ],
+   "triangles": 117426,
+   "triangles_cut_for_landmark_ground": 5,
+   "vertices": 151443
+  },
+  "props": {
+   "capped": "triangle budget 1394323",
+   "impostor_cards_dropped": 22,
+   "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 76
+   },
+   "leaf_off": true,
+   "per_kind": {
+    "bench": 2,
+    "bike_rack": 7,
+    "bus_shelter": 3,
+    "bus_stop_sign": 8,
+    "citibike_dock": 2,
+    "cooling_tower": 16,
+    "flagpole": 2,
+    "hydrant": 31,
+    "mailbox": 1,
+    "manhole": 91,
+    "street_lamp": 95,
+    "subway_vent_grate": 15,
+    "tree": 260,
+    "waste_basket": 1
+   },
+   "placed": 534,
+   "radius_m": 283.24274374074474,
+   "rows_in_range": 717,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-1_12",
+    "t_-2_12"
+   ],
+   "tree_instances_scaled": 260,
+   "tree_mean_scale": 0.958,
+   "tree_scale_out_of_band": 0,
+   "tree_species_substituted": 89,
+   "triangles": 1395988,
+   "unmapped_kinds": {
+    "artwork": 3,
+    "drinking_fountain": 2,
+    "memorial": 1,
+    "parks_building": 1,
+    "parks_comfort_station": 1
+   }
+  },
+  "radius_m": 620.3785921714233,
+  "seconds": 145.14,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 365,
+   "samples": 205,
+   "spacing_m": 2.0,
+   "triangles": 82502,
+   "water_bodies": [
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    }
+   ],
+   "water_quads": 3174,
+   "z_max_m": 46.76,
+   "z_min_m": -0.1
+  },
+  "triangles": 3675400
+ },
+ "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
+  "kit_radius_m": 153.24274374074474,
+  "prop_radius_m": 283.24274374074474,
+  "radius_m": 620.3785921714233
+ },
+ "seconds": {
+  "render": 48.2,
+  "scene": 146.2,
+  "total": 194.4
+ },
+ "sightline": {
+  "subject_aimed_at": "the subject's mid-height, 17.0 m above its ground",
+  "subject_blocked_at_m": null,
+  "subject_blocked_by": null,
+  "subject_fan_from": "the subject's own measured height (J74)",
+  "subject_fan_half_angle_deg": 8.15,
+  "subject_fan_m": 33.9,
+  "subject_lands_at_m": 112.6,
+  "subject_lands_on": "lm_b_grants_tomb.16",
+  "subject_range_m": 118.4,
+  "subject_rays": 5,
+  "subject_rays_clear": 5,
+  "subject_rays_into_nothing": 0,
+  "subject_rays_on_subject": 5,
+  "subject_reach_m": 25.0,
+  "subject_visible": true
+ },
+ "slug": "landmark_grants_tomb",
+ "status": "rendered",
+ "subject": {
+  "distance_from": "the placed camera, after the clearance walk",
+  "distance_m": 117.0,
+  "height_probe": {
+   "ground_z_m": 40.34,
+   "height_above_ground_m": 34.93,
+   "nearest_catalogue_origin": {
+    "distance_m": 14.3,
+    "height_m": 45.72,
+    "id": "b_grants_tomb",
+    "within_120_m": true
+   },
+   "object": "lm_b_grants_tomb.2",
+   "rays_cast": 17,
+   "rays_on_built_fabric": 17,
+   "z": 75.28
+  },
+  "name": "General Grant National Memorial (Grant's Tomb)",
+  "origin_distance_m": 117.0
+ },
+ "sun": {
+  "azimuth_deg": 212.74986234157188,
+  "elevation_deg": 41.72994676155572,
+  "local": "2026-03-14T14:40:17-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2026-03-14T18:40:17Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 0.0,
+  "lat": 40.812254,
+  "lon": -73.963056,
+  "note": "the Riverside Drive plaza south of the mausoleum, about 120 m from the portico, looking north at the granite dome and colonnade"
+ }
+}

@@ -1,0 +1,860 @@
+{
+ "agent_request": {
+  "dow": 0,
+  "hour": 10,
+  "local_clock": "2026-04-20 10:49 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "29.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: low), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition",
+ "camera": {
+  "azimuth_deg": 29.0,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "below_point_excluded": 0,
+   "chosen_m": 4.32,
+   "max_m": 4.94,
+   "median_m": 4.52,
+   "min_m": 3.7,
+   "mode": "street",
+   "percentile": 10.0,
+   "point_m": 4.57,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 42.163,
+  "lat": 40.7218,
+  "lon": -74.002,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": true,
+  "resolution": [
+   904,
+   1206
+  ],
+  "sensor_mm": 36.0,
+  "slug": "street_soho_cast_iron",
+  "terrain_z_m": 4.321,
+  "x": -4393.373,
+  "y": 2422.154,
+  "z": 5.921
+ },
+ "camera_caption": "camera 40.72180, -74.00200 (NYC_TM -4393, 2422) z 5.9 m NAVD88 | azimuth 29.0deg pitch +0.0deg | 35 mm on 36 mm (42.2deg horizontal, 54.4deg vertical, portrait) | 904x1206",
+ "camera_origin": {
+  "from_photograph_gps": false,
+  "lat": 40.7218,
+  "lon": -74.002,
+  "offset_from_recorded_m": 0.0,
+  "photograph_gps_offset_m": 57.2,
+  "source": "the item's recorded viewpoint.  This photograph's own EXIF GPS is 57 m away, but the eye point there is inside t_-5_2_roof_membrane (a ray straight up from the eye point hits its roof), while the recorded viewpoint is in open air"
+ },
+ "clearance": {
+  "min_view_m": 20.0,
+  "moved": false,
+  "nearest_agent": "agent_ped_1152.0",
+  "nearest_agent_at_deg": [
+   7.0,
+   0.0
+  ],
+  "nearest_agent_m": 36.3,
+  "nearest_agent_measured": "after the cull over the observer",
+  "nearest_agent_probe_m": 60.0,
+  "nearest_obstruction": "t_-5_2_stone_rubble",
+  "nearest_obstruction_at_deg": [
+   21.1,
+   0.0
+  ],
+  "nearest_obstruction_m": 11.2,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is t_-5_2_stone_rubble 11.2 m away, and the nearest simulated agent is agent_ped_1912.0 1.2 m away, and the view azimuth is clear for 150 m",
+  "offset_m": 0.0,
+  "view_m": 150.0
+ },
+ "frame": {
+  "mean": 0.0724,
+  "reason": null,
+  "sd": 0.0854,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "streetscape",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.03200063481926918,
+  "direct_normal_irradiance_w_m2": 887.8,
+  "emissive": {
+   "cone_faces_deleted": 8,
+   "cones_hidden": 1,
+   "lamps_switched_off": 3,
+   "night": false,
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 127.569,
+  "sky_elevation_deg": 49.966,
+  "sun_lamp": true,
+  "sun_strength_blender": 3.104,
+  "view_transform": "Filmic"
+ },
+ "name": "SoHo cast-iron block",
+ "night": false,
+ "pitch_reason": "level optical axis (the reference names no subject to aim at)",
+ "reference_photo": {
+  "author": "This magnificent photo was taken by His Imperial Majesty, an Emperor of Emperors Feel free to use my photos, but please mention me as the author",
+  "confidence": "low",
+  "date_taken": "2026-04-20 10:49:21",
+  "estimated_azimuth_deg": 29.0,
+  "file": "1.jpg",
+  "height": 2560,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:SoHo,_Manhattan_(6).jpg",
+  "title": "File:SoHo, Manhattan (6).jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/street_soho_cast_iron/render.png",
+ "rendered_at": "2026-09-09T09:47:55Z",
+ "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "agents": {
+   "caption": "Agents: 62 vehicles within 320 m and 254 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 831 vehicles and 2070 people over the whole simulated ring, of which 961 and 2524 were simulated; 3169 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "culled_after_camera_move": {
+    "pedestrian_over_the_observer": 4,
+    "vehicle_over_the_observer": 0
+   },
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 232,
+    "pedestrian_inside_building": 35,
+    "pedestrian_not_on_walkable_surface": 225,
+    "pedestrian_outside_radius": 934,
+    "pedestrian_over_the_observer": 4,
+    "pedestrian_triangle_budget": 844,
+    "vehicle_body_has_no_rider": 18,
+    "vehicle_not_on_carriageway": 9,
+    "vehicle_outside_radius": 501,
+    "vehicle_triangle_budget": 371
+   },
+   "ped_lods": {
+    "LOD0": 9,
+    "LOD1": 19,
+    "LOD2": 226
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 579591,
+   "per_class": {
+    "black_car": 3,
+    "boro_taxi": 5,
+    "box_truck": 3,
+    "sedan": 32,
+    "suv": 7,
+    "taxi": 12
+   },
+   "placed_pedestrians": 250,
+   "placed_vehicles": 62,
+   "reason": null,
+   "seconds": 174.84,
+   "snapshot": {
+    "building_footprints_tested": 1285,
+    "density_lane_km": 31.976,
+    "density_sidewalk_m2": 30186,
+    "density_target_pedestrians": 2070.3,
+    "density_target_vehicles": 831.4,
+    "dow": 0,
+    "hour": 10,
+    "lanes_considered": 386,
+    "lanes_with_nta": 386,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.79,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_archetypes_available": 36,
+    "npc_bodies_imported": 36,
+    "npc_templates_baked": 157,
+    "pavement_polygons_tested": 1875,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 2524,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 961
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1085314,
+   "vehicle_lods": {
+    "LOD1": 7,
+    "LOD2": 55
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 505723
+  },
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-4_1",
+    "t_-4_2",
+    "t_-4_3",
+    "t_-5_1",
+    "t_-5_2",
+    "t_-5_3",
+    "t_-6_1",
+    "t_-6_2"
+   ],
+   "landmark_bins_suppressed": 9,
+   "landmark_faces_suppressed": 526,
+   "lod_substituted": [],
+   "missing": [],
+   "new_jersey": [],
+   "per_tile": {
+    "t_-4_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 14,
+     "triangles": 30680
+    },
+    "t_-4_2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 19,
+     "triangles": 113526
+    },
+    "t_-4_3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 18,
+     "triangles": 44340
+    },
+    "t_-5_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 18,
+     "triangles": 57390
+    },
+    "t_-5_2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 18,
+     "triangles": 85418
+    },
+    "t_-5_3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 18,
+     "triangles": 126174
+    },
+    "t_-6_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 18,
+     "triangles": 8256
+    },
+    "t_-6_2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 15,
+     "triangles": 12054
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 8,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 0,
+   "tiles_wanted": 8,
+   "tiles_with_new_jersey": 0,
+   "triangle_budget": 3510000,
+   "triangles": 477838
+  },
+  "centre_tm": [
+   -4376.51,
+   2367.51
+  ],
+  "kit": {
+   "capped": "triangle budget 1174682",
+   "per_category": {
+    "bulkhead": 36,
+    "cornice": 58,
+    "door_entry": 62,
+    "fire_escape": 322,
+    "hvac": 7,
+    "parapet": 18,
+    "pilaster": 194,
+    "quoin": 3,
+    "scaffold": 29,
+    "storefront": 370,
+    "storefront_interior": 49,
+    "string_course": 57,
+    "water_tower": 15,
+    "window": 2745,
+    "window_accessory": 37
+   },
+   "placed": 4002,
+   "radius_m": 177.1892577627835,
+   "records_in_range": 15103,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_2"
+   ],
+   "triangles": 1174840,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 1808.4,
+     "id": "b_holland_tunnel_portals",
+     "lod": 0,
+     "name": "Holland Tunnel",
+     "own_ground_note": {
+      "above_heightmap_m": -2.97,
+      "heightmap_median_m": 2.97,
+      "reason": "the model's ground stands -2.97 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
+     "triangles": 40892
+    },
+    {
+     "distance_m": 1858.8,
+     "id": "b_manhattan_bridge",
+     "lod": 0,
+     "name": "Manhattan Bridge",
+     "own_ground_note": {
+      "above_heightmap_m": -18.53,
+      "heightmap_median_m": 18.53,
+      "reason": "the model's ground stands -18.53 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
+     "triangles": 80700
+    }
+   ],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
+   "placed": 2,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 121592
+  },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brown_brick": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.22,
+      "texture_albedo": 0.2375
+     },
+     "asset_id": "Bricks054",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brownstone": {
+     "albedo": {
+      "scale": 2.682,
+      "target_albedo": 0.2367,
+      "texture_albedo": 0.0882
+     },
+     "asset_id": "Travertine005",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "cast_iron": {
+     "albedo": {
+      "scale": 0.323,
+      "target_albedo": 0.1667,
+      "texture_albedo": 0.5157
+     },
+     "asset_id": "Metal055A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete": {
+     "albedo": {
+      "scale": 1.799,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.2965
+     },
+     "asset_id": "Concrete037",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "granite": {
+     "albedo": {
+      "scale": 0.859,
+      "target_albedo": 0.39,
+      "texture_albedo": 0.4542
+     },
+     "asset_id": "Granite002A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "limestone": {
+     "albedo": {
+      "scale": 1.128,
+      "target_albedo": 0.66,
+      "texture_albedo": 0.5853
+     },
+     "asset_id": "Travertine009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "precast": {
+     "albedo": {
+      "scale": 1.273,
+      "target_albedo": 0.6133,
+      "texture_albedo": 0.4818
+     },
+     "asset_id": "Concrete034",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "stone_rubble": {
+     "albedo": {
+      "scale": 2.415,
+      "target_albedo": 0.4233,
+      "texture_albedo": 0.1753
+     },
+     "asset_id": "Bricks102",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "stucco": {
+     "albedo": {
+      "scale": 1.0,
+      "target_albedo": 0.6667,
+      "texture_albedo": 0.6543
+     },
+     "asset_id": "Plaster001",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "terracotta": {
+     "albedo": {
+      "scale": 0.945,
+      "target_albedo": 0.3833,
+      "texture_albedo": 0.4055
+     },
+     "asset_id": "Marble026",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "vinyl_siding": {
+     "albedo": {
+      "scale": 1.402,
+      "target_albedo": 0.6867,
+      "texture_albedo": 0.4898
+     },
+     "asset_id": "WoodSiding009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.626,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "white_glazed_brick": {
+     "albedo": {
+      "scale": 1.13,
+      "target_albedo": 0.7767,
+      "texture_albedo": 0.6874
+     },
+     "asset_id": "Bricks060",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "wood_clapboard": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 1.384,
+      "scale": 4.0,
+      "target_albedo": 0.5467,
+      "texture_albedo": 0.0988
+     },
+     "asset_id": "WoodSiding013",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.032,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    }
+   },
+   "enabled": true,
+   "flat": {
+    "glass_curtain": "analytic: the catalogue has no photographic set for it"
+   },
+   "resolution": "2K",
+   "slots": 414
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 1132,
+    "curb": 3934,
+    "marking_white": 20228,
+    "marking_yellow": 295,
+    "median": 435,
+    "parking_lot": 102,
+    "plaza": 55,
+    "roadbed": 4429,
+    "sidewalk": 4771
+   },
+   "placed": 35381,
+   "radius_m": 777.1892577627835,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-4_1",
+    "t_-4_2",
+    "t_-4_3",
+    "t_-5_1",
+    "t_-5_2",
+    "t_-5_3",
+    "t_-6_1",
+    "t_-6_2"
+   ],
+   "triangles": 330404,
+   "triangles_cut_for_landmark_ground": 0,
+   "vertices": 400848
+  },
+  "props": {
+   "capped": "triangle budget 1218097",
+   "impostor_cards_dropped": 15,
+   "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 98
+   },
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 22,
+    "bike_rack": 30,
+    "bus_shelter": 2,
+    "bus_stop_sign": 2,
+    "citibike_dock": 3,
+    "cooling_tower": 293,
+    "hydrant": 101,
+    "mailbox": 4,
+    "manhole": 124,
+    "steam_vent": 9,
+    "street_lamp": 84,
+    "subway_emergency_exit": 2,
+    "subway_entrance": 7,
+    "subway_vent_grate": 45,
+    "tree": 91,
+    "waste_basket": 17
+   },
+   "placed": 836,
+   "radius_m": 307.18925776278354,
+   "rows_in_range": 1222,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_2"
+   ],
+   "tree_instances_scaled": 91,
+   "tree_mean_scale": 0.855,
+   "tree_scale_out_of_band": 0,
+   "tree_species_substituted": 43,
+   "triangles": 1220282,
+   "unmapped_kinds": {
+    "billboard": 3,
+    "drinking_fountain": 1,
+    "misc_structure": 10
+   }
+  },
+  "radius_m": 777.1892577627835,
+  "seconds": 264.9,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
+   "samples": 213,
+   "spacing_m": 2.0,
+   "triangles": 89888,
+   "water_bodies": [],
+   "water_quads": 0,
+   "z_max_m": 23.28,
+   "z_min_m": -1.64
+  },
+  "triangles": 4500158
+ },
+ "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
+  "kit_radius_m": 177.1892577627835,
+  "prop_radius_m": 307.18925776278354,
+  "radius_m": 777.1892577627835
+ },
+ "seconds": {
+  "render": 101.1,
+  "scene": 270.9,
+  "total": 372.0
+ },
+ "sightline": {
+  "subject_note": "the item names no point subject",
+  "subject_visible": null
+ },
+ "slug": "street_soho_cast_iron",
+ "status": "rendered",
+ "subject": {
+  "distance_m": null,
+  "name": null
+ },
+ "sun": {
+  "azimuth_deg": 127.56863122403774,
+  "elevation_deg": 49.966082323414824,
+  "local": "2026-04-20T10:49:21-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2026-04-20T14:49:21Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 29.0,
+  "lat": 40.7218,
+  "lon": -74.002,
+  "note": "Greene Street at Grand Street, roadway centre, looking north (representative block)"
+ }
+}

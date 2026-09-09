@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_high_bridge",
+ "rendered_at": "2026-09-09T05:31:49Z",
+ "reference_file": "3.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1002,
+  "height": 1090,
+  "mean": 0.4449,
+  "sd": 0.2187,
+  "p05": 0.1485,
+  "p95": 0.7249,
+  "chroma": 0.0233
+ },
+ "reference": {
+  "width": 1920,
+  "height": 2090,
+  "mean": 0.5808,
+  "sd": 0.2457,
+  "p05": 0.0986,
+  "p95": 0.8856,
+  "chroma": 0.0811
+ },
+ "render_over_reference": {
+  "mean": 0.766,
+  "sd": 0.89,
+  "chroma": 0.287
+ }
+}

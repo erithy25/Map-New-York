@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_bronx_county_courthouse",
+ "rendered_at": "2026-09-09T04:01:45Z",
+ "reference_file": "3.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1044,
+  "height": 1044,
+  "mean": 0.343,
+  "sd": 0.1578,
+  "p05": 0.0499,
+  "p95": 0.5924,
+  "chroma": 0.0361
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1920,
+  "mean": 0.5473,
+  "sd": 0.1796,
+  "p05": 0.1415,
+  "p95": 0.7641,
+  "chroma": 0.1224
+ },
+ "render_over_reference": {
+  "mean": 0.627,
+  "sd": 0.879,
+  "chroma": 0.295
+ }
+}

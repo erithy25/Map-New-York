@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_columbus_circle",
+ "rendered_at": "2026-09-09T04:50:06Z",
+ "reference_file": "3.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 854,
+  "mean": 0.26,
+  "sd": 0.1457,
+  "p05": 0.0605,
+  "p95": 0.5866,
+  "chroma": 0.0755
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1280,
+  "mean": 0.3432,
+  "sd": 0.2288,
+  "p05": 0.0331,
+  "p95": 0.7285,
+  "chroma": 0.1673
+ },
+ "render_over_reference": {
+  "mean": 0.758,
+  "sd": 0.637,
+  "chroma": 0.451
+ }
+}

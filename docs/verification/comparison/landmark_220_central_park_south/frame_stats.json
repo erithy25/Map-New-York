@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_220_central_park_south",
+ "rendered_at": "2026-09-09T02:55:01Z",
+ "reference_file": "2.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 784,
+  "height": 1394,
+  "mean": 0.1345,
+  "sd": 0.1234,
+  "p05": 0.0387,
+  "p95": 0.4092,
+  "chroma": 0.0427
+ },
+ "reference": {
+  "width": 1920,
+  "height": 3413,
+  "mean": 0.435,
+  "sd": 0.2779,
+  "p05": 0.0594,
+  "p95": 0.8099,
+  "chroma": 0.1808
+ },
+ "render_over_reference": {
+  "mean": 0.309,
+  "sd": 0.444,
+  "chroma": 0.236
+ }
+}

@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_53w53",
+ "rendered_at": "2026-09-09T03:28:07Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 904,
+  "height": 1206,
+  "mean": 0.0637,
+  "sd": 0.0957,
+  "p05": 0.0,
+  "p95": 0.2688,
+  "chroma": 0.0283
+ },
+ "reference": {
+  "width": 1280,
+  "height": 1707,
+  "mean": 0.6112,
+  "sd": 0.2484,
+  "p05": 0.1933,
+  "p95": 0.9116,
+  "chroma": 0.0778
+ },
+ "render_over_reference": {
+  "mean": 0.104,
+  "sd": 0.385,
+  "chroma": 0.364
+ }
+}

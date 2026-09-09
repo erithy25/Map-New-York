@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_nyse",
+ "rendered_at": "2026-09-09T00:53:10Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 854,
+  "mean": 0.1126,
+  "sd": 0.1153,
+  "p05": 0.012,
+  "p95": 0.326,
+  "chroma": 0.0144
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1282,
+  "mean": 0.43,
+  "sd": 0.2435,
+  "p05": 0.0994,
+  "p95": 0.8182,
+  "chroma": 0.1485
+ },
+ "render_over_reference": {
+  "mean": 0.262,
+  "sd": 0.474,
+  "chroma": 0.097
+ }
+}

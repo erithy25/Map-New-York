@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_st_patricks_cathedral",
+ "rendered_at": "2026-09-09T01:40:09Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 904,
+  "height": 1206,
+  "mean": 0.1274,
+  "sd": 0.1167,
+  "p05": 0.0028,
+  "p95": 0.3929,
+  "chroma": 0.0295
+ },
+ "reference": {
+  "width": 1920,
+  "height": 2560,
+  "mean": 0.3787,
+  "sd": 0.2522,
+  "p05": 0.0975,
+  "p95": 0.9927,
+  "chroma": 0.0196
+ },
+ "render_over_reference": {
+  "mean": 0.336,
+  "sd": 0.463,
+  "chroma": 1.505
+ }
+}

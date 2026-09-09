@@ -1,0 +1,30 @@
+{
+ "slug": "drive_midtown_sixth_ave_45th",
+ "rendered_at": "2026-09-09T02:38:08Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 854,
+  "mean": 0.0995,
+  "sd": 0.142,
+  "p05": 0.0,
+  "p95": 0.4941,
+  "chroma": 0.0248
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1280,
+  "mean": 0.452,
+  "sd": 0.2283,
+  "p05": 0.1132,
+  "p95": 0.8939,
+  "chroma": 0.0543
+ },
+ "render_over_reference": {
+  "mean": 0.22,
+  "sd": 0.622,
+  "chroma": 0.457
+ }
+}

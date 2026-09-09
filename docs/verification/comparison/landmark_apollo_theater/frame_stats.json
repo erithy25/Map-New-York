@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_apollo_theater",
+ "rendered_at": "2026-09-09T03:47:40Z",
+ "reference_file": "3.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.1166,
+  "sd": 0.0866,
+  "p05": 0.005,
+  "p95": 0.3016,
+  "chroma": 0.0297
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.4797,
+  "sd": 0.2916,
+  "p05": 0.0972,
+  "p95": 0.9481,
+  "chroma": 0.1095
+ },
+ "render_over_reference": {
+  "mean": 0.243,
+  "sd": 0.297,
+  "chroma": 0.271
+ }
+}

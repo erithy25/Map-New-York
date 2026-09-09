@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_hugh_carey_tunnel_portal",
+ "rendered_at": "2026-09-09T05:39:27Z",
+ "reference_file": "3.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.4711,
+  "sd": 0.1519,
+  "p05": 0.1366,
+  "p95": 0.6533,
+  "chroma": 0.0669
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.3716,
+  "sd": 0.3527,
+  "p05": 0.0622,
+  "p95": 1.0,
+  "chroma": 0.0265
+ },
+ "render_over_reference": {
+  "mean": 1.268,
+  "sd": 0.431,
+  "chroma": 2.525
+ }
+}

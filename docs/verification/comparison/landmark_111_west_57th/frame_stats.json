@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_111_west_57th",
+ "rendered_at": "2026-09-09T02:45:56Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.4428,
+  "sd": 0.1424,
+  "p05": 0.2211,
+  "p95": 0.6645,
+  "chroma": 0.0793
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.4559,
+  "sd": 0.2159,
+  "p05": 0.1055,
+  "p95": 0.9429,
+  "chroma": 0.1153
+ },
+ "render_over_reference": {
+  "mean": 0.971,
+  "sd": 0.66,
+  "chroma": 0.688
+ }
+}

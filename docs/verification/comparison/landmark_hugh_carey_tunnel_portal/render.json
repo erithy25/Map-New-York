@@ -1,0 +1,893 @@
+{
+ "agent_request": {
+  "dow": 0,
+  "hour": 9,
+  "local_clock": "2020-02-05 09:21 EST",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "200.0 deg as recorded; it agrees with the bearing from the camera position used to Hugh L. Carey (Brooklyn-Battery) Tunnel Manhattan portal (200.1 deg) to 0.1 deg",
+ "camera": {
+  "azimuth_deg": 200.0,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "below_point_excluded": 0,
+   "chosen_m": 3.27,
+   "max_m": 3.54,
+   "median_m": 3.38,
+   "min_m": 3.17,
+   "mode": "street",
+   "percentile": 10.0,
+   "point_m": 3.47,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.702068,
+  "lon": -74.015091,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_hugh_carey_tunnel_portal",
+  "terrain_z_m": 3.271,
+  "x": -5501.029,
+  "y": 231.685,
+  "z": 4.871
+ },
+ "camera_caption": "camera 40.70207, -74.01509 (NYC_TM -5501, 232) z 4.9 m NAVD88 | azimuth 200.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_origin": {
+  "from_photograph_gps": false,
+  "lat": 40.702068,
+  "lon": -74.015091,
+  "offset_from_recorded_m": 459.4,
+  "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 459 m away, past the 250 m at which it could still be the same view, so the camera was not stood on it.  That is a statement about this pairing and not about the photograph: a fix this far out is usually correct and simply of somewhere else"
+ },
+ "clearance": {
+  "min_view_m": 75.0,
+  "moved": false,
+  "nearest_agent": null,
+  "nearest_agent_m": null,
+  "nearest_agent_probe_m": 60.0,
+  "nearest_obstruction": "prop_bench_worlds_fair_1",
+  "nearest_obstruction_at_deg": [
+   -9.1,
+   -10.5
+  ],
+  "nearest_obstruction_m": 5.0,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_bench_worlds_fair_1 5.0 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 150 m",
+  "offset_m": 0.0,
+  "view_m": 150.0
+ },
+ "frame": {
+  "mean": 0.4709,
+  "reason": null,
+  "sd": 0.1535,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal); nothing built stands within 6 m of the subject's coordinate; the nearest built thing is t_-6_0_struct_seawall, 37 m away at bearing 45 deg, so the coordinate the item records is that far off the fabric it names, so the lens was not widened to contain it",
+ "lighting": {
+  "background_strength": 0.039851561188697815,
+  "direct_normal_irradiance_w_m2": 671.5,
+  "emissive": {
+   "cone_faces_deleted": 8,
+   "cones_hidden": 1,
+   "lamps_switched_off": 2,
+   "night": false,
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 1.03,
+  "sky_azimuth_deg": 136.336,
+  "sky_elevation_deg": 21.267,
+  "sun_lamp": true,
+  "sun_strength_blender": 2.348,
+  "view_transform": "Filmic"
+ },
+ "name": "Hugh L. Carey (Brooklyn-Battery) Tunnel Manhattan portal",
+ "night": false,
+ "pitch_reason": "level optical axis (nothing built stands at Hugh L. Carey (Brooklyn-Battery) Tunnel Manhattan portal's coordinate, so its mid-height is not known and there is nothing to tilt towards)",
+ "reference_photo": {
+  "author": "Epicgenius",
+  "confidence": "high",
+  "date_taken": "2020-02-05 09:21:56",
+  "estimated_azimuth_deg": 186.5,
+  "file": "3.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:1-25_Broadway_NYC_rear_7.jpg",
+  "title": "File:1-25 Broadway NYC rear 7.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_hugh_carey_tunnel_portal/render.png",
+ "rendered_at": "2026-09-09T05:39:27Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "agents": {
+   "caption": "Agents: 89 vehicles within 320 m and 262 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 458 vehicles and 462 people over the whole simulated ring, of which 537 and 758 were simulated; 944 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 254,
+    "pedestrian_not_on_walkable_surface": 13,
+    "pedestrian_outside_radius": 229,
+    "vehicle_body_has_no_rider": 21,
+    "vehicle_inside_building": 1,
+    "vehicle_not_on_carriageway": 50,
+    "vehicle_outside_radius": 284,
+    "vehicle_triangle_budget": 92
+   },
+   "ped_lods": {
+    "LOD2": 262
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 345524,
+   "per_class": {
+    "black_car": 3,
+    "boro_taxi": 1,
+    "box_truck": 2,
+    "dsny_truck": 1,
+    "nypd": 1,
+    "sedan": 53,
+    "suv": 16,
+    "taxi": 7,
+    "van": 5
+   },
+   "placed_pedestrians": 262,
+   "placed_vehicles": 89,
+   "reason": null,
+   "seconds": 90.39,
+   "snapshot": {
+    "building_footprints_tested": 246,
+    "density_lane_km": 18.931,
+    "density_sidewalk_m2": 9730,
+    "density_target_pedestrians": 462.0,
+    "density_target_vehicles": 457.6,
+    "dow": 0,
+    "hour": 9,
+    "lanes_considered": 248,
+    "lanes_with_nta": 233,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.71,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_archetypes_available": 36,
+    "npc_bodies_imported": 36,
+    "npc_templates_baked": 134,
+    "pavement_polygons_tested": 1217,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 758,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 537
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 850407,
+   "vehicle_lods": {
+    "LOD2": 89
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 504883
+  },
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-5_-1",
+    "t_-5_0",
+    "t_-6_-1",
+    "t_-6_0"
+   ],
+   "landmark_bins_suppressed": 10,
+   "landmark_faces_suppressed": 1830,
+   "lod_substituted": [],
+   "missing": [
+    "t_-7_-1",
+    "t_-7_0"
+   ],
+   "new_jersey": [],
+   "per_tile": {
+    "t_-5_-1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 11,
+     "triangles": 4080
+    },
+    "t_-5_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 18,
+     "triangles": 14630
+    },
+    "t_-6_-1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 8,
+     "triangles": 4068
+    },
+    "t_-6_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 16,
+     "triangles": 14752
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 4,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 2,
+   "tiles_wanted": 6,
+   "tiles_with_new_jersey": 0,
+   "triangle_budget": 3510000,
+   "triangles": 37530
+  },
+  "centre_tm": [
+   -5501.03,
+   231.69
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 2,
+    "door_entry": 7,
+    "fence": 1,
+    "parapet": 41,
+    "pilaster": 2,
+    "window": 198
+   },
+   "placed": 251,
+   "radius_m": 120.0,
+   "records_in_range": 279,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 28,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-6_0"
+   ],
+   "triangles": 38799,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 204.0,
+     "id": "c_whitehall_and_st_george_ferry_terminals",
+     "lod": 0,
+     "name": "Whitehall, Battery Maritime and St. George ferry terminals",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 77605
+    },
+    {
+     "distance_m": 407.9,
+     "id": "charging_bull",
+     "lod": 0,
+     "name": "Charging Bull",
+     "own_ground_note": {
+      "above_heightmap_m": -1.4,
+      "heightmap_median_m": 6.89,
+      "reason": "the model's ground stands -1.40 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
+     "triangles": 818
+    },
+    {
+     "distance_m": 629.5,
+     "id": "one_wall_street",
+     "lod": 0,
+     "name": "One Wall Street (Irving Trust Building)",
+     "own_ground_note": {
+      "reason": "every ground polygon is smaller than 25 m2"
+     },
+     "triangles": 42712
+    },
+    {
+     "distance_m": 642.0,
+     "id": "nyse",
+     "lod": 0,
+     "name": "New York Stock Exchange",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 26049
+    },
+    {
+     "distance_m": 1025.7,
+     "id": "b_hugh_carey_portals",
+     "lod": 0,
+     "name": "Hugh L. Carey Tunnel",
+     "own_ground_note": {
+      "above_heightmap_m": -3.2,
+      "heightmap_median_m": 3.2,
+      "reason": "the model's ground stands -3.20 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
+     "triangles": 43880
+    }
+   ],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
+   "placed": 5,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 191064
+  },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brown_brick": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.22,
+      "texture_albedo": 0.2375
+     },
+     "asset_id": "Bricks054",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brownstone": {
+     "albedo": {
+      "scale": 2.682,
+      "target_albedo": 0.2367,
+      "texture_albedo": 0.0882
+     },
+     "asset_id": "Travertine005",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "cast_iron": {
+     "albedo": {
+      "scale": 0.323,
+      "target_albedo": 0.1667,
+      "texture_albedo": 0.5157
+     },
+     "asset_id": "Metal055A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete": {
+     "albedo": {
+      "scale": 1.799,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.2965
+     },
+     "asset_id": "Concrete037",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "granite": {
+     "albedo": {
+      "scale": 0.859,
+      "target_albedo": 0.39,
+      "texture_albedo": 0.4542
+     },
+     "asset_id": "Granite002A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "limestone": {
+     "albedo": {
+      "scale": 1.128,
+      "target_albedo": 0.66,
+      "texture_albedo": 0.5853
+     },
+     "asset_id": "Travertine009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "precast": {
+     "albedo": {
+      "scale": 1.273,
+      "target_albedo": 0.6133,
+      "texture_albedo": 0.4818
+     },
+     "asset_id": "Concrete034",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "stone_rubble": {
+     "albedo": {
+      "scale": 2.415,
+      "target_albedo": 0.4233,
+      "texture_albedo": 0.1753
+     },
+     "asset_id": "Bricks102",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "stucco": {
+     "albedo": {
+      "scale": 1.0,
+      "target_albedo": 0.6667,
+      "texture_albedo": 0.6543
+     },
+     "asset_id": "Plaster001",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "terracotta": {
+     "albedo": {
+      "scale": 0.945,
+      "target_albedo": 0.3833,
+      "texture_albedo": 0.4055
+     },
+     "asset_id": "Marble026",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "vinyl_siding": {
+     "albedo": {
+      "scale": 1.402,
+      "target_albedo": 0.6867,
+      "texture_albedo": 0.4898
+     },
+     "asset_id": "WoodSiding009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.626,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "white_glazed_brick": {
+     "albedo": {
+      "scale": 1.13,
+      "target_albedo": 0.7767,
+      "texture_albedo": 0.6874
+     },
+     "asset_id": "Bricks060",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "wood_clapboard": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 1.384,
+      "scale": 4.0,
+      "target_albedo": 0.5467,
+      "texture_albedo": 0.0988
+     },
+     "asset_id": "WoodSiding013",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.032,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    }
+   },
+   "enabled": true,
+   "flat": {
+    "glass_curtain": "analytic: the catalogue has no photographic set for it"
+   },
+   "resolution": "2K",
+   "slots": 159
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 242,
+    "curb": 3595,
+    "marking_white": 4349,
+    "marking_yellow": 136,
+    "median": 111,
+    "parking_lot": 103,
+    "plaza": 188,
+    "roadbed": 4359,
+    "sidewalk": 4050
+   },
+   "placed": 17133,
+   "radius_m": 639.8732736625668,
+   "tiles_missing": [
+    "t_-7_0"
+   ],
+   "tiles_read": [
+    "t_-5_-1",
+    "t_-5_0",
+    "t_-6_-1",
+    "t_-6_0",
+    "t_-7_-1"
+   ],
+   "triangles": 124581,
+   "triangles_cut_for_landmark_ground": 0,
+   "vertices": 158783
+  },
+  "props": {
+   "capped": "triangle budget 1421683",
+   "impostor_cards_dropped": 3,
+   "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 13
+   },
+   "leaf_off": true,
+   "per_kind": {
+    "bench": 110,
+    "bike_rack": 3,
+    "bus_stop_sign": 1,
+    "citibike_dock": 1,
+    "cooling_tower": 3,
+    "flagpole": 1,
+    "hydrant": 2,
+    "manhole": 21,
+    "steam_vent": 1,
+    "street_lamp": 17,
+    "subway_entrance": 1,
+    "tree": 357,
+    "waste_basket": 25
+   },
+   "placed": 543,
+   "radius_m": 250.0,
+   "rows_in_range": 1230,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-6_-1",
+    "t_-6_0"
+   ],
+   "tree_instances_scaled": 357,
+   "tree_mean_scale": 0.918,
+   "tree_scale_out_of_band": 0,
+   "tree_species_substituted": 351,
+   "triangles": 1423094,
+   "unmapped_kinds": {
+    "artwork": 5,
+    "drinking_fountain": 2,
+    "memorial": 1,
+    "parks_building": 5,
+    "parks_comfort_station": 1
+   }
+  },
+  "radius_m": 639.8732736625668,
+  "seconds": 120.19,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
+   "samples": 207,
+   "spacing_m": 2.0,
+   "triangles": 84872,
+   "water_bodies": [
+    {
+     "kind": "bay",
+     "name": "South Cove",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "UPPER NEW YORK BAY",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "EAST RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "EAST RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    }
+   ],
+   "water_quads": 13774,
+   "z_max_m": 12.91,
+   "z_min_m": -4.05
+  },
+  "triangles": 2750347
+ },
+ "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 639.8732736625668
+ },
+ "seconds": {
+  "render": 45.0,
+  "scene": 120.9,
+  "total": 165.9
+ },
+ "sightline": {
+  "subject_note": "nothing built stands within 6 m of the subject's coordinate; the nearest built thing is t_-6_0_struct_seawall, 37 m away at bearing 45 deg, so the coordinate the item records is that far off the fabric it names; no sightline was tested",
+  "subject_visible": null
+ },
+ "slug": "landmark_hugh_carey_tunnel_portal",
+ "status": "rendered",
+ "subject": {
+  "distance_from": "the placed camera, after the clearance walk",
+  "distance_m": 149.9,
+  "height_probe": {
+   "ground_z_m": 0.0,
+   "nearest_built": {
+    "bearing_deg": 45.0,
+    "distance_m": 36.7,
+    "object": "t_-6_0_struct_seawall",
+    "reach_m": 120.0
+   },
+   "nearest_catalogue_origin": {
+    "distance_m": 223.4,
+    "height_m": 27.7,
+    "id": "c_whitehall_and_st_george_ferry_terminals",
+    "within_120_m": false
+   },
+   "note": "nothing built stands within 6 m of the subject's coordinate; the nearest built thing is t_-6_0_struct_seawall, 37 m away at bearing 45 deg, so the coordinate the item records is that far off the fabric it names",
+   "object": null,
+   "rays_cast": 17,
+   "rays_on_built_fabric": 0,
+   "z": null
+  },
+  "name": "Hugh L. Carey (Brooklyn-Battery) Tunnel Manhattan portal",
+  "origin_distance_m": 149.9
+ },
+ "sun": {
+  "azimuth_deg": 136.33626872746424,
+  "elevation_deg": 21.267492184539197,
+  "local": "2020-02-05T09:21:56-05:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2020-02-05T14:21:56Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 200.0,
+  "lat": 40.702068,
+  "lon": -74.015091,
+  "note": "Battery Place near West Street, about 150 m north-north-east of the Manhattan portal, looking south-south-west at the tunnel mouth and ventilation building"
+ }
+}

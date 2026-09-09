@@ -1,0 +1,30 @@
+{
+ "slug": "street_nyc_street_name_signs",
+ "rendered_at": "2026-09-09T09:21:15Z",
+ "reference_file": "2.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 576,
+  "mean": 0.0953,
+  "sd": 0.0582,
+  "p05": 0.0269,
+  "p95": 0.1664,
+  "chroma": 0.0124
+ },
+ "reference": {
+  "width": 1920,
+  "height": 863,
+  "mean": 0.6618,
+  "sd": 0.2246,
+  "p05": 0.1454,
+  "p95": 0.8009,
+  "chroma": 0.0751
+ },
+ "render_over_reference": {
+  "mean": 0.144,
+  "sd": 0.259,
+  "chroma": 0.165
+ }
+}

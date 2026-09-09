@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_marriott_marquis",
+ "rendered_at": "2026-09-09T06:21:29Z",
+ "reference_file": "2.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 852,
+  "height": 1278,
+  "mean": 0.4112,
+  "sd": 0.1682,
+  "p05": 0.1148,
+  "p95": 0.7717,
+  "chroma": 0.044
+ },
+ "reference": {
+  "width": 1920,
+  "height": 2880,
+  "mean": 0.5317,
+  "sd": 0.3383,
+  "p05": 0.0885,
+  "p95": 1.0,
+  "chroma": 0.0673
+ },
+ "render_over_reference": {
+  "mean": 0.773,
+  "sd": 0.497,
+  "chroma": 0.654
+ }
+}

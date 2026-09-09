@@ -1,0 +1,907 @@
+{
+ "agent_request": {
+  "dow": 0,
+  "hour": 8,
+  "local_clock": "2024-07-08 08:53 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "160.0 deg as recorded; it agrees with the bearing from the camera position used to Bronx-Whitestone Bridge (159.9 deg) to 0.1 deg",
+ "camera": {
+  "azimuth_deg": 160.0,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "below_point_excluded": null,
+   "chosen_m": 3.45,
+   "max_m": 3.55,
+   "median_m": 3.44,
+   "min_m": 3.29,
+   "mode": "local",
+   "percentile": null,
+   "point_m": 3.45,
+   "radius_m": 5.0,
+   "samples": 16
+  },
+  "ground_mode": "local",
+  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap height at the point itself is the ground (the neighbourhood is still measured and printed, because a terrace can stand metres above the plaza 4 m away and a median across that step would put the camera underground)",
+  "hfov_deg": 54.432,
+  "lat": 40.808717,
+  "lon": -73.832824,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_bronx_whitestone_bridge",
+  "terrain_z_m": 3.447,
+  "x": 9887.072,
+  "y": 12079.539,
+  "z": 5.047
+ },
+ "camera_caption": "camera 40.80872, -73.83282 (NYC_TM 9887, 12080) z 5.0 m NAVD88 | azimuth 160.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_origin": {
+  "from_photograph_gps": false,
+  "lat": 40.808717,
+  "lon": -73.832824,
+  "offset_from_recorded_m": 1047.9,
+  "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 1,048 m away, past the 250 m at which it could still be the same view, so the camera was not stood on it.  That is a statement about this pairing and not about the photograph: a fix this far out is usually correct and simply of somewhere else"
+ },
+ "clearance": {
+  "min_view_m": 80.0,
+  "moved": false,
+  "nearest_agent": null,
+  "nearest_agent_m": null,
+  "nearest_agent_probe_m": 60.0,
+  "nearest_obstruction": null,
+  "nearest_obstruction_at_deg": [
+   0.0,
+   0.0
+  ],
+  "nearest_obstruction_m": 60.0,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; nothing built stands within 60 m of the lens, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 150 m",
+  "offset_m": 0.0,
+  "view_m": 150.0
+ },
+ "frame": {
+  "mean": 0.4346,
+  "reason": null,
+  "sd": 0.1088,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.03447520732879639,
+  "direct_normal_irradiance_w_m2": 813.1,
+  "emissive": {
+   "cone_faces_deleted": 8,
+   "cones_hidden": 1,
+   "lamps_switched_off": 1,
+   "night": false,
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.28,
+  "sky_azimuth_deg": 89.85,
+  "sky_elevation_deg": 35.474,
+  "sun_lamp": true,
+  "sun_strength_blender": 2.843,
+  "view_transform": "Filmic"
+ },
+ "name": "Bronx-Whitestone Bridge",
+ "night": false,
+ "pitch_reason": "level optical axis (the subject is 899 m away; anything that far is photographed with a level camera)",
+ "reference_photo": {
+  "author": "Metropolitan Transportation Authority",
+  "confidence": "high",
+  "date_taken": "2024-07-08 08:53:31",
+  "estimated_azimuth_deg": 161.4,
+  "file": "1.jpg",
+  "height": 1440,
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:New_York_City_Sheriff_conducting_traffic_stop_on_Bronx-Whitestone_Bridge.jpg",
+  "title": "File:New York City Sheriff conducting traffic stop on Bronx-Whitestone Bridge.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_bronx_whitestone_bridge/render.png",
+ "rendered_at": "2026-09-09T04:02:27Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "agents": {
+   "caption": "Agents: 14 vehicles within 150 m and 1 people within 120 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 38 vehicles and 50 people over the whole simulated ring, of which 73 and 49 were simulated; 107 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 11,
+    "pedestrian_outside_radius": 37,
+    "vehicle_body_has_no_rider": 1,
+    "vehicle_outside_radius": 58
+   },
+   "ped_lods": {
+    "LOD2": 1
+   },
+   "ped_radius_m": 120.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 1040,
+   "per_class": {
+    "box_truck": 1,
+    "sedan": 8,
+    "suv": 4,
+    "taxi": 1
+   },
+   "placed_pedestrians": 1,
+   "placed_vehicles": 14,
+   "reason": null,
+   "seconds": 1.46,
+   "snapshot": {
+    "building_footprints_tested": 812,
+    "density_lane_km": 5.503,
+    "density_sidewalk_m2": 10768,
+    "density_target_pedestrians": 49.6,
+    "density_target_vehicles": 38.0,
+    "dow": 0,
+    "hour": 8,
+    "lanes_considered": 15,
+    "lanes_with_nta": 15,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.72,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_archetypes_available": 36,
+    "npc_bodies_imported": 1,
+    "npc_templates_baked": 1,
+    "pavement_polygons_tested": 371,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 49,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 73
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 80177,
+   "vehicle_lods": {
+    "LOD2": 14
+   },
+   "vehicle_radius_m": 150.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 79137
+  },
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_10_10",
+    "t_10_11",
+    "t_10_12",
+    "t_10_13",
+    "t_11_10",
+    "t_11_11",
+    "t_11_12",
+    "t_11_13",
+    "t_8_10",
+    "t_8_11",
+    "t_8_12",
+    "t_8_13",
+    "t_9_10",
+    "t_9_11",
+    "t_9_12",
+    "t_9_13"
+   ],
+   "landmark_bins_suppressed": 0,
+   "landmark_faces_suppressed": 0,
+   "lod_substituted": [],
+   "missing": [],
+   "new_jersey": [],
+   "per_tile": {
+    "t_10_10": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 8,
+     "triangles": 17476
+    },
+    "t_10_11": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 4,
+     "triangles": 1560
+    },
+    "t_10_12": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 6,
+     "triangles": 20720
+    },
+    "t_10_13": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 8,
+     "triangles": 13366
+    },
+    "t_11_10": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 11,
+     "triangles": 25966
+    },
+    "t_11_11": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 4,
+     "triangles": 220
+    },
+    "t_11_12": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 6,
+     "triangles": 13096
+    },
+    "t_11_13": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 10,
+     "triangles": 27692
+    },
+    "t_8_10": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 6,
+     "triangles": 13032
+    },
+    "t_8_11": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 7,
+     "triangles": 5516
+    },
+    "t_8_12": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 7,
+     "triangles": 16084
+    },
+    "t_8_13": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 9,
+     "triangles": 23814
+    },
+    "t_9_10": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 6,
+     "triangles": 7596
+    },
+    "t_9_11": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 2,
+     "triangles": 28
+    },
+    "t_9_12": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 7,
+     "triangles": 608
+    },
+    "t_9_13": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 8,
+     "triangles": 2190
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 16,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 0,
+   "tiles_wanted": 16,
+   "tiles_with_new_jersey": 0,
+   "triangle_budget": 3510000,
+   "triangles": 188964
+  },
+  "centre_tm": [
+   9887.07,
+   12079.54
+  ],
+  "kit": {
+   "placed": 0,
+   "reason": "no kit_placements.bin in range",
+   "tiles_missing": []
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 784.5,
+     "id": "b_bronx_whitestone",
+     "lod": 0,
+     "name": "Bronx-Whitestone Bridge",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 44680
+    }
+   ],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
+   "placed": 1,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 44680
+  },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brown_brick": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.22,
+      "texture_albedo": 0.2375
+     },
+     "asset_id": "Bricks054",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete": {
+     "albedo": {
+      "scale": 1.799,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.2965
+     },
+     "asset_id": "Concrete037",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "limestone": {
+     "albedo": {
+      "scale": 1.128,
+      "target_albedo": 0.66,
+      "texture_albedo": 0.5853
+     },
+     "asset_id": "Travertine009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "precast": {
+     "albedo": {
+      "scale": 1.273,
+      "target_albedo": 0.6133,
+      "texture_albedo": 0.4818
+     },
+     "asset_id": "Concrete034",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "stone_rubble": {
+     "albedo": {
+      "scale": 2.415,
+      "target_albedo": 0.4233,
+      "texture_albedo": 0.1753
+     },
+     "asset_id": "Bricks102",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "vinyl_siding": {
+     "albedo": {
+      "scale": 1.402,
+      "target_albedo": 0.6867,
+      "texture_albedo": 0.4898
+     },
+     "asset_id": "WoodSiding009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.626,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    }
+   },
+   "enabled": true,
+   "flat": {
+    "glass_curtain": "analytic: the catalogue has no photographic set for it"
+   },
+   "resolution": "2K",
+   "slots": 218
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 15,
+    "curb": 387,
+    "marking_white": 1060,
+    "marking_yellow": 44,
+    "median": 684,
+    "parking_lot": 2802,
+    "roadbed": 1894,
+    "sidewalk": 654
+   },
+   "placed": 7540,
+   "radius_m": 900.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_10_11",
+    "t_10_12",
+    "t_8_11",
+    "t_8_12",
+    "t_9_11",
+    "t_9_12"
+   ],
+   "triangles": 37469,
+   "triangles_cut_for_landmark_ground": 0,
+   "vertices": 52525
+  },
+  "props": {
+   "capped": null,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {},
+   "leaf_off": false,
+   "per_kind": {
+    "manhole": 12,
+    "street_lamp": 12
+   },
+   "placed": 24,
+   "radius_m": 150.0,
+   "rows_in_range": 25,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_10_11",
+    "t_10_12",
+    "t_9_11",
+    "t_9_12"
+   ],
+   "tree_instances_scaled": 0,
+   "tree_mean_scale": null,
+   "tree_scale_out_of_band": 0,
+   "tree_species_substituted": 0,
+   "triangles": 45792,
+   "unmapped_kinds": {
+    "misc_structure": 1
+   }
+  },
+  "radius_m": 1838.8062454445642,
+  "seconds": 17.9,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
+   "samples": 267,
+   "spacing_m": 2.0,
+   "triangles": 141512,
+   "water_bodies": [
+    {
+     "kind": "bay",
+     "name": "LONG ISLAND SOUND",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "LONG ISLAND SOUND",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "marsh",
+     "name": "marsh",
+     "water_z_m": null
+    },
+    {
+     "kind": "marsh",
+     "name": "marsh",
+     "water_z_m": null
+    },
+    {
+     "kind": "marsh",
+     "name": "marsh",
+     "water_z_m": null
+    },
+    {
+     "kind": "marsh",
+     "name": "marsh",
+     "water_z_m": null
+    },
+    {
+     "kind": "marsh",
+     "name": "marsh",
+     "water_z_m": null
+    },
+    {
+     "kind": "marsh",
+     "name": "marsh",
+     "water_z_m": null
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 3.31
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 4.53
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 4.75
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 4.58
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 4.45
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 4.86
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 4.82
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 4.75
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 6.08
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 6.38
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 6.27
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 6.61
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 3.84
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 4.07
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 4.07
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 4.07
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 1.24
+    },
+    {
+     "kind": "river",
+     "name": "EAST RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "EAST RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "PUGSLEY'S CREEK",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "WESTCHESTER CREEK",
+     "water_z_m": 0.0
+    }
+   ],
+   "water_quads": 31558,
+   "z_max_m": 26.6,
+   "z_min_m": -0.63
+  },
+  "triangles": 538594
+ },
+ "scene_request": {
+  "agent_ped_radius_m": 120.0,
+  "agent_vehicle_radius_m": 150.0,
+  "kit_radius_m": 70.0,
+  "prop_radius_m": 150.0,
+  "radius_m": 1838.8062454445642
+ },
+ "seconds": {
+  "render": 21.4,
+  "scene": 18.0,
+  "total": 39.3
+ },
+ "sightline": {
+  "subject_aimed_at": "the subject's mid-height, 22.4 m above its ground",
+  "subject_blocked_at_m": null,
+  "subject_blocked_by": null,
+  "subject_fan_from": "the subject's own measured height (J74)",
+  "subject_fan_half_angle_deg": 1.43,
+  "subject_fan_m": 44.8,
+  "subject_lands_at_m": 1127.5,
+  "subject_lands_on": "lm_b_bronx_whitestone.54",
+  "subject_note": "nothing stands within 25 m of the subject's recorded coordinate: the clear rays run on to lm_b_bronx_whitestone.54 at 1128 m.  The line is open and the subject is not on it, which is a fault in the item's coordinate or in the model, not in the camera",
+  "subject_range_m": 899.4,
+  "subject_rays": 5,
+  "subject_rays_clear": 5,
+  "subject_rays_into_nothing": 4,
+  "subject_rays_on_subject": 0,
+  "subject_reach_m": 25.0,
+  "subject_visible": false
+ },
+ "slug": "landmark_bronx_whitestone_bridge",
+ "status": "rendered",
+ "subject": {
+  "distance_from": "the placed camera, after the clearance walk",
+  "distance_m": 899.3,
+  "height_probe": {
+   "ground_z_m": 0.0,
+   "height_above_ground_m": 44.84,
+   "nearest_catalogue_origin": {
+    "distance_m": 115.3,
+    "height_m": 114.9,
+    "id": "b_bronx_whitestone",
+    "within_120_m": true
+   },
+   "object": "lm_b_bronx_whitestone.39",
+   "rays_cast": 17,
+   "rays_on_built_fabric": 17,
+   "z": 44.84
+  },
+  "name": "Bronx-Whitestone Bridge",
+  "origin_distance_m": 899.3
+ },
+ "sun": {
+  "azimuth_deg": 89.84980973316647,
+  "elevation_deg": 35.474156958219524,
+  "local": "2024-07-08T08:53:31-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2024-07-08T12:53:31Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 160.0,
+  "lat": 40.808717,
+  "lon": -73.832824,
+  "note": "Ferry Point Park shoreline in the Bronx, about 900 m north-north-west of the main span, looking south-south-east along the bridge"
+ }
+}

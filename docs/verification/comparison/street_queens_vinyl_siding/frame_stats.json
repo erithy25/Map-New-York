@@ -1,0 +1,30 @@
+{
+ "slug": "street_queens_vinyl_siding",
+ "rendered_at": "2026-09-09T09:36:58Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.3178,
+  "sd": 0.1737,
+  "p05": 0.076,
+  "p95": 0.6311,
+  "chroma": 0.0718
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.3643,
+  "sd": 0.2197,
+  "p05": 0.0605,
+  "p95": 0.7959,
+  "chroma": 0.1058
+ },
+ "render_over_reference": {
+  "mean": 0.872,
+  "sd": 0.791,
+  "chroma": 0.679
+ }
+}

@@ -1,0 +1,813 @@
+{
+ "agent_request": {
+  "dow": 0,
+  "hour": 10,
+  "local_clock": "2021-04-28 10:52 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "340.4 deg as recorded; it agrees with the bearing from the camera position used to George Washington Bridge New York tower (340.3 deg) to 0.1 deg",
+ "camera": {
+  "azimuth_deg": 340.4,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 26.905831543876555,
+  "ground_detail": {
+   "below_point_excluded": null,
+   "chosen_m": 19.47,
+   "max_m": 19.7,
+   "median_m": 19.46,
+   "min_m": 19.34,
+   "mode": "local",
+   "percentile": null,
+   "point_m": 19.47,
+   "radius_m": 5.0,
+   "samples": 16
+  },
+  "ground_mode": "local",
+  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap height at the point itself is the ground (the neighbourhood is still measured and printed, because a terrace can stand metres above the plaza 4 m away and a median across that step would put the camera underground)",
+  "hfov_deg": 67.565,
+  "lat": 40.8472,
+  "lon": -73.945,
+  "long_side_fov_deg": 67.565,
+  "pitch_deg": 0.3092595356691703,
+  "portrait": false,
+  "resolution": [
+   1280,
+   854
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_george_washington_bridge",
+  "terrain_z_m": 19.47,
+  "x": 421.646,
+  "y": 16346.503,
+  "z": 21.07
+ },
+ "camera_caption": "camera 40.84720, -73.94500 (NYC_TM 422, 16347) z 21.1 m NAVD88 | azimuth 340.4deg pitch +0.3deg | 27 mm on 36 mm (67.6deg horizontal) | 1280x854",
+ "camera_origin": {
+  "from_photograph_gps": false,
+  "lat": 40.8472,
+  "lon": -73.945,
+  "offset_from_recorded_m": 367.5,
+  "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 367 m away, past the 250 m at which it could still be the same view, so the camera was not stood on it.  That is a statement about this pairing and not about the photograph: a fix this far out is usually correct and simply of somewhere else"
+ },
+ "clearance": {
+  "min_view_m": 80.0,
+  "moved": false,
+  "nearest_agent": null,
+  "nearest_agent_m": null,
+  "nearest_agent_probe_m": 60.0,
+  "nearest_obstruction": null,
+  "nearest_obstruction_at_deg": [
+   0.0,
+   0.0
+  ],
+  "nearest_obstruction_m": 60.0,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; nothing built stands within 60 m of the lens, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 150 m",
+  "offset_m": 0.0,
+  "view_m": 150.0
+ },
+ "frame": {
+  "mean": 0.4177,
+  "reason": null,
+  "sd": 0.0865,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "widened from 35 mm to 27 mm (48 deg vertical) so that a level axis contains the subject: the top of lm_b_george_washington_bridge.104, the built thing standing at the subject's coordinate, 176 m above the ground there stands 158 m above the lens at 401 m, 21 deg above the horizon",
+ "lighting": {
+  "background_strength": 0.03171563148498535,
+  "direct_normal_irradiance_w_m2": 897.7,
+  "emissive": {
+   "cone_faces_deleted": 24,
+   "cones_hidden": 2,
+   "lamps_switched_off": 2,
+   "night": false,
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 126.539,
+  "sky_elevation_deg": 52.745,
+  "sun_lamp": true,
+  "sun_strength_blender": 3.139,
+  "view_transform": "Filmic"
+ },
+ "name": "George Washington Bridge",
+ "night": false,
+ "pitch_reason": "tilted +0.3 deg to contain the subject: the top of lm_b_george_washington_bridge.104, the built thing standing at the subject's coordinate, 176 m above the ground there tops out 158 m above the lens 401 m away, 21 deg above the horizon, and the frame is only 48 deg tall at 27 mm. **The verticals converge, so this frame is not comparable with the photograph on proportion** -- it is here to show the subject at all",
+ "reference_photo": {
+  "author": "Jim.henderson",
+  "confidence": "high",
+  "date_taken": "2021-04-28 10:52:39",
+  "estimated_azimuth_deg": 288.2,
+  "file": "1.jpg",
+  "height": 1280,
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:GWB_southeast_leg_work_uncut_2021_jeh.jpg",
+  "title": "File:GWB southeast leg work uncut 2021 jeh.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_george_washington_bridge/render.png",
+ "rendered_at": "2026-09-09T05:11:04Z",
+ "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "agents": {
+   "caption": "Agents: 88 vehicles within 320 m and 14 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 617 vehicles and 363 people over the whole simulated ring, of which 940 and 602 were simulated; 1440 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 67,
+    "pedestrian_not_on_walkable_surface": 187,
+    "pedestrian_outside_radius": 334,
+    "vehicle_body_has_no_rider": 19,
+    "vehicle_not_on_carriageway": 14,
+    "vehicle_outside_radius": 468,
+    "vehicle_triangle_budget": 351
+   },
+   "ped_lods": {
+    "LOD2": 14
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 19229,
+   "per_class": {
+    "black_car": 7,
+    "boro_taxi": 3,
+    "box_truck": 1,
+    "dsny_truck": 2,
+    "mta_bus": 1,
+    "sedan": 44,
+    "suv": 24,
+    "taxi": 5,
+    "van": 1
+   },
+   "placed_pedestrians": 14,
+   "placed_vehicles": 88,
+   "reason": null,
+   "seconds": 13.42,
+   "snapshot": {
+    "building_footprints_tested": 597,
+    "density_lane_km": 34.823,
+    "density_sidewalk_m2": 9867,
+    "density_target_pedestrians": 362.9,
+    "density_target_vehicles": 617.4,
+    "dow": 0,
+    "hour": 10,
+    "lanes_considered": 447,
+    "lanes_with_nta": 435,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.81,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_archetypes_available": 36,
+    "npc_bodies_imported": 11,
+    "npc_templates_baked": 13,
+    "pavement_polygons_tested": 1869,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 602,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 940
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 521299,
+   "vehicle_lods": {
+    "LOD2": 88
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 502070
+  },
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-1_17",
+    "t_0_15",
+    "t_0_16",
+    "t_0_17",
+    "t_1_15",
+    "t_1_16",
+    "t_1_17"
+   ],
+   "landmark_bins_suppressed": 0,
+   "landmark_faces_suppressed": 0,
+   "lod_substituted": [],
+   "missing": [
+    "t_-1_15",
+    "t_-1_16"
+   ],
+   "new_jersey": [
+    "t_-1_17"
+   ],
+   "per_tile": {
+    "t_-1_17": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 1,
+     "objects": 5,
+     "triangles": 836
+    },
+    "t_0_15": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 13,
+     "triangles": 53200
+    },
+    "t_0_16": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 7,
+     "triangles": 30986
+    },
+    "t_0_17": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 5,
+     "triangles": 5186
+    },
+    "t_1_15": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 12,
+     "triangles": 16354
+    },
+    "t_1_16": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 11,
+     "triangles": 65586
+    },
+    "t_1_17": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 12,
+     "triangles": 31964
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 7,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 2,
+   "tiles_wanted": 9,
+   "tiles_with_new_jersey": 1,
+   "triangle_budget": 3510000,
+   "triangles": 204112
+  },
+  "centre_tm": [
+   421.65,
+   16346.5
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 1,
+    "cornice": 7,
+    "door_entry": 2,
+    "quoin": 14,
+    "string_course": 7,
+    "window": 110
+   },
+   "placed": 141,
+   "radius_m": 120.0,
+   "records_in_range": 141,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_0_16"
+   ],
+   "triangles": 33478,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 813.9,
+     "id": "b_george_washington_bridge",
+     "lod": 0,
+     "name": "George Washington Bridge",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 94736
+    }
+   ],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
+   "placed": 1,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 94736
+  },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brown_brick": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.22,
+      "texture_albedo": 0.2375
+     },
+     "asset_id": "Bricks054",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brownstone": {
+     "albedo": {
+      "scale": 2.682,
+      "target_albedo": 0.2367,
+      "texture_albedo": 0.0882
+     },
+     "asset_id": "Travertine005",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete": {
+     "albedo": {
+      "scale": 1.799,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.2965
+     },
+     "asset_id": "Concrete037",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "granite": {
+     "albedo": {
+      "scale": 0.859,
+      "target_albedo": 0.39,
+      "texture_albedo": 0.4542
+     },
+     "asset_id": "Granite002A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "limestone": {
+     "albedo": {
+      "scale": 1.128,
+      "target_albedo": 0.66,
+      "texture_albedo": 0.5853
+     },
+     "asset_id": "Travertine009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "stone_rubble": {
+     "albedo": {
+      "scale": 2.415,
+      "target_albedo": 0.4233,
+      "texture_albedo": 0.1753
+     },
+     "asset_id": "Bricks102",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "terracotta": {
+     "albedo": {
+      "scale": 0.945,
+      "target_albedo": 0.3833,
+      "texture_albedo": 0.4055
+     },
+     "asset_id": "Marble026",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "vinyl_siding": {
+     "albedo": {
+      "scale": 1.402,
+      "target_albedo": 0.6867,
+      "texture_albedo": 0.4898
+     },
+     "asset_id": "WoodSiding009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.626,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "white_glazed_brick": {
+     "albedo": {
+      "scale": 1.13,
+      "target_albedo": 0.7767,
+      "texture_albedo": 0.6874
+     },
+     "asset_id": "Bricks060",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "wood_clapboard": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 1.384,
+      "scale": 4.0,
+      "target_albedo": 0.5467,
+      "texture_albedo": 0.0988
+     },
+     "asset_id": "WoodSiding013",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.032,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    }
+   },
+   "enabled": true,
+   "flat": {
+    "glass_curtain": "analytic: the catalogue has no photographic set for it"
+   },
+   "resolution": "2K",
+   "slots": 135
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 578,
+    "curb": 2787,
+    "marking_white": 13726,
+    "marking_yellow": 282,
+    "median": 313,
+    "parking_lot": 18,
+    "plaza": 8,
+    "roadbed": 6240,
+    "sidewalk": 1462
+   },
+   "placed": 25414,
+   "radius_m": 900.0,
+   "tiles_missing": [
+    "t_-1_15",
+    "t_-1_17"
+   ],
+   "tiles_read": [
+    "t_-1_16",
+    "t_0_15",
+    "t_0_16",
+    "t_0_17",
+    "t_1_15",
+    "t_1_16",
+    "t_1_17"
+   ],
+   "triangles": 160632,
+   "triangles_cut_for_landmark_ground": 0,
+   "vertices": 211242
+  },
+  "props": {
+   "capped": null,
+   "impostor_cards_dropped": 6,
+   "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 3
+   },
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 12,
+    "hydrant": 12,
+    "manhole": 63,
+    "street_lamp": 28,
+    "tree": 20
+   },
+   "placed": 135,
+   "radius_m": 250.0,
+   "rows_in_range": 152,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_0_16"
+   ],
+   "tree_instances_scaled": 20,
+   "tree_mean_scale": 0.88,
+   "tree_scale_out_of_band": 0,
+   "tree_species_substituted": 17,
+   "triangles": 340380,
+   "unmapped_kinds": {
+    "artwork": 1,
+    "misc_structure": 11,
+    "parks_building": 1,
+    "parks_comfort_station": 1
+   }
+  },
+  "radius_m": 1041.5300238795378,
+  "seconds": 42.5,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
+   "samples": 227,
+   "spacing_m": 2.0,
+   "triangles": 102152,
+   "water_bodies": [
+    {
+     "kind": "river",
+     "name": "HARLEM RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HARLEM RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    }
+   ],
+   "water_quads": 12028,
+   "z_max_m": 79.93,
+   "z_min_m": -0.35
+  },
+  "triangles": 1456789
+ },
+ "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 1041.5300238795378
+ },
+ "seconds": {
+  "render": 27.8,
+  "scene": 42.6,
+  "total": 70.5
+ },
+ "sightline": {
+  "subject_aimed_at": "the subject's mid-height, 87.8 m above its ground",
+  "subject_blocked_at_m": 365.0,
+  "subject_blocked_by": "lm_b_george_washington_bridge.101",
+  "subject_fan_from": "the subject's own measured height (J74)",
+  "subject_fan_half_angle_deg": 12.18,
+  "subject_fan_m": 175.6,
+  "subject_lands_at_m": 390.2,
+  "subject_lands_on": "lm_b_george_washington_bridge.108",
+  "subject_note": "nothing stands within 25 m of the subject's recorded coordinate: the clear rays run on to lm_b_george_washington_bridge.108 at 390 m.  The line is open and the subject is not on it, which is a fault in the item's coordinate or in the model, not in the camera",
+  "subject_range_m": 407.0,
+  "subject_rays": 5,
+  "subject_rays_clear": 3,
+  "subject_rays_into_nothing": 2,
+  "subject_rays_on_subject": 1,
+  "subject_reach_m": 25.0,
+  "subject_visible": false
+ },
+ "slug": "landmark_george_washington_bridge",
+ "status": "rendered",
+ "subject": {
+  "distance_from": "the placed camera, after the clearance walk",
+  "distance_m": 401.0,
+  "height_probe": {
+   "ground_z_m": 2.4,
+   "height_above_ground_m": 176.42,
+   "nearest_catalogue_origin": {
+    "distance_m": 523.9,
+    "height_m": 184.1,
+    "id": "b_george_washington_bridge",
+    "within_120_m": false
+   },
+   "note_origin_rule": "the nearest landmark model origin is 524 m away, past the 120 m the old rule looked in, so this height comes from the geometry and not from the catalogue (J74)",
+   "object": "lm_b_george_washington_bridge.104",
+   "rays_cast": 17,
+   "rays_on_built_fabric": 16,
+   "z": 178.82
+  },
+  "name": "George Washington Bridge New York tower",
+  "origin_distance_m": 401.0
+ },
+ "sun": {
+  "azimuth_deg": 126.53928181304639,
+  "elevation_deg": 52.744925790357875,
+  "local": "2021-04-28T10:52:39-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2021-04-28T14:52:39Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 340.4,
+  "lat": 40.8472,
+  "lon": -73.945,
+  "note": "Hudson River Greenway in Fort Washington Park just south of the bridge, looking north at the New York tower"
+ }
+}

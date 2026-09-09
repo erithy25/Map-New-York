@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_three_times_square",
+ "rendered_at": "2026-09-09T07:57:27Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 854,
+  "mean": 0.1916,
+  "sd": 0.1573,
+  "p05": 0.0339,
+  "p95": 0.4718,
+  "chroma": 0.051
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1280,
+  "mean": 0.39,
+  "sd": 0.2677,
+  "p05": 0.1158,
+  "p95": 0.9824,
+  "chroma": 0.1604
+ },
+ "render_over_reference": {
+  "mean": 0.491,
+  "sd": 0.588,
+  "chroma": 0.318
+ }
+}

@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_lipstick_building",
+ "rendered_at": "2026-09-09T06:10:53Z",
+ "reference_file": "2.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 784,
+  "height": 1394,
+  "mean": 0.1262,
+  "sd": 0.1515,
+  "p05": 0.0042,
+  "p95": 0.4388,
+  "chroma": 0.0447
+ },
+ "reference": {
+  "width": 1920,
+  "height": 3413,
+  "mean": 0.6402,
+  "sd": 0.2743,
+  "p05": 0.191,
+  "p95": 0.9636,
+  "chroma": 0.0572
+ },
+ "render_over_reference": {
+  "mean": 0.197,
+  "sd": 0.552,
+  "chroma": 0.781
+ }
+}

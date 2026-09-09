@@ -1,0 +1,730 @@
+{
+ "agent_request": {
+  "dow": 0,
+  "hour": 13,
+  "local_clock": "2022-08-12 13:54 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "200.2 deg, the bearing from this photograph's own GPS position to Cyclone roller coaster; heading and position both come from the photograph.  The item's recorded azimuth is 225.4 deg, 25.2 deg away, and belongs to its nominal viewpoint",
+ "camera": {
+  "azimuth_deg": 200.2210253221695,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "below_point_excluded": 0,
+   "chosen_m": 1.96,
+   "max_m": 2.18,
+   "median_m": 2.06,
+   "min_m": 1.82,
+   "mode": "street",
+   "percentile": 10.0,
+   "point_m": 2.06,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.575231,
+  "lon": -73.977792,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_coney_island_cyclone",
+  "terrain_z_m": 1.961,
+  "x": -2353.232,
+  "y": -13854.841,
+  "z": 3.561
+ },
+ "camera_caption": "camera 40.57523, -73.97779 (NYC_TM -2353, -13855) z 3.6 m NAVD88 | azimuth 200.2deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.575231,
+  "lon": -73.977792,
+  "offset_from_recorded_m": 53.5,
+  "source": "this photograph's own EXIF camera GPS (40.57523, -73.97779), 54 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
+ "clearance": {
+  "min_view_m": 25.5,
+  "moved": false,
+  "nearest_agent": null,
+  "nearest_agent_m": null,
+  "nearest_agent_probe_m": 60.0,
+  "nearest_obstruction": "lm_b_coney_island.0",
+  "nearest_obstruction_at_deg": [
+   -27.2,
+   10.5
+  ],
+  "nearest_obstruction_m": 25.0,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is lm_b_coney_island.0 25.0 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 87 m",
+  "offset_m": 0.0,
+  "view_m": 87.0
+ },
+ "frame": {
+  "mean": 0.4866,
+  "reason": null,
+  "sd": 0.1085,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal); nothing built stands within 6 m of the subject's coordinate; the nearest built thing is t_-3_-14_tan_brick, 21 m away at bearing 338 deg, so the coordinate the item records is that far off the fabric it names, so the lens was not widened to contain it",
+ "lighting": {
+  "background_strength": 0.030899429693818092,
+  "direct_normal_irradiance_w_m2": 922.8,
+  "emissive": {
+   "cone_faces_deleted": 24,
+   "cones_hidden": 2,
+   "lamps_switched_off": 3,
+   "night": false,
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 208.168,
+  "sky_elevation_deg": 61.731,
+  "sun_lamp": true,
+  "sun_strength_blender": 3.226,
+  "view_transform": "Filmic"
+ },
+ "name": "Coney Island Cyclone",
+ "night": false,
+ "pitch_reason": "level optical axis (nothing built stands at Cyclone roller coaster's coordinate, so its mid-height is not known and there is nothing to tilt towards)",
+ "reference_photo": {
+  "author": "Kidfly182",
+  "confidence": "high",
+  "date_taken": "2022-08-12 13:54:26",
+  "estimated_azimuth_deg": 200.1,
+  "file": "3.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Coney_Island_Cyclone_August_2022_001.jpg",
+  "title": "File:Coney Island Cyclone August 2022 001.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_coney_island_cyclone/render.png",
+ "rendered_at": "2026-09-09T04:54:00Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "agents": {
+   "caption": "Agents: 47 vehicles within 320 m and 203 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 105 vehicles and 177 people over the whole simulated ring, of which 140 and 358 were simulated; 248 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 33,
+    "pedestrian_not_on_walkable_surface": 26,
+    "pedestrian_outside_radius": 96,
+    "vehicle_body_has_no_rider": 5,
+    "vehicle_not_on_carriageway": 3,
+    "vehicle_outside_radius": 85
+   },
+   "ped_lods": {
+    "LOD1": 12,
+    "LOD2": 191
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 313480,
+   "per_class": {
+    "box_truck": 2,
+    "mta_bus": 1,
+    "nypd": 1,
+    "sedan": 24,
+    "suv": 17,
+    "van": 2
+   },
+   "placed_pedestrians": 203,
+   "placed_vehicles": 47,
+   "reason": null,
+   "seconds": 73.22,
+   "snapshot": {
+    "building_footprints_tested": 609,
+    "density_lane_km": 13.707,
+    "density_sidewalk_m2": 7949,
+    "density_target_pedestrians": 177.0,
+    "density_target_vehicles": 104.9,
+    "dow": 0,
+    "hour": 13,
+    "lanes_considered": 129,
+    "lanes_with_nta": 129,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.73,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_archetypes_available": 36,
+    "npc_bodies_imported": 36,
+    "npc_templates_baked": 121,
+    "pavement_polygons_tested": 630,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 358,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 140
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 579502,
+   "vehicle_lods": {
+    "LOD2": 47
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 266022
+  },
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-2_-14",
+    "t_-2_-15",
+    "t_-3_-14",
+    "t_-3_-15"
+   ],
+   "landmark_bins_suppressed": 7,
+   "landmark_faces_suppressed": 280,
+   "lod_substituted": [],
+   "missing": [],
+   "new_jersey": [],
+   "per_tile": {
+    "t_-2_-14": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 12,
+     "triangles": 45770
+    },
+    "t_-2_-15": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 2,
+     "triangles": 36
+    },
+    "t_-3_-14": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 12,
+     "triangles": 22276
+    },
+    "t_-3_-15": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 6,
+     "triangles": 1966
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 4,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 0,
+   "tiles_wanted": 4,
+   "tiles_with_new_jersey": 0,
+   "triangle_budget": 3510000,
+   "triangles": 70048
+  },
+  "centre_tm": [
+   -2353.23,
+   -13854.84
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 14,
+    "cornice": 15,
+    "door_entry": 24,
+    "hvac": 1,
+    "parapet": 48,
+    "pilaster": 24,
+    "quoin": 9,
+    "storefront": 197,
+    "storefront_interior": 13,
+    "string_course": 15,
+    "window": 2510
+   },
+   "placed": 2870,
+   "radius_m": 173.52421384829242,
+   "records_in_range": 2947,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 77,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_-14",
+    "t_-3_-15"
+   ],
+   "triangles": 541224,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 147.4,
+     "id": "b_coney_island",
+     "lod": 0,
+     "name": "Coney Island: Cyclone, Wonder Wheel, Parachute Jump and Boardwalk",
+     "own_ground_m2": 374.1,
+     "own_ground_note": {
+      "above_heightmap_m": -0.07,
+      "heightmap_median_m": 2.07
+     },
+     "own_ground_parts": 1,
+     "triangles": 37308
+    }
+   ],
+   "own_ground_from": [
+    "b_coney_island"
+   ],
+   "own_ground_m2": 374.1,
+   "placed": 1,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 37308
+  },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brown_brick": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.22,
+      "texture_albedo": 0.2375
+     },
+     "asset_id": "Bricks054",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete": {
+     "albedo": {
+      "scale": 1.799,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.2965
+     },
+     "asset_id": "Concrete037",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "limestone": {
+     "albedo": {
+      "scale": 1.128,
+      "target_albedo": 0.66,
+      "texture_albedo": 0.5853
+     },
+     "asset_id": "Travertine009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "precast": {
+     "albedo": {
+      "scale": 1.273,
+      "target_albedo": 0.6133,
+      "texture_albedo": 0.4818
+     },
+     "asset_id": "Concrete034",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "stucco": {
+     "albedo": {
+      "scale": 1.0,
+      "target_albedo": 0.6667,
+      "texture_albedo": 0.6543
+     },
+     "asset_id": "Plaster001",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "vinyl_siding": {
+     "albedo": {
+      "scale": 1.402,
+      "target_albedo": 0.6867,
+      "texture_albedo": 0.4898
+     },
+     "asset_id": "WoodSiding009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.626,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "wood_clapboard": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 1.384,
+      "scale": 4.0,
+      "target_albedo": 0.5467,
+      "texture_albedo": 0.0988
+     },
+     "asset_id": "WoodSiding013",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.032,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    }
+   },
+   "enabled": true,
+   "flat": {
+    "glass_curtain": "analytic: the catalogue has no photographic set for it"
+   },
+   "resolution": "2K",
+   "slots": 64
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 120,
+    "curb": 996,
+    "marking_white": 2557,
+    "marking_yellow": 154,
+    "median": 214,
+    "parking_lot": 2494,
+    "plaza": 3,
+    "roadbed": 2196,
+    "sidewalk": 3425
+   },
+   "placed": 12159,
+   "radius_m": 553.5242138482924,
+   "tiles_missing": [
+    "t_-2_-15"
+   ],
+   "tiles_read": [
+    "t_-2_-14",
+    "t_-3_-14",
+    "t_-3_-15"
+   ],
+   "triangles": 62281,
+   "triangles_cut_for_landmark_ground": 0,
+   "vertices": 86563
+  },
+  "props": {
+   "capped": null,
+   "impostor_cards_dropped": 9,
+   "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 30
+   },
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 60,
+    "bike_shelter": 1,
+    "bus_stop_sign": 6,
+    "cooling_tower": 63,
+    "flagpole": 8,
+    "hydrant": 33,
+    "manhole": 49,
+    "street_lamp": 64,
+    "subway_entrance": 5,
+    "tree": 145,
+    "waste_basket": 1
+   },
+   "placed": 435,
+   "radius_m": 303.52421384829245,
+   "rows_in_range": 493,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_-14",
+    "t_-3_-15"
+   ],
+   "tree_instances_scaled": 144,
+   "tree_mean_scale": 0.866,
+   "tree_scale_out_of_band": 1,
+   "tree_species_substituted": 117,
+   "triangles": 1039096,
+   "unmapped_kinds": {
+    "artwork": 1,
+    "billboard": 5,
+    "drinking_fountain": 2,
+    "memorial": 1,
+    "misc_structure": 3,
+    "parks_building": 14,
+    "parks_comfort_station": 1,
+    "vending_machine": 1
+   }
+  },
+  "radius_m": 553.5242138482924,
+  "seconds": 102.64,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
+   "samples": 203,
+   "spacing_m": 2.0,
+   "triangles": 81608,
+   "water_bodies": [
+    {
+     "kind": "bay",
+     "name": "ROCKAWAY INLET",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "ROCKAWAY INLET",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "CONEY ISLAND CREEK",
+     "water_z_m": 0.0
+    }
+   ],
+   "water_quads": 1180,
+   "z_max_m": 5.07,
+   "z_min_m": -1.48
+  },
+  "triangles": 2411067
+ },
+ "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
+  "kit_radius_m": 173.52421384829242,
+  "prop_radius_m": 303.52421384829245,
+  "radius_m": 553.5242138482924
+ },
+ "seconds": {
+  "render": 38.6,
+  "scene": 103.7,
+  "total": 142.2
+ },
+ "sightline": {
+  "subject_note": "nothing built stands within 6 m of the subject's coordinate; the nearest built thing is t_-3_-14_tan_brick, 21 m away at bearing 338 deg, so the coordinate the item records is that far off the fabric it names; no sightline was tested",
+  "subject_visible": null
+ },
+ "slug": "landmark_coney_island_cyclone",
+ "status": "rendered",
+ "subject": {
+  "distance_from": "the placed camera, after the clearance walk",
+  "distance_m": 51.0,
+  "height_probe": {
+   "ground_z_m": 2.25,
+   "nearest_built": {
+    "bearing_deg": 337.5,
+    "distance_m": 21.0,
+    "object": "t_-3_-14_tan_brick",
+    "reach_m": 120.0
+   },
+   "nearest_catalogue_origin": {
+    "distance_m": 103.5,
+    "height_m": 79.86,
+    "id": "b_coney_island",
+    "within_120_m": true
+   },
+   "note": "nothing built stands within 6 m of the subject's coordinate; the nearest built thing is t_-3_-14_tan_brick, 21 m away at bearing 338 deg, so the coordinate the item records is that far off the fabric it names",
+   "object": null,
+   "rays_cast": 17,
+   "rays_on_built_fabric": 0,
+   "z": null
+  },
+  "name": "Cyclone roller coaster",
+  "origin_distance_m": 51.0
+ },
+ "sun": {
+  "azimuth_deg": 208.1678392070087,
+  "elevation_deg": 61.73112066128962,
+  "local": "2022-08-12T13:54:26-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2022-08-12T17:54:26Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 225.4,
+  "lat": 40.5754,
+  "lon": -73.9772,
+  "note": "Surf Avenue at West 10th Street, north sidewalk, looking south-west at the lift hill"
+ }
+}

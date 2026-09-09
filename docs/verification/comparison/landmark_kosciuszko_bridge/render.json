@@ -1,0 +1,865 @@
+{
+ "agent_request": {
+  "dow": 0,
+  "hour": 14,
+  "local_clock": "2022-07-01 14:21 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "57.0 deg, the bearing from this photograph's own GPS position to Kosciuszko Bridge; heading and position both come from the photograph.  The item's recorded azimuth is 20.0 deg, 37.0 deg away, and belongs to its nominal viewpoint",
+ "camera": {
+  "azimuth_deg": 57.03885196893516,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "below_point_excluded": 0,
+   "chosen_m": 9.46,
+   "max_m": 10.01,
+   "median_m": 9.6,
+   "min_m": 9.24,
+   "mode": "street",
+   "percentile": 10.0,
+   "point_m": 9.57,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.725669,
+  "lon": -73.933219,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_kosciuszko_bridge",
+  "terrain_z_m": 9.456,
+  "x": 1426.537,
+  "y": 2823.261,
+  "z": 11.056
+ },
+ "camera_caption": "camera 40.72567, -73.93322 (NYC_TM 1427, 2823) z 11.1 m NAVD88 | azimuth 57.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.725669,
+  "lon": -73.933219,
+  "offset_from_recorded_m": 300.9,
+  "source": "this photograph's own EXIF camera GPS (40.72567, -73.93322), 301 m from the item's recorded viewpoint -- the position the picture was taken from.  It is past the 250 m sanity radius, but this item is a view *of* Kosciuszko Bridge and the photograph stands 415 m from it against the recorded viewpoint's 500 m, on the same side to 37.0 deg, so the measurement is kept and the estimate is not"
+ },
+ "clearance": {
+  "direction": "onto the nearest roadbed",
+  "min_view_m": 80.0,
+  "moved": true,
+  "nearest_agent": null,
+  "nearest_agent_m": null,
+  "nearest_agent_measured": "after the cull over the observer",
+  "nearest_agent_probe_m": 20.0,
+  "nearest_obstruction": null,
+  "nearest_obstruction_at_deg": [
+   0.0,
+   0.0
+  ],
+  "nearest_obstruction_m": 20.0,
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 6 m ahead, less than the 80 m this frame needs to show its subject; the camera was moved 27 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 92 m from there, and nothing built stands within 20 m of the lens, and no simulated agent stands within 20 m of it",
+  "offset_m": 27.3,
+  "reason": "boxed in: the view azimuth is closed off 6 m ahead, less than the 80 m this frame needs to show its subject",
+  "rule": "pavement snap with a clear frame",
+  "view_m": 92.5
+ },
+ "frame": {
+  "mean": 0.4655,
+  "reason": null,
+  "sd": 0.1661,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.030703572556376457,
+  "direct_normal_irradiance_w_m2": 930.3,
+  "emissive": {
+   "cone_faces_deleted": 24,
+   "cones_hidden": 2,
+   "lamps_switched_off": 3,
+   "night": false,
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 230.597,
+  "sky_elevation_deg": 65.315,
+  "sun_lamp": true,
+  "sun_strength_blender": 3.253,
+  "view_transform": "Filmic"
+ },
+ "name": "Kosciuszko Bridge",
+ "night": false,
+ "pitch_reason": "level optical axis (the subject is 415 m away; anything that far is photographed with a level camera)",
+ "reference_photo": {
+  "author": "Kidfly182",
+  "confidence": "high",
+  "date_taken": "2022-07-01 14:21:51",
+  "estimated_azimuth_deg": 56.9,
+  "file": "1.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Under_the_K_Bridge_Park_017.jpg",
+  "title": "File:Under the K Bridge Park 017.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_kosciuszko_bridge/render.png",
+ "rendered_at": "2026-09-09T05:52:21Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "agents": {
+   "caption": "Agents: 69 vehicles within 320 m and 347 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 399 vehicles and 854 people over the whole simulated ring, of which 432 and 1011 were simulated; 1027 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "culled_after_camera_move": {
+    "pedestrian_over_the_observer": 0,
+    "vehicle_over_the_observer": 1
+   },
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 199,
+    "pedestrian_inside_building": 1,
+    "pedestrian_not_on_walkable_surface": 72,
+    "pedestrian_outside_radius": 354,
+    "pedestrian_triangle_budget": 38,
+    "vehicle_body_has_no_rider": 16,
+    "vehicle_not_on_carriageway": 16,
+    "vehicle_outside_radius": 155,
+    "vehicle_over_the_observer": 1,
+    "vehicle_triangle_budget": 176
+   },
+   "ped_lods": {
+    "LOD0": 3,
+    "LOD1": 19,
+    "LOD2": 325
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 579298,
+   "per_class": {
+    "black_car": 4,
+    "boro_taxi": 2,
+    "mta_bus": 2,
+    "sedan": 30,
+    "suv": 16,
+    "taxi": 13,
+    "van": 2
+   },
+   "placed_pedestrians": 347,
+   "placed_vehicles": 68,
+   "reason": null,
+   "seconds": 125.2,
+   "snapshot": {
+    "building_footprints_tested": 492,
+    "density_lane_km": 24.105,
+    "density_sidewalk_m2": 25768,
+    "density_target_pedestrians": 854.3,
+    "density_target_vehicles": 399.2,
+    "dow": 0,
+    "hour": 14,
+    "lanes_considered": 271,
+    "lanes_with_nta": 253,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.64,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_archetypes_available": 36,
+    "npc_bodies_imported": 36,
+    "npc_templates_baked": 169,
+    "pavement_polygons_tested": 788,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 1011,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 432
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1084325,
+   "vehicle_lods": {
+    "LOD1": 5,
+    "LOD2": 64
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 505027
+  },
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_0_1",
+    "t_0_2",
+    "t_0_3",
+    "t_0_4",
+    "t_1_1",
+    "t_1_2",
+    "t_1_3",
+    "t_1_4",
+    "t_2_1",
+    "t_2_2",
+    "t_2_3",
+    "t_2_4"
+   ],
+   "landmark_bins_suppressed": 0,
+   "landmark_faces_suppressed": 0,
+   "lod_substituted": [],
+   "missing": [],
+   "new_jersey": [],
+   "per_tile": {
+    "t_0_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 12,
+     "triangles": 46608
+    },
+    "t_0_2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 13,
+     "triangles": 101966
+    },
+    "t_0_3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 10,
+     "triangles": 24818
+    },
+    "t_0_4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 12,
+     "triangles": 4340
+    },
+    "t_1_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 10,
+     "triangles": 9028
+    },
+    "t_1_2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 8,
+     "triangles": 10982
+    },
+    "t_1_3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 9,
+     "triangles": 6090
+    },
+    "t_1_4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 11,
+     "triangles": 9852
+    },
+    "t_2_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 11,
+     "triangles": 10682
+    },
+    "t_2_2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 8,
+     "triangles": 5422
+    },
+    "t_2_3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 9,
+     "triangles": 8560
+    },
+    "t_2_4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 11,
+     "triangles": 40708
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 12,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 0,
+   "tiles_wanted": 12,
+   "tiles_with_new_jersey": 0,
+   "triangle_budget": 3510000,
+   "triangles": 279056
+  },
+  "centre_tm": [
+   1417.71,
+   2850.64
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "billboard": 55,
+    "bulkhead": 112,
+    "cornice": 17,
+    "door_entry": 280,
+    "fence": 56,
+    "hvac": 119,
+    "parapet": 763,
+    "pilaster": 28,
+    "quoin": 4,
+    "storefront": 196,
+    "storefront_interior": 23,
+    "string_course": 2,
+    "window": 2868,
+    "window_accessory": 89
+   },
+   "placed": 4612,
+   "radius_m": 420.8963136074642,
+   "records_in_range": 4612,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_0_2",
+    "t_1_2",
+    "t_1_3"
+   ],
+   "triangles": 1002756,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 381.6,
+     "id": "b_kosciuszko",
+     "lod": 0,
+     "name": "Kosciuszko Bridge",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 33560
+    }
+   ],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
+   "placed": 1,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 33560
+  },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brown_brick": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.22,
+      "texture_albedo": 0.2375
+     },
+     "asset_id": "Bricks054",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brownstone": {
+     "albedo": {
+      "scale": 2.682,
+      "target_albedo": 0.2367,
+      "texture_albedo": 0.0882
+     },
+     "asset_id": "Travertine005",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete": {
+     "albedo": {
+      "scale": 1.799,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.2965
+     },
+     "asset_id": "Concrete037",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "limestone": {
+     "albedo": {
+      "scale": 1.128,
+      "target_albedo": 0.66,
+      "texture_albedo": 0.5853
+     },
+     "asset_id": "Travertine009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "precast": {
+     "albedo": {
+      "scale": 1.273,
+      "target_albedo": 0.6133,
+      "texture_albedo": 0.4818
+     },
+     "asset_id": "Concrete034",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "stone_rubble": {
+     "albedo": {
+      "scale": 2.415,
+      "target_albedo": 0.4233,
+      "texture_albedo": 0.1753
+     },
+     "asset_id": "Bricks102",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "terracotta": {
+     "albedo": {
+      "scale": 0.945,
+      "target_albedo": 0.3833,
+      "texture_albedo": 0.4055
+     },
+     "asset_id": "Marble026",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "vinyl_siding": {
+     "albedo": {
+      "scale": 1.402,
+      "target_albedo": 0.6867,
+      "texture_albedo": 0.4898
+     },
+     "asset_id": "WoodSiding009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.626,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    }
+   },
+   "enabled": true,
+   "flat": {
+    "glass_curtain": "analytic: the catalogue has no photographic set for it"
+   },
+   "resolution": "2K",
+   "slots": 248
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 275,
+    "curb": 1495,
+    "marking_white": 5547,
+    "marking_yellow": 350,
+    "median": 368,
+    "parking_lot": 2313,
+    "roadbed": 5704,
+    "sidewalk": 3859
+   },
+   "placed": 19911,
+   "radius_m": 900.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_0_2",
+    "t_0_3",
+    "t_1_1",
+    "t_1_2",
+    "t_1_3",
+    "t_2_2",
+    "t_2_3"
+   ],
+   "triangles": 137675,
+   "triangles_cut_for_landmark_ground": 0,
+   "vertices": 177375
+  },
+  "props": {
+   "capped": "triangle budget 1376403",
+   "impostor_cards_dropped": 17,
+   "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 75
+   },
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 38,
+    "bus_stop_sign": 5,
+    "citibike_dock": 1,
+    "cooling_tower": 49,
+    "hydrant": 66,
+    "mailbox": 1,
+    "manhole": 190,
+    "street_lamp": 199,
+    "tree": 106,
+    "waste_basket": 16
+   },
+   "placed": 671,
+   "radius_m": 550.8963136074642,
+   "rows_in_range": 1243,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_0_2",
+    "t_0_3",
+    "t_1_2",
+    "t_1_3"
+   ],
+   "tree_instances_scaled": 106,
+   "tree_mean_scale": 0.885,
+   "tree_scale_out_of_band": 0,
+   "tree_species_substituted": 45,
+   "triangles": 1378110,
+   "unmapped_kinds": {
+    "drinking_fountain": 1,
+    "memorial": 1,
+    "misc_structure": 7,
+    "parks_comfort_station": 1
+   }
+  },
+  "radius_m": 1364.382515887816,
+  "seconds": 191.76,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
+   "samples": 243,
+   "spacing_m": 2.0,
+   "triangles": 117128,
+   "water_bodies": [
+    {
+     "kind": "bay",
+     "name": "EAST CHANNEL",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 1.47
+    },
+    {
+     "kind": "river",
+     "name": "DUTCH KILLS",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "EAST RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "ENGLISH KILLS",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "MASPETH CREEK",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "NEWTOWN CREEK",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "NEWTOWN CREEK",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "WHALE CREEK",
+     "water_z_m": 0.0
+    }
+   ],
+   "water_quads": 1076,
+   "z_max_m": 35.47,
+   "z_min_m": -1.62
+  },
+  "triangles": 4032610
+ },
+ "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
+  "kit_radius_m": 420.8963136074642,
+  "prop_radius_m": 550.8963136074642,
+  "radius_m": 1364.382515887816
+ },
+ "seconds": {
+  "render": 71.3,
+  "scene": 198.4,
+  "total": 269.6
+ },
+ "sightline": {
+  "subject_aimed_at": "the subject's mid-height, 15.6 m above its ground",
+  "subject_blocked_at_m": 53.7,
+  "subject_blocked_by": "t_1_2_concrete",
+  "subject_fan_from": "the subject's own measured height (J74)",
+  "subject_fan_half_angle_deg": 2.11,
+  "subject_fan_m": 31.2,
+  "subject_lands_at_m": null,
+  "subject_lands_on": null,
+  "subject_range_m": 423.1,
+  "subject_rays": 5,
+  "subject_rays_clear": 0,
+  "subject_rays_into_nothing": 0,
+  "subject_rays_on_subject": 0,
+  "subject_reach_m": 25.0,
+  "subject_visible": false
+ },
+ "slug": "landmark_kosciuszko_bridge",
+ "status": "rendered",
+ "subject": {
+  "distance_from": "the placed camera, after the clearance walk",
+  "distance_m": 423.1,
+  "height_probe": {
+   "ground_z_m": 0.0,
+   "height_above_ground_m": 31.21,
+   "nearest_catalogue_origin": {
+    "distance_m": 36.2,
+    "height_m": 122.53,
+    "id": "b_kosciuszko",
+    "within_120_m": true
+   },
+   "object": "lm_b_kosciuszko.23",
+   "rays_cast": 17,
+   "rays_on_built_fabric": 14,
+   "z": 31.21
+  },
+  "name": "Kosciuszko Bridge",
+  "origin_distance_m": 414.7
+ },
+ "sun": {
+  "azimuth_deg": 230.59653298875108,
+  "elevation_deg": 65.31511419034393,
+  "local": "2022-07-01T14:21:51-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2022-07-01T18:21:51Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 20.0,
+  "lat": 40.723475,
+  "lon": -73.931129,
+  "note": "Meeker Avenue in East Williamsburg, about 500 m south-south-west of the main span, looking north-north-east at the cable-stayed tower"
+ }
+}

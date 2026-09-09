@@ -1,0 +1,837 @@
+{
+ "agent_request": {
+  "dow": 1,
+  "hour": 16,
+  "local_clock": "2022-04-16 16:17 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "114.0 deg, the bearing from this photograph's own GPS position to Cathedral of St. John the Divine; heading and position both come from the photograph.  The item's recorded azimuth is 80.0 deg, 34.0 deg away, and belongs to its nominal viewpoint",
+ "camera": {
+  "azimuth_deg": 114.02990421234085,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 26.858770762169208,
+  "ground_detail": {
+   "below_point_excluded": 0,
+   "chosen_m": 36.56,
+   "max_m": 37.15,
+   "median_m": 36.81,
+   "min_m": 36.37,
+   "mode": "street",
+   "percentile": 10.0,
+   "point_m": 36.67,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 67.658,
+  "lat": 40.804227,
+  "lon": -73.963081,
+  "long_side_fov_deg": 67.658,
+  "pitch_deg": 0.43494289732340263,
+  "portrait": false,
+  "resolution": [
+   1044,
+   1044
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_st_john_the_divine",
+  "terrain_z_m": 36.558,
+  "x": -1103.822,
+  "y": 11574.399,
+  "z": 38.158
+ },
+ "camera_caption": "camera 40.80423, -73.96308 (NYC_TM -1104, 11574) z 38.2 m NAVD88 | azimuth 114.0deg pitch +0.4deg | 27 mm on 36 mm (67.7deg horizontal) | 1044x1044",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.804227,
+  "lon": -73.963081,
+  "offset_from_recorded_m": 74.5,
+  "source": "this photograph's own EXIF camera GPS (40.80423, -73.96308), 74 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
+ "clearance": {
+  "min_view_m": 46.2,
+  "moved": false,
+  "nearest_agent": "agent_veh_camry_boro_taxi_344.0",
+  "nearest_agent_at_deg": [
+   -33.8,
+   0.0
+  ],
+  "nearest_agent_m": 12.9,
+  "nearest_agent_probe_m": 60.0,
+  "nearest_obstruction": "prop_tree_pin_oak_small_11",
+  "nearest_obstruction_at_deg": [
+   0.0,
+   16.9
+  ],
+  "nearest_obstruction_m": 18.9,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_tree_pin_oak_small_11 18.9 m away, and the nearest simulated agent is agent_veh_camry_boro_taxi_344.0 12.9 m away, and the view azimuth is clear for 150 m",
+  "offset_m": 0.0,
+  "view_m": 150.0
+ },
+ "frame": {
+  "mean": 0.0863,
+  "reason": null,
+  "sd": 0.0606,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "widened from 35 mm to 27 mm (68 deg vertical) so that a level axis contains the subject: the top of lm_c_st_john_the_divine.3, the built thing standing at the subject's coordinate, 53 m above the ground there stands 54 m above the lens at 92 m, 30 deg above the horizon",
+ "lighting": {
+  "background_strength": 0.03428664803504944,
+  "direct_normal_irradiance_w_m2": 819.0,
+  "emissive": {
+   "cone_faces_deleted": 24,
+   "cones_hidden": 2,
+   "lamps_switched_off": 4,
+   "night": false,
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.24,
+  "sky_azimuth_deg": 250.093,
+  "sky_elevation_deg": 36.347,
+  "sun_lamp": true,
+  "sun_strength_blender": 2.864,
+  "view_transform": "Filmic"
+ },
+ "name": "Cathedral of St. John the Divine",
+ "night": false,
+ "pitch_reason": "tilted +0.4 deg to contain the subject: the top of lm_c_st_john_the_divine.3, the built thing standing at the subject's coordinate, 53 m above the ground there tops out 54 m above the lens 92 m away, 30 deg above the horizon, and the frame is only 68 deg tall at 27 mm. **The verticals converge, so this frame is not comparable with the photograph on proportion** -- it is here to show the subject at all",
+ "reference_photo": {
+  "author": "ajay_suresh",
+  "confidence": "high",
+  "date_taken": "2022-04-16 16:17",
+  "estimated_azimuth_deg": 114.1,
+  "file": "1.jpg",
+  "height": 1920,
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Cathedral_of_St._John_the_Divine_(52009407636).jpg",
+  "title": "File:Cathedral of St. John the Divine (52009407636).jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_st_john_the_divine/render.png",
+ "rendered_at": "2026-09-09T07:37:41Z",
+ "resolution_note": "1044x1044; the reference photograph is 1920x1920 (1.00:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "agents": {
+   "caption": "Agents: 67 vehicles within 320 m and 271 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 268 vehicles and 948 people over the whole simulated ring, of which 293 and 1162 were simulated; 1117 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 114,
+    "pedestrian_not_on_walkable_surface": 38,
+    "pedestrian_outside_radius": 546,
+    "pedestrian_over_the_observer": 2,
+    "pedestrian_triangle_budget": 191,
+    "vehicle_body_has_no_rider": 17,
+    "vehicle_not_on_carriageway": 2,
+    "vehicle_outside_radius": 207
+   },
+   "ped_lods": {
+    "LOD0": 5,
+    "LOD1": 33,
+    "LOD2": 233
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 578766,
+   "per_class": {
+    "black_car": 2,
+    "boro_taxi": 4,
+    "box_truck": 1,
+    "dsny_truck": 1,
+    "mta_bus": 1,
+    "sedan": 29,
+    "suv": 22,
+    "taxi": 6,
+    "van": 1
+   },
+   "placed_pedestrians": 271,
+   "placed_vehicles": 67,
+   "reason": null,
+   "seconds": 91.94,
+   "snapshot": {
+    "building_footprints_tested": 1771,
+    "density_lane_km": 26.86,
+    "density_sidewalk_m2": 25703,
+    "density_target_pedestrians": 947.7,
+    "density_target_vehicles": 268.3,
+    "dow": 1,
+    "hour": 16,
+    "lanes_considered": 260,
+    "lanes_with_nta": 260,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.75,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_archetypes_available": 36,
+    "npc_bodies_imported": 36,
+    "npc_templates_baked": 150,
+    "pavement_polygons_tested": 2149,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 1162,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 293
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1004625,
+   "vehicle_lods": {
+    "LOD1": 2,
+    "LOD2": 65
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 425859
+  },
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-1_10",
+    "t_-1_11",
+    "t_-1_12",
+    "t_-2_10",
+    "t_-2_11",
+    "t_-2_12"
+   ],
+   "landmark_bins_suppressed": 4,
+   "landmark_faces_suppressed": 716,
+   "lod_substituted": [],
+   "missing": [],
+   "new_jersey": [],
+   "per_tile": {
+    "t_-1_10": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 12,
+     "triangles": 7004
+    },
+    "t_-1_11": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 15,
+     "triangles": 114344
+    },
+    "t_-1_12": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 15,
+     "triangles": 64516
+    },
+    "t_-2_10": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 14,
+     "triangles": 78054
+    },
+    "t_-2_11": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 13,
+     "triangles": 76998
+    },
+    "t_-2_12": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 11,
+     "triangles": 6504
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 6,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 0,
+   "tiles_wanted": 6,
+   "tiles_with_new_jersey": 0,
+   "triangle_budget": 3510000,
+   "triangles": 347420
+  },
+  "centre_tm": [
+   -1103.82,
+   11574.4
+  ],
+  "kit": {
+   "capped": "triangle budget 1510509",
+   "per_category": {
+    "antenna": 3,
+    "bulkhead": 24,
+    "cornice": 60,
+    "door_entry": 42,
+    "fire_escape": 132,
+    "hvac": 22,
+    "parapet": 43,
+    "quoin": 91,
+    "scaffold": 68,
+    "storefront": 116,
+    "storefront_interior": 12,
+    "string_course": 54,
+    "water_tower": 12,
+    "window": 5450,
+    "window_accessory": 559
+   },
+   "placed": 6688,
+   "radius_m": 194.48598026401555,
+   "records_in_range": 22533,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 56,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-1_11",
+    "t_-2_11"
+   ],
+   "triangles": 1510590,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 130.8,
+     "id": "c_st_john_the_divine",
+     "lod": 0,
+     "name": "Cathedral Church of St. John the Divine",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 4833
+    },
+    {
+     "distance_m": 2268.7,
+     "id": "b_central_park_walls_gates",
+     "lod": 0,
+     "name": "Central Park perimeter wall and gates",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 18448
+    }
+   ],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
+   "placed": 2,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 23281
+  },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brown_brick": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.22,
+      "texture_albedo": 0.2375
+     },
+     "asset_id": "Bricks054",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brownstone": {
+     "albedo": {
+      "scale": 2.682,
+      "target_albedo": 0.2367,
+      "texture_albedo": 0.0882
+     },
+     "asset_id": "Travertine005",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete": {
+     "albedo": {
+      "scale": 1.799,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.2965
+     },
+     "asset_id": "Concrete037",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "granite": {
+     "albedo": {
+      "scale": 0.859,
+      "target_albedo": 0.39,
+      "texture_albedo": 0.4542
+     },
+     "asset_id": "Granite002A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "limestone": {
+     "albedo": {
+      "scale": 1.128,
+      "target_albedo": 0.66,
+      "texture_albedo": 0.5853
+     },
+     "asset_id": "Travertine009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "precast": {
+     "albedo": {
+      "scale": 1.273,
+      "target_albedo": 0.6133,
+      "texture_albedo": 0.4818
+     },
+     "asset_id": "Concrete034",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "stone_rubble": {
+     "albedo": {
+      "scale": 2.415,
+      "target_albedo": 0.4233,
+      "texture_albedo": 0.1753
+     },
+     "asset_id": "Bricks102",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "terracotta": {
+     "albedo": {
+      "scale": 0.945,
+      "target_albedo": 0.3833,
+      "texture_albedo": 0.4055
+     },
+     "asset_id": "Marble026",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "vinyl_siding": {
+     "albedo": {
+      "scale": 1.402,
+      "target_albedo": 0.6867,
+      "texture_albedo": 0.4898
+     },
+     "asset_id": "WoodSiding009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.626,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "white_glazed_brick": {
+     "albedo": {
+      "scale": 1.13,
+      "target_albedo": 0.7767,
+      "texture_albedo": 0.6874
+     },
+     "asset_id": "Bricks060",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "wood_clapboard": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 1.384,
+      "scale": 4.0,
+      "target_albedo": 0.5467,
+      "texture_albedo": 0.0988
+     },
+     "asset_id": "WoodSiding013",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.032,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    }
+   },
+   "enabled": true,
+   "flat": {
+    "glass_curtain": "analytic: the catalogue has no photographic set for it"
+   },
+   "resolution": "2K",
+   "slots": 160
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 487,
+    "curb": 2594,
+    "marking_white": 8500,
+    "marking_yellow": 254,
+    "median": 257,
+    "parking_lot": 223,
+    "plaza": 292,
+    "roadbed": 3806,
+    "sidewalk": 5220
+   },
+   "placed": 21633,
+   "radius_m": 622.4501179398073,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-1_10",
+    "t_-1_11",
+    "t_-1_12",
+    "t_-2_10",
+    "t_-2_11",
+    "t_-2_12"
+   ],
+   "triangles": 172515,
+   "triangles_cut_for_landmark_ground": 0,
+   "vertices": 215591
+  },
+  "props": {
+   "capped": "triangle budget 1355743",
+   "impostor_cards_dropped": 20,
+   "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 36
+   },
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 9,
+    "bike_rack": 8,
+    "bus_shelter": 2,
+    "bus_stop_sign": 7,
+    "citibike_dock": 1,
+    "cooling_tower": 16,
+    "hydrant": 34,
+    "manhole": 41,
+    "street_lamp": 47,
+    "tree": 223,
+    "waste_basket": 4
+   },
+   "placed": 392,
+   "radius_m": 324.48598026401555,
+   "rows_in_range": 1274,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-1_11",
+    "t_-2_11"
+   ],
+   "tree_instances_scaled": 223,
+   "tree_mean_scale": 0.923,
+   "tree_scale_out_of_band": 0,
+   "tree_species_substituted": 66,
+   "triangles": 1358418,
+   "unmapped_kinds": {
+    "artwork": 5
+   }
+  },
+  "radius_m": 622.4501179398073,
+  "seconds": 142.33,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
+   "samples": 205,
+   "spacing_m": 2.0,
+   "triangles": 83232,
+   "water_bodies": [
+    {
+     "kind": "pond",
+     "name": "Morningside Pond",
+     "water_z_m": 9.52
+    },
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    }
+   ],
+   "water_quads": 22,
+   "z_max_m": 46.59,
+   "z_min_m": 0.0
+  },
+  "triangles": 4500081
+ },
+ "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
+  "kit_radius_m": 194.48598026401555,
+  "prop_radius_m": 324.48598026401555,
+  "radius_m": 622.4501179398073
+ },
+ "seconds": {
+  "render": 50.4,
+  "scene": 144.4,
+  "total": 194.8
+ },
+ "sightline": {
+  "subject_aimed_at": "the subject's mid-height, 26.5 m above its ground",
+  "subject_blocked_at_m": 18.6,
+  "subject_blocked_by": "prop_tree_pin_oak_small_11",
+  "subject_fan_from": "the subject's own measured height (J74)",
+  "subject_fan_half_angle_deg": 15.0,
+  "subject_fan_m": 52.9,
+  "subject_lands_at_m": null,
+  "subject_lands_on": null,
+  "subject_range_m": 96.5,
+  "subject_rays": 5,
+  "subject_rays_clear": 0,
+  "subject_rays_into_nothing": 0,
+  "subject_rays_on_subject": 0,
+  "subject_reach_m": 25.0,
+  "subject_visible": false
+ },
+ "slug": "landmark_st_john_the_divine",
+ "status": "rendered",
+ "subject": {
+  "distance_from": "the placed camera, after the clearance walk",
+  "distance_m": 92.5,
+  "height_probe": {
+   "ground_z_m": 38.91,
+   "height_above_ground_m": 53.19,
+   "nearest_catalogue_origin": {
+    "distance_m": 38.3,
+    "height_m": 71.0,
+    "id": "c_st_john_the_divine",
+    "within_120_m": true
+   },
+   "object": "lm_c_st_john_the_divine.3",
+   "rays_cast": 17,
+   "rays_on_built_fabric": 17,
+   "z": 92.1
+  },
+  "name": "Cathedral of St. John the Divine",
+  "origin_distance_m": 92.5
+ },
+ "sun": {
+  "azimuth_deg": 250.0928067997657,
+  "elevation_deg": 36.3468660437396,
+  "local": "2022-04-16T16:17:00-04:00",
+  "time_source": "EXIF DateTimeOriginal (minutes)",
+  "utc": "2022-04-16T20:17:00Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 80.0,
+  "lat": 40.803685,
+  "lon": -73.963601,
+  "note": "Amsterdam Avenue at West 112th Street, about 130 m west of the cathedral, looking east at the west front and rose window"
+ }
+}

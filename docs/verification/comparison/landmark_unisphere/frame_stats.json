@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_unisphere",
+ "rendered_at": "2026-09-09T08:24:36Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1204,
+  "height": 906,
+  "mean": 0.5561,
+  "sd": 0.2693,
+  "p05": 0.1138,
+  "p95": 0.9221,
+  "chroma": 0.0416
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1446,
+  "mean": 0.5878,
+  "sd": 0.2662,
+  "p05": 0.1182,
+  "p95": 0.8989,
+  "chroma": 0.0612
+ },
+ "render_over_reference": {
+  "mean": 0.946,
+  "sd": 1.012,
+  "chroma": 0.68
+ }
+}

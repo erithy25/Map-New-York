@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_metropolitan_museum",
+ "rendered_at": "2026-09-09T06:25:17Z",
+ "reference_file": "2.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 714,
+  "mean": 0.2547,
+  "sd": 0.1649,
+  "p05": 0.044,
+  "p95": 0.5806,
+  "chroma": 0.0256
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1072,
+  "mean": 0.547,
+  "sd": 0.2045,
+  "p05": 0.1862,
+  "p95": 0.8371,
+  "chroma": 0.1002
+ },
+ "render_over_reference": {
+  "mean": 0.466,
+  "sd": 0.806,
+  "chroma": 0.255
+ }
+}

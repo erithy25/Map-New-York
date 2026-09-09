@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_lincoln_center",
+ "rendered_at": "2026-09-09T06:01:11Z",
+ "reference_file": "3.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 854,
+  "mean": 0.2911,
+  "sd": 0.2289,
+  "p05": 0.0627,
+  "p95": 0.6467,
+  "chroma": 0.0421
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1280,
+  "mean": 0.4542,
+  "sd": 0.2354,
+  "p05": 0.1037,
+  "p95": 0.9488,
+  "chroma": 0.1619
+ },
+ "render_over_reference": {
+  "mean": 0.641,
+  "sd": 0.972,
+  "chroma": 0.26
+ }
+}

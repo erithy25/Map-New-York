@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_washington_square_arch",
+ "rendered_at": "2026-09-09T01:57:24Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 904,
+  "height": 1206,
+  "mean": 0.3383,
+  "sd": 0.1571,
+  "p05": 0.0204,
+  "p95": 0.5593,
+  "chroma": 0.0578
+ },
+ "reference": {
+  "width": 1920,
+  "height": 2560,
+  "mean": 0.4947,
+  "sd": 0.2338,
+  "p05": 0.1006,
+  "p95": 0.8035,
+  "chroma": 0.0879
+ },
+ "render_over_reference": {
+  "mean": 0.684,
+  "sd": 0.672,
+  "chroma": 0.658
+ }
+}

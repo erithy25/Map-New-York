@@ -1,0 +1,30 @@
+{
+ "slug": "vehicle_mta_bus",
+ "rendered_at": "2026-09-09T10:12:23Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.0854,
+  "sd": 0.0526,
+  "p05": 0.0233,
+  "p95": 0.1546,
+  "chroma": 0.0189
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.5624,
+  "sd": 0.2367,
+  "p05": 0.16,
+  "p95": 0.8752,
+  "chroma": 0.0772
+ },
+ "render_over_reference": {
+  "mean": 0.152,
+  "sd": 0.222,
+  "chroma": 0.245
+ }
+}

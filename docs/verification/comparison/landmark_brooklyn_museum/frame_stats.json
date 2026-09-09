@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_brooklyn_museum",
+ "rendered_at": "2026-09-09T04:08:38Z",
+ "reference_file": "3.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.3343,
+  "sd": 0.1527,
+  "p05": 0.0569,
+  "p95": 0.5882,
+  "chroma": 0.0635
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.5396,
+  "sd": 0.2629,
+  "p05": 0.2091,
+  "p95": 0.9069,
+  "chroma": 0.1401
+ },
+ "render_over_reference": {
+  "mean": 0.62,
+  "sd": 0.581,
+  "chroma": 0.453
+ }
+}

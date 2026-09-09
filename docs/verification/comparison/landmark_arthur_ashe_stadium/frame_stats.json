@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_arthur_ashe_stadium",
+ "rendered_at": "2026-09-09T03:49:51Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.4492,
+  "sd": 0.1513,
+  "p05": 0.1703,
+  "p95": 0.6269,
+  "chroma": 0.1092
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.4231,
+  "sd": 0.2465,
+  "p05": 0.0765,
+  "p95": 0.8565,
+  "chroma": 0.1704
+ },
+ "render_over_reference": {
+  "mean": 1.062,
+  "sd": 0.614,
+  "chroma": 0.641
+ }
+}

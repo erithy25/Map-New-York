@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_four_times_square",
+ "rendered_at": "2026-09-09T05:09:50Z",
+ "reference_file": "2.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.3876,
+  "sd": 0.1805,
+  "p05": 0.1356,
+  "p95": 0.7218,
+  "chroma": 0.0571
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.4155,
+  "sd": 0.26,
+  "p05": 0.0886,
+  "p95": 0.8439,
+  "chroma": 0.1503
+ },
+ "render_over_reference": {
+  "mean": 0.933,
+  "sd": 0.694,
+  "chroma": 0.38
+ }
+}

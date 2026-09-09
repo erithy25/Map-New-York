@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_central_park_tower",
+ "rendered_at": "2026-09-09T04:29:26Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 904,
+  "height": 1206,
+  "mean": 0.163,
+  "sd": 0.1039,
+  "p05": 0.0289,
+  "p95": 0.3587,
+  "chroma": 0.0557
+ },
+ "reference": {
+  "width": 1280,
+  "height": 1707,
+  "mean": 0.6091,
+  "sd": 0.2307,
+  "p05": 0.2075,
+  "p95": 0.8989,
+  "chroma": 0.0504
+ },
+ "render_over_reference": {
+  "mean": 0.268,
+  "sd": 0.45,
+  "chroma": 1.105
+ }
+}

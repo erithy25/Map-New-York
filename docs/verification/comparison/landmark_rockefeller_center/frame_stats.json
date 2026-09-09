@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_rockefeller_center",
+ "rendered_at": "2026-09-09T01:31:36Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 848,
+  "height": 1284,
+  "mean": 0.1635,
+  "sd": 0.1222,
+  "p05": 0.0036,
+  "p95": 0.2999,
+  "chroma": 0.0584
+ },
+ "reference": {
+  "width": 1920,
+  "height": 2909,
+  "mean": 0.4947,
+  "sd": 0.1862,
+  "p05": 0.2392,
+  "p95": 0.9039,
+  "chroma": 0.1187
+ },
+ "render_over_reference": {
+  "mean": 0.331,
+  "sd": 0.656,
+  "chroma": 0.492
+ }
+}

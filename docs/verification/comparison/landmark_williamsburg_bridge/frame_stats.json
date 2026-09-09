@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_williamsburg_bridge",
+ "rendered_at": "2026-09-09T02:02:25Z",
+ "reference_file": "3.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.2883,
+  "sd": 0.1568,
+  "p05": 0.0897,
+  "p95": 0.526,
+  "chroma": 0.0691
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.3721,
+  "sd": 0.2551,
+  "p05": 0.062,
+  "p95": 0.8669,
+  "chroma": 0.1825
+ },
+ "render_over_reference": {
+  "mean": 0.775,
+  "sd": 0.615,
+  "chroma": 0.379
+ }
+}

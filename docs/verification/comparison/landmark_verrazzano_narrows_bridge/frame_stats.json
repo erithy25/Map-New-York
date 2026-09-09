@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_verrazzano_narrows_bridge",
+ "rendered_at": "2026-09-09T08:31:51Z",
+ "reference_file": "3.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1204,
+  "height": 906,
+  "mean": 0.4452,
+  "sd": 0.1498,
+  "p05": 0.1083,
+  "p95": 0.6047,
+  "chroma": 0.0583
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1446,
+  "mean": 0.589,
+  "sd": 0.2268,
+  "p05": 0.1667,
+  "p95": 0.8576,
+  "chroma": 0.258
+ },
+ "render_over_reference": {
+  "mean": 0.756,
+  "sd": 0.66,
+  "chroma": 0.226
+ }
+}

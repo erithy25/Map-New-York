@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_queensboro_bridge",
+ "rendered_at": "2026-09-09T07:07:29Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 964,
+  "height": 1132,
+  "mean": 0.3597,
+  "sd": 0.1384,
+  "p05": 0.1258,
+  "p95": 0.5767,
+  "chroma": 0.0869
+ },
+ "reference": {
+  "width": 1920,
+  "height": 2254,
+  "mean": 0.3902,
+  "sd": 0.1917,
+  "p05": 0.0846,
+  "p95": 0.8017,
+  "chroma": 0.1681
+ },
+ "render_over_reference": {
+  "mean": 0.922,
+  "sd": 0.722,
+  "chroma": 0.517
+ }
+}

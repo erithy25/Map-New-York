@@ -1,0 +1,30 @@
+{
+ "slug": "street_elevated_roosevelt_ave_7",
+ "rendered_at": "2026-09-09T08:57:12Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 720,
+  "mean": 0.2037,
+  "sd": 0.0728,
+  "p05": 0.0815,
+  "p95": 0.2832,
+  "chroma": 0.0428
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1080,
+  "mean": 0.3546,
+  "sd": 0.2458,
+  "p05": 0.0708,
+  "p95": 0.706,
+  "chroma": 0.0702
+ },
+ "render_over_reference": {
+  "mean": 0.574,
+  "sd": 0.296,
+  "chroma": 0.61
+ }
+}

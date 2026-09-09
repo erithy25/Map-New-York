@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_nypl",
+ "rendered_at": "2026-09-09T00:48:24Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 720,
+  "mean": 0.0951,
+  "sd": 0.104,
+  "p05": 0.0,
+  "p95": 0.2711,
+  "chroma": 0.0151
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1080,
+  "mean": 0.5615,
+  "sd": 0.2661,
+  "p05": 0.0924,
+  "p95": 0.9628,
+  "chroma": 0.0664
+ },
+ "render_over_reference": {
+  "mean": 0.169,
+  "sd": 0.391,
+  "chroma": 0.227
+ }
+}

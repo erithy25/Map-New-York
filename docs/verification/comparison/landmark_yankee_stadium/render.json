@@ -1,0 +1,790 @@
+{
+ "agent_request": {
+  "dow": 0,
+  "hour": 15,
+  "local_clock": "2019-01-24 15:42 EST",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "354.5 deg, the bearing from this photograph's own GPS position to Yankee Stadium (2009); heading and position both come from the photograph.  The item's recorded azimuth is 3.1 deg, 8.6 deg away, and belongs to its nominal viewpoint",
+ "camera": {
+  "azimuth_deg": 354.5471839055701,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "below_point_excluded": 0,
+   "chosen_m": 8.59,
+   "max_m": 9.35,
+   "median_m": 8.88,
+   "min_m": 8.33,
+   "mode": "street",
+   "percentile": 10.0,
+   "point_m": 8.8,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.827996,
+  "lon": -73.926199,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 2.048102377837303,
+  "portrait": false,
+  "resolution": [
+   1280,
+   854
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_yankee_stadium",
+  "terrain_z_m": 8.593,
+  "x": 1994.728,
+  "y": 14179.338,
+  "z": 10.193
+ },
+ "camera_caption": "camera 40.82800, -73.92620 (NYC_TM 1995, 14179) z 10.2 m NAVD88 | azimuth 354.5deg pitch +2.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x854",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.827996,
+  "lon": -73.926199,
+  "offset_from_recorded_m": 34.0,
+  "source": "this photograph's own EXIF camera GPS (40.82800, -73.92620), 34 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
+ "clearance": {
+  "direction": "onto the nearest sidewalk",
+  "min_view_m": 80.0,
+  "moved": true,
+  "nearest_agent": null,
+  "nearest_agent_m": null,
+  "nearest_agent_measured": "after the cull over the observer",
+  "nearest_agent_probe_m": 20.0,
+  "nearest_obstruction": "prop_lamp_cobra_davit_17",
+  "nearest_obstruction_at_deg": [
+   27.2,
+   0.0
+  ],
+  "nearest_obstruction_m": 9.2,
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 46 m ahead, less than the 80 m this frame needs to show its subject; the camera was moved 36 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 88 m from there, and the nearest built thing in the frame is prop_lamp_cobra_davit_17 9.2 m away at +27 deg yaw, +0 deg pitch, and no simulated agent stands within 20 m of it",
+  "offset_m": 35.7,
+  "reason": "boxed in: the view azimuth is closed off 46 m ahead, less than the 80 m this frame needs to show its subject",
+  "rule": "pavement snap with a clear frame",
+  "view_m": 88.4
+ },
+ "frame": {
+  "mean": 0.2547,
+  "reason": null,
+  "sd": 0.126,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.05101391300559044,
+  "direct_normal_irradiance_w_m2": 495.5,
+  "emissive": {
+   "cone_faces_deleted": 24,
+   "cones_hidden": 2,
+   "lamps_switched_off": 5,
+   "night": false,
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 1.81,
+  "sky_azimuth_deg": 231.099,
+  "sky_elevation_deg": 12.176,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.733,
+  "view_transform": "Filmic"
+ },
+ "name": "Yankee Stadium",
+ "night": false,
+ "pitch_reason": "aimed at Yankee Stadium (2009) 179 m away, at its mid-height (the top of lm_c_yankee_stadium.2, the built thing standing at the subject's coordinate, 25 m above the ground there); +2.0 deg from horizontal",
+ "reference_photo": {
+  "author": "Tdorante10",
+  "confidence": "high",
+  "date_taken": "2019-01-24 15:42:23",
+  "estimated_azimuth_deg": 354.6,
+  "file": "3.jpg",
+  "height": 1280,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:161st_St_River_Av_td_(2019-01-24)_26_-_IND_Vent_Grates.jpg",
+  "title": "File:161st St River Av td (2019-01-24) 26 - IND Vent Grates.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_yankee_stadium/render.png",
+ "rendered_at": "2026-09-09T08:44:44Z",
+ "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "agents": {
+   "caption": "Agents: 50 vehicles within 320 m and 390 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 684 vehicles and 1118 people over the whole simulated ring, of which 836 and 1392 were simulated; 1788 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "culled_after_camera_move": {
+    "pedestrian_over_the_observer": 3,
+    "vehicle_over_the_observer": 0
+   },
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 219,
+    "pedestrian_inside_building": 1,
+    "pedestrian_not_on_walkable_surface": 161,
+    "pedestrian_outside_radius": 455,
+    "pedestrian_over_the_observer": 4,
+    "pedestrian_triangle_budget": 165,
+    "vehicle_body_has_no_rider": 24,
+    "vehicle_not_on_carriageway": 15,
+    "vehicle_outside_radius": 498,
+    "vehicle_triangle_budget": 249
+   },
+   "ped_lods": {
+    "LOD1": 16,
+    "LOD2": 374
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 577649,
+   "per_class": {
+    "ambulance": 1,
+    "box_truck": 1,
+    "mta_bus": 2,
+    "nypd": 1,
+    "sedan": 31,
+    "suv": 12,
+    "taxi": 1,
+    "van": 1
+   },
+   "placed_pedestrians": 387,
+   "placed_vehicles": 50,
+   "reason": null,
+   "seconds": 116.23,
+   "snapshot": {
+    "building_footprints_tested": 1950,
+    "density_lane_km": 31.261,
+    "density_sidewalk_m2": 26146,
+    "density_target_pedestrians": 1118.1,
+    "density_target_vehicles": 684.4,
+    "dow": 0,
+    "hour": 15,
+    "lanes_considered": 366,
+    "lanes_with_nta": 365,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.74,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_archetypes_available": 36,
+    "npc_bodies_imported": 36,
+    "npc_templates_baked": 170,
+    "pavement_polygons_tested": 4357,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 1392,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 836
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1082452,
+   "vehicle_lods": {
+    "LOD1": 10,
+    "LOD2": 40
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 504803
+  },
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_1_13",
+    "t_1_14",
+    "t_2_13",
+    "t_2_14"
+   ],
+   "landmark_bins_suppressed": 2,
+   "landmark_faces_suppressed": 564,
+   "lod_substituted": [],
+   "missing": [],
+   "new_jersey": [],
+   "per_tile": {
+    "t_1_13": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 12,
+     "triangles": 21540
+    },
+    "t_1_14": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 10,
+     "triangles": 26684
+    },
+    "t_2_13": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 12,
+     "triangles": 43714
+    },
+    "t_2_14": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 14,
+     "triangles": 70944
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 4,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 0,
+   "tiles_wanted": 4,
+   "tiles_with_new_jersey": 0,
+   "triangle_budget": 3510000,
+   "triangles": 162882
+  },
+  "centre_tm": [
+   2007.7,
+   14214.15
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 10,
+    "cornice": 19,
+    "door_entry": 40,
+    "hvac": 8,
+    "parapet": 94,
+    "pilaster": 39,
+    "storefront": 405,
+    "storefront_interior": 33,
+    "string_course": 24,
+    "water_tower": 2,
+    "window": 1200,
+    "window_accessory": 143
+   },
+   "placed": 2017,
+   "radius_m": 154.0277728340481,
+   "records_in_range": 2400,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 383,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_1_14",
+    "t_2_14"
+   ],
+   "triangles": 458004,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 177.7,
+     "id": "c_yankee_stadium",
+     "lod": 0,
+     "name": "Yankee Stadium",
+     "own_ground_note": {
+      "above_heightmap_m": 1.98,
+      "heightmap_median_m": 4.42,
+      "reason": "the model's ground stands +1.98 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
+     "triangles": 10604
+    },
+    {
+     "distance_m": 276.9,
+     "id": "c_bronx_county_courthouse",
+     "lod": 0,
+     "name": "Bronx County Courthouse (Mario Merola Building)",
+     "own_ground_note": {
+      "above_heightmap_m": -4.47,
+      "heightmap_median_m": 23.37,
+      "reason": "the model's ground stands -4.47 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
+     "triangles": 11360
+    }
+   ],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
+   "placed": 2,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 21964
+  },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brown_brick": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.22,
+      "texture_albedo": 0.2375
+     },
+     "asset_id": "Bricks054",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "brownstone": {
+     "albedo": {
+      "scale": 2.682,
+      "target_albedo": 0.2367,
+      "texture_albedo": 0.0882
+     },
+     "asset_id": "Travertine005",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete": {
+     "albedo": {
+      "scale": 1.799,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.2965
+     },
+     "asset_id": "Concrete037",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "limestone": {
+     "albedo": {
+      "scale": 1.128,
+      "target_albedo": 0.66,
+      "texture_albedo": 0.5853
+     },
+     "asset_id": "Travertine009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "precast": {
+     "albedo": {
+      "scale": 1.273,
+      "target_albedo": 0.6133,
+      "texture_albedo": 0.4818
+     },
+     "asset_id": "Concrete034",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "stone_rubble": {
+     "albedo": {
+      "scale": 2.415,
+      "target_albedo": 0.4233,
+      "texture_albedo": 0.1753
+     },
+     "asset_id": "Bricks102",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "stucco": {
+     "albedo": {
+      "scale": 1.0,
+      "target_albedo": 0.6667,
+      "texture_albedo": 0.6543
+     },
+     "asset_id": "Plaster001",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    },
+    "vinyl_siding": {
+     "albedo": {
+      "scale": 1.402,
+      "target_albedo": 0.6867,
+      "texture_albedo": 0.4898
+     },
+     "asset_id": "WoodSiding009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.626,
+     "resolution": "2K",
+     "tile_aspect": 2.0
+    },
+    "white_glazed_brick": {
+     "albedo": {
+      "scale": 1.13,
+      "target_albedo": 0.7767,
+      "texture_albedo": 0.6874
+     },
+     "asset_id": "Bricks060",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K",
+     "tile_aspect": 1.0
+    }
+   },
+   "enabled": true,
+   "flat": {
+    "glass_curtain": "analytic: the catalogue has no photographic set for it"
+   },
+   "resolution": "2K",
+   "slots": 110
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 691,
+    "curb": 2904,
+    "marking_white": 9649,
+    "marking_yellow": 316,
+    "median": 509,
+    "parking_lot": 228,
+    "plaza": 959,
+    "roadbed": 5987,
+    "sidewalk": 5849
+   },
+   "placed": 27092,
+   "radius_m": 720.316214978604,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_1_13",
+    "t_1_14",
+    "t_2_13",
+    "t_2_14"
+   ],
+   "triangles": 195938,
+   "triangles_cut_for_landmark_ground": 0,
+   "vertices": 249940
+  },
+  "props": {
+   "capped": null,
+   "impostor_cards_dropped": 20,
+   "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 81
+   },
+   "leaf_off": true,
+   "per_kind": {
+    "bench": 12,
+    "bike_rack": 2,
+    "bus_shelter": 1,
+    "bus_stop_sign": 7,
+    "citibike_dock": 2,
+    "cooling_tower": 62,
+    "flagpole": 5,
+    "hydrant": 38,
+    "linknyc": 4,
+    "mailbox": 1,
+    "manhole": 100,
+    "newsstand": 1,
+    "street_lamp": 102,
+    "subway_entrance": 16,
+    "subway_vent_grate": 22,
+    "tree": 256
+   },
+   "placed": 631,
+   "radius_m": 284.0277728340481,
+   "rows_in_range": 722,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_1_13",
+    "t_1_14",
+    "t_2_13",
+    "t_2_14"
+   ],
+   "tree_instances_scaled": 256,
+   "tree_mean_scale": 0.916,
+   "tree_scale_out_of_band": 0,
+   "tree_species_substituted": 57,
+   "triangles": 1309746,
+   "unmapped_kinds": {
+    "billboard": 1,
+    "misc_structure": 3,
+    "parks_building": 5,
+    "parks_comfort_station": 1
+   }
+  },
+  "radius_m": 720.316214978604,
+  "seconds": 176.81,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
+   "samples": 211,
+   "spacing_m": 2.0,
+   "triangles": 88200,
+   "water_bodies": [
+    {
+     "kind": "river",
+     "name": "HARLEM RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HARLEM RIVER",
+     "water_z_m": 0.0
+    }
+   ],
+   "water_quads": 579,
+   "z_max_m": 38.17,
+   "z_min_m": -1.17
+  },
+  "triangles": 3319186
+ },
+ "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
+  "kit_radius_m": 154.0277728340481,
+  "prop_radius_m": 284.0277728340481,
+  "radius_m": 720.316214978604
+ },
+ "seconds": {
+  "render": 55.9,
+  "scene": 185.9,
+  "total": 241.8
+ },
+ "sightline": {
+  "subject_aimed_at": "the subject's mid-height, 12.3 m above its ground",
+  "subject_blocked_at_m": 46.0,
+  "subject_blocked_by": "prop_lamp_cobra_davit_3",
+  "subject_fan_from": "the subject's own measured height (J74)",
+  "subject_fan_half_angle_deg": 3.3,
+  "subject_fan_m": 24.6,
+  "subject_lands_at_m": null,
+  "subject_lands_on": null,
+  "subject_range_m": 213.1,
+  "subject_rays": 5,
+  "subject_rays_clear": 0,
+  "subject_rays_into_nothing": 0,
+  "subject_rays_on_subject": 0,
+  "subject_reach_m": 25.0,
+  "subject_visible": false
+ },
+ "slug": "landmark_yankee_stadium",
+ "status": "rendered",
+ "subject": {
+  "distance_from": "the placed camera, after the clearance walk",
+  "distance_m": 213.0,
+  "height_probe": {
+   "ground_z_m": 4.41,
+   "height_above_ground_m": 24.94,
+   "nearest_catalogue_origin": {
+    "distance_m": 9.0,
+    "height_m": 42.0,
+    "id": "c_yankee_stadium",
+    "within_120_m": true
+   },
+   "object": "lm_c_yankee_stadium.2",
+   "rays_cast": 17,
+   "rays_on_built_fabric": 17,
+   "z": 29.35
+  },
+  "name": "Yankee Stadium (2009)",
+  "origin_distance_m": 178.9
+ },
+ "sun": {
+  "azimuth_deg": 231.09938520106823,
+  "elevation_deg": 12.176301452050046,
+  "local": "2019-01-24T15:42:23-05:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2019-01-24T20:42:23Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 3.1,
+  "lat": 40.8282,
+  "lon": -73.9265,
+  "note": "East 161st Street at River Avenue, under the elevated 4 train, looking north at the Gate 4 facade"
+ }
+}

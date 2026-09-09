@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_throgs_neck_bridge",
+ "rendered_at": "2026-09-09T07:59:21Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.3404,
+  "sd": 0.1968,
+  "p05": 0.0599,
+  "p95": 0.7003,
+  "chroma": 0.0518
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.4614,
+  "sd": 0.2537,
+  "p05": 0.0824,
+  "p95": 0.9278,
+  "chroma": 0.0838
+ },
+ "render_over_reference": {
+  "mean": 0.738,
+  "sd": 0.776,
+  "chroma": 0.618
+ }
+}

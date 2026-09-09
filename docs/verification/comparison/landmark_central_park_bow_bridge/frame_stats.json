@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_central_park_bow_bridge",
+ "rendered_at": "2026-09-09T04:19:20Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 720,
+  "mean": 0.3815,
+  "sd": 0.134,
+  "p05": 0.1602,
+  "p95": 0.5702,
+  "chroma": 0.0685
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1080,
+  "mean": 0.4307,
+  "sd": 0.1954,
+  "p05": 0.1249,
+  "p95": 0.7653,
+  "chroma": 0.2021
+ },
+ "render_over_reference": {
+  "mean": 0.886,
+  "sd": 0.686,
+  "chroma": 0.339
+ }
+}

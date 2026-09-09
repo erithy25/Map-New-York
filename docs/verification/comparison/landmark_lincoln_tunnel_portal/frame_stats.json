@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_lincoln_tunnel_portal",
+ "rendered_at": "2026-09-09T06:06:15Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 576,
+  "mean": 0.242,
+  "sd": 0.1738,
+  "p05": 0.0258,
+  "p95": 0.6271,
+  "chroma": 0.0356
+ },
+ "reference": {
+  "width": 1920,
+  "height": 863,
+  "mean": 0.5363,
+  "sd": 0.2031,
+  "p05": 0.1344,
+  "p95": 0.8542,
+  "chroma": 0.1953
+ },
+ "render_over_reference": {
+  "mean": 0.451,
+  "sd": 0.856,
+  "chroma": 0.182
+ }
+}

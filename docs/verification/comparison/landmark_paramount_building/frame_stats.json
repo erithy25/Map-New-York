@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_paramount_building",
+ "rendered_at": "2026-09-09T01:25:56Z",
+ "reference_file": "2.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.2001,
+  "sd": 0.0988,
+  "p05": 0.0431,
+  "p95": 0.3639,
+  "chroma": 0.0805
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.5348,
+  "sd": 0.2175,
+  "p05": 0.1491,
+  "p95": 0.831,
+  "chroma": 0.1698
+ },
+ "render_over_reference": {
+  "mean": 0.374,
+  "sd": 0.454,
+  "chroma": 0.474
+ }
+}
