@@ -1,17 +1,19 @@
 {
  "slug": "landmark_domino_park",
- "rendered_at": "2026-09-09T05:00:34Z",
+ "rendered_at": "2026-09-09T20:54:32Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.2686,
-  "sd": 0.1087,
-  "p05": 0.0618,
-  "p95": 0.4264,
-  "chroma": 0.0928
+  "mean": 0.4592,
+  "sd": 0.1512,
+  "p05": 0.1407,
+  "p50": 0.4967,
+  "p95": 0.6539,
+  "chroma": 0.1177,
+  "exposure_offset_stops": 0.229
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5384,
   "sd": 0.2035,
   "p05": 0.1877,
+  "p50": 0.5458,
   "p95": 0.8676,
-  "chroma": 0.1836
+  "chroma": 0.1836,
+  "exposure_offset_stops": 0.524
  },
  "render_over_reference": {
-  "mean": 0.499,
-  "sd": 0.534,
-  "chroma": 0.505
+  "mean": 0.853,
+  "sd": 0.743,
+  "p50": 0.91,
+  "chroma": 0.641,
+  "exposure_offset_stops": -0.295,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

@@ -1,17 +1,19 @@
 {
  "slug": "landmark_ellis_island",
- "rendered_at": "2026-09-09T05:01:06Z",
+ "rendered_at": "2026-09-09T20:55:26Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.6661,
-  "sd": 0.1251,
-  "p05": 0.4701,
-  "p95": 0.8529,
-  "chroma": 0.0687
+  "mean": 0.5125,
+  "sd": 0.1319,
+  "p05": 0.3175,
+  "p50": 0.4998,
+  "p95": 0.7285,
+  "chroma": 0.0695,
+  "exposure_offset_stops": 0.249
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.3676,
   "sd": 0.2668,
   "p05": 0.0524,
+  "p50": 0.3051,
   "p95": 0.8396,
-  "chroma": 0.0856
+  "chroma": 0.0856,
+  "exposure_offset_stops": -1.248
  },
  "render_over_reference": {
-  "mean": 1.812,
-  "sd": 0.469,
-  "chroma": 0.803
+  "mean": 1.394,
+  "sd": 0.494,
+  "p50": 1.638,
+  "chroma": 0.812,
+  "exposure_offset_stops": 1.497,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
