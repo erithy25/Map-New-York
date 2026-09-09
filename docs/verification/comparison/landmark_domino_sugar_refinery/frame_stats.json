@@ -1,17 +1,19 @@
 {
  "slug": "landmark_domino_sugar_refinery",
- "rendered_at": "2026-09-08T23:34:48Z",
+ "rendered_at": "2026-09-09T20:58:22Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.1579,
-  "sd": 0.1225,
-  "p05": 0.016,
-  "p95": 0.3919,
-  "chroma": 0.0402
+  "mean": 0.4577,
+  "sd": 0.2125,
+  "p05": 0.1071,
+  "p50": 0.4987,
+  "p95": 0.8075,
+  "chroma": 0.0772,
+  "exposure_offset_stops": 0.242
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.317,
   "sd": 0.2293,
   "p05": 0.0577,
+  "p50": 0.2329,
   "p95": 0.8115,
-  "chroma": 0.1416
+  "chroma": 0.1416,
+  "exposure_offset_stops": -2.023
  },
  "render_over_reference": {
-  "mean": 0.498,
-  "sd": 0.534,
-  "chroma": 0.284
+  "mean": 1.444,
+  "sd": 0.927,
+  "p50": 2.141,
+  "chroma": 0.545,
+  "exposure_offset_stops": 2.265,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
