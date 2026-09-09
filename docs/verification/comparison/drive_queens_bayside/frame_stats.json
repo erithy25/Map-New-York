@@ -1,17 +1,19 @@
 {
  "slug": "drive_queens_bayside",
- "rendered_at": "2026-09-08T22:04:39Z",
+ "rendered_at": "2026-09-09T16:29:19Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.2944,
-  "sd": 0.1389,
-  "p05": 0.0356,
-  "p95": 0.4863,
-  "chroma": 0.0517
+  "mean": 0.4221,
+  "sd": 0.1706,
+  "p05": 0.1145,
+  "p50": 0.4988,
+  "p95": 0.6482,
+  "chroma": 0.0646,
+  "exposure_offset_stops": 0.242
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5632,
   "sd": 0.2367,
   "p05": 0.113,
+  "p50": 0.5465,
   "p95": 0.8745,
-  "chroma": 0.1111
+  "chroma": 0.1111,
+  "exposure_offset_stops": 0.528
  },
  "render_over_reference": {
-  "mean": 0.523,
-  "sd": 0.587,
-  "chroma": 0.465
+  "mean": 0.749,
+  "sd": 0.721,
+  "p50": 0.913,
+  "chroma": 0.581,
+  "exposure_offset_stops": -0.286,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

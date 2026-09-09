@@ -1,17 +1,19 @@
 {
  "slug": "drive_bronx_grand_concourse",
- "rendered_at": "2026-09-08T21:42:56Z",
+ "rendered_at": "2026-09-09T15:51:44Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1158,
   "height": 944,
-  "mean": 0.1727,
-  "sd": 0.1336,
-  "p05": 0.0227,
-  "p95": 0.4706,
-  "chroma": 0.0509
+  "mean": 0.5169,
+  "sd": 0.2039,
+  "p05": 0.192,
+  "p50": 0.4975,
+  "p95": 0.8932,
+  "chroma": 0.0733,
+  "exposure_offset_stops": 0.234
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.6174,
   "sd": 0.2657,
   "p05": 0.144,
+  "p50": 0.721,
   "p95": 0.9184,
-  "chroma": 0.1352
+  "chroma": 0.1352,
+  "exposure_offset_stops": 1.41
  },
  "render_over_reference": {
-  "mean": 0.28,
-  "sd": 0.503,
-  "chroma": 0.376
+  "mean": 0.837,
+  "sd": 0.767,
+  "p50": 0.69,
+  "chroma": 0.542,
+  "exposure_offset_stops": -1.176,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

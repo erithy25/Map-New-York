@@ -1,17 +1,19 @@
 {
  "slug": "drive_brooklyn_bed_stuy_stuyvesant_ave",
- "rendered_at": "2026-09-08T21:46:04Z",
+ "rendered_at": "2026-09-09T16:03:59Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.1267,
-  "sd": 0.1,
-  "p05": 0.0249,
-  "p95": 0.3092,
-  "chroma": 0.0245
+  "mean": 0.583,
+  "sd": 0.2276,
+  "p05": 0.217,
+  "p50": 0.4997,
+  "p95": 0.9055,
+  "chroma": 0.045,
+  "exposure_offset_stops": 0.248
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.3992,
   "sd": 0.2993,
   "p05": 0.0583,
+  "p50": 0.3099,
   "p95": 0.9972,
-  "chroma": 0.1381
+  "chroma": 0.1381,
+  "exposure_offset_stops": -1.202
  },
  "render_over_reference": {
-  "mean": 0.317,
-  "sd": 0.334,
-  "chroma": 0.177
+  "mean": 1.46,
+  "sd": 0.76,
+  "p50": 1.612,
+  "chroma": 0.326,
+  "exposure_offset_stops": 1.45,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

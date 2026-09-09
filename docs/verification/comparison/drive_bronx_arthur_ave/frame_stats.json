@@ -1,17 +1,19 @@
 {
  "slug": "drive_bronx_arthur_ave",
- "rendered_at": "2026-09-08T21:39:02Z",
+ "rendered_at": "2026-09-09T15:56:39Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 854,
-  "mean": 0.1481,
-  "sd": 0.1353,
-  "p05": 0.0,
-  "p95": 0.4293,
-  "chroma": 0.0329
+  "mean": 0.4508,
+  "sd": 0.2272,
+  "p05": 0.1061,
+  "p50": 0.5003,
+  "p95": 0.7879,
+  "chroma": 0.0703,
+  "exposure_offset_stops": 0.252
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.392,
   "sd": 0.2686,
   "p05": 0.0519,
+  "p50": 0.3628,
   "p95": 0.875,
-  "chroma": 0.0921
+  "chroma": 0.0921,
+  "exposure_offset_stops": -0.733
  },
  "render_over_reference": {
-  "mean": 0.378,
-  "sd": 0.504,
-  "chroma": 0.357
+  "mean": 1.15,
+  "sd": 0.846,
+  "p50": 1.379,
+  "chroma": 0.763,
+  "exposure_offset_stops": 0.985,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

@@ -1,17 +1,19 @@
 {
  "slug": "drive_lower_manhattan_stone_st",
- "rendered_at": "2026-09-08T22:01:35Z",
+ "rendered_at": "2026-09-09T16:20:50Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.1148,
-  "sd": 0.065,
-  "p05": 0.0123,
-  "p95": 0.1899,
-  "chroma": 0.0175
+  "mean": 0.4374,
+  "sd": 0.1642,
+  "p05": 0.1355,
+  "p50": 0.4992,
+  "p95": 0.6199,
+  "chroma": 0.0493,
+  "exposure_offset_stops": 0.245
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4021,
   "sd": 0.3019,
   "p05": 0.0832,
+  "p50": 0.2955,
   "p95": 1.0,
-  "chroma": 0.0469
+  "chroma": 0.0469,
+  "exposure_offset_stops": -1.342
  },
  "render_over_reference": {
-  "mean": 0.286,
-  "sd": 0.215,
-  "chroma": 0.373
+  "mean": 1.088,
+  "sd": 0.544,
+  "p50": 1.689,
+  "chroma": 1.051,
+  "exposure_offset_stops": 1.587,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

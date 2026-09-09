@@ -1,17 +1,19 @@
 {
  "slug": "drive_lower_manhattan_broadway_wall_st",
- "rendered_at": "2026-09-08T21:55:08Z",
+ "rendered_at": "2026-09-09T16:11:24Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1112,
   "height": 980,
-  "mean": 0.3059,
-  "sd": 0.1161,
-  "p05": 0.0625,
-  "p95": 0.4947,
-  "chroma": 0.0382
+  "mean": 0.4624,
+  "sd": 0.1442,
+  "p05": 0.1313,
+  "p50": 0.5008,
+  "p95": 0.6735,
+  "chroma": 0.0457,
+  "exposure_offset_stops": 0.255
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4896,
   "sd": 0.2729,
   "p05": 0.1084,
+  "p50": 0.4961,
   "p95": 0.8893,
-  "chroma": 0.112
+  "chroma": 0.112,
+  "exposure_offset_stops": 0.225
  },
  "render_over_reference": {
-  "mean": 0.625,
-  "sd": 0.425,
-  "chroma": 0.341
+  "mean": 0.944,
+  "sd": 0.528,
+  "p50": 1.009,
+  "chroma": 0.408,
+  "exposure_offset_stops": 0.03,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

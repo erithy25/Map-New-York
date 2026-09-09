@@ -169,15 +169,21 @@ VEHICLE_ASSETS: dict[str, tuple[str, str]] = {
 #: NPC's torso -- no street, no buildings, no Sixth Avenue.  The number now comes from the frame
 #: instead: at this set's 1.6 m eye and its 35 mm lens the vertical field is about 38 deg, so the
 #: frame is ``2 * d * tan(19 deg) = 0.69 * d`` metres tall, and a 1.8 m person fills all of it at
-#: 2.6 m.  3.5 m puts that person at 74 % of frame height -- close, which a street photograph often
-#: is, but no longer the entire picture.  It stays a radius rather than a forward wedge because a
-#: pedestrian behind the camera is invisible either way and the placement runs before the final view
-#: azimuth is known (``render_sheets.py`` derives that after ``build_scene``).
+#: 2.6 m.  3.5 m put that person at 74 % of frame height, and the v16 pass showed what 74 % is: on
+#: the same Sixth Avenue sheet a couple standing 4.0 m from the lens, side by side, covered the
+#: middle of the frame from knee to crown and the avenue behind them was a strip down each edge.
+#: The photograph the sheet compares against has its nearest person some fifteen metres off, as a
+#: street photograph taken from the roadway centre does -- a photographer waits for the person at
+#: four metres to pass.  So the share is 40 %: a person is still close, still large, and no longer
+#: the picture.  It stays a radius rather than a forward wedge because a pedestrian behind the
+#: camera is invisible either way and the placement runs before the final view azimuth is known
+#: (``render_sheets.py`` derives that after ``build_scene``).  The radii are written into the
+#: agents record, so a sheet says which rule it was rendered under.
 CAMERA_CLEAR_VEHICLE_M = 6.0
-CAMERA_CLEAR_PED_M = 3.5
+CAMERA_CLEAR_PED_M = 6.5
 #: What ``CAMERA_CLEAR_PED_M`` is derived from, kept beside it so the number can be re-derived for a
 #: different lens rather than re-guessed: (body height, vertical field of view, share of frame height).
-CAMERA_CLEAR_PED_BASIS = (1.8, 38.0, 0.74)
+CAMERA_CLEAR_PED_BASIS = (1.8, 38.0, 0.40)
 
 #: Where the exported body is not the size the fleet table publishes for that class, with the
 #: measured deviation (length, width, height, per cent) and why.  ``audit_vehicle_assets`` measures
@@ -695,6 +701,8 @@ class AgentPlacement:
                 "vehicle_triangle_budget": self.vehicle_triangle_budget,
                 "pedestrian_triangle_budget": self.pedestrian_triangle_budget,
                 "vehicle_radius_m": self.vehicle_radius_m, "ped_radius_m": self.ped_radius_m,
+                "camera_clear_ped_m": CAMERA_CLEAR_PED_M, "camera_clear_vehicle_m": CAMERA_CLEAR_VEHICLE_M,
+                "camera_clear_ped_basis": list(CAMERA_CLEAR_PED_BASIS),
                 "vehicle_lods": self.vehicle_lods, "ped_lods": self.ped_lods,
                 "per_class": dict(sorted(self.per_class.items(), key=lambda kv: -kv[1])),
                 "dropped": {k: v for k, v in sorted(self.dropped.items()) if v},
