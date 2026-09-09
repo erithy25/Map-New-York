@@ -110,6 +110,17 @@
    "source_id": "centerline",
    "url": "https://data.cityofnewyork.us/api/geospatial/inkn-q76z?method=export&format=GeoJSON"
   },
+  "citibike_gbfs_station_status": {
+   "attribution": "Lyft Bikes and Scooters, LLC",
+   "bytes": 1075295,
+   "downloaded_at": "2026-09-09T11:04:19Z",
+   "license": "Citi Bike Data License Agreement",
+   "notes": "Citi Bike station status (GBFS, one-minute snapshot)",
+   "path": "data/raw/furniture/citibike_gbfs_station_status.json",
+   "sha256": "599d9640e5cc3bc1b189e8827abb9ed32799ce5063dcffdc4a3012434005951f",
+   "source_id": "citibike_gbfs_station_status",
+   "url": "https://gbfs.citibikenyc.com/gbfs/2.3/en/station_status.json"
+  },
   "citibike_gbfs_stations": {
    "attribution": "Lyft Bikes and Scooters, LLC",
    "bytes": 742687,

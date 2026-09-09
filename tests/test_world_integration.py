@@ -1183,13 +1183,16 @@ COLLAPSED_PROP_KINDS = {
     "manhole": (288_174, "no source in this build says which cover belongs to which utility; the "
                          "rows are rule-placed, so a DEP/Con Edison split would be invented"),
     "waste_basket": (5_611, "all Better Bin; DSNY replaced only part of the wire-basket stock"),
-    "citibike_dock": (2_507, "the bikes without their dock rail or kiosk"),
     "steam_vent": (1_402, "all the 3 m stack; the 6 m is used where the plume must clear traffic"),
     # Left this register on 2026-09-08 and each says how:
     #   bus_stop_sign  13,341  now sign_mta_bus_stop, its own asset (J58)
     #   flagpole        1,655  now 812 US and 843 city poles, split on the OSM subtype (J58)
     #   utility_pole      924  now unplaced; an 11 m pole has no asset and a sign post is not one
     #   rtpi_sign         491  now unplaced, likewise
+    # and on 2026-09-09:
+    #   citibike_dock   2,507  one row per station, drawn as a bicycle -> one row per part: 2,507
+    #                          kiosks, 74,189 dock units and the bikes of one station_status snapshot
+    #                          (Stage 40, J58; test_a_citibike_station_is_its_kiosk_and_every_one_of_its_docks)
 }
 
 
@@ -1256,10 +1259,11 @@ def test_no_prop_kind_quietly_collapses_onto_one_of_its_assets():
         if name not in found:
             wrong.append(f"{name}: no longer collapsed -- remove it from COLLAPSED_PROP_KINDS and J58")
     # 314,105 when J58 was written; 297,694 after 2026-09-08 took bus_stop_sign (13,341),
-    # flagpole (1,655), utility_pole (924) and rtpi_sign (491) out of it.  The figure is asserted so
-    # that the register and the deviation cannot drift apart in either direction.
+    # flagpole (1,655), utility_pole (924) and rtpi_sign (491) out of it; 295,187 after 2026-09-09
+    # took citibike_dock (2,507) out of it.  The figure is asserted so that the register and the
+    # deviation cannot drift apart in either direction.
     total = sum(n for n, _ in COLLAPSED_PROP_KINDS.values())
-    assert total == 297_694, f"the recorded total moved to {total:,}; J58 says 297,694"
+    assert total == 295_187, f"the recorded total moved to {total:,}; J58 says 295,187"
     assert not wrong, "prop asset selection moved:\n   " + "\n   ".join(wrong)
 
 
@@ -1418,6 +1422,164 @@ def test_the_flag_a_pole_flies_is_the_flag_its_row_says():
     pa = A.load(REPO_ROOT / "data" / "processed", BLENDER_OUT)
     declared = pa.variants_by_kind.get("flagpole")
     assert declared == {0: "flag_nyc_pole", 1: "flag_us_pole"}, declared
+
+
+def _kind7_rows():
+    """Every kind-7 row of every tile, with its parsed attrs. Skips when the tiles are not built."""
+    import sys
+    sys.path.insert(0, str(REPO_ROOT / "pipeline"))
+    files = sorted(TILES.glob("*/props.parquet"))
+    if not files:
+        pytest.skip("no built tiles in this checkout")
+    cols = ["kind", "x", "y", "heading", "variant", "capacity", "attrs", "dataset_id"]
+    out = {c: [] for c in cols if c != "kind"}
+    out["tile"] = []
+    for f in files:
+        t = pq.read_table(f, columns=cols)
+        k = t.column("kind").to_numpy(zero_copy_only=False)
+        idx = [i for i, v in enumerate(k.tolist()) if v == 7]
+        if not idx:
+            continue
+        sub = t.take(idx)
+        for c in out:
+            if c == "tile":
+                out[c].extend([f.parent.name] * len(idx))
+            else:
+                out[c].extend(sub.column(c).to_pylist())
+    out["attrs"] = [json.loads(a) if a else {} for a in out["attrs"]]
+    return out
+
+
+def test_a_citibike_station_is_its_kiosk_and_every_one_of_its_docks():
+    """One GBFS station is one kiosk row, ``capacity`` dock rows 0.90 m apart, and bikes only from a
+    ``station_status`` snapshot -- read back from the written tiles, not recomputed (DATA_CONTRACTS
+    §8.1, docs/DEVIATIONS.md J58 closure, Stage 40).
+
+    2,507 stations stood as 2,507 single bicycles before; the identity held here is
+    ``rows(kind 7) == kiosks + docks + bikes`` with ``kiosks == stations``, ``docks == sum(capacity)``
+    and ``bikes == sum(min(num_bikes_available, capacity))`` over the snapshot, or 0 without one.
+    """
+    import collections
+    import math
+
+    info_path = REPO_ROOT / "data" / "raw" / "furniture" / "citibike_gbfs_stations.json"
+    status_path = REPO_ROOT / "data" / "raw" / "furniture" / "citibike_gbfs_station_status.json"
+    if not info_path.is_file():
+        pytest.skip("no GBFS station_information snapshot in this checkout")
+    stations = json.loads(info_path.read_text())["data"]["stations"]
+    cap_by_id = {str(s["station_id"]): int(s.get("capacity", 0) or 0) for s in stations
+                 if s.get("lon") is not None and s.get("lat") is not None}
+    n_stations, sum_cap = len(cap_by_id), sum(cap_by_id.values())
+    expected_bikes, snapshot_ts = 0, None
+    if status_path.is_file():
+        st = json.loads(status_path.read_text())
+        snapshot_ts = int(st["last_updated"])
+        for s in st["data"]["stations"]:
+            sid = str(s["station_id"])
+            if sid in cap_by_id:
+                expected_bikes += min(int(s.get("num_bikes_available", 0) or 0), cap_by_id[sid])
+
+    rows = _kind7_rows()
+    var = collections.Counter(rows["variant"])
+    assert var.get(0, 0) == 0, f"{var.get(0)} kind-7 rows carry variant 0, which is never written after Stage 40"
+    assert var.get(1, 0) == n_stations, f"kiosks {var.get(1, 0):,} != stations {n_stations:,}"
+    assert var.get(2, 0) == sum_cap, f"dock rows {var.get(2, 0):,} != sum(capacity) {sum_cap:,}"
+    assert sum(rows["capacity"]) == var[2], "capacity lives on the kiosk row: sum(capacity) over kind 7 == dock rows"
+    assert var.get(3, 0) == expected_bikes, (
+        f"bike rows {var.get(3, 0):,}; the station_status snapshot allows exactly {expected_bikes:,} "
+        f"({'no snapshot: no bikes' if snapshot_ts is None else snapshot_ts})")
+    by_station = collections.defaultdict(lambda: collections.defaultdict(list))
+    for i, a in enumerate(rows["attrs"]):
+        assert a.get("part") in ("kiosk", "dock", "bike"), a
+        by_station[a["station_id"]][a["part"]].append(i)
+        if a["part"] == "bike":
+            assert a.get("snapshot_last_updated") == snapshot_ts, a
+            assert rows["dataset_id"][i] == "citibike_gbfs_station_status"
+        else:
+            assert rows["dataset_id"][i] == "citibike_gbfs_stations"
+        if a.get("axis_source") == "none":
+            assert math.isnan(rows["heading"][i]), "no kerb axis -> heading NaN, by contract"
+        else:
+            assert a.get("axis_source") == "nearest_segment" and not math.isnan(rows["heading"][i])
+    assert set(by_station) == set(cap_by_id), "station identity is attrs.station_id"
+    # geometry read from the file: neighbouring docks 0.90 m apart, the kiosk one pitch past the end
+    off = []
+    for sid, parts in by_station.items():
+        assert len(parts["kiosk"]) == 1, sid
+        docks = sorted(parts["dock"], key=lambda i: rows["attrs"][i]["dock_index"])
+        assert len(docks) == cap_by_id[sid], sid
+        pts = [(rows["x"][i], rows["y"][i]) for i in docks]
+        for (ax, ay), (bx, by) in zip(pts, pts[1:]):
+            d = math.hypot(bx - ax, by - ay)
+            if abs(d - 0.90) > 0.01:
+                off.append((sid, d))
+        if docks:
+            k = parts["kiosk"][0]
+            d = math.hypot(rows["x"][docks[0]] - rows["x"][k], rows["y"][docks[0]] - rows["y"][k])
+            if abs(d - 0.90) > 0.01:
+                off.append((sid, "kiosk", d))
+        assert len(parts["bike"]) <= len(docks), sid
+    assert not off, f"{len(off)} dock pitches off 0.90 m: {off[:5]}"
+
+    # and the engine sees the same parts: every props.json placement of the three assets
+    placed = collections.Counter()
+    bad_reasons = collections.Counter()
+    manifests = sorted(TILES.glob("*/props.json"))
+    if manifests:
+        for f in manifests:
+            d = json.loads(f.read_text())
+            names = d.get("assets") or []
+            key = d.get("asset_key", "a")
+            for i, n in collections.Counter(r.get(key) for r in d.get("rows") or []).items():
+                if isinstance(i, int) and 0 <= i < len(names):
+                    placed[str(names[i]).split("/")[-1]] += n
+            for reason, n in (d.get("unresolved") or {}).items():
+                if reason.startswith(("variant_unmapped", "variant_out_of_range")):
+                    bad_reasons[reason] += n
+        assert placed.get("SM_citibike_kiosk", 0) == n_stations, placed
+        assert placed.get("SM_citibike_dock_unit", 0) == sum_cap, placed
+        assert placed.get("SM_citibike_bike", 0) == expected_bikes, placed
+        assert not bad_reasons, f"prop rows fell off the declared variant maps: {dict(bad_reasons)}"
+
+
+#: Dataset-placed kerb-side kinds that carry no heading at all, so every one of them is drawn facing
+#: north (docs/DEVIATIONS.md J84).  The number is the rows with a NaN heading -- all of them -- so a
+#: loader that starts writing a kerb bearing fails this in the good direction and the register moves.
+KERB_KINDS_FACING_NORTH = {
+    "bus_shelter": 3_380, "bike_rack": 9_864, "linknyc": 2_251, "newsstand": 360,
+    "bus_stop_sign": 13_341, "bike_shelter": 17,
+}
+
+
+def test_kerb_kinds_carry_no_heading():
+    """J84's register: a shelter, a kiosk, a newsstand and a bus stop sign all stand parallel to a kerb,
+    and their loaders (furniture/datasets.py) never assign ``heading``; both consumers turn NaN into
+    yaw 0.  ``citibike.station_axes`` is the piece that would close it.  This test pins the fact so
+    it cannot drift silently in either direction: fixing a kind means removing it here and in J84.
+    """
+    import collections
+    import math
+    import sys
+    sys.path.insert(0, str(REPO_ROOT / "pipeline"))
+    from nycsim_pipeline.furniture.catalog import KIND_ID
+
+    files = sorted(TILES.glob("*/props.parquet"))
+    if not files:
+        pytest.skip("no built tiles in this checkout")
+    want_ids = {KIND_ID[n]: n for n in KERB_KINDS_FACING_NORTH}
+    rows, nan = collections.Counter(), collections.Counter()
+    for f in files:
+        t = pq.read_table(f, columns=["kind", "heading"])
+        for k, h in zip(t.column("kind").to_pylist(), t.column("heading").to_pylist()):
+            if k in want_ids:
+                rows[want_ids[k]] += 1
+                if h is None or math.isnan(h):
+                    nan[want_ids[k]] += 1
+    wrong = []
+    for name, n in KERB_KINDS_FACING_NORTH.items():
+        if rows[name] != n or nan[name] != n:
+            wrong.append(f"{name}: {rows[name]:,} rows, {nan[name]:,} with no heading; J84 records {n:,} of {n:,}")
+    assert not wrong, "the J84 register moved:\n  " + "\n  ".join(wrong)
 
 
 def test_the_engines_prop_manifest_is_not_older_than_the_props_it_lists():

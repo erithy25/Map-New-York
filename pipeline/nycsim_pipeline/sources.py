@@ -142,6 +142,10 @@ SOURCES: dict[str, Source] = {s.id: s for s in [
            "and St. George routes with landings and schedules",
            filename="gtfs_ferry_nyc.zip", tags=("transit",)),
     Source("citibike_gbfs_stations", "https://gbfs.citibikenyc.com/gbfs/2.3/en/station_information.json", "json", "Citi Bike Data License Agreement", "Lyft Bikes and Scooters, LLC", "Citi Bike station information (GBFS)", tags=("furniture", "transit")),
+    # A one-minute occupancy snapshot (GBFS ttl 60 s): num_bikes_available / num_docks_available at the
+    # instant it was fetched, not a property of the station. furniture/citibike.py places bikes from it
+    # only when it is on disk, and labels every bike row with the snapshot's last_updated.
+    Source("citibike_gbfs_station_status", "https://gbfs.citibikenyc.com/gbfs/2.3/en/station_status.json", "json", "Citi Bike Data License Agreement", "Lyft Bikes and Scooters, LLC", "Citi Bike station status (GBFS, one-minute snapshot)", tags=("furniture", "transit")),
 ]}
 
 

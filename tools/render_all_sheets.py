@@ -36,7 +36,7 @@ REFERENCE = REPO / "docs" / "verification" / "reference"
 #: Where the run remembers what it has already done, so a restart resumes instead of re-rendering.
 #: Outside the repository by default (``blender_out`` is not tracked) because it changes on every
 #: sheet; ``NYCSIM_PASS_STATE`` overrides it. A snapshot of it lives in
-#: ``docs/verification/RENDER_PASS_V15.md`` so a fresh container can be told where the pass stood.
+#: ``docs/verification/RENDER_PASS.md`` so a fresh container can be told where the pass stood.
 LOG = Path(os.environ.get("NYCSIM_PASS_STATE") or (REPO / "blender_out" / "render_all_state.json"))
 
 #: Stop before the disk is gone. A sheet is about 5 MB, a scene build needs room for its temporaries,

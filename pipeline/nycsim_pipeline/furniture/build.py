@@ -10,6 +10,9 @@ Pipeline:
  2. add the rule-based fill against the real road geometry (:mod:`.rules`), skipped with a recorded reason when
     ``roads/segments.parquet`` does not exist yet;
  3. de-duplicate across datasets within 1.5 m, plus the measured cross-source radii (:mod:`.dedupe`);
+ 3b. expand every Citi Bike station row into its kiosk, its dock units and -- only from a ``station_status``
+    snapshot -- its bikes (:mod:`.citibike`). After dedupe on purpose: the 0.9 m dock pitch is inside the
+    1.5 m bike_parking radius and dedupe would delete every other dock;
  4. sample the ground elevation from surveyed points (:mod:`.elevation`);
  5. assign ``prop_id = kind * 10^10 + rank within kind (sorted by x, y)`` and the tile, and write one
     ``props.parquet`` per tile plus ``furniture/props_catalog.json`` and ``furniture/build_summary.json``.
@@ -40,6 +43,7 @@ from . import dedupe as dd
 from . import rules as R
 from . import trees as T
 from .catalog import HEIGHT_SOURCE, KINDS, KIND_BY_NAME, catalog_json
+from . import citibike
 from . import park_lamps
 from . import rooftop
 from .elevation import GroundModel
@@ -267,10 +271,21 @@ def finalise(cols: dict, ground: GroundModel) -> tuple[pa.Table, dict]:
 
 
 def write_tiles(table: pa.Table, tiles_root: Path) -> dict:
+    """One ``props.parquet`` per tile. A tile whose bytes would not change is left alone, mtime included.
+
+    The parquet writer is deterministic for the same table, so comparing the new bytes with the file on
+    disk says exactly which tiles a run touched -- ``tiles_rewritten`` in the summary and
+    ``furniture/tiles_changed.txt`` -- and "confined to one kind" becomes a measurable statement rather
+    than a claim.
+    """
+    import io
+
     tiles = np.asarray(table.column("tile").to_pylist(), dtype=object)
     uniq, starts, counts = np.unique(tiles, return_index=True, return_counts=True)
     files: dict[str, int] = {}
     total_bytes = 0
+    rewritten: list[str] = []
+    unchanged = 0
     for name, s, c in zip(uniq, starts, counts):
         sl = table.slice(int(s), int(c))
         meta = dict(sl.schema.metadata or {})
@@ -279,11 +294,20 @@ def write_tiles(table: pa.Table, tiles_root: Path) -> dict:
         d = tiles_root / str(name)
         d.mkdir(parents=True, exist_ok=True)
         p = d / "props.parquet"
-        pq.write_table(sl.replace_schema_metadata(meta), p, compression="snappy")
+        buf = io.BytesIO()
+        pq.write_table(sl.replace_schema_metadata(meta), buf, compression="snappy")
+        data = buf.getvalue()
+        if p.is_file() and p.stat().st_size == len(data) and p.read_bytes() == data:
+            unchanged += 1
+        else:
+            p.write_bytes(data)
+            rewritten.append(str(name))
         files[str(name)] = int(sl.num_rows)
-        total_bytes += p.stat().st_size
-    log.info("wrote %d tile prop files (%.1f MB)", len(files), total_bytes / 1e6)
-    return {"tiles": len(files), "bytes": total_bytes, "rows_per_tile": files}
+        total_bytes += len(data)
+    log.info("wrote %d tile prop files (%.1f MB): %d rewritten, %d byte-identical and left alone",
+             len(files), total_bytes / 1e6, len(rewritten), unchanged)
+    return {"tiles": len(files), "bytes": total_bytes, "rows_per_tile": files,
+            "tiles_rewritten": len(rewritten), "tiles_unchanged": unchanged, "rewritten": rewritten}
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -327,6 +351,14 @@ def main(argv: list[str] | None = None) -> int:
     report["rules"]["park_post_lamp"] = park_report
     report["timings_s"]["park_lamps"] = round(time.perf_counter() - t, 1)
 
+    # After dedupe, and only then: the 0.9 m dock pitch is inside dedupe's 1.5 m bike_parking radius,
+    # so an expanded station going through dedupe loses every other dock (a unit test documents it).
+    # The single station row that went through dedupe is also what the 4 OSM bike_rack drops were
+    # decided against.
+    t = time.perf_counter()
+    cols, report["citibike"] = citibike.apply(cols, Path(a.segments))
+    report["timings_s"]["citibike"] = round(time.perf_counter() - t, 1)
+
     t = time.perf_counter()
     ground = GroundModel.build()
     report["ground_model"] = {"reference_points": ground.n_points, "spot_elevations": ground.n_spot,
@@ -341,6 +373,7 @@ def main(argv: list[str] | None = None) -> int:
     t = time.perf_counter()
     report["tiles"] = write_tiles(table, tiles_root)
     report["timings_s"]["write_tiles"] = round(time.perf_counter() - t, 1)
+    (out / "tiles_changed.txt").write_text("\n".join(report["tiles"]["rewritten"]) + "\n")
 
     kind_arr = np.asarray(table.column("kind").to_pylist())
     src_arr = np.asarray(table.column("source").to_pylist())
@@ -361,6 +394,8 @@ def main(argv: list[str] | None = None) -> int:
 
     if not a.no_manifest and Path(a.out_dir) == OUT:
         srcs = [s["source_id"] for s in report["sources"]] + ["street_trees_2015", "plan_elevation_points"]
+        if report.get("citibike", {}).get("status_snapshot_used"):
+            srcs.append(citibike.STATUS_ID)
         manifest.record_processed("furniture_props_catalog", out / "props_catalog.json", stage="furniture",
                                   sources=srcs, rows=table.num_rows, schema="props_catalog/1")
         manifest.record_processed("furniture_build_summary", out / "build_summary.json", stage="furniture",

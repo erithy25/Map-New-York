@@ -944,3 +944,202 @@ def test_only_a_tree_is_ever_scaled_away_from_the_size_it_was_exported_at():
             if scale != 1.0:
                 scaled.append(f"{name} (kind {kind_id}, variant {variant}) -> x{scale}")
     assert not scaled, "a non-tree prop was scaled away from its exported size:\n  " + "\n  ".join(scaled)
+
+
+# --------------------------------------------------------------------------------------- citi bike expansion
+
+def _station_cols(capacity: int, x: float = 0.0, y: float = 0.0, station_id: str = "s1", name: str = "A St & B St") -> dict:
+    from nycsim_pipeline.furniture import citibike as C  # noqa: F401  (module under test)
+
+    cols = schema.empty_columns(2)
+    cols["kind"] = np.array([catalog.KIND_ID["citibike_dock"], catalog.KIND_ID["hydrant"]], dtype=np.int16)
+    cols["x"] = np.array([x, x + 50.0])
+    cols["y"] = np.array([y, y + 50.0])
+    cols["capacity"] = np.array([capacity, 0], dtype=np.int16)
+    cols["text"] = [name, ""]
+    cols["dataset_id"] = ["citibike_gbfs_stations", "hydrants"]
+    cols["attrs"] = [json.dumps({"station_id": station_id, "short_name": "1.01", "region_id": 71, "capacity": capacity}),
+                     json.dumps({"unitid": "H1"})]
+    return cols
+
+
+def _segment_along(bearing_deg: float, through=(0.0, 0.0), half_len: float = 100.0, segment_id: int = 9) -> dict:
+    b = math.radians(bearing_deg)
+    ux, uy = math.sin(b), math.cos(b)
+    line = shapely.LineString([(through[0] - half_len * ux, through[1] - half_len * uy),
+                               (through[0] + half_len * ux, through[1] + half_len * uy)])
+    return {"segment_id": np.array([segment_id], dtype=np.int64), "geometry": np.array([line], dtype=object),
+            "rw_type": np.array([1], dtype=np.int8), "width_m": np.array([12.0]), "borough": np.array([1], dtype=np.int8)}
+
+
+def _parts(out: dict, variant: int) -> list[int]:
+    kind = np.asarray(out["kind"])
+    var = np.asarray(out["variant"])
+    return [int(i) for i in np.flatnonzero((kind == catalog.KIND_ID["citibike_dock"]) & (var == variant))]
+
+
+def _expand(capacity: int, bearing: float | None = 37.0, status=None, station_xy=(0.0, 0.0), seg_through=(0.0, 0.0)):
+    from nycsim_pipeline.furniture import citibike as C
+
+    cols = _station_cols(capacity, *station_xy)
+    seg = _segment_along(bearing, through=seg_through) if bearing is not None else None
+    axes = C.station_axes(np.array([station_xy[0]]), np.array([station_xy[1]]), seg)
+    return C.expand(cols, catalog.KIND_ID["citibike_dock"], axes, status)
+
+
+def test_citibike_station_is_a_kiosk_and_n_docks_at_0_9_m_along_the_kerb():
+    """A station of capacity N is N dock units and one kiosk, 0.90 m apart along the kerb bearing."""
+    from nycsim_pipeline.furniture import citibike as C
+
+    out, rep = _expand(5, bearing=37.0)
+    docks, kiosks, bikes = _parts(out, 2), _parts(out, 1), _parts(out, 3)
+    assert len(docks) == 5 and len(kiosks) == 1 and len(bikes) == 0
+    assert rep["stations"] == 1 and rep["kiosks"] == 1 and rep["docks"] == 5 and rep["bikes"] == 0
+    # the hydrant that was not a station is untouched, and the station row itself is gone
+    assert int((np.asarray(out["kind"]) == catalog.KIND_ID["hydrant"]).sum()) == 1
+    assert len(out["x"]) == 7
+    x = np.asarray(out["x"]); y = np.asarray(out["y"])
+    order = sorted(docks, key=lambda i: json.loads(out["attrs"][i])["dock_index"])
+    for a, b in zip(order, order[1:]):
+        d = math.hypot(x[b] - x[a], y[b] - y[a])
+        assert abs(d - C.PITCH_M) < 1e-6
+        bearing = math.degrees(math.atan2(x[b] - x[a], y[b] - y[a])) % 180.0
+        assert abs(bearing - 37.0) < 3.0, bearing
+    # centred on the GBFS point
+    assert abs(x[order].mean()) < 1e-9 and abs(y[order].mean()) < 1e-9
+    # heading = axis - 90 so the tileable +X of the dock lies along the kerb
+    for i in docks + kiosks:
+        assert abs(float(out["heading"][i]) - ((37.0 - 90.0) % 360.0)) < 1e-3
+    # the kiosk is one pitch beyond dock 0, at the axis+180 (south/west) end
+    k = kiosks[0]
+    assert abs(math.hypot(x[k] - x[order[0]], y[k] - y[order[0]]) - C.PITCH_M) < 1e-6
+    assert x[k] < x[order[0]] and y[k] < y[order[0]]
+    # the station's record lives on the kiosk: sum(capacity) over the kind == dock count
+    assert int(out["capacity"][k]) == 5 and all(int(out["capacity"][i]) == 0 for i in docks)
+    assert int(np.asarray(out["capacity"])[np.asarray(out["kind"]) == catalog.KIND_ID["citibike_dock"]].sum()) == len(docks)
+    for i in docks + kiosks:
+        a = json.loads(out["attrs"][i])
+        assert a["station_id"] == "s1" and a["name"] == "A St & B St" and out["text"][i] == "A St & B St"
+        assert a["axis_source"] == "nearest_segment" and a["axis_segment_id"] == 9 and abs(a["axis_deg"] - 37.0) < 0.01
+        assert a["part"] in ("dock", "kiosk")
+    assert rep["axis_source"] == {"nearest_segment": 1}
+    assert "rules" in rep and any("0.90 m pitch" in r for r in rep["rules"])
+
+
+def test_citibike_zero_capacity_station_is_its_kiosk_alone():
+    out, rep = _expand(0)
+    assert len(_parts(out, 2)) == 0 and len(_parts(out, 1)) == 1
+    assert rep["docks"] == 0 and rep["kiosks"] == 1
+    assert rep["zero_capacity"] == [{"station_id": "s1", "name": "A St & B St"}]
+    k = _parts(out, 1)[0]
+    assert float(out["x"][k]) == 0.0 and float(out["y"][k]) == 0.0, "no run: the kiosk stands on the GBFS point"
+
+
+def test_citibike_station_with_no_segment_in_reach_has_no_axis_and_lies_east_west():
+    from nycsim_pipeline.furniture import citibike as C
+
+    # the only segment runs 40 m north of the station, beyond AXIS_MAX_M
+    out, rep = _expand(4, bearing=90.0, seg_through=(0.0, 40.0))
+    assert rep["axis_source"] == {"none": 1}
+    assert rep["stations_with_no_axis"][0]["station_id"] == "s1"
+    assert abs(rep["stations_with_no_axis"][0]["nearest_segment_m"] - 40.0) < 0.2
+    docks = _parts(out, 2)
+    assert all(np.isnan(float(out["heading"][i])) for i in docks + _parts(out, 1))
+    y = np.asarray(out["y"])[docks]
+    x = np.sort(np.asarray(out["x"])[docks])
+    assert np.allclose(y, 0.0) and np.allclose(np.diff(x), C.PITCH_M)
+    for i in docks:
+        a = json.loads(out["attrs"][i])
+        assert a["axis_source"] == "none" and "axis_deg" not in a
+    # the same station with a segment 10 m away takes its axis from it
+    out2, rep2 = _expand(4, bearing=90.0, seg_through=(0.0, 10.0))
+    assert rep2["axis_source"] == {"nearest_segment": 1}
+    assert abs(rep2["axis_distance_m"]["p50"] - 10.0) < 0.2
+
+
+def test_citibike_no_bike_row_exists_without_an_occupancy_source():
+    """No station_status snapshot -> no bikes, and the report says what is missing and how to fetch it."""
+    from nycsim_pipeline.furniture import citibike as C
+
+    out, rep = _expand(5, status=None)
+    assert _parts(out, 3) == [] and rep["bikes"] == 0
+    assert rep["bikes_detail"]["absent"] == "no station_status snapshot in this build"
+    assert rep["bikes_detail"]["fetch"] == C.FETCH_STATUS
+    assert C.load_status(Path("/nonexistent/citibike_gbfs_station_status.json")) is None
+    # every variant-3 row anywhere must name the snapshot it came from: none here, so none does
+    assert not any(json.loads(a).get("snapshot_last_updated") for a in out["attrs"] if a)
+
+
+def _status(bikes: int, ebikes: int = 0, station_id: str = "s1", last_updated: int = 1788951780) -> dict:
+    return {"source_id": "citibike_gbfs_station_status", "path": "fixture", "last_updated": last_updated,
+            "last_updated_iso": "2026-09-09T11:03:00Z", "ttl_s": 60, "version": "2.3",
+            "by_station": {station_id: {"num_bikes_available": bikes, "num_ebikes_available": ebikes,
+                                        "num_docks_available": 0, "is_installed": 1, "is_renting": 1, "last_reported": 0}}}
+
+
+def test_citibike_bikes_come_only_from_the_snapshot_fill_from_the_kiosk_end_and_carry_its_instant():
+    from nycsim_pipeline.furniture import citibike as C
+
+    out, rep = _expand(5, bearing=37.0, status=_status(3, ebikes=2))
+    docks, bikes = _parts(out, 2), _parts(out, 3)
+    assert len(bikes) == 3 and rep["bikes"] == 3
+    x = np.asarray(out["x"]); y = np.asarray(out["y"])
+    by_index = {json.loads(out["attrs"][i])["dock_index"]: i for i in docks}
+    b = math.radians(37.0 - 90.0)
+    fx, fy = math.sin(b), math.cos(b)                      # the dock's front, as the consumers rotate it
+    for i in bikes:
+        a = json.loads(out["attrs"][i])
+        assert a["part"] == "bike" and a["dock_index"] in (0, 1, 2)
+        assert a["snapshot_last_updated"] == 1788951780
+        assert a["num_bikes_available"] == 3 and a["num_ebikes_available"] == 2
+        d = by_index[a["dock_index"]]
+        assert abs((x[i] - x[d]) + C.BIKE_SETBACK_M * fx) < 1e-6 and abs((y[i] - y[d]) + C.BIKE_SETBACK_M * fy) < 1e-6
+        assert abs(float(out["heading"][i]) - float(out["heading"][d])) < 1e-6
+        assert out["dataset_id"][i] == "citibike_gbfs_station_status"
+    det = rep["bikes_detail"]
+    assert det["snapshot_last_updated"] == 1788951780 and det["placed"] == 3 and det["stations_joined"] == 1
+    # capped at capacity, and the cap is counted
+    out, rep = _expand(5, status=_status(9))
+    assert len(_parts(out, 3)) == 5 and rep["bikes_detail"]["capped_by_capacity"] == 4
+    assert rep["bikes_detail"]["stations_reporting_more_bikes_than_capacity"][0]["num_bikes_available"] == 9
+    # a station the snapshot does not know stays empty and is counted as unmatched
+    out, rep = _expand(5, status=_status(4, station_id="other"))
+    assert len(_parts(out, 3)) == 0 and rep["bikes_detail"]["stations_unmatched"] == 1
+
+
+def test_citibike_load_status_reads_the_gbfs_document(tmp_path):
+    from nycsim_pipeline.furniture import citibike as C
+
+    p = tmp_path / "citibike_gbfs_station_status.json"
+    p.write_text(json.dumps({"last_updated": 1788951780, "ttl": 60, "version": "2.3", "data": {"stations": [
+        {"station_id": "s1", "num_bikes_available": 4, "num_ebikes_available": 1, "num_docks_available": 6,
+         "is_installed": 1, "is_renting": 0, "last_reported": 1788951700}]}}))
+    st = C.load_status(p)
+    assert st["last_updated"] == 1788951780 and st["last_updated_iso"] == "2026-09-09T11:03:00Z" and st["ttl_s"] == 60
+    assert st["by_station"]["s1"]["num_bikes_available"] == 4 and st["by_station"]["s1"]["is_renting"] == 0
+
+
+def test_citibike_expand_refuses_rows_that_are_already_parts():
+    from nycsim_pipeline.furniture import citibike as C
+
+    out, _ = _expand(3)
+    kind_id = catalog.KIND_ID["citibike_dock"]
+    n = int((np.asarray(out["kind"]) == kind_id).sum())
+    axes = C.station_axes(np.zeros(n), np.zeros(n), None)
+    with pytest.raises(ValueError, match="already expanded"):
+        C.expand(out, kind_id, axes, None)
+    with pytest.raises(ValueError, match="axes cover"):
+        C.expand(_station_cols(3), kind_id, C.station_axes(np.zeros(2), np.zeros(2), None), None)
+
+
+def test_citibike_expansion_must_run_after_dedupe():
+    """Documents why build.py expands after dedupe: the 0.9 m pitch is inside the 1.5 m bike_parking radius,
+    so an expanded station sent through dedupe loses docks. If this test ever passes with no drops, the
+    ordering guard has become unnecessary; until then, moving expand() earlier deletes docks silently."""
+    out, _ = _expand(5)
+    names = {v: k for k, v in catalog.KIND_ID.items()}
+    keep, rep = dedupe.dedupe(out, names)
+    kind_id = catalog.KIND_ID["citibike_dock"]
+    parts = np.asarray(out["kind"]) == kind_id
+    assert int((~keep[parts]).sum()) >= 2, "dedupe would delete docks from an expanded station"
+    assert rep["rows_dropped"] >= 2

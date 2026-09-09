@@ -50,8 +50,22 @@ KINDS: tuple[Kind, ...] = (
          "nominal: same family as the bus shelter (Cemusa), approximate", "", "location"),
     Kind(6, "bike_rack", "transit", "Bicycle parking (OSM amenity=bicycle_parking); capacity where tagged", ("osm",), (0.50, 0.10, 0.86),
          "published: DOT CityRack hoop 34 in tall", "0 unknown type, 1 stands/hoop, 2 wall_loops/rack, 3 shed/lockers", "OSM name"),
-    Kind(7, "citibike_dock", "transit", "Citi Bike station (GBFS); capacity = number of docks", ("citibike_gbfs_stations",), (0.90, 1.8, 1.9),
-         "per dock ~0.9 m pitch (observed spacing), kiosk ~1.9 m tall; station length = capacity x 0.9 m", "", "station name"),
+    Kind(7, "citibike_dock", "transit",
+         "Citi Bike station (GBFS station_information) expanded into its parts: one row per dock unit and one kiosk row "
+         "per station; capacity (docks) is carried on the kiosk row, so sum(capacity) over the kind is the dock-row count. "
+         "Station identity is attrs.station_id, not prop_id contiguity",
+         ("citibike_gbfs_stations", "citibike_gbfs_station_status"), (0.90, 1.8, 2.0),
+         "per dock 0.90 m pitch (observed spacing, not a Lyft specification; the asset's tile_pitch_m), kiosk 2.0 m tall "
+         "(asset nominal); station run length = capacity x 0.90 m along the nearest CSCL segment's bearing",
+         "1 kiosk, 2 dock unit (0.90 m pitch along the kerb axis), 3 docked bicycle -- written only from a GBFS "
+         "station_status snapshot (dataset_id citibike_gbfs_station_status, attrs.snapshot_last_updated) and absent "
+         "otherwise; 0 is never written",
+         "station name",
+         extra={"attrs": "station_id, short_name, region_id, name, part (kiosk|dock|bike), dock_index, capacity, "
+                         "axis_deg, axis_source (nearest_segment|none), axis_segment_id, axis_distance_m, rules; "
+                         "(bike) snapshot_last_updated, num_bikes_available, num_ebikes_available",
+                "heading": "axis - 90 so the dock's tileable +X lies along the kerb; NaN where no CSCL segment is "
+                           "within 25 m (the run is then east-west, the direction consumers draw a NaN heading in)"}),
     Kind(8, "subway_entrance", "transit", "MTA subway entrance/exit (data.ny.gov 2024)", ("subway_entrances",), (1.5, 3.0, 2.4),
          "nominal stair opening; globe lamps 2.4 m", "0 stair, 1 escalator, 2 elevator, 3 easement/station house (no globe)",
          "Stop name — routes", extra={"attrs": "lines, entrance_type, has_globe (0 none, 1 green, 2 red), entry, exit"}),

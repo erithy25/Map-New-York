@@ -174,6 +174,21 @@ radius of a census tree; the radius and how it was measured are in `props_catalo
 The point layer behind the second source is `osm/trees.parquet` and the unplaced `natural=tree_row` lines are
 `osm/tree_rows.parquet`, both written by `python -m nycsim_pipeline osm_trees`.
 
+### 8.1 Citi Bike stations are one row per part
+`kind` 7 (`citibike_dock`) is **one row per part of the station**, not one row per station: `variant` 1 is the
+kiosk (one per station; the station's `capacity` and GBFS attributes live on this row, so `sum(capacity)` over
+the kind equals the number of dock rows), `variant` 2 is one dock unit at the observed 0.90 m pitch along the
+kerb axis, centred on the GBFS point, and `variant` 3 is a docked bicycle. Station identity is `attrs.station_id`
+(with `attrs.part` and `attrs.dock_index`), never `prop_id` contiguity — a long run may cross a tile edge. The
+kerb axis is the local bearing of the nearest CSCL centreline (`roads/segments.parquet`) within 25 m, written as
+`heading = axis − 90` with `attrs.axis_source = nearest_segment`, `axis_segment_id` and `axis_distance_m`; where no
+segment is within reach `axis_source = none`, `heading` is NaN and the run lies east–west, which is the direction
+every consumer draws a NaN heading in. Bicycles exist **only** where a GBFS `station_status` snapshot was
+ingested (`dataset_id` `citibike_gbfs_station_status`); each carries `attrs.snapshot_last_updated`, the one
+instant (ttl 60 s) whose occupancy it is, and a build without the snapshot has no bikes rather than an invented
+occupancy. Which side of the kerb the run stands on and which end carries the kiosk are rules, listed in
+`build_summary.json` under `citibike.rules`; the source has neither.
+
 ## 9. Transit
 `transit/bus_routes.parquet` (route_id, short_name, long_name, borough, shape geometry, headway by hour list<int16>), `transit/bus_stops.parquet` (stop_id, x, y, z, name, routes list, has_shelter), `transit/rail_structures.parquet` (elevated/embankment/open-cut segments with track geometry and deck height), `transit/ferry_routes.parquet`, `transit/subway_entrances.parquet` (entrance_id, x, y, z, lines list<string>, kind(stair, escalator, elevator), has_globe(0 none,1 green,2 red)).
 

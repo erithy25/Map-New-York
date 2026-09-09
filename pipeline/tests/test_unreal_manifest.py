@@ -344,3 +344,29 @@ def test_an_unbound_slot_is_left_alone_and_counted_rather_than_guessed():
     body = body[:body.index("\ndef ", 1)]
     assert 'if not inst_name:' in body and 'unbound += 1' in body
     assert "material_interface" in body, "the pass never sets a slot's material"
+
+
+def test_a_citibike_part_resolves_through_the_variant_its_asset_declares(tmp_path: Path) -> None:
+    """A kind-7 row with ``variant`` 2 is a dock unit and must resolve to the asset tagged ``variant:2`` --
+    not to whichever citibike asset sorts first by id, which is the bicycle (docs/DEVIATIONS.md J58)."""
+    from nycsim_pipeline.furniture import assets as A
+
+    processed = tmp_path / "processed"
+    blender_out = tmp_path / "blender_out"
+    (blender_out / "props").mkdir(parents=True)
+    (processed / "furniture").mkdir(parents=True)
+    (processed / "furniture" / "props_catalog.json").write_text(json.dumps({"kinds": [{"id": 7, "name": "citibike_dock"}]}))
+    entries = [
+        {"id": "citibike_bike", "dataset_kind": "citibike_dock", "glb": "props/citibike_bike.glb", "tags": ["citibike", "variant:3"]},
+        {"id": "citibike_dock_unit", "dataset_kind": "citibike_dock", "glb": "props/citibike_dock_unit.glb", "tags": ["citibike", "variant:2"]},
+        {"id": "citibike_kiosk", "dataset_kind": "citibike_dock", "glb": "props/citibike_kiosk.glb", "tags": ["citibike", "variant:1"]},
+    ]
+    (blender_out / "props" / "props_asset_catalog.json").write_text(json.dumps({"schema_version": 1, "count": 3, "entries": entries}))
+    pa_ = A.load(processed, blender_out)
+    assert pa_.variants_by_kind["citibike_dock"] == {1: "citibike_kiosk", 2: "citibike_dock_unit", 3: "citibike_bike"}
+    for code, want in ((1, "citibike_kiosk"), (2, "citibike_dock_unit"), (3, "citibike_bike")):
+        entry, why, scale = pa_.resolve_scaled(7, variant=code)
+        assert entry["id"] == want and why == "ok" and scale == 1.0
+    # a variant-0 row is never written after Stage 40; if one appears it is reported, not silently the bicycle
+    entry, why, _ = pa_.resolve_scaled(7, variant=0)
+    assert why == "variant_unmapped:0" and entry["id"] == "citibike_bike"

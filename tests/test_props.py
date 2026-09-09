@@ -355,3 +355,23 @@ def test_polycounts_are_recorded_and_sane(catalog):
         assert e["polycount"]["lod0_tris"] > 0, f"{e['id']}: empty LOD0"
         assert e["glb_bytes"] > 500, f"{e['id']}: suspiciously small glb"
         assert math.isfinite(e["bounds"]["min"][0])
+
+
+def test_citibike_parts_each_declare_their_variant_code_once(catalog):
+    """A Citi Bike station is written as parts, and each part's row resolves to its asset through the
+    ``variant:N`` tag the asset declares -- 1 kiosk, 2 dock unit, 3 docked bicycle (DATA_CONTRACTS §8.1,
+    docs/DEVIATIONS.md J58). Before the tags every station resolved to ``choices[0]``, the bicycle."""
+    want = {"citibike_kiosk": 1, "citibike_dock_unit": 2, "citibike_bike": 3}
+    for pid, code in want.items():
+        assert pid in catalog, pid
+        tags = [t for t in catalog[pid].get("tags", []) if str(t).startswith("variant:")]
+        assert tags == [f"variant:{code}"], f"{pid}: {tags}"
+        assert catalog[pid]["dataset_kind"] == "citibike_dock"
+    declared = {}
+    for e in catalog.values():
+        if e.get("dataset_kind") == "citibike_dock":
+            for t in e.get("tags", []):
+                if str(t).startswith("variant:"):
+                    assert t not in declared.values(), f"{t} declared twice among the citibike assets"
+                    declared[e["id"]] = t
+    assert set(declared) == set(want)

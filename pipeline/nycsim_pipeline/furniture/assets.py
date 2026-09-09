@@ -196,7 +196,7 @@ VARIANT_TAG = re.compile(r"variant:(\d+)")
 def declared_variants(entries: list[dict]) -> dict[int, str]:
     """``{variant code: asset id}`` from the ``variant:N`` tags a kind's assets carry.
 
-    Empty where a kind declares nothing, which is every kind but ``street_lamp`` today.
+    Empty where a kind declares nothing; ``street_lamp``, ``flagpole`` and ``citibike_dock`` declare one today.
     """
     out: dict[int, str] = {}
     for e in entries:
@@ -217,7 +217,8 @@ class PropAssets:
     #: ``catalog_id`` -> kit piece, for the kinds whose asset is a facade kit piece.
     kit_by_id: dict[str, dict]
     #: ``dataset_kind`` -> ``{variant code: asset id}``, read from the assets' own ``variant:N``
-    #: tags.  Empty for a kind that declares none, which is every kind but ``street_lamp`` today.
+    #: tags.  Empty for a kind that declares none; ``street_lamp``, ``flagpole`` and ``citibike_dock``
+    #: declare one today.
     variants_by_kind: dict[str, dict[int, str]] = field(default_factory=dict)
     #: ``asset id`` -> the height in metres of the mesh that was exported under it, read from the
     #: catalogue's own bounds.  Empty when the catalogue is not on disk.

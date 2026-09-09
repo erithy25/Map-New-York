@@ -6604,13 +6604,13 @@
   },
   "furniture_build_summary": {
    "artifact_id": "furniture_build_summary",
-   "bytes": 49980,
-   "git_commit": "f65971e9ca35",
+   "bytes": 78395,
+   "git_commit": "bccaf51cd025",
    "path": "data/processed/furniture/build_summary.json",
-   "produced_at": "2026-09-08T14:07:41Z",
+   "produced_at": "2026-09-09T11:09:40Z",
    "rows": null,
    "schema": "furniture_build_summary/1",
-   "sha256": "8ffe8f7514e17e1b02a15ce06aa8e978bd34e72540809318ee23aafb71ba8f7e",
+   "sha256": "077e3d5ce6e6559dd3d53fc1e5ed4caa45f57908a830850ffb4d07dec3f218da",
    "sources": [
     "hydrants",
     "bus_stop_shelters",
@@ -6629,19 +6629,20 @@
     "subway_entrances",
     "gtfs_bus",
     "street_trees_2015",
-    "plan_elevation_points"
+    "plan_elevation_points",
+    "citibike_gbfs_station_status"
    ],
    "stage": "furniture"
   },
   "furniture_props_catalog": {
    "artifact_id": "furniture_props_catalog",
-   "bytes": 20569,
-   "git_commit": "f65971e9ca35",
+   "bytes": 21644,
+   "git_commit": "bccaf51cd025",
    "path": "data/processed/furniture/props_catalog.json",
-   "produced_at": "2026-09-08T14:07:41Z",
-   "rows": 1773764,
+   "produced_at": "2026-09-09T11:09:40Z",
+   "rows": 1883278,
    "schema": "props_catalog/1",
-   "sha256": "b38962f0902286846618e0f272e633d26e827ab99486dcdf4e758fd3f60b187a",
+   "sha256": "1f156e7485bb8622f266e3c586c3666fcc1c165d6474047953f9eb658873ace4",
    "sources": [
     "hydrants",
     "bus_stop_shelters",
@@ -6660,19 +6661,20 @@
     "subway_entrances",
     "gtfs_bus",
     "street_trees_2015",
-    "plan_elevation_points"
+    "plan_elevation_points",
+    "citibike_gbfs_station_status"
    ],
    "stage": "furniture"
   },
   "furniture_tiles": {
    "artifact_id": "furniture_tiles",
-   "bytes": 29334,
-   "git_commit": "f65971e9ca35",
+   "bytes": 29357,
+   "git_commit": "bccaf51cd025",
    "path": "data/processed/furniture/tiles_index.json",
-   "produced_at": "2026-09-08T14:07:41Z",
-   "rows": 1773764,
+   "produced_at": "2026-09-09T11:09:40Z",
+   "rows": 1883278,
    "schema": "furniture_tiles_index/1",
-   "sha256": "6f1f1330a474f2fc1fadbd7f802e4a2d028a8891399c34badbc61c0de8a5a982",
+   "sha256": "ce61d9e4bb9375d8181094922a930f9d7c879e648b57be310698387cf2df1a15",
    "sources": [
     "hydrants",
     "bus_stop_shelters",
@@ -6691,7 +6693,8 @@
     "subway_entrances",
     "gtfs_bus",
     "street_trees_2015",
-    "plan_elevation_points"
+    "plan_elevation_points",
+    "citibike_gbfs_station_status"
    ],
    "stage": "furniture"
   },

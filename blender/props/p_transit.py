@@ -322,15 +322,15 @@ SPECS = [
     C.PropSpec("citibike_kiosk", "furniture", "citibike_dock", build_citibike_kiosk, (0.66, 0.34, 2.00),
                "Citi Bike station kiosk: solar payment terminal with a touchscreen and keypad under the station map "
                "board, 2.0 m tall. Placed once per station; the dock run is citibike_dock_unit.",
-               variants=["citibike_dock_unit", "citibike_bike"], tags=["citibike"], tolerance=0.10),
+               variants=["citibike_dock_unit", "citibike_bike"], tags=["citibike", "variant:1"], tolerance=0.10),
     C.PropSpec("citibike_dock_unit", "furniture", "citibike_dock", build_citibike_dock, (0.90, 0.48, 0.53),
                "One Citi Bike dock point — tileable along X at the 0.90 m station pitch used by the props table, so a "
                "station of capacity N is N instances end to end. Base pan, wheel fork, locking head, status LED.",
-               variants=["citibike_kiosk", "citibike_bike"], tags=["citibike", "tileable"], tolerance=0.08),
+               variants=["citibike_kiosk", "citibike_bike"], tags=["citibike", "tileable", "variant:2"], tolerance=0.08),
     C.PropSpec("citibike_bike", "furniture", "citibike_dock", build_citibike_bike, (0.60, 1.80, 1.15),
                "Citi Bike bicycle as parked in a dock: Bixi-derived step-through frame, 26 in wheels on a 1.13 m "
                "wheelbase, front basket, full fenders, chain guard; nose along +Y.",
-               variants=["citibike_kiosk", "citibike_dock_unit"], tags=["citibike"], tolerance=0.12),
+               variants=["citibike_kiosk", "citibike_dock_unit"], tags=["citibike", "variant:3"], tolerance=0.12),
     C.PropSpec("subway_entrance", "furniture", "subway_entrance", build_subway_entrance, (2.11, 3.33, 3.89),
                "MTA subway stair entrance: green painted steel railing (42 in) around a 3.05 x 1.83 m stair opening "
                "with concrete treads at 7 in rise / 12 in run descending 2.4 m, and the double-sided SUBWAY plate in "
