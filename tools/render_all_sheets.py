@@ -19,12 +19,15 @@ cleanly while there is still room to stop in.
 """
 from __future__ import annotations
 
+import argparse
 import json
 import os
 import shutil
 import subprocess
 import sys
+import threading
 import time
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 REPO = Path("/home/user/Map-New-York")
@@ -65,42 +68,89 @@ def slugs() -> list[str]:
     return [s for _, s in sorted(out)]
 
 
-def main() -> int:
+def _parse(argv=None):
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("slugs", nargs="*", help="only these slugs (default: every slug with a photograph)")
+    ap.add_argument("--workers", type=int, default=1,
+                    help="how many sheets to render at once.  Measured over the v15 pass a sheet spends "
+                         "73 %% of its time in a single-threaded scene build and 27 %% in a render that "
+                         "uses every core, so two or three workers overlap the builds without starving "
+                         "the renders; each worker holds a 1.2 km scene in memory")
+    return ap.parse_args(argv)
+
+
+def main(argv=None) -> int:
     LOG.parent.mkdir(parents=True, exist_ok=True)
-    only = sys.argv[1:] or None
+    a = _parse(argv)
+    only = a.slugs or None
     todo = [s for s in slugs() if not only or s in only]
     state = json.loads(LOG.read_text()) if LOG.is_file() else {"done": [], "failed": [], "skipped": []}
+    state.setdefault("declined", [])
+    lock = threading.Lock()
     print(f"{len(todo)} slugs, {len(state['done'])} already done this run; "
-          f"{free_bytes() / 1e9:.2f} GB free", flush=True)
-    for i, slug in enumerate(todo, 1):
-        if slug in state["done"]:
-            continue
+          f"{free_bytes() / 1e9:.2f} GB free; {max(1, a.workers)} worker(s)", flush=True)
+    stop = threading.Event()
+
+    def save() -> None:
+        LOG.write_text(json.dumps(state, indent=1))
+
+    def one(i: int, slug: str) -> None:
+        if stop.is_set():
+            return
         if free_bytes() < FLOOR_BYTES:
-            print(f"stopping at {slug}: {free_bytes() / 1e6:.0f} MB free is below the floor",
-                  flush=True)
-            state["skipped"] = [s for s in todo if s not in state["done"] and s not in state["failed"]]
-            LOG.write_text(json.dumps(state, indent=1))
-            return 2
+            with lock:
+                if not stop.is_set():
+                    print(f"stopping at {slug}: {free_bytes() / 1e6:.0f} MB free is below the floor",
+                          flush=True)
+                    stop.set()
+            return
         t0 = time.time()
         r = subprocess.run([sys.executable, "blender/verify/render_sheets.py", "--slugs", slug],
                            cwd=str(REPO), capture_output=True, text=True, timeout=TIMEOUT_S)
         dt = time.time() - t0
         ok = r.returncode == 0 and (COMPARISON / slug / "render.png").is_file()
-        (state["done"] if ok else state["failed"]).append(slug)
-        LOG.write_text(json.dumps(state, indent=1))
-        tail = (r.stderr or r.stdout).strip().splitlines()[-1:] or [""]
-        print(f"[{i}/{len(todo)}] {'ok  ' if ok else 'FAIL'} {slug} {dt / 60:.1f} min "
-              f"{free_bytes() / 1e9:.2f} GB free" + ("" if ok else f" :: {tail[0][:160]}"), flush=True)
-        if not ok:
-            # One line of tail is the renderer's own summary, which says a sheet failed and not why.
-            # The traceback above it is the only record of the cause and the process is gone once we
-            # move on, so keep it beside the log rather than re-rendering later to find out.
-            fail_log = LOG.with_name(f"fail_{slug}.log")
-            fail_log.write_text(f"$ {sys.executable} blender/verify/render_sheets.py --slugs {slug}\n"
-                                f"returncode {r.returncode} after {dt:.1f}s\n\n"
-                                f"--- stdout ---\n{r.stdout}\n--- stderr ---\n{r.stderr}\n")
-            print(f"        cause written to {fail_log.name}", flush=True)
-    print(json.dumps({"done": len(state["done"]), "failed": state["failed"]}, indent=1))
+        # An interior item is declined before a scene is built and leaves a record saying so; it is
+        # neither done nor failed, and it must not be retried as if it had crashed.
+        status = None
+        try:
+            status = json.loads((COMPARISON / slug / "render.json").read_text()).get("status")
+        except (OSError, ValueError):
+            pass
+        with lock:
+            if not ok and status == "not_renderable_interior":
+                state["declined"].append(slug)
+                save()
+                print(f"[{i}/{len(todo)}] decl {slug} {dt / 60:.1f} min -- interior view, no interiors "
+                      f"are modelled", flush=True)
+                return
+            (state["done"] if ok else state["failed"]).append(slug)
+            save()
+            tail = (r.stderr or r.stdout).strip().splitlines()[-1:] or [""]
+            print(f"[{i}/{len(todo)}] {'ok  ' if ok else 'FAIL'} {slug} {dt / 60:.1f} min "
+                  f"{free_bytes() / 1e9:.2f} GB free" + ("" if ok else f" :: {tail[0][:160]}"), flush=True)
+            if not ok:
+                # One line of tail is the renderer's own summary, which says a sheet failed and not
+                # why.  The traceback above it is the only record of the cause and the process is
+                # gone once we move on, so keep it beside the log rather than re-rendering later to
+                # find out.
+                fail_log = LOG.with_name(f"fail_{slug}.log")
+                fail_log.write_text(f"$ {sys.executable} blender/verify/render_sheets.py --slugs {slug}\n"
+                                    f"returncode {r.returncode} after {dt:.1f}s\n\n"
+                                    f"--- stdout ---\n{r.stdout}\n--- stderr ---\n{r.stderr}\n")
+                print(f"        cause written to {fail_log.name}", flush=True)
+
+    pending = [(i, s_) for i, s_ in enumerate(todo, 1)
+               if s_ not in state["done"] and s_ not in state["declined"]]
+    with ThreadPoolExecutor(max_workers=max(1, a.workers)) as pool:
+        for i, slug in pending:
+            pool.submit(one, i, slug)
+    if stop.is_set():
+        state["skipped"] = [s_ for s_ in todo if s_ not in state["done"] and s_ not in state["failed"]
+                            and s_ not in state["declined"]]
+        save()
+        return 2
+    print(json.dumps({"done": len(state["done"]), "failed": state["failed"],
+                      "declined": state["declined"]}, indent=1))
     return 1 if state["failed"] else 0
 
 

@@ -1012,6 +1012,32 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
     outdir = COMPARISON_DIR / slug
     outdir.mkdir(parents=True, exist_ok=True)
 
+    if meta.get("interior"):
+        # This build models no building interiors, and the only thing a camera inside one can
+        # render is the inside of a shell -- the Grand Central concourse came out at mean 0.058
+        # and was refused as a black frame after a four-minute scene build, which recorded the
+        # right outcome for the wrong reason.  An interior viewpoint is declined *before* the scene
+        # is built, with the reason, and leaves nothing behind that could be read as a frame.
+        reason = ("interior view: this build models no building interiors, so there is nothing to "
+                  "render from a viewpoint inside one; the item is declined before a scene is built "
+                  "rather than rendered black and refused")
+        for name in ("render.png", "sheet.png", "frame_stats.json", "render_error.txt"):
+            (outdir / name).unlink(missing_ok=True)
+        rec = {"slug": slug, "name": meta.get("name"), "group": meta.get("group"),
+               "interior": True, "night": bool(meta.get("night")),
+               "status": "not_renderable_interior", "reason": reason,
+               "viewpoint": {"lat": vp["lat"], "lon": vp["lon"], "azimuth_deg": vp["azimuth_deg"],
+                             "note": vp.get("note")},
+               "reference_photo": None if photo is None else {
+                   "file": photo["file"], "author": photo.get("author"),
+                   "licence": (photo.get("license") or {}).get("short_name"),
+                   "licence_url": (photo.get("license") or {}).get("url"),
+                   "page_url": photo.get("page_url"), "title": photo.get("title")},
+               "rendered_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")}
+        (outdir / "render.json").write_text(json.dumps(rec, indent=1, sort_keys=True))
+        LOG.warning("%s declined: %s", slug, reason)
+        return rec
+
     cam_lat, cam_lon, origin_why, origin_offset_m, origin_is_photo = view_origin(meta, photo)
     x, y = (float(v) for v in lonlat_to_tm(cam_lon, cam_lat))
     subject = meta.get("subject") or {}
@@ -1217,6 +1243,31 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
     placement = vcam.place_camera(slug=slug, lat=cam_lat, lon=cam_lon,
                                   azimuth_deg=azimuth, sampler=sampler, focal_mm=focal_mm,
                                   resolution=(width, height), note=vp.get("note"), pitch_deg=pitch)
+    # What the clearance walk scores its candidates on (J79): the subject's coordinate, the aim
+    # height the sightline probe uses, and the measured extent of the thing standing there -- the
+    # same one measurement the aim and the lens were decided from, not a second copy of it.  The
+    # plan extent comes from the probed object's own bounding box, and only for a landmark model:
+    # a tile mesh is every building of one material in a kilometre, and its box is the tile.
+    subject_for_walk = None
+    if (subj_dist is not None and top is not None and top[1] is not None
+            and height_probe.get("ground_z_m") is not None):
+        wsx, wsy = (float(v) for v in lonlat_to_tm(subject["lon"], subject["lat"]))
+        wbase, wtop = float(height_probe["ground_z_m"]), float(top[1])
+        extent = vcam.object_extent_xy(height_probe.get("object"))
+        subject_for_walk = {"x": wsx, "y": wsy, "z_aim": 0.5 * (wbase + wtop),
+                            "height_m": wtop - wbase, "ground_z": wbase,
+                            "object": height_probe.get("object"),
+                            "width_m": (None if not extent or extent["is_tile_mesh"]
+                                        else float(extent["width_m"]))}
+        record.setdefault("subject", {})["plan_extent"] = (
+            None if not extent else {"width_m": round(extent["width_m"], 1),
+                                     "narrow_m": round(extent["narrow_m"], 1),
+                                     "object": height_probe.get("object"),
+                                     "is_tile_mesh": extent["is_tile_mesh"],
+                                     "note": ("a tile mesh is every building of one material in the "
+                                              "tile, so its extent is not the subject's and is not used"
+                                              if extent["is_tile_mesh"] else
+                                              "the bounding box of the object the height was measured off")})
     # How much open air the corrected viewpoint has to have along the view azimuth before it is
     # accepted.  A frame whose subject is 170 m away is worthless from a spot with a wall (or a
     # street tree) ten metres in front of the lens, so the requirement scales with the subject
@@ -1224,7 +1275,7 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
     # light well.
     min_view_m = 20.0 if subj_dist is None else max(20.0, min(0.5 * subj_dist, 80.0))
     clearance = vcam.clear_of_geometry(placement, sampler, min_view_m=min_view_m, origin_is_photo=origin_is_photo,
-                                       has_subject=subj_dist is not None)
+                                       has_subject=subj_dist is not None, subject=subject_for_walk)
     clearance["min_view_m"] = round(min_view_m, 1)
     # "N m from the camera" has to mean the camera in the picture.  `subj_dist` is measured from the
     # origin the aim was decided at, and `clear_of_geometry` has just walked the eye onto the nearest
@@ -1307,8 +1358,14 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
             # The fan is sized to the subject's own measured height (J74/J76), so a 107 m tower
             # is not declared invisible because a lamp standard 5.6 m from the lens covers the
             # 0.30 m a flat 12 m fan spans there.
+            # The fan is the subject's measured width across and its measured height up, clipped
+            # to the frame, and a hit on the subject's own fabric is a ray that has found it (J78).
             sight = vcam.subject_sightline(placement.x, placement.y, placement.z, ssx, ssy, float(sz),
-                                           subject_height_m=(float(stop) - base) if stop else None)
+                                           subject_height_m=(float(stop) - base) if stop else None,
+                                           subject_width_m=(subject_for_walk or {}).get("width_m"),
+                                           subject_object=height_probe.get("object"),
+                                           subject_ground_z=base,
+                                           frame_half_angles_deg=vcam.frame_half_angles(placement))
             sight["subject_aimed_at"] = f"the subject's mid-height, {sz - base:.1f} m above its ground"
             record_subject = sight
     else:
@@ -1341,7 +1398,8 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
         # where the luminance gate has already said the frame is not evidence, so a street that is
         # genuinely in canopy shade keeps its shade.
         forced = vcam.clear_of_geometry(placement, sampler, min_view_m=min_view_m, origin_is_photo=origin_is_photo, force=True,
-                                        has_subject=subj_dist is not None, need_sky=True)
+                                        has_subject=subj_dist is not None, need_sky=True,
+                                        subject=subject_for_walk)
         forced["min_view_m"] = round(min_view_m, 1)
         if forced.get("moved"):
             bpy.ops.render.render(write_still=True)
@@ -1715,6 +1773,8 @@ def _index_status(slug: str, cov: dict) -> tuple[str, str]:
             if rec["scene"].get("kit", {}).get("placed"):
                 bits.append(f"{rec['scene']['kit']['placed']} kit pieces")
             return "rendered", ", ".join(bits)
+        if rec.get("status") == "not_renderable_interior":
+            return "not rendered", str(rec.get("reason") or "interior view; no interiors are modelled")
         return "error", str(rec.get("reason") or rec.get("status"))
     err = COMPARISON_DIR / slug / "render_error.txt"
     if err.exists():
@@ -1902,7 +1962,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
     LOG.info("%d subject(s): %s", len(slugs), ", ".join(slugs))
 
-    done, failed = [], []
+    done, failed, declined = [], [], []
     for slug in slugs:
         outdir = COMPARISON_DIR / slug
         if a.compose_only:
@@ -1928,6 +1988,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(json.dumps(rec, indent=1, sort_keys=True))
             done.append(slug)
             continue
+        if rec.get("status") == "not_renderable_interior":
+            declined.append(slug)
+            continue
         if rec.get("status") != "rendered":
             failed.append(slug)
             err = outdir / "render_error.txt"
@@ -1937,8 +2000,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             continue
         compose_sheet(slug, rec)
         done.append(slug)
-    LOG.info("done: %d, failed: %d%s", len(done), len(failed),
-             (" (" + ", ".join(failed) + ")") if failed else "")
+    LOG.info("done: %d, failed: %d%s, declined as interior: %d%s", len(done), len(failed),
+             (" (" + ", ".join(failed) + ")") if failed else "", len(declined),
+             (" (" + ", ".join(declined) + ")") if declined else "")
     return 0 if not failed else 1
 
 

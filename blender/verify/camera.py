@@ -359,8 +359,16 @@ def first_solid_above(x: float, y: float, z: float, *, limit_m: float = UP_RAY_M
 #: small ring of rays and keeps the **highest** built thing any of them found.  6 m is wide enough
 #: to survive a gap in an open steel tower and narrow enough that it cannot walk onto the building
 #: next door: at 6 m the probe is still inside every subject in the reference set.
-SUBJECT_PROBE_RINGS = (0.0, 3.0, 6.0)
-SUBJECT_PROBE_SPOKES = 8
+#:
+#: Rings every 1.5 m and not every 3 m, with more spokes as the ring widens, so that the gap between
+#: neighbouring rays is never more than about 2.4 m anywhere inside the 6 m disc.  Three rings at
+#: 0, 3 and 6 m let the one subject in the set smaller than that spacing fall between them: the
+#: Charging Bull is 4.9 m long, its recorded coordinate is 4.0 m from the model's origin and 3.2 m
+#: from its nearest vertex, so the r=0 ray passed beside it, the r=3 ring just missed it and the
+#: r=6 ring overshot onto its base plate -- 4 of 17 rays, all on the base, and a "height" 0.6 m
+#: below the ground (docs/DEVIATIONS.md J74, amendment).  43 rays cost nothing measurable.
+SUBJECT_PROBE_RINGS = (0.0, 1.5, 3.0, 4.5, 6.0)
+SUBJECT_PROBE_SPOKES = (1, 6, 8, 12, 16)
 #: The probe starts here and falls.  One World Trade Center's shell tops out at 542 m, so this is
 #: above every built thing in the world and the ray still stops at its first hit.
 SUBJECT_PROBE_TOP_M = 1000.0
@@ -433,8 +441,8 @@ def subject_height_probe(sx: float, sy: float, ground_z: float) -> dict:
     sc = bpy.context.scene
     down = Vector((0.0, 0.0, -1.0))
     best_z, best_ob, hits, cast = None, None, 0, 0
-    for ring in SUBJECT_PROBE_RINGS:
-        spokes = 1 if ring <= 0.0 else SUBJECT_PROBE_SPOKES
+    for ring, spokes in zip(SUBJECT_PROBE_RINGS, SUBJECT_PROBE_SPOKES):
+        spokes = 1 if ring <= 0.0 else int(spokes)
         for k in range(spokes):
             ang = 2.0 * math.pi * k / spokes
             px = sx + ring * math.cos(ang)
@@ -564,6 +572,65 @@ def _blocked(x: float, y: float, z: float, azimuth_deg: float) -> tuple[bool, st
     return False, ""
 
 
+#: How far over the eye a landmark's own level deck may stand and still be the ground the eye
+#: belongs on.  One eye height was the first rule, and it could not express a two-level structure:
+#: at Bethesda Terrace the photograph's GPS put the eye in the arcade with the upper deck **1.8 m**
+#: overhead under its pavement skin, and the position was rejected as "under paving" (J65).  A
+#: terrace step is about 5 m and the Hudson Yards platform stands about 7 m over the rail yard's
+#: DEM, so 8 m is a storey and a half: a level landmark deck within that, with open sky above it,
+#: is a step in the ground and not a building.  The sky test is what keeps a real interior out --
+#: a floor with more building over it fails ``_blocked`` at the lifted height.
+DECK_RISE_MAX_M = 8.0
+
+
+def _first_landmark_deck_above(x: float, y: float, z: float, *, limit_m: float):
+    """The first landmark-model surface over the eye, looking **through** foliage, terrain and
+    pavement: ``(object, z, normal_z)`` or ``(None, None, None)``.
+
+    :func:`first_solid_above` stops at the first built thing, and a plaza polygon draped over a
+    landmark's deck is built as far as it is concerned -- so at Bethesda Terrace it reported
+    ``verify_pavement`` 1.8 m overhead and never saw the terrace's own upper deck the pavement lies
+    on.  The deck rule needs the deck.
+    """
+    from mathutils import Vector
+    dg = bpy.context.evaluated_depsgraph_get()
+    sc = bpy.context.scene
+    origin = Vector((x, y, z))
+    up = Vector((0.0, 0.0, 1.0))
+    travelled = 0.0
+    for _ in range(12):
+        hit, loc, nrm, _, ob, _ = sc.ray_cast(dg, origin + up * travelled, up,
+                                              distance=max(limit_m - travelled, 0.0))
+        if not hit or ob is None:
+            return None, None, None
+        if ob.name.startswith("lm_") and not is_foliage(ob):
+            if float(nrm.z) >= -0.5:
+                return ob, float(loc.z), float(nrm.z)
+            # The ray met the deck's *underside*.  A deck is a slab and the eye belongs on its top,
+            # not one eye height above its soffit -- which for a 2 m slab is inside it -- so keep
+            # going through this object until the ray leaves it through its upper face.  A slab
+            # with no upper face inside the limit is not something to stand on.
+            inside = float(loc.z) - z + 0.05
+            for _ in range(8):
+                hit2, loc2, nrm2, _, ob2, _ = sc.ray_cast(dg, origin + up * inside, up,
+                                                          distance=max(limit_m - inside, 0.0))
+                if not hit2 or ob2 is None:
+                    return None, None, None
+                if ob2.name == ob.name:
+                    if float(nrm2.z) > 0.5:
+                        return ob, float(loc2.z), float(nrm2.z)
+                    inside = float(loc2.z) - z + 0.05
+                    continue
+                return None, None, None      # something else before the slab's top: not a deck
+            return None, None, None
+        if is_foliage(ob) or ob.name in ("verify_terrain", "verify_pavement") or _is_agent(ob):
+            travelled = float(loc.z) - z + 0.05
+            if travelled >= limit_m:
+                return None, None, None
+            continue
+        return None, None, None          # a shell or a prop: the eye is under something else
+
+
 def deck_underfoot(x: float, y: float, z: float, azimuth_deg: float,
                    eye_height_m: float) -> tuple[float | None, str]:
     """The modelled deck this eye point was put *under* and belongs on top of.
@@ -582,16 +649,18 @@ def deck_underfoot(x: float, y: float, z: float, azimuth_deg: float,
     independent geometry that can simply disagree with the DEM, and where it does, the deck is the
     surface the photographer stood on.
 
-    The correction only applies when the deck is within one eye height overhead (any further and
-    the eye is under a building, not below a step), when the surface is level to within about
-    25 deg, and when standing on it actually clears the eye point.  Returns ``(z, why)`` or
-    ``(None, "")``.
+    The correction only applies when the deck is within ``DECK_RISE_MAX_M`` overhead (any further
+    and the eye is under a building, not below a step), when the surface is level to within about
+    25 deg, and when standing on it actually clears the eye point -- open sky over the lifted eye is
+    what tells a deck from a floor.  The deck is looked for *through* a pavement or terrain skin
+    lying on it, because that skin is what hid Bethesda Terrace's upper deck from the first version
+    of this rule (docs/DEVIATIONS.md J65).  Returns ``(z, why)`` or ``(None, "")``.
     """
-    ob, deck_z, normal_z = first_solid_above(x, y, z)
-    if ob is None or not ob.name.startswith("lm_"):
+    ob, deck_z, normal_z = _first_landmark_deck_above(x, y, z, limit_m=DECK_RISE_MAX_M + 0.5)
+    if ob is None:
         return None, ""
     rise = deck_z - z
-    if not 0.0 <= rise <= max(eye_height_m, 0.1):
+    if not 0.0 <= rise <= DECK_RISE_MAX_M:
         return None, ""
     if abs(normal_z or 0.0) < 0.9:            # a wall or a soffit, not something to stand on
         return None, ""
@@ -911,9 +980,110 @@ def frame_clearance(x: float, y: float, z: float, azimuth_deg: float, *, probe_m
             "probe_m": float(probe_m)}
 
 
+def object_extent_xy(name: str | None) -> dict | None:
+    """The world-space plan extent of one scene object, from its bounding box.
+
+    Used to size the sightline fan to the subject's *width* rather than to its height: a 107 m
+    bridge tower is about 40 m across, and a fan 107 m wide at the tower is a fan that spends its
+    rays on the warehouses either side of the street (docs/DEVIATIONS.md J78).  A tile mesh --
+    ``t_<tx>_<ty>_<material>`` -- is every building of one material in a 1 km tile, so its box is
+    the tile and says nothing about the building; the caller is told so and uses the floor.
+    """
+    if not name:
+        return None
+    from mathutils import Vector
+    ob = bpy.data.objects.get(name)
+    if ob is None:
+        return None
+    pts = [ob.matrix_world @ Vector(c) for c in ob.bound_box]
+    xs, ys, zs = [p.x for p in pts], [p.y for p in pts], [p.z for p in pts]
+    dx, dy = max(xs) - min(xs), max(ys) - min(ys)
+    return {"min_x": min(xs), "max_x": max(xs), "min_y": min(ys), "max_y": max(ys),
+            "top_z": max(zs), "width_m": max(dx, dy), "narrow_m": min(dx, dy),
+            "is_tile_mesh": bool(_TILE_MESH.match(ob.name))}
+
+
+def _fabric_identity(name: str) -> str:
+    """What "the same built thing" means for a scene object name.
+
+    A landmark model is exported as many objects -- ``lm_flatiron.2`` is the prow and
+    ``lm_flatiron.9`` the flank -- so its identity is the model, the name before the first dot.  A
+    tile mesh is one object per material per tile and its identity is the whole name.
+    """
+    return name.split(".", 1)[0] if name.startswith("lm_") else name
+
+
+def _same_fabric(a: str | None, b: str | None) -> bool:
+    return bool(a) and bool(b) and _fabric_identity(a) == _fabric_identity(b)
+
+
+#: How often the continuity walk samples the ground between a hit and the subject's coordinate.
+#: 5 m is finer than any street: two buildings with a roadway between them are always separated
+#: by at least one sample that lands on pavement rather than on either of them.
+FABRIC_SAMPLE_M = 5.0
+
+
+def _fabric_continuous(x0: float, y0: float, x1: float, y1: float, ident: str,
+                       ground_z: float, *, step_m: float = FABRIC_SAMPLE_M) -> bool:
+    """Is built fabric of one identity continuous, in plan, from (x0, y0) to (x1, y1)?
+
+    This is how a hit on the subject's own model is told apart from a hit on something standing
+    in front of it.  The sightline probe called a hit closer than the subject's recorded distance
+    a blocker; the distance is to the recorded coordinate -- a centroid -- and a large building's
+    near face is legitimately much closer, so the Flatiron's prow at 111 m was counted as blocking
+    the Flatiron at 151 m (docs/DEVIATIONS.md J78).  But a hit on the same *model* is not enough
+    either: the Bethesda Terrace model carries the arcade wall between the lower plaza and the
+    fountain, and a composite such as ``lm_c_times_square`` is several separate buildings.  So rays
+    fall on the line between the hit and the subject every ``step_m``, and every one of them has
+    to land on the same fabric standing at least 2 m above the subject's ground: a plaza, a street
+    or another building between the two breaks the run and the hit is a blocker after all.
+    """
+    from mathutils import Vector
+    dg = bpy.context.evaluated_depsgraph_get()
+    sc = bpy.context.scene
+    down = Vector((0.0, 0.0, -1.0))
+    length = math.hypot(x1 - x0, y1 - y0)
+    n = max(1, int(math.ceil(length / max(step_m, 0.5))))
+    # The first sample steps half a metre in from the hit, because the hit is *on* a face and a ray
+    # dropped exactly onto a face's top edge can land on either side of it.
+    t_start = min(0.5 / length, 1.0) if length > 1e-6 else 0.0
+    for i in range(n + 1):
+        t = t_start + (1.0 - t_start) * i / n
+        px, py = x0 + (x1 - x0) * t, y0 + (y1 - y0) * t
+        travelled, found = 0.0, False
+        for _ in range(8):
+            start_z = SUBJECT_PROBE_TOP_M - travelled
+            hit, loc, _n, _i, ob, _m = sc.ray_cast(dg, Vector((px, py, start_z)), down,
+                                                   distance=start_z + 100.0)
+            if not hit or ob is None:
+                break
+            if is_foliage(ob) or _is_agent(ob) or not is_shell(ob):
+                step = SUBJECT_PROBE_TOP_M - float(loc.z) + 0.05
+                if step <= travelled:
+                    break
+                travelled = step
+                continue
+            found = _same_fabric(ob.name, ident) and float(loc.z) >= ground_z + 2.0
+            break
+        if not found:
+            return False
+    return True
+
+
+def frame_half_angles(placement: "CameraPlacement") -> tuple[float, float]:
+    """(horizontal, vertical) half-angles of this camera's frame, in degrees."""
+    w, h = placement.resolution
+    h_half = 0.5 * float(placement.hfov_deg)
+    v_half = math.degrees(math.atan(math.tan(math.radians(h_half)) * (h / w))) if w else h_half
+    return h_half, v_half
+
+
 def subject_sightline(x: float, y: float, z: float, sx: float, sy: float, sz: float, *,
                       spread_m: float = 12.0, subject_height_m: float | None = None,
-                      rays: int = 5, reach_m: float = 25.0,
+                      subject_width_m: float | None = None, subject_object: str | None = None,
+                      subject_ground_z: float | None = None,
+                      frame_half_angles_deg: tuple[float, float] | None = None,
+                      rays: int = 13, reach_m: float = 25.0,
                       overshoot_m: float = 400.0) -> dict:
     """Can the camera see the thing the sheet is a comparison *of*?
 
@@ -946,6 +1116,25 @@ def subject_sightline(x: float, y: float, z: float, sx: float, sy: float, sz: fl
     the middle of the plaza rather than the middle of the basin, and narrow enough that the ground
     200 m behind cannot pass for it.  Nothing in the item metadata gives the subject's size, so
     there is no measurement to take here.
+
+    Three things this probe got wrong in the v15 pass, each measured over the whole set, and what
+    replaced them (docs/DEVIATIONS.md J78):
+
+    * **A hit on the subject's own fabric counted as a blocker** when it was nearer than
+      ``span - reach_m``, because ``span`` is the distance to a recorded *centroid* and a large
+      building's near face is much closer -- the Flatiron's prow blocked the Flatiron.  Now a hit
+      on the same fabric as the thing standing at the subject's coordinate (``subject_object``),
+      with that fabric continuous in plan from the hit to the coordinate, is a ray that has
+      **found** the subject.  Continuity is what keeps a wall of the same model that stands in
+      front of a fountain, or another building of the same composite, as a blocker.
+    * **The fan was as wide as the subject was tall.**  A 107 m tower is not 107 m wide, so at
+      226 m the fan spanned +-53 m of a 20 m street and the warehouse walls took the rays.  The
+      fan is now the subject's measured *width* across and its measured *height* up, each clipped
+      to the frame -- a ray outside the frame tests something that is not in the picture.
+    * **The verdict was a majority of five rays.**  A subject one ray lands on is in the picture;
+      twenty sheets had a ray on the subject and said `false`.  The verdict is now "at least one
+      ray lands on the subject", and the record publishes the fraction beside it so a reader can
+      tell a subject that fills the fan from one seen past a lamp standard.
     """
     from mathutils import Vector
 
@@ -978,35 +1167,65 @@ def subject_sightline(x: float, y: float, z: float, sx: float, sy: float, sz: fl
     # geometry standing at its coordinate, so the caller passes it and the fan spans the subject
     # rather than a constant.  Where nothing was measured, 12 m still applies and the record says
     # the fan was not sized to anything.
-    if subject_height_m and subject_height_m > spread_m:
-        spread_m, fan_from = float(subject_height_m), "the subject's own measured height (J74)"
+    floor_m = float(spread_m)
+    # Vertical extent: the measured height, or the floor.
+    if subject_height_m and subject_height_m > floor_m:
+        tall_m, fan_from = float(subject_height_m), "the subject's own measured height (J74)"
     elif subject_height_m:
         # Measured, and smaller than the floor.  Saying "not measured" here would be a second
         # kind of wrong answer in the field that exists to stop the first.
-        fan_from = (f"the {spread_m:.0f} m floor: the subject measures {float(subject_height_m):.1f} m, "
+        tall_m = floor_m
+        fan_from = (f"the {floor_m:.0f} m floor: the subject measures {float(subject_height_m):.1f} m, "
                     f"which is under it, so the fan is the floor rather than the subject")
     else:
-        fan_from = (f"the default {spread_m:.0f} m: the subject's height was not measured here, "
+        tall_m = floor_m
+        fan_from = (f"the default {floor_m:.0f} m: the subject's height was not measured here, "
                     f"so the fan is not sized to it")
-    half_angle_deg = math.degrees(math.atan2(max(spread_m, 0.1) / 2.0, span))
-    half_angle_deg = min(15.0, max(0.5, half_angle_deg))
+    # Horizontal extent: the measured width of the thing at the coordinate, or the floor -- never
+    # the height (J78).
+    if subject_width_m and subject_width_m > floor_m:
+        wide_m = float(subject_width_m)
+        fan_from += "; across, the measured plan extent of the object standing at the coordinate"
+    else:
+        wide_m = floor_m
+        if subject_width_m:
+            fan_from += f"; across, the {floor_m:.0f} m floor (the object measures {float(subject_width_m):.1f} m)"
+        else:
+            fan_from += f"; across, the {floor_m:.0f} m floor (no plan extent was measured)"
+    h_half = min(15.0, max(0.5, math.degrees(math.atan2(max(wide_m, 0.1) / 2.0, span))))
+    v_half = min(15.0, max(0.5, math.degrees(math.atan2(max(tall_m, 0.1) / 2.0, span))))
+    clipped = False
+    if frame_half_angles_deg is not None:
+        fh, fv = (float(v) for v in frame_half_angles_deg)
+        if h_half > fh or v_half > fv:
+            clipped = True
+        h_half, v_half = min(h_half, max(fh, 0.5)), min(v_half, max(fv, 0.5))
+    if clipped:
+        fan_from += "; clipped to the frame, because a ray outside the picture tests something that is not in it"
     up = Vector((0.0, 0.0, 1.0))
     side = axis.cross(up)
     side = side.normalized() if side.length > 1e-6 else Vector((1.0, 0.0, 0.0))
     lift = side.cross(axis).normalized()
+    # The centre ray and K steps out along each of the four arms.  The outermost step stops at
+    # 90 % of the half-angle so that, where the extent is measured, the edge rays land on the
+    # subject's edge rather than grazing past it.
+    arms = max(1, (rays - 1) // 4)
     offsets = [(0.0, 0.0)]
-    step = math.radians(half_angle_deg)
-    for k in range(1, max(1, (rays - 1) // 2) + 1):
-        f = step * k / max(1, (rays - 1) // 2)
-        offsets += [(f, 0.0), (-f, 0.0), (0.0, f), (0.0, -f)]
-    offsets = offsets[:max(1, rays)]
+    for k in range(1, arms + 1):
+        fh_ = math.radians(h_half) * 0.9 * k / arms
+        fv_ = math.radians(v_half) * 0.9 * k / arms
+        offsets += [(fh_, 0.0), (-fh_, 0.0), (0.0, fv_), (0.0, -fv_)]
     near = max(0.0, span - reach_m)          # closer than this, and it is standing in the way
     far = span + max(reach_m, overshoot_m)   # the ray keeps going, to see what is there instead
+    ground_for_walk = float(subject_ground_z) if subject_ground_z is not None else float(sz) - tall_m / 2.0
     blocked: dict[str, float] = {}
     landed: dict[str, float] = {}
+    own_fabric: dict[str, float] = {}
+    continuity_cache: dict[tuple[str, int, int], bool] = {}
     clear = 0          # rays that reach the subject's neighbourhood with nothing in the way
     on_subject = 0     # of those, the ones that land on geometry within reach_m of the coordinate
     empty = 0          # rays that meet nothing at all, all the way out
+    own_hits = 0       # rays that met the subject's own fabric nearer than its recorded distance
     for du, dv in offsets:
         d = (axis + side * math.tan(du) + lift * math.tan(dv)).normalized()
         got = _ray_past(dg, origin, d, far, _opaque, max_steps=48)
@@ -1016,6 +1235,21 @@ def subject_sightline(x: float, y: float, z: float, sx: float, sy: float, sz: fl
             continue
         dist, ob = got
         if dist < near:
+            if subject_object and _same_fabric(ob.name, subject_object):
+                hit = origin + d * dist
+                key = (ob.name, int(hit.x), int(hit.y))
+                if key not in continuity_cache:
+                    continuity_cache[key] = _fabric_continuous(float(hit.x), float(hit.y), sx, sy,
+                                                               subject_object, ground_for_walk)
+                if continuity_cache[key]:
+                    own_hits += 1
+                    clear += 1
+                    on_subject += 1
+                    if ob.name not in own_fabric or dist < own_fabric[ob.name]:
+                        own_fabric[ob.name] = dist
+                    if ob.name not in landed or dist < landed[ob.name]:
+                        landed[ob.name] = dist
+                    continue
             if ob.name not in blocked or dist < blocked[ob.name]:
                 blocked[ob.name] = dist
             continue
@@ -1027,25 +1261,34 @@ def subject_sightline(x: float, y: float, z: float, sx: float, sy: float, sz: fl
     n = len(offsets)
     worst = min(blocked.items(), key=lambda kv: kv[1]) if blocked else None
     best = min(landed.items(), key=lambda kv: kv[1]) if landed else None
-    nothing_there = on_subject <= n // 2
+    nearest_own = min(own_fabric.items(), key=lambda kv: kv[1]) if own_fabric else None
+    visible = on_subject >= 1
     out = {"subject_range_m": round(span, 1),
-           "subject_fan_m": round(spread_m, 1),
+           "subject_fan_m": round(wide_m, 1),
+           "subject_fan_tall_m": round(tall_m, 1),
            "subject_fan_from": fan_from,
-           "subject_fan_half_angle_deg": round(half_angle_deg, 2),
+           "subject_fan_half_angle_deg": round(h_half, 2),
+           "subject_fan_v_half_angle_deg": round(v_half, 2),
            "subject_reach_m": round(reach_m, 1),
            "subject_rays": n,
            "subject_rays_clear": clear,
            "subject_rays_on_subject": on_subject,
            "subject_rays_into_nothing": empty,
-           "subject_visible": clear > n // 2 and not nothing_there,
+           "subject_rays_on_own_fabric_nearer_than_recorded": own_hits,
+           "subject_own_fabric_nearest": None if nearest_own is None else nearest_own[0],
+           "subject_own_fabric_nearest_m": None if nearest_own is None else round(nearest_own[1], 1),
+           "subject_visible_fraction": round(on_subject / n, 3),
+           "subject_clear_fraction": round(clear / n, 3),
+           "subject_visible": visible,
+           "subject_verdict_rule": "at least one ray lands on the subject (J78)",
            "subject_blocked_by": None if worst is None else worst[0],
            "subject_blocked_at_m": None if worst is None else round(worst[1], 1),
            "subject_lands_on": None if best is None else best[0],
            "subject_lands_at_m": None if best is None else round(best[1], 1)}
-    if clear > n // 2 and nothing_there:
+    if not visible and clear >= 1:
         out["subject_note"] = (
             "nothing stands within "
-            f"{reach_m:.0f} m of the subject's recorded coordinate: "
+            f"{reach_m:.0f} m of the subject's recorded coordinate on any clear ray: "
             + (f"the clear rays run on to {best[0]} at {best[1]:.0f} m"
                if best is not None else
                f"the clear rays meet nothing at all out to {far:.0f} m")
@@ -1179,7 +1422,7 @@ def pavement_candidates(x: float, y: float, *, max_m: float = 70.0) -> list[dict
 def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 80.0,
                       step_m: float = 2.0, min_view_m: float = 15.0, force: bool = False,
                       has_subject: bool = False, origin_is_photo: bool = False,
-                      need_sky: bool = False) -> dict:
+                      need_sky: bool = False, subject: dict | None = None) -> dict:
     """Correct an unusable eye point and record what was done to it.
 
     Two things can be wrong with a recorded viewpoint, and they are corrected in this order:
@@ -1210,7 +1453,8 @@ def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 8
         placement.ground_source = deck_why
     out = _move_clear_of_geometry(placement, sampler, max_m=max_m, step_m=step_m,
                                   min_view_m=min_view_m, force=force, has_subject=has_subject,
-                                  origin_is_photo=origin_is_photo, need_sky=need_sky)
+                                  origin_is_photo=origin_is_photo, need_sky=need_sky,
+                                  subject=subject)
     if deck_why:
         out["stood_on_deck"] = deck_why
     return out
@@ -1219,7 +1463,7 @@ def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 8
 def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 80.0,
                             step_m: float = 2.0, min_view_m: float = 15.0, force: bool = False,
                             has_subject: bool = False, origin_is_photo: bool = False,
-                            need_sky: bool = False) -> dict:
+                            need_sky: bool = False, subject: dict | None = None) -> dict:
     """Move an eye point that landed inside a building out to the real pavement, and say so.
 
     The camera is only moved when it is demonstrably inside geometry.  Two corrections are tried,
@@ -1238,6 +1482,20 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
     ``min_view_m``.  If nothing satisfies that, the clearance requirement is dropped and the
     nearest merely-open point is used, and the sheet says which rule was met.  The eye height is
     re-measured from the heightmap at the new point, and the offset is always reported.
+
+    **With a subject, a candidate also has to be able to see it** (docs/DEVIATIONS.md J79).  The
+    clearance tests above look level along the axis, and that is a different question from
+    whether the thing the sheet is a picture of is in the frame: the Chrysler Building's camera
+    was walked onto a crosswalk with 96 m of clear street ahead and the tower closed off at 24 m
+    by a curtain-wall face the level probe passed under, and the Equitable Building's was left 74 m
+    from a 164 m slab with 40 m of level clearance and rendered black.  Measured over the whole
+    v15 pass, 27 of the 93 sheets that reported a blocked subject were blocked by a building
+    shell.  So ``subject`` -- the coordinate, the aim height and the measured extent of what
+    stands there -- is passed in, every candidate runs :func:`subject_sightline` from where it
+    would stand, a candidate that cannot see the subject does not pass, and the fallback ranks on
+    how much of the subject it sees before it ranks on clearance.  A viewpoint that is not being
+    moved is not moved for this either: the recorded position is evidence, and a subject a model
+    hides from it is a statement about the model, which the record makes.
     """
     probe_m = max(min_view_m * 1.2, 60.0)
     min_clear_m = min(8.0, min_view_m)
@@ -1318,8 +1576,28 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
         sky = sky_fraction(nx, ny, nz) if need_sky else None
         if need_sky:
             sees = sees and sky >= SKY_MIN_FRACTION
+        # The question the frame exists to answer, asked of the candidate before it is accepted.
+        subject_frac, subject_seen, subject_reading = None, None, None
+        if subject is not None:
+            sl = subject_sightline(nx, ny, nz, float(subject["x"]), float(subject["y"]),
+                                   float(subject["z_aim"]),
+                                   subject_height_m=subject.get("height_m"),
+                                   subject_width_m=subject.get("width_m"),
+                                   subject_object=subject.get("object"),
+                                   subject_ground_z=subject.get("ground_z"),
+                                   frame_half_angles_deg=frame_half_angles(placement))
+            subject_frac = float(sl.get("subject_visible_fraction") or 0.0)
+            subject_seen = bool(sl.get("subject_visible"))
+            subject_reading = {"subject_visible": subject_seen,
+                               "subject_visible_fraction": subject_frac,
+                               "subject_rays_on_subject": sl.get("subject_rays_on_subject"),
+                               "subject_rays": sl.get("subject_rays"),
+                               "subject_blocked_by": sl.get("subject_blocked_by"),
+                               "subject_blocked_at_m": sl.get("subject_blocked_at_m")}
+            sees = sees and subject_seen
         return {"z": nz, "gz": gz, "detail": detail, "view_m": view_m, "sky": sky, **reading,
-                "sees": sees}
+                "sees": sees, "subject_frac": subject_frac, "subject_seen": subject_seen,
+                "subject_reading": subject_reading}
 
     def commit(nx: float, ny: float, got: dict) -> None:
         cam = bpy.context.scene.camera
@@ -1328,6 +1606,13 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
         placement.x, placement.y, placement.z = nx, ny, got["z"]
         placement.terrain_z_m = got["gz"]
         placement.ground_detail = got["detail"] or placement.ground_detail
+
+    def scored(got: dict) -> dict:
+        """What the walk knew about the subject at the point it chose, for the record."""
+        if subject is None:
+            return {"scored_on_subject_sightline": False}
+        return {"scored_on_subject_sightline": True,
+                "subject_sightline_at_choice": got.get("subject_reading")}
 
     fallback = None          # (nx, ny, got, description) -- open air but a short view
     for cand in pavement_candidates(placement.x, placement.y, max_m=max_m):
@@ -1341,16 +1626,21 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
             commit(cand["x"], cand["y"], got)
             return {"moved": True, "offset_m": round(cand["distance_m"], 1),
                     "direction": f"onto the nearest {cand['kind']}", "reason": why,
-                    "rule": "pavement snap with a clear frame",
-                    "view_m": round(got["view_m"], 1), **clearance_fields(got),
+                    "rule": "pavement snap with a clear frame"
+                            + (" that sees the subject" if subject is not None else ""),
+                    "view_m": round(got["view_m"], 1), **clearance_fields(got), **scored(got),
                     "note": (f"the recorded viewpoint is {why}; {desc}.  The view azimuth is clear "
                              f"for {got['view_m']:.0f} m from there, and "
                              + clearance_sentence(got))}
         # Rank the fallback on how much of the *frame* is open, then on the axis. Ranking on the
         # axis alone is what let a camera hard against a block face win: it could see 60 m up the
         # street past the corner of the building filling the rest of its picture.
-        key = ((got["sky"] or 0.0) if need_sky else 0.0, got["near_m"], got["view_m"])
+        # With a subject, how much of it the candidate sees ranks above everything but sky (J79):
+        # a fallback that cannot see the subject is a picture of something else, however clear.
+        key = ((got["sky"] or 0.0) if need_sky else 0.0, got.get("subject_frac") or 0.0,
+               got["near_m"], got["view_m"])
         if fallback is None or key > (((fallback[2]["sky"] or 0.0) if need_sky else 0.0),
+                                      fallback[2].get("subject_frac") or 0.0,
                                       fallback[2]["near_m"], fallback[2]["view_m"]):
             fallback = (cand["x"], cand["y"], got, round(cand["distance_m"], 1),
                         f"onto the nearest {cand['kind']}", desc)
@@ -1373,13 +1663,15 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
             if got["sees"]:
                 commit(nx, ny, got)
                 return {"moved": True, "offset_m": round(t, 1), "direction": label, "reason": why,
-                        "rule": "radial search with a clear frame",
-                        "view_m": round(got["view_m"], 1), **clearance_fields(got),
+                        "rule": "radial search with a clear frame"
+                                + (" that sees the subject" if subject is not None else ""),
+                        "view_m": round(got["view_m"], 1), **clearance_fields(got), **scored(got),
                         "note": (f"the recorded viewpoint is {why}; {desc}.  The view azimuth is "
                                  f"clear for {got['view_m']:.0f} m from there, and "
                                  + clearance_sentence(got, with_angle=False))}
-            if fallback is None or (got["near_m"], got["view_m"]) > (fallback[2]["near_m"],
-                                                                    fallback[2]["view_m"]):
+            key = (got.get("subject_frac") or 0.0, got["near_m"], got["view_m"])
+            if fallback is None or key > (fallback[2].get("subject_frac") or 0.0,
+                                          fallback[2]["near_m"], fallback[2]["view_m"]):
                 fallback = (nx, ny, got, round(t, 1), label, desc)
         t += step_m
 
@@ -1387,7 +1679,9 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
         nx, ny, got, off, label, desc = fallback
         commit(nx, ny, got)
         return {"moved": True, "offset_m": off, "direction": label, "reason": why,
-                "rule": "open air only", "view_m": round(got["view_m"], 1), **clearance_fields(got),
+                "rule": ("open air only, ranked on how much of the subject it sees"
+                         if subject is not None else "open air only"),
+                "view_m": round(got["view_m"], 1), **clearance_fields(got), **scored(got),
                 "note": (f"the recorded viewpoint is {why}; {desc}.  No point within {max_m:.0f} m "
                          f"had {min_view_m:.0f} m of open air along the view azimuth with nothing "
                          f"built inside {min_clear_m:.0f} m of the lens, so the frame is closed off "

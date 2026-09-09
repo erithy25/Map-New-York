@@ -791,6 +791,14 @@ def test_a_record_the_renderer_refused_to_publish_says_so_and_says_why():
         rec = json.loads((d / "render.json").read_text())
         if rec["status"] == "rendered":
             continue
+        if rec["status"] == "not_renderable_interior":
+            # Declined before a scene was built: an interior viewpoint in a build that models no
+            # interiors.  The record has to say so, and nothing that looks like a frame may remain.
+            assert rec.get("interior") is True, f"{slug}: declined as interior without the flag"
+            assert "no building interiors" in str(rec.get("reason")), f"{slug}: declined with no reason"
+            assert not (d / "render.png").exists() and not (d / "sheet.png").exists(), \
+                f"{slug}: declined, yet a frame is left in the directory"
+            continue
         assert rec["status"] == "rejected_unusable_frame", f"{slug}: unknown status {rec['status']}"
         assert rec["frame"]["usable"] is False, f"{slug}: rejected but the frame reads usable"
         assert rec["frame"].get("reason"), f"{slug}: rejected with no reason recorded"
@@ -808,7 +816,9 @@ def test_every_render_record_names_its_photograph_licence_and_camera():
         pytest.skip("no comparison renders produced yet")
     for slug in slugs:
         rec = json.loads((COMPARISON_DIR / slug / "render.json").read_text())
-        assert rec["status"] in ("rendered", "rejected_unusable_frame"), slug
+        assert rec["status"] in ("rendered", "rejected_unusable_frame", "not_renderable_interior"), slug
+        if rec["status"] == "not_renderable_interior":
+            continue          # declined before a camera existed; the refusal test covers its shape
         ph = rec["reference_photo"]
         for key in ("file", "author", "licence", "page_url"):
             assert ph.get(key), f"{slug}: reference photo record is missing {key}"
@@ -1025,14 +1035,25 @@ def test_a_roadway_viewpoint_stands_on_its_street_and_looks_along_it():
                      "along it:\n  " + "\n  ".join(bad))
 
 
-def _cube(name: str, x: float, y: float, z: float, size: float = 1.0):
-    """A solid box named ``name`` centred on (x, y, z), in the current scene."""
+def _cube(name: str, x: float, y: float, z: float, size: float = 1.0,
+          size_y: float | None = None, size_z: float | None = None):
+    """A solid box named ``name`` centred on (x, y, z), in the current scene.
+
+    ``size`` is the x extent (and the y and z extents unless ``size_y`` / ``size_z`` say otherwise),
+    baked into the mesh so that ray casts and bounding boxes see the real shape.
+    """
     import bmesh
     import bpy
 
     mesh = bpy.data.meshes.new(name)
     bm = bmesh.new()
-    bmesh.ops.create_cube(bm, size=size)
+    bmesh.ops.create_cube(bm, size=1.0)
+    sy = size if size_y is None else size_y
+    sz = size if size_z is None else size_z
+    for v in bm.verts:
+        v.co.x *= size
+        v.co.y *= sy
+        v.co.z *= sz
     bm.to_mesh(mesh)
     bm.free()
     ob = bpy.data.objects.new(name, mesh)
@@ -1125,15 +1146,32 @@ def test_the_record_says_whether_the_camera_can_see_its_own_subject():
     assert empty["subject_rays_into_nothing"] == empty["subject_rays"]
     assert "nothing stands within" in empty["subject_note"]
 
-    # 2. The subject is there and nothing is in front of it.
+    # 2. The subject is there and nothing is in front of it.  The fan is the 12 m floor across and
+    # up at an unmeasured 6 m cube, so its outer rays pass beside the cube by construction; the
+    # verdict is "at least one ray lands on it" and the fraction says how many did (J78).
     nb.reset_scene()
     _cube("lm_b_subject", 0.0, 40.0, 3.0, size=6.0)
     clear = vcam.subject_sightline(0.0, 0.0, 1.6, 0.0, 40.0, 3.0)
     assert clear["subject_visible"] is True
     assert clear["subject_blocked_by"] is None
     assert clear["subject_lands_on"] == "lm_b_subject"
-    assert clear["subject_rays_on_subject"] == clear["subject_rays"]
+    assert clear["subject_rays"] == 13
+    assert clear["subject_rays_on_subject"] >= 5
+    assert clear["subject_visible_fraction"] == pytest.approx(clear["subject_rays_on_subject"] / 13, abs=1e-3)
     assert "subject_note" not in clear
+    # With an extent measured *above* the 12 m floor, the fan is sized to it and every ray lands;
+    # under the floor the fan stays the floor (a coordinate can be metres off) and the record says so.
+    assert "the object measures 6.0 m" in vcam.subject_sightline(
+        0.0, 0.0, 1.6, 0.0, 40.0, 3.0, subject_height_m=6.0, subject_width_m=6.0,
+        subject_object="lm_b_subject", subject_ground_z=0.0)["subject_fan_from"]
+    nb.reset_scene()
+    _cube("lm_b_subject", 0.0, 60.0, 10.0, size=20.0)
+    sized = vcam.subject_sightline(0.0, 0.0, 1.6, 0.0, 60.0, 10.0, subject_height_m=20.0,
+                                   subject_width_m=20.0, subject_object="lm_b_subject",
+                                   subject_ground_z=0.0)
+    assert sized["subject_fan_m"] == pytest.approx(20.0) and sized["subject_fan_tall_m"] == pytest.approx(20.0)
+    assert sized["subject_rays_on_subject"] == sized["subject_rays"], sized
+    assert sized["subject_visible_fraction"] == 1.0
 
     # 3. A wall across the whole fan.
     _cube("t_0_0_limestone", 0.0, 12.0, 2.0, size=6.0)
@@ -1153,7 +1191,10 @@ def test_the_record_says_whether_the_camera_can_see_its_own_subject():
     past_pole = vcam.subject_sightline(0.0, 0.0, 1.6, 0.0, 40.0, 3.0)
     assert past_pole["subject_blocked_by"] == "prop_lamp_cobra_davit_6", \
         "the pole on the centre ray must still be named"
-    assert past_pole["subject_rays_clear"] == past_pole["subject_rays"] - 1, "it took the centre ray"
+    # The pole takes the centre ray and, with thirteen rays in the fan, can graze the innermost
+    # ring 0.11 m off the axis too; what matters is that it cannot take the fan.
+    assert past_pole["subject_rays"] - 3 <= past_pole["subject_rays_clear"] < past_pole["subject_rays"], \
+        "the pole took the centre ray and at most the innermost ring"
     assert past_pole["subject_visible"] is True, "a 0.2 m pole must not hide a subject 40 m away"
     # The fan is a width at the subject, not a fixed angle: a fixed +-1.5 deg fan is 0.13 m across
     # at 2.4 m, so this same pole would take all five rays and the probe would lie again.
@@ -1178,6 +1219,185 @@ def test_the_record_says_whether_the_camera_can_see_its_own_subject():
     assert past["subject_lands_on"] == "t_0_0_far_wall"
     assert past["subject_lands_at_m"] > past["subject_range_m"] + past["subject_reach_m"]
     assert "t_0_0_far_wall" in past["subject_note"]
+
+
+def test_an_eye_under_a_landmarks_deck_is_lifted_onto_it_even_through_its_paving():
+    """The Bethesda Terrace photographer stood on the upper deck; the render stood in the arcade.
+
+    The photograph's own GPS was rejected because the eye point there had 1.8 m of ``verify_pavement``
+    overhead -- the plaza polygon draped over the terrace's upper deck -- and the deck rule only
+    looked for a landmark surface *directly* over the eye, within one eye height.  Both were true
+    of the wrong storey (docs/DEVIATIONS.md J65).  The rule now looks through a pavement or terrain
+    skin for the landmark deck under it, up to a storey and a half, and lifts the eye onto it when
+    there is open sky above -- which is what tells a deck from the floor of a building.
+    """
+    bpy = _skip_without_bpy()
+    import camera as vcam
+    import nycsim_bpy as nb
+
+    # 1. The Bethesda shape: a level landmark deck 3.4 m over the eye with a thin pavement skin on
+    # top of it, and nothing above that.  The eye is lifted onto the deck.
+    nb.reset_scene()
+    _cube("lm_b_terrace.4", 0.0, 0.0, 4.0, size=40.0, size_z=2.0)            # deck top at 5.0 m
+    _cube("verify_pavement", 0.0, 0.0, 5.05, size=40.0, size_z=0.1)          # skin on it, top 5.10
+    z, why = vcam.deck_underfoot(0.0, 0.0, 1.6, 0.0, 1.6)
+    assert z is not None, "the eye under the paved deck was not lifted"
+    assert z == pytest.approx(5.0 + 1.6, abs=0.05), z
+    assert "lm_b_terrace.4" in why and "raised onto it" in why
+
+    # 2. Too far up is a building, not a step: the same deck 12 m over the eye is left alone.
+    nb.reset_scene()
+    _cube("lm_b_terrace.4", 0.0, 0.0, 13.0, size=40.0, size_z=2.0)
+    z, _ = vcam.deck_underfoot(0.0, 0.0, 1.6, 0.0, 1.6)
+    assert z is None
+
+    # 3. A floor with more building over it is an interior, whatever its height: no lift.
+    nb.reset_scene()
+    _cube("lm_c_hall.1", 0.0, 0.0, 4.0, size=40.0, size_z=2.0)              # a floor at 5.0 m
+    _cube("lm_c_hall.2", 0.0, 0.0, 12.0, size=40.0, size_z=2.0)             # and the storey above
+    z, _ = vcam.deck_underfoot(0.0, 0.0, 1.6, 0.0, 1.6)
+    assert z is None, "an eye lifted onto a floor with a ceiling over it is still indoors"
+
+    # 4. A building shell overhead is not a deck at all.
+    nb.reset_scene()
+    _cube("t_0_0_limestone", 0.0, 0.0, 4.0, size=40.0, size_z=2.0)
+    z, _ = vcam.deck_underfoot(0.0, 0.0, 1.6, 0.0, 1.6)
+    assert z is None
+
+
+def test_a_ray_that_lands_on_the_subjects_own_fabric_has_found_it():
+    """The Flatiron blocked the Flatiron, and the rule that let it is a centroid mistaken for a face.
+
+    The probe called any hit nearer than ``span - reach_m`` a blocker.  ``span`` is the distance to
+    the subject's recorded coordinate -- its centroid -- and a large building's near face is
+    legitimately much closer: the Flatiron's prow at 111 m was counted as standing in the way of the
+    Flatiron at 151 m, and the record said `subject_visible: false` of a frame the building fills.
+    Three of the eleven blocked sightlines in the first v15 sheets were the subject's own model
+    (docs/DEVIATIONS.md J78).
+
+    The rule is now: a hit on the same fabric as the thing standing at the coordinate, continuous
+    in plan from the hit to the coordinate, is a ray that has *found* the subject.  Continuity is
+    what keeps a wall of the same model in front of a fountain a blocker.
+    """
+    bpy = _skip_without_bpy()
+    import camera as vcam
+    import nycsim_bpy as nb
+
+    # 1. The Flatiron shape: one model, two objects, the near one a prow 40 m nearer than the
+    # coordinate the item records, the two touching.  A ray that lands on the prow has found it.
+    nb.reset_scene()
+    _cube("lm_flatiron.2", 0.0, 60.0, 10.0, size=20.0)          # the prow, y 50..70
+    _cube("lm_flatiron.9", 0.0, 80.0, 10.0, size=20.0)          # the flank, y 70..90
+    # The recorded coordinate is the centroid of the flank, 80 m out; the prow's face is at 50 m,
+    # thirty metres nearer than ``span - reach_m`` = 55 m, so every ray meets the prow first.
+    found = vcam.subject_sightline(0.0, 0.0, 1.6, 0.0, 80.0, 10.0, subject_height_m=20.0,
+                                   subject_width_m=20.0, subject_object="lm_flatiron.9",
+                                   subject_ground_z=0.0)
+    assert found["subject_visible"] is True, found
+    assert found["subject_blocked_by"] is None, "the prow is the building, not something in front of it"
+    assert found["subject_rays_on_own_fabric_nearer_than_recorded"] >= 1
+    assert found["subject_own_fabric_nearest"] == "lm_flatiron.2"
+    assert found["subject_visible_fraction"] > 0.5
+
+    # 2. The Bethesda shape: the same model, but the near object is a wall with open plaza between
+    # it and the fountain.  Continuity fails on the plaza, and the wall is a blocker after all.
+    nb.reset_scene()
+    _cube("lm_b_terrace.20", 0.0, 20.0, 2.0, size=4.0)          # the arcade wall, y 18..22
+    _cube("lm_b_terrace.3", 0.0, 60.0, 3.0, size=6.0)           # the fountain, y 57..63
+    wall = vcam.subject_sightline(0.0, 0.0, 1.6, 0.0, 60.0, 3.0, subject_height_m=6.0,
+                                  subject_width_m=6.0, subject_object="lm_b_terrace.3",
+                                  subject_ground_z=0.0)
+    assert wall["subject_visible"] is False, wall
+    assert wall["subject_blocked_by"] == "lm_b_terrace.20"
+    assert wall["subject_rays_on_own_fabric_nearer_than_recorded"] == 0
+
+    # 3. Another building of the same composite in front is a blocker: different object, and the
+    # street between them breaks the run.
+    nb.reset_scene()
+    _cube("lm_c_square.5", 0.0, 30.0, 10.0, size=20.0)
+    _cube("lm_c_square.33", 0.0, 80.0, 10.0, size=20.0)
+    other = vcam.subject_sightline(0.0, 0.0, 1.6, 0.0, 80.0, 10.0, subject_height_m=20.0,
+                                   subject_width_m=20.0, subject_object="lm_c_square.33",
+                                   subject_ground_z=0.0)
+    assert other["subject_visible"] is False
+    assert other["subject_blocked_by"] == "lm_c_square.5"
+
+
+def test_the_fan_is_the_subjects_width_across_and_not_its_height():
+    """A 107 m tower is not 107 m wide, and a fan that says it is spends its rays on the street walls.
+
+    Sized to the subject's *height* the fan at DUMBO spanned +-53 m of a 20 m street at 226 m, and
+    the warehouse walls took the rays over a frame with the tower in the middle of it (J78).  Across,
+    the fan is the measured plan extent of the object at the coordinate; up, it is the height.
+    """
+    bpy = _skip_without_bpy()
+    import camera as vcam
+    import nycsim_bpy as nb
+
+    nb.reset_scene()
+    # A tall thin tower 100 m away between two walls 10 m either side of the axis, which run from
+    # 20 m to 80 m out.  A fan as wide as the tower is tall (40 m -> +-20 m at 100 m) meets the
+    # walls; a fan as wide as the tower is wide (8 m) passes between them.
+    _cube("lm_b_tower.1", 0.0, 100.0, 20.0, size=8.0, size_z=40.0)
+    _cube("t_0_0_wall_left", -13.0, 50.0, 10.0, size=6.0, size_y=60.0, size_z=20.0)
+    _cube("t_0_0_wall_right", 13.0, 50.0, 10.0, size=6.0, size_y=60.0, size_z=20.0)
+    tall_fan = vcam.subject_sightline(0.0, 0.0, 1.6, 0.0, 100.0, 20.0, subject_height_m=40.0,
+                                      subject_width_m=None, subject_object="lm_b_tower.1",
+                                      subject_ground_z=0.0)
+    wide_fan = vcam.subject_sightline(0.0, 0.0, 1.6, 0.0, 100.0, 20.0, subject_height_m=40.0,
+                                      subject_width_m=8.0, subject_object="lm_b_tower.1",
+                                      subject_ground_z=0.0)
+    assert wide_fan["subject_fan_m"] == pytest.approx(12.0), "the 8 m width is under the 12 m floor"
+    assert wide_fan["subject_fan_tall_m"] == pytest.approx(40.0)
+    assert tall_fan["subject_fan_half_angle_deg"] == wide_fan["subject_fan_half_angle_deg"], \
+        "with no width measured both fans are the floor across -- the height never sets the width"
+    assert wide_fan["subject_visible"] is True
+    assert wide_fan["subject_visible_fraction"] >= tall_fan["subject_visible_fraction"]
+    assert wide_fan["subject_blocked_by"] is None, wide_fan
+    # And the vertical half-angle is the height's, not the width's.
+    assert wide_fan["subject_fan_v_half_angle_deg"] > wide_fan["subject_fan_half_angle_deg"]
+
+
+def test_the_camera_walk_chooses_a_point_that_can_see_the_subject():
+    """A boxed-in viewpoint is walked to where the subject is visible, not merely to open air (J79).
+
+    The Chrysler Building's camera was walked onto a crosswalk because its recorded viewpoint had
+    13 m of street ahead; the crosswalk had 96 m of level clearance and the tower was closed off at
+    24 m by a curtain-wall face the level probe passed under.  The walk now runs the sightline from
+    every candidate and will not accept one that cannot see the subject while one exists that can.
+    """
+    bpy = _skip_without_bpy()
+    import camera as vcam
+    import nycsim_bpy as nb
+
+    nb.reset_scene()
+    # Far outside the city, so no pavement tile exists and the radial search is what runs.
+    X0, Y0 = 900000.0, 900000.0
+    # The subject: a 30 m tower 120 m north.  A wall 10 m ahead boxes the viewpoint in; a second wall
+    # to the left, 30 m ahead and long, closes the tower off from every candidate on that side, so
+    # only the candidates to the right can see it.
+    _cube("lm_b_tower.1", X0, Y0 + 120.0, 15.0, size=10.0, size_z=30.0)
+    _cube("t_900_900_wall_ahead", X0, Y0 + 10.0, 5.0, size=12.0, size_y=2.0, size_z=10.0)
+    _cube("t_900_900_wall_left", X0 - 6.0, Y0 + 35.0, 8.0, size=8.0, size_y=40.0, size_z=16.0)
+    placement = vcam.CameraPlacement(
+        slug="synthetic", lat=0.0, lon=0.0, x=X0, y=Y0, z=1.6, azimuth_deg=0.0, pitch_deg=0.0,
+        focal_mm=35.0, sensor_mm=36.0, hfov_deg=54.4, eye_height_m=1.6, eye_datum="ground",
+        eye_source="test", terrain_z_m=0.0, resolution=(1280, 853))
+    cam_data = bpy.data.cameras.new("verify_cam_synthetic")
+    cam = bpy.data.objects.new("verify_cam_synthetic", cam_data)
+    bpy.context.scene.collection.objects.link(cam)
+    cam.location = (X0, Y0, 1.6)
+    bpy.context.scene.camera = cam
+    bpy.context.view_layer.update()
+    subject = {"x": X0, "y": Y0 + 120.0, "z_aim": 15.0, "height_m": 30.0, "width_m": 10.0,
+               "object": "lm_b_tower.1", "ground_z": 0.0}
+    got = vcam._move_clear_of_geometry(placement, None, max_m=40.0, step_m=4.0, min_view_m=20.0,
+                                       has_subject=True, subject=subject)
+    assert got["moved"] is True, got
+    assert got["scored_on_subject_sightline"] is True
+    assert got["subject_sightline_at_choice"]["subject_visible"] is True, got
+    assert placement.x > X0, "the only candidates that see the tower are to the right of the walls"
+    assert "sees the subject" in got["rule"] or "how much of the subject" in got["rule"]
 
 
 def test_a_drive_through_uses_a_photograph_of_its_own_block():
