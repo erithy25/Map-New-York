@@ -8,7 +8,11 @@ export const meta = {
   ],
 }
 
-const SLUGS = Array.isArray(args) ? args : (args && Array.isArray(args.slugs) ? args.slugs : [])
+//: An entry "verify:<slug>" means the draft is already on disk (written by a run that was cut off before its
+//: sceptic ran): skip the writer and start at verification, so a resumed batch does not rewrite what it has.
+const RAW = Array.isArray(args) ? args : (args && Array.isArray(args.slugs) ? args.slugs : [])
+const SLUGS = RAW.map(a => String(a).replace(/^verify:/, ''))
+const VERIFY_ONLY = new Set(RAW.filter(a => String(a).startsWith('verify:')).map(a => String(a).slice(7)))
 if (!SLUGS.length) return { error: 'pass the batch as args: ["slug", ...]' }
 
 const SCRATCH = '/tmp/claude-0/-home-user-Map-New-York/acd234fa-9154-5ea7-ad61-034753232ccb/scratchpad/assess'
@@ -222,7 +226,9 @@ statement is, with its source.`
 phase('Write')
 const results = await pipeline(
   SLUGS,
-  slug => agent(writerPrompt(slug, null), { label: `write:${slug}`, phase: 'Write', schema: WRITE_RESULT, effort: 'high' }),
+  slug => VERIFY_ONLY.has(slug)
+    ? Promise.resolve({ slug, ok: true, headline: '(draft already on disk; verification only)', existing_draft: true })
+    : agent(writerPrompt(slug, null), { label: `write:${slug}`, phase: 'Write', schema: WRITE_RESULT, effort: 'high' }),
   async (wrote, slug) => {
     if (!wrote) return { slug, status: 'writer-failed' }
     let verdict = await agent(verifierPrompt(slug, wrote), { label: `verify:${slug}`, phase: 'Verify', schema: VERDICT, effort: 'medium' })
