@@ -123,7 +123,7 @@ def main(slug: str) -> int:
     if r and p:
         print("| | render | photograph | ratio |")
         print("|---|---|---|---|")
-        for k in ("mean", "sd", "p05", "p95", "chroma"):
+        for k in ("mean", "sd", "p05", "p50", "p95", "chroma", "exposure_offset_stops"):
             print(f"| {k} | **{r.get(k)}** | **{p.get(k)}** | "
                   f"{('**' + str(q[k]) + '**') if q.get(k) is not None else '—'} |")
     return 0

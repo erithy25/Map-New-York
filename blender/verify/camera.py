@@ -1218,14 +1218,19 @@ def subject_sightline(x: float, y: float, z: float, sx: float, sy: float, sz: fl
             fan_from += f"; across, the {floor_m:.0f} m floor (the object measures {float(subject_width_m):.1f} m)"
         else:
             fan_from += f"; across, the {floor_m:.0f} m floor (no plan extent was measured)"
-    h_half = min(15.0, max(0.5, math.degrees(math.atan2(max(wide_m, 0.1) / 2.0, span))))
-    v_half = min(15.0, max(0.5, math.degrees(math.atan2(max(tall_m, 0.1) / 2.0, span))))
+    # The fan's only angular ceiling is the frame: a subject wider than the picture is tested across
+    # the picture.  Without a frame to clip to (a caller probing before a camera exists) 45 deg is
+    # the ceiling, so a subject at the lens cannot turn the fan into a hemisphere.
+    h_half = max(0.5, math.degrees(math.atan2(max(wide_m, 0.1) / 2.0, span)))
+    v_half = max(0.5, math.degrees(math.atan2(max(tall_m, 0.1) / 2.0, span)))
     clipped = False
     if frame_half_angles_deg is not None:
         fh, fv = (float(v) for v in frame_half_angles_deg)
-        if h_half > fh or v_half > fv:
-            clipped = True
-        h_half, v_half = min(h_half, max(fh, 0.5)), min(v_half, max(fv, 0.5))
+    else:
+        fh, fv = 45.0, 45.0
+    if h_half > fh or v_half > fv:
+        clipped = True
+    h_half, v_half = min(h_half, max(fh, 0.5)), min(v_half, max(fv, 0.5))
     if clipped:
         fan_from += "; clipped to the frame, because a ray outside the picture tests something that is not in it"
     up = Vector((0.0, 0.0, 1.0))

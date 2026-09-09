@@ -1,17 +1,19 @@
 {
  "slug": "landmark_barclays_center",
- "rendered_at": "2026-09-08T23:10:25Z",
+ "rendered_at": "2026-09-09T11:13:18Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 720,
-  "mean": 0.4179,
-  "sd": 0.2199,
-  "p05": 0.0843,
-  "p95": 0.7541,
-  "chroma": 0.0901
+  "mean": 0.5072,
+  "sd": 0.2348,
+  "p05": 0.1161,
+  "p50": 0.4995,
+  "p95": 0.8418,
+  "chroma": 0.0993,
+  "exposure_offset_stops": 0.247
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.3848,
   "sd": 0.2254,
   "p05": 0.0488,
+  "p50": 0.3742,
   "p95": 0.7431,
-  "chroma": 0.1987
+  "chroma": 0.1987,
+  "exposure_offset_stops": -0.64
  },
  "render_over_reference": {
-  "mean": 1.086,
-  "sd": 0.976,
-  "chroma": 0.453
+  "mean": 1.318,
+  "sd": 1.042,
+  "p50": 1.335,
+  "chroma": 0.5,
+  "exposure_offset_stops": 0.887,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
