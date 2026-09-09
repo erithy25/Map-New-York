@@ -153,8 +153,31 @@ const VERDICT = {
   required: ['slug', 'refuted', 'figures_checked', 'visual_claims_checked', 'verdict_direction_ok', 'style_ok', 'check_ok', 'problems'],
 }
 
+//: What the sceptics faulted most in the first eighteen sheets, distilled so a first draft does not repeat it.
+//: Every line here cost a revision round (about 250 k tokens and forty minutes a sheet).
+const PREFLIGHT = `
+BEFORE YOU WRITE, and again before you return -- the faults the sceptics found in the first sheets:
+* Positions in a picture are fractions of its width and height, read off the image at full size, not
+  impressions: "in the right fifth, two-thirds of the way from the axis to the edge", never "just right of
+  centre" for something at x 1050 of 1280.  Count people, vehicles and trees at full size before you write
+  a number of them; a "two pedestrians" that is four is a refutation.
+* Light is measured, not inferred from the Sun's bearing.  Before saying a face is "in full sun" or "in
+  shade", sample it: python3 -c with PIL over render.png, display luminance on the face's pixels, and say
+  which surfaces exceed 0.7 and where the cast shadows fall.  A wall the Sun "should" light is often the one
+  in shade.
+* A figure is only in the prose if it is in render.json, frame_stats.json, meta.json, tools/sheet_facts.py
+  output or your own PIL measurement (say so), with its source.  No distance to a thing the record holds no
+  distance to; the nearest agent is the one clearance.nearest_agent names, at its recorded metres and angle
+  (positive yaw is to the right).  assessment_check passing is necessary, not sufficient: it cannot see a
+  figure that coincides with another field.
+* The body from "## Verdict" through the end of the cause table is 600-1,400 words by \`wc -w\`; measure it.
+* The record's own wording for choices: a Sun instant that was "chosen" is chosen, not measured; a
+  direction "not derived from the image" is the item's heading, and the two halves need not face the same
+  way -- say so in the first paragraph when it is so.
+`
+
 function writerPrompt(slug, revision) {
-  return `${HOUSE}
+  return `${HOUSE}${PREFLIGHT}
 YOUR SHEET: ${slug}
 ${revision ? `THIS IS A REVISION. A sceptic refuted the previous draft; every problem below must be fixed, and nothing
 else may get worse. Read the existing assessment.md first, then the images again, then rewrite the file.
@@ -202,7 +225,7 @@ const results = await pipeline(
   slug => agent(writerPrompt(slug, null), { label: `write:${slug}`, phase: 'Write', schema: WRITE_RESULT, effort: 'high' }),
   async (wrote, slug) => {
     if (!wrote) return { slug, status: 'writer-failed' }
-    let verdict = await agent(verifierPrompt(slug, wrote), { label: `verify:${slug}`, phase: 'Verify', schema: VERDICT, effort: 'high' })
+    let verdict = await agent(verifierPrompt(slug, wrote), { label: `verify:${slug}`, phase: 'Verify', schema: VERDICT, effort: 'medium' })
     if (!verdict) return { slug, status: 'verifier-failed', wrote }
     // A sceptic who lists a problem, or a figure or picture that disagrees, has refuted the draft whatever it
     // put in the boolean: the pilot's Flatiron verifier passed an invented "1.6 deg off-axis" as not load-bearing.
@@ -212,7 +235,12 @@ const results = await pipeline(
     if (!refuted(verdict)) return { slug, status: 'accepted', wrote, verdict }
     const rewrote = await agent(writerPrompt(slug, verdict), { label: `revise:${slug}`, phase: 'Revise', schema: WRITE_RESULT, effort: 'high' })
     if (!rewrote) return { slug, status: 'revision-failed', wrote, verdict }
-    const again = await agent(verifierPrompt(slug, rewrote), { label: `reverify:${slug}`, phase: 'Revise', schema: VERDICT, effort: 'high' })
+    const again = await agent(verifierPrompt(slug, rewrote) + `
+THIS IS THE SECOND VERIFICATION, of a revision.  The previous verdict was:
+${JSON.stringify(verdict.problems || [], null, 1)}
+Check first that each of those problems is gone and nothing new was introduced in the sentences that changed
+(compare against the problems' quoted text); then the three most load-bearing figures and three visual claims.
+Do not re-derive the whole sheet.`, { label: `reverify:${slug}`, phase: 'Revise', schema: VERDICT, effort: 'medium' })
     return { slug, status: again && !refuted(again) ? 'accepted-after-revision' : 'still-refuted', wrote: rewrote, verdict: again || verdict, first_verdict: verdict }
   },
 )
