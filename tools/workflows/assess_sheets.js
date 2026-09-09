@@ -186,6 +186,12 @@ Do all of this, and default to refuted=true if any load-bearing item fails:
    says the subject is absent when the record's fraction is > 0 and the picture shows it, or vice versa, is refuted.
 5. Style: the five headings; a cause table with a class on every row; no placeholders; 600-1,400 words; the header's
    bold paragraphs present; J-rows cited where the register has them (spot-check one in docs/DEVIATIONS.md).
+6. A figure that is not in the record is refuting whatever its weight -- an "off-axis 1.6 deg" that no field holds
+   and that assessment_check passes only because 1.6 is the eye height is the exact fault this project keeps
+   finding, "a correct measurement of something other than the thing it stands for". So is a visual claim the
+   images contradict, and a description of the measuring method (how the 13 rays are laid out, what the probe
+   rings are) that camera.py does not support. Any of these sets refuted=true; nothing goes in 'problems' that
+   does not also refute.
 Return a VERDICT object. Be precise in 'problems': quote the sentence and say what is wrong and what the right
 statement is, with its source.`
 }
@@ -198,11 +204,16 @@ const results = await pipeline(
     if (!wrote) return { slug, status: 'writer-failed' }
     let verdict = await agent(verifierPrompt(slug, wrote), { label: `verify:${slug}`, phase: 'Verify', schema: VERDICT, effort: 'high' })
     if (!verdict) return { slug, status: 'verifier-failed', wrote }
-    if (!verdict.refuted) return { slug, status: 'accepted', wrote, verdict }
+    // A sceptic who lists a problem, or a figure or picture that disagrees, has refuted the draft whatever it
+    // put in the boolean: the pilot's Flatiron verifier passed an invented "1.6 deg off-axis" as not load-bearing.
+    const refuted = v => !!v && (v.refuted || (v.problems || []).length > 0
+      || (v.figures_checked || []).some(f => f.agrees === false)
+      || (v.visual_claims_checked || []).some(c => c.agrees === false))
+    if (!refuted(verdict)) return { slug, status: 'accepted', wrote, verdict }
     const rewrote = await agent(writerPrompt(slug, verdict), { label: `revise:${slug}`, phase: 'Revise', schema: WRITE_RESULT, effort: 'high' })
     if (!rewrote) return { slug, status: 'revision-failed', wrote, verdict }
     const again = await agent(verifierPrompt(slug, rewrote), { label: `reverify:${slug}`, phase: 'Revise', schema: VERDICT, effort: 'high' })
-    return { slug, status: again && !again.refuted ? 'accepted-after-revision' : 'still-refuted', wrote: rewrote, verdict: again || verdict, first_verdict: verdict }
+    return { slug, status: again && !refuted(again) ? 'accepted-after-revision' : 'still-refuted', wrote: rewrote, verdict: again || verdict, first_verdict: verdict }
   },
 )
 
