@@ -1445,6 +1445,86 @@ def pavement_candidates(x: float, y: float, *, max_m: float = 70.0) -> list[dict
     return out[:60]
 
 
+#: A prop standing on the axis this close to the lens is something a photographer steps around,
+#: not something the picture is of.  8 m is the reach of a lamp standard's arm and the width of a
+#: sidewalk; anything further is part of the street and stays.
+PROP_AT_LENS_M = 8.0
+#: How far, and in what steps, the sidestep looks -- half a metre at a time to three metres either
+#: way, which is one stride to one lane.
+SIDESTEP_MAX_M = 3.0
+SIDESTEP_STEP_M = 0.5
+
+
+def sidestep_prop_at_lens(placement: "CameraPlacement", subject: dict) -> dict | None:
+    """Step a camera half a metre at a time around a prop that stands between it and its subject.
+
+    The sightline probe reports a subject *blocked* when a lamp standard four metres from the lens
+    takes every ray of a fan that, at that range, is narrower than the pole (DUMBO: a lamp at
+    3.8 m; Trinity Church: at 4.1 m; docs/DEVIATIONS.md J78).  Every number in that report is true
+    and the picture it describes is one no photographer takes -- they move.  So when an *unmoved*
+    viewpoint's line to the subject is closed by a ``prop_*`` inside ``PROP_AT_LENS_M``, the camera
+    tries lateral offsets across the view axis, nearest first, and stands at the first one that is
+    in open air and whose line is no longer closed by a prop at the lens.  Returns the placement
+    record for the move, or ``None`` when no offset helps (the record then names the prop).
+    """
+    def look(nx: float, ny: float) -> dict:
+        return subject_sightline(nx, ny, placement.z, float(subject["x"]), float(subject["y"]),
+                                 float(subject["z_aim"]), subject_height_m=subject.get("height_m"),
+                                 subject_width_m=subject.get("width_m"),
+                                 subject_object=subject.get("object"),
+                                 subject_ground_z=subject.get("ground_z"),
+                                 frame_half_angles_deg=frame_half_angles(placement))
+
+    def closed_by_prop(sl: dict) -> bool:
+        b = sl.get("subject_blocked_by") or ""
+        return (not sl.get("subject_visible") and b.startswith("prop_")
+                and float(sl.get("subject_blocked_at_m") or 1e9) < PROP_AT_LENS_M)
+
+    here = look(placement.x, placement.y)
+    if not closed_by_prop(here):
+        return None
+    a = math.radians(placement.azimuth_deg)
+    side = (math.cos(a), -math.sin(a))          # perpendicular to the view azimuth, to the right
+    t = SIDESTEP_STEP_M
+    while t <= SIDESTEP_MAX_M + 1e-9:
+        for sign, label in ((1.0, "to the right"), (-1.0, "to the left")):
+            nx, ny = placement.x + side[0] * t * sign, placement.y + side[1] * t * sign
+            if _blocked(nx, ny, placement.z, placement.azimuth_deg)[0]:
+                continue
+            sl = look(nx, ny)
+            if closed_by_prop(sl):
+                continue
+            cam = bpy.context.scene.camera
+            cam.location = (nx, ny, placement.z)
+            bpy.context.view_layer.update()
+            placement.x, placement.y = nx, ny
+            h_half, pitches, yaws = frame_fan(placement)
+            reading = frame_clearance(nx, ny, placement.z, placement.azimuth_deg, probe_m=60.0,
+                                      half_angle_deg=h_half, pitches_deg=pitches, yaw_steps=yaws)
+            view_m = view_distance(nx, ny, placement.z, placement.azimuth_deg, probe_m=150.0)
+            return {"moved": True, "offset_m": round(t, 1), "direction": label,
+                    "reason": (f"{here['subject_blocked_by']} stands {here['subject_blocked_at_m']:.1f} m "
+                               f"from the lens on the line to the subject"),
+                    "rule": "sidestep around a prop at the lens",
+                    "view_m": round(view_m, 1), **clearance_fields(reading),
+                    "scored_on_subject_sightline": True,
+                    "subject_sightline_at_choice": {
+                        "subject_visible": sl.get("subject_visible"),
+                        "subject_visible_fraction": sl.get("subject_visible_fraction"),
+                        "subject_rays_on_subject": sl.get("subject_rays_on_subject"),
+                        "subject_rays": sl.get("subject_rays"),
+                        "subject_blocked_by": sl.get("subject_blocked_by"),
+                        "subject_blocked_at_m": sl.get("subject_blocked_at_m")},
+                    "note": (f"the recorded viewpoint has {here['subject_blocked_by']} "
+                             f"{here['subject_blocked_at_m']:.1f} m from the lens on the line to the "
+                             f"subject, which a photographer steps around; the camera was moved "
+                             f"{t:.1f} m {label}, across the view axis, to the nearest point in open air "
+                             f"where the line is not closed by a prop at the lens.  From there the view "
+                             f"azimuth is clear for {view_m:.0f} m and " + clearance_sentence(reading, with_angle=False))}
+        t += SIDESTEP_STEP_M
+    return None
+
+
 def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 80.0,
                       step_m: float = 2.0, min_view_m: float = 15.0, force: bool = False,
                       has_subject: bool = False, origin_is_photo: bool = False,
@@ -1481,6 +1561,11 @@ def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 8
                                   min_view_m=min_view_m, force=force, has_subject=has_subject,
                                   origin_is_photo=origin_is_photo, need_sky=need_sky,
                                   subject=subject)
+    if subject is not None and not out.get("moved"):
+        # An unmoved viewpoint with a lamp standard on the line to its subject: step around it.
+        stepped = sidestep_prop_at_lens(placement, subject)
+        if stepped is not None:
+            out = stepped
     if deck_why:
         out["stood_on_deck"] = deck_why
     return out

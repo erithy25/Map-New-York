@@ -50,6 +50,41 @@ def free_bytes() -> int:
     return shutil.disk_usage("/home/user").free
 
 
+def _decline_interior(slug: str) -> bool:
+    """Write the declined record for an interior item and return True; False for anything else."""
+    import datetime as dt
+    meta_path = REFERENCE / slug / "meta.json"
+    try:
+        meta = json.loads(meta_path.read_text())
+    except (OSError, ValueError):
+        return False
+    if not meta.get("interior"):
+        return False
+    outdir = COMPARISON / slug
+    outdir.mkdir(parents=True, exist_ok=True)
+    for name in ("render.png", "sheet.png", "frame_stats.json", "render_error.txt"):
+        (outdir / name).unlink(missing_ok=True)
+    vp = meta.get("viewpoint") or {}
+    photos = [p for p in meta.get("photos", []) if (REFERENCE / slug / (p.get("file") or "")).is_file()]
+    photo = photos[0] if photos else None
+    rec = {"slug": slug, "name": meta.get("name"), "group": meta.get("group"),
+           "interior": True, "night": bool(meta.get("night")),
+           "status": "not_renderable_interior",
+           "reason": ("interior view: this build models no building interiors, so there is nothing to "
+                      "render from a viewpoint inside one; the item is declined before a scene is built "
+                      "rather than rendered black and refused"),
+           "viewpoint": {"lat": vp.get("lat"), "lon": vp.get("lon"), "azimuth_deg": vp.get("azimuth_deg"),
+                         "note": vp.get("note")},
+           "reference_photo": None if photo is None else {
+               "file": photo["file"], "author": photo.get("author"),
+               "licence": (photo.get("license") or {}).get("short_name"),
+               "licence_url": (photo.get("license") or {}).get("url"),
+               "page_url": photo.get("page_url"), "title": photo.get("title")},
+           "rendered_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")}
+    (outdir / "render.json").write_text(json.dumps(rec, indent=1, sort_keys=True))
+    return True
+
+
 def slugs() -> list[str]:
     """Every reference slug with a photograph on disk, the already-rendered ones first."""
     out: list[tuple[int, str]] = []
@@ -105,6 +140,16 @@ def main(argv=None) -> int:
                     stop.set()
             return
         t0 = time.time()
+        # An interior item is declined here, before a Blender process is even started: the record
+        # it needs is a few fields from meta.json, and render_sheets.py keeps the same check as a
+        # backstop for anyone who runs it directly.
+        if _decline_interior(slug):
+            with lock:
+                state["declined"].append(slug)
+                save()
+                print(f"[{i}/{len(todo)}] decl {slug} 0.0 min -- interior view, no interiors are modelled",
+                      flush=True)
+            return
         r = subprocess.run([sys.executable, "blender/verify/render_sheets.py", "--slugs", slug],
                            cwd=str(REPO), capture_output=True, text=True, timeout=TIMEOUT_S)
         dt = time.time() - t0

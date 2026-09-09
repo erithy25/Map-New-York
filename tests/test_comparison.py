@@ -1321,6 +1321,21 @@ def test_every_subject_sightline_publishes_its_fraction_and_its_rule():
     assert not missing, "subject sheets without the fraction and its rule:\n   " + "\n   ".join(missing)
 
 
+def test_a_night_item_with_no_time_is_given_an_hour_after_dusk_and_no_sun():
+    """`street_times_square_wet_night` was lit by a chosen 08:30 Sun at 32 deg (J80, amendment)."""
+    rs = _skip_without_render_sheets()
+    when, why = rs.photo_instant({"year": 2020}, lat=40.758, lon=-73.9855, azimuth_deg=20.0, night=True)
+    assert (when.hour, when.minute) == (rs.NIGHT_ASSUMED_HOUR, 0)
+    assert "night item" in why and "chosen" in why
+    assert rs.sun_for(40.758, -73.9855, when)["elevation_deg"] < -6.0, "the Sun is up at the chosen hour"
+    # Any date of the year: the June solstice is the latest dusk there is.
+    when, _ = rs.photo_instant({"date_taken": "2024-06-21"}, lat=40.758, lon=-73.9855, night=True)
+    assert rs.sun_for(40.758, -73.9855, when)["elevation_deg"] < -6.0
+    # A daylight item is untouched by the flag's default.
+    day, why = rs.photo_instant({"year": 2020}, lat=40.758, lon=-73.9855, azimuth_deg=20.0)
+    assert 8 <= day.hour <= 18 and "chosen" in why
+
+
 def test_a_daylight_frame_is_developed_at_the_exposure_its_own_median_meters():
     """The stops are the measurement; the picture is the consequence (J83).
 

@@ -321,7 +321,10 @@ def pick_reference_photo(meta: dict) -> dict | None:
         err = abs((float(pa) - az + 180.0) % 360.0 - 180.0)
         has_time = bool(p.get("date_taken") and len(str(p["date_taken"])) >= 16)
         conf = {"high": 0, "medium": 1, "low": 2}.get(ev.get("confidence", "low"), 2)
-        when, _ = photo_instant(p)
+        # The gate is evaluated at the instant the render will actually be lit at -- the chosen
+        # hour for a photograph without a time, a night hour for a night item -- and not at the old
+        # fixed 09:30, which could pass a photograph the render then lit at a different hour.
+        when, _ = photo_instant(p, lat=vp["lat"], lon=vp["lon"], azimuth_deg=az, night=night)
         elev = sun_for(vp["lat"], vp["lon"], when)["elevation_deg"]
         # Hard gate first: a daylight item must not be paired with an after-dark frame, and vice
         # versa.  Then a real EXIF timestamp, because it fixes the Sun exactly.  Only then the
@@ -359,7 +362,14 @@ def pick_reference_photo(meta: dict) -> dict | None:
 ASSUMED_HOUR_RANGE = (8, 18)
 
 
-def _lit_hour(lat: float, lon: float, day: dt.date, azimuth_deg: float | None, tz) -> tuple[int, int, str]:
+#: The hour a **night** item with no recorded time is given.  22:00 local is after civil dusk on
+#: every date of the year in New York (the latest civil dusk, at the June solstice, is about 21:05
+#: EDT), so the Sun is below -6 deg and no lamp is added -- which is what a night frame is for.
+NIGHT_ASSUMED_HOUR = 22
+
+
+def _lit_hour(lat: float, lon: float, day: dt.date, azimuth_deg: float | None, tz,
+              *, night: bool = False) -> tuple[int, int, str]:
     """The hour of ``day`` whose Sun best lights a camera looking along ``azimuth_deg``.
 
     **Why this is chosen rather than fixed.** When a photograph carries no time, the hour is an
@@ -380,6 +390,14 @@ def _lit_hour(lat: float, lon: float, day: dt.date, azimuth_deg: float | None, t
 
     With no azimuth to aim at, the hour that puts the Sun highest is used, which is noon.
     """
+    if night:
+        # A night item is not lit by the Sun at all.  The hour chooser below has no business here:
+        # it once handed a night item an 08:30 Sun at 32 deg, with the night sky strength and a Sun
+        # lamp both switched on (docs/DEVIATIONS.md J80, amendment).
+        return NIGHT_ASSUMED_HOUR, 0, (f"and {NIGHT_ASSUMED_HOUR:02d}:00 **chosen**, not measured: a night "
+                                        f"item, given an hour after civil dusk on every date of the year "
+                                        f"in New York, so the Sun is down and nothing but the city's own "
+                                        f"emissive content lights the frame")
     from nycsim_live import astronomy
     obs = astronomy.Observer(lat, lon, 20.0)
     best = None
@@ -413,7 +431,7 @@ def _lit_hour(lat: float, lon: float, day: dt.date, azimuth_deg: float | None, t
 
 
 def photo_instant(photo: dict, *, lat: float | None = None, lon: float | None = None,
-                  azimuth_deg: float | None = None) -> tuple[dt.datetime, str]:
+                  azimuth_deg: float | None = None, night: bool = False) -> tuple[dt.datetime, str]:
     """Local New York datetime for a photo, plus a note on where it came from.
 
     Where the photograph carries a time, that time is used and nothing here is a choice.  Where it
@@ -432,6 +450,9 @@ def photo_instant(photo: dict, *, lat: float | None = None, lon: float | None = 
             pass
 
     def pick(day: dt.date, prefix: str) -> tuple[dt.datetime, str]:
+        if night:
+            hour, minute, why = _lit_hour(lat or 0.0, lon or 0.0, day, azimuth_deg, tz, night=True)
+            return dt.datetime.combine(day, dt.time(hour, minute), tzinfo=tz), f"{prefix}, {why}"
         if lat is None or lon is None:
             return dt.datetime.combine(day, dt.time(9, 30), tzinfo=tz), f"{prefix}; 09:30 assumed"
         hour, minute, why = _lit_hour(lat, lon, day, azimuth_deg, tz)
@@ -1244,7 +1265,8 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
     # one on every sheet where both exist.  Where the photograph carries a time, none of this runs.
     when, when_note = photo_instant(
         photo, lat=cam_lat, lon=cam_lon,
-        azimuth_deg=(meta.get("viewpoint") or {}).get("azimuth_deg"))
+        azimuth_deg=(meta.get("viewpoint") or {}).get("azimuth_deg"),
+        night=bool(meta.get("night")))
     sun = sun_for(cam_lat, cam_lon, when)
 
     # Match the render aspect to the reference photograph so the two halves compare like for like,
@@ -1426,55 +1448,73 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
     # carries both, each labelled, instead of one number that matches neither position.  The first
     # attempt at this fix measured before the call and labelled the result "after the clearance
     # walk", which is the same fault it exists to correct (docs/DEVIATIONS.md J54, J59).
-    if subj_dist is not None:
+    def _remeasure_subject_distance(label: str) -> None:
+        if subj_dist is None:
+            return
         sx1, sy1 = (float(v) for v in lonlat_to_tm(subject["lon"], subject["lat"]))
         record["subject"]["distance_m"] = round(math.hypot(sx1 - placement.x, sy1 - placement.y), 1)
-        record["subject"]["distance_from"] = "the placed camera, after the clearance walk"
+        record["subject"]["distance_from"] = label
         record["subject"]["origin_distance_m"] = round(subj_dist, 1)
-    # The scene, and its agents, were built around the recorded view origin. The camera may have
-    # moved since -- probe_origin can switch to the nominal viewpoint and clear_of_geometry walks the
-    # eye onto the nearest paved surface -- and on 26 of the 57 scenes it did. Cull anything now
-    # standing on the lens, and fold the count into the placement record so a reader sees one number
-    # for agents dropped over the observer rather than two.
-    cam_ob = bpy.context.scene.camera
-    if cam_ob is not None and rep.agents.get("placed_pedestrians"):
+
+    _remeasure_subject_distance("the placed camera, after the clearance walk")
+
+    def _cull_and_reread(clearance_rec: dict, label: str) -> None:
+        # The scene, and its agents, were built around the recorded view origin. The camera may
+        # have moved since -- probe_origin can switch to the nominal viewpoint and clear_of_geometry
+        # walks the eye onto the nearest paved surface -- and on 26 of the 57 scenes it did. Cull
+        # anything now standing on the lens, and fold the count into the placement record so a
+        # reader sees one number for agents dropped over the observer rather than two.
+        #
+        # A function, because it has to run **again** after a forced retry walk: on Trinity Church
+        # the retry moved the camera 24.6 m onto a crosswalk and left a simulated Camry 0.1 m from
+        # the lens, and the second frame was darker than the first.
+        cam_ob = bpy.context.scene.camera
+        if cam_ob is None or not rep.agents.get("placed_pedestrians"):
+            return
         cam_w = cam_ob.matrix_world.translation
         culled = vagents.cull_near_camera(bpy.data.collections.get("agents"),
                                           float(cam_w.x), float(cam_w.y), float(cam_w.z))
-        if any(culled.values()):
-            drop = dict(rep.agents.get("dropped") or {})
-            for k, n in culled.items():
-                if n:
-                    drop[k] = drop.get(k, 0) + n
-            rep.agents["dropped"] = drop
-            rep.agents["placed_pedestrians"] = max(
-                0, int(rep.agents.get("placed_pedestrians", 0)) - culled["pedestrian_over_the_observer"])
-            rep.agents["placed_vehicles"] = max(
-                0, int(rep.agents.get("placed_vehicles", 0)) - culled["vehicle_over_the_observer"])
-            rep.agents["culled_after_camera_move"] = culled
-            # The clearance record was written before this cull, so its ``nearest_agent`` can name
-            # somebody the cull has just removed -- on Grand Concourse it named a pedestrian 1.5 m
-            # from the lens who is not in the frame.  A true measurement of a state that no longer
-            # holds is the fault J49 exists to record, so the reading is taken again against the
-            # crowd the render will actually contain.
-            h_half, pitches, yaws = vcam.frame_fan(placement)
-            again = vcam.frame_clearance(placement.x, placement.y, placement.z,
-                                         placement.azimuth_deg,
-                                         probe_m=float(clearance.get("nearest_agent_probe_m")
-                                                       or max(min_view_m, 20.0)),
-                                         half_angle_deg=h_half, pitches_deg=pitches, yaw_steps=yaws)
-            clearance["nearest_agent"] = again["agent_what"]
-            clearance["nearest_agent_m"] = (round(again["agent_m"], 1) if again["agent_what"] else None)
-            if again["agent_what"]:
-                clearance["nearest_agent_at_deg"] = [round(v, 1) for v in again["agent_at"]]
-            else:
-                clearance.pop("nearest_agent_at_deg", None)
-            clearance["nearest_agent_measured"] = "after the cull over the observer"
+        if not any(culled.values()):
+            return
+        drop = dict(rep.agents.get("dropped") or {})
+        for k, n in culled.items():
+            if n:
+                drop[k] = drop.get(k, 0) + n
+        rep.agents["dropped"] = drop
+        rep.agents["placed_pedestrians"] = max(
+            0, int(rep.agents.get("placed_pedestrians", 0)) - culled["pedestrian_over_the_observer"])
+        rep.agents["placed_vehicles"] = max(
+            0, int(rep.agents.get("placed_vehicles", 0)) - culled["vehicle_over_the_observer"])
+        prior = rep.agents.get("culled_after_camera_move") or {}
+        rep.agents["culled_after_camera_move"] = {k: int(prior.get(k, 0)) + int(v) for k, v in culled.items()}
+        # The clearance record was written before this cull, so its ``nearest_agent`` can name
+        # somebody the cull has just removed -- on Grand Concourse it named a pedestrian 1.5 m
+        # from the lens who is not in the frame.  A true measurement of a state that no longer
+        # holds is the fault J49 exists to record, so the reading is taken again against the
+        # crowd the render will actually contain.
+        h_half, pitches, yaws = vcam.frame_fan(placement)
+        again = vcam.frame_clearance(placement.x, placement.y, placement.z,
+                                     placement.azimuth_deg,
+                                     probe_m=float(clearance_rec.get("nearest_agent_probe_m")
+                                                   or max(min_view_m, 20.0)),
+                                     half_angle_deg=h_half, pitches_deg=pitches, yaw_steps=yaws)
+        clearance_rec["nearest_agent"] = again["agent_what"]
+        clearance_rec["nearest_agent_m"] = (round(again["agent_m"], 1) if again["agent_what"] else None)
+        if again["agent_what"]:
+            clearance_rec["nearest_agent_at_deg"] = [round(v, 1) for v in again["agent_at"]]
+        else:
+            clearance_rec.pop("nearest_agent_at_deg", None)
+        clearance_rec["nearest_agent_measured"] = label
+
+    _cull_and_reread(clearance, "after the cull over the observer")
     # Can the camera see the thing this sheet is a comparison *of*?  Every other check asks whether
     # the camera is somewhere sensible; none asked whether the subject is in the picture, and
     # Bethesda Terrace is what that costs -- 69 m from its fountain, the fountain inside the frame's
     # cone, the model in the scene, and the terrace's own arcade wall between the two.  One ray.
-    if subject.get("lat") is not None and subject.get("lon") is not None:
+    def _sightline_now() -> dict:
+        """The sightline from where the camera stands *now* -- taken again after a forced retry."""
+        if subject.get("lat") is None or subject.get("lon") is None:
+            return {"subject_visible": None, "subject_note": "the item names no point subject"}
         ssx, ssy = (float(v) for v in lonlat_to_tm(subject["lon"], subject["lat"]))
         sgz = sampler.ground_z(ssx, ssy)[0]
         # Aim at the subject's **mid-height**, in absolute NYC_TM elevation.
@@ -1493,9 +1533,9 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
             # No model of the subject stands here, so there is no mid-height to aim at and no
             # sightline to report.  Saying `false` would be a claim that the subject is hidden;
             # saying nothing, with the reason, is the truth (J72).
-            record_subject = {"subject_visible": None,
-                              "subject_note": (top[2] if top else "the subject's height is unknown")
-                              + "; no sightline was tested"}
+            return {"subject_visible": None,
+                    "subject_note": (top[2] if top else "the subject's height is unknown")
+                    + "; no sightline was tested"}
         else:
             sz = (base + stop) * 0.5
             # The fan is sized to the subject's own measured height (J74/J76), so a 107 m tower
@@ -1510,9 +1550,9 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
                                            subject_ground_z=base,
                                            frame_half_angles_deg=vcam.frame_half_angles(placement))
             sight["subject_aimed_at"] = f"the subject's mid-height, {sz - base:.1f} m above its ground"
-            record_subject = sight
-    else:
-        record_subject = {"subject_visible": None, "subject_note": "the item names no point subject"}
+            return sight
+
+    record_subject = _sightline_now()
 
     light = setup_world_and_sun(sun["azimuth_deg"], sun["elevation_deg"], night=bool(meta.get("night")))
     light["emissive"] = apply_time_of_day_materials(bool(meta.get("night")))
@@ -1552,13 +1592,19 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
                                         subject=subject_for_walk)
         forced["min_view_m"] = round(min_view_m, 1)
         if forced.get("moved"):
+            retry = {"first_frame": frame, "clearance": clearance, "sightline": record_subject,
+                     "subject_distance_m": (record.get("subject") or {}).get("distance_m")}
+            clearance = forced
+            # The camera has moved: what stands at the lens, how far the subject is and whether it
+            # can be seen are all measured again from where the retry frame is actually taken.
+            _cull_and_reread(clearance, "after the cull over the observer, on the forced retry")
+            _remeasure_subject_distance("the placed camera, after the forced retry walk")
+            record_subject = _sightline_now()
             developed = render_and_develop(render_path, meter=not bool(meta.get("night")),
                                            fallback_stops=physical_stops)
             light["exposure_stops"] = round(float(developed["stops"]), 2)
             light["development"] = developed
             t2 = time.time()
-            retry = {"first_frame": frame, "clearance": clearance}
-            clearance = forced
             frame = frame_metrics(render_path)
         else:
             retry = {"first_frame": frame,
