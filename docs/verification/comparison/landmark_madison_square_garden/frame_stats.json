@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_madison_square_garden",
+ "rendered_at": "2026-09-09T00:16:00Z",
+ "reference_file": "3.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.3892,
+  "sd": 0.1871,
+  "p05": 0.0311,
+  "p95": 0.6651,
+  "chroma": 0.0475
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.3618,
+  "sd": 0.308,
+  "p05": 0.0493,
+  "p95": 0.9855,
+  "chroma": 0.0625
+ },
+ "render_over_reference": {
+  "mean": 1.076,
+  "sd": 0.607,
+  "chroma": 0.76
+ }
+}

@@ -3,7 +3,8 @@
 Dimensions used (source in brackets)
 ------------------------------------
 * Footprint: the real OTI polygon (18,607 m2), 181.8 x 166.6 m, on the wedge where Atlantic and Flatbush Avenues
-  meet (the acute corner is the oculus end).
+  meet.  The entrance end is the corner facing that crossing -- **not** the polygon's most acute vertex, which is
+  at the 6th Avenue end (J81); see ENTRANCE_XY below.
 * Height [SHoP; OTI LiDAR]: **137 ft = 41.8 m**; the LiDAR roof is 42.1 m, which the model uses.
 * Weathering-steel skin [SHoP; ASI Limited]: **12,000 pre-weathered steel panels** in **three horizontal bands**
   that wrap the building and peel away over the entrance; each panel is a parallelogram roughly 1.5 x 4.9 m, and
@@ -40,6 +41,15 @@ BANDS = ((3.0, 15.0), (17.0, 28.0), (30.0, TOP - 0.6))
 PANEL_W, PANEL_H = 4.9, 1.5
 OCULUS_CANTILEVER = 25.0
 OCULUS_D = 9.1
+# The oculus stands over the triangular plaza at the Atlantic/Flatbush corner, so the entrance end is the
+# footprint vertex nearest that crossing.  The crossing is the road network's own intersection node
+# ATLANTIC AVE x FLATBUSH AVE at NYC_TM (-2321.2, -1769.7) (data/processed/roads/nodes.parquet), which is
+# a measured coordinate and not an estimate.  The rule this replaces -- the vertex with the smallest
+# interior angle -- is correct for a wedge and wrong for this footprint: the OTI outline is a near-
+# rectangle whose 28 vertices are right angles but one, an 86.6 deg corner at the 6th Avenue end that is
+# 275.9 m from the crossing where the nearest corner is 161.8 m, so the canopy was built on the opposite
+# end of the arena (J81).
+ENTRANCE_XY = (-2321.2, -1769.7)
 COURT = (28.65, 15.24)
 CAPACITY = 17732
 
@@ -81,15 +91,28 @@ def build():
     objs.append(b.build(f"{ID}_bands"))
 
     # ---- the oculus canopy over the Atlantic/Flatbush corner ------------------------------------------------------
-    # the acute corner of the polygon is the entrance end: find the vertex with the smallest interior angle
+    # the entrance end is the *convex* footprint vertex nearest the Atlantic x Flatbush crossing (ENTRANCE_XY).
+    # Convex, because the canopy cantilevers outward from the corner and a reflex vertex would throw it inward.
     n_ = len(coords)
-    best, best_ang = 0, 999.0
+    ccw = 0.0
+    for i in range(n_):
+        x1, y1 = coords[i]
+        x2, y2 = coords[(i + 1) % n_]
+        ccw += x1 * y2 - x2 * y1
+    ccw = ccw > 0.0
+    want = np.asarray(g.frame.to_local(np.array(ENTRANCE_XY, dtype=float)), dtype=float)[:2]
+    best, best_d = None, float("inf")
     for i in range(n_):
         a = np.array(coords[i - 1]) - np.array(coords[i])
         c = np.array(coords[(i + 1) % n_]) - np.array(coords[i])
-        ang = math.degrees(math.acos(max(-1.0, min(1.0, float(a @ c) / (np.linalg.norm(a) * np.linalg.norm(c))))))
-        if ang < best_ang:
-            best, best_ang = i, ang
+        cross = float(a[0] * c[1] - a[1] * c[0])
+        if (cross < 0.0) != ccw:                          # reflex: the interior is on the other side
+            continue
+        d = float(np.linalg.norm(np.array(coords[i]) - want))
+        if d < best_d:
+            best, best_d = i, d
+    if best is None:                                      # a polygon with no convex vertex cannot exist; be explicit
+        raise RuntimeError(f"{ID}: the footprint has no convex vertex to stand the oculus canopy on")
     corner = np.array(coords[best])
     cen = np.array([P.centroid.x, P.centroid.y])
     out = (corner - cen) / np.linalg.norm(corner - cen)
@@ -136,16 +159,21 @@ def main():
                           "Exact: real OTI footprint on the Atlantic/Flatbush wedge; 42.1 m high; three "
                           "weathering-steel bands of panels on a 4.9 x 1.5 m module with continuous glazed slots "
                           "between them; the oculus canopy cantilevering 82 ft = 25.0 m with a 9.1 m LED-ringed "
-                          "opening and a 9.5 m soffit; the bowl sunk 12 m below the concourse with a regulation "
+                          "opening and a 9.5 m soffit, standing on the footprint corner nearest the measured "
+                          "Atlantic x Flatbush crossing; the bowl sunk 12 m below the concourse with a regulation "
                           "28.65 x 15.24 m court. Inferred (stated): the band heights and panel size (from "
                           "photographs and the published 12,000-panel count), the bowl rake and the plaza extent. "
                           "Not modelled: the individual twist of each panel (flat panels on the band surface), "
                           "interiors, the 2015 green roof, the subway entrance canopy."),
                       dimensions={"top_m": TOP, "bands_z_m": [list(x) for x in BANDS], "panel_m": [PANEL_W, PANEL_H],
                                   "panels_published": 12000, "oculus_cantilever_m": OCULUS_CANTILEVER,
-                                  "oculus_opening_m": OCULUS_D, "court_m": list(COURT), "capacity": CAPACITY})
+                                  "oculus_opening_m": OCULUS_D, "court_m": list(COURT), "capacity": CAPACITY,
+                                  "oculus_corner_from": "the convex footprint vertex nearest the ATLANTIC AVE "
+                                                        "x FLATBUSH AVE road node at NYC_TM (-2321.2, -1769.7)"})
     cc.render(ID, [
-        {"view": "atlantic_flatbush", "azimuth_deg": 45, "elevation_deg": "street", "fov_deg": 55, "look_up_deg": 11},
+        # from the direction the canopy points, so the named view always looks at the entrance corner
+        {"view": "atlantic_flatbush", "azimuth_deg": oculus_az, "elevation_deg": "street", "fov_deg": 55,
+         "look_up_deg": 11},
         {"view": "aerial", "azimuth_deg": oculus_az, "elevation_deg": 30},
     ])
     return entry

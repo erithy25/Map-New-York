@@ -8062,14 +8062,14 @@
    "bins": [
     3398156
    ],
-   "bytes": 9998388,
+   "bytes": 521176,
    "footprint_iou": 1.0,
-   "git_commit": "ca87e1135759",
+   "git_commit": "a22fe84b4441",
    "path": "blender_out/landmarks/c_barclays_center.glb",
-   "produced_at": "2026-09-06T14:14:03Z",
+   "produced_at": "2026-09-09T00:15:04Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "283367469f63d62af353471ec68fef008e32155df98d07316b1c6ce84f09eaa4",
+   "sha256": "2dd110d6ed86944e0fac6571abc7b4320320f5af07a1fe5d36003ffd2c07e778",
    "sources": [
     "building_footprints"
    ],

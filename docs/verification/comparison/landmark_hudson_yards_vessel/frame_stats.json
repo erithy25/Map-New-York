@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_hudson_yards_vessel",
+ "rendered_at": "2026-09-09T00:09:38Z",
+ "reference_file": "2.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.1277,
+  "sd": 0.128,
+  "p05": 0.0008,
+  "p95": 0.3412,
+  "chroma": 0.022
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.3971,
+  "sd": 0.3045,
+  "p05": 0.0647,
+  "p95": 0.9454,
+  "chroma": 0.041
+ },
+ "render_over_reference": {
+  "mean": 0.322,
+  "sd": 0.42,
+  "chroma": 0.537
+ }
+}

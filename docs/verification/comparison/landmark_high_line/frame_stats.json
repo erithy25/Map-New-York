@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_high_line",
+ "rendered_at": "2026-09-09T00:05:54Z",
+ "reference_file": "3.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.3455,
+  "sd": 0.2075,
+  "p05": 0.0865,
+  "p95": 0.6933,
+  "chroma": 0.0682
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.3804,
+  "sd": 0.2733,
+  "p05": 0.1011,
+  "p95": 1.0,
+  "chroma": 0.0542
+ },
+ "render_over_reference": {
+  "mean": 0.908,
+  "sd": 0.759,
+  "chroma": 1.258
+ }
+}
