@@ -57,7 +57,7 @@
 * **Different building, different direction.** The photograph faces north-east at a limestone citadel with a curved bay of tall barred windows; the render faces **165.0°** at a flat red-brick apartment wall. Nothing in the composition can be compared (J71).
 * **An SUV at 8.1 m occupies the middle third of the render.** It hides the ground floor, the entrance and the kerb of the block behind it.
 * **Contrast: sd 0.1403 against 0.2958 (ratio 0.474).** The photograph runs from an iron fence and hedge shadows at p05 **0.0476** to a blown white sky at p95 **0.995**; the render, with a level lens and a wall filling the frame to its top edge, contains no sky at all and its p05 is **0.2115**. It is a frame developed up **+5.12 stops** at 7.6° Sun with no direct light on anything in it, so its shadows are lifted with the rest.
-* **Chroma 0.0727 against 0.0329 (ratio 2.21).** Red brick in the last of a low Sun against pale limestone under overcast. The render is a picture of a redder thing.
+* **Chroma 0.0727 against 0.0329 (ratio 2.21).** Red brick in the last of a low Sun against pale limestone under overcast. The render is a picture of something redder.
 * **No cornice line, no ornament.** **2** cornices, **4** quoins and **37** string courses across **5,284** kit pieces. The photograph's building is carved: fluted piers, a frieze with a Greek-key motif, a bronze crest. The render's block is a brick extrusion with a parapet (**299** parapets in scene).
 * **Props: 1,068 of 5,767 in range placed**, capped at triangle budget **1,242,963**.
 * **Crowd drops: 422 pedestrians not on a walkable surface, 100 in the carriageway, 174 to the triangle budget.**
