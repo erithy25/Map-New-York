@@ -1,17 +1,19 @@
 {
  "slug": "landmark_columbus_circle",
- "rendered_at": "2026-09-09T04:50:06Z",
+ "rendered_at": "2026-09-09T19:10:37Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 854,
-  "mean": 0.26,
-  "sd": 0.1457,
-  "p05": 0.0605,
-  "p95": 0.5866,
-  "chroma": 0.0755
+  "mean": 0.4878,
+  "sd": 0.1889,
+  "p05": 0.1634,
+  "p50": 0.4996,
+  "p95": 0.8367,
+  "chroma": 0.102,
+  "exposure_offset_stops": 0.247
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.3432,
   "sd": 0.2288,
   "p05": 0.0331,
+  "p50": 0.3006,
   "p95": 0.7285,
-  "chroma": 0.1673
+  "chroma": 0.1673,
+  "exposure_offset_stops": -1.291
  },
  "render_over_reference": {
-  "mean": 0.758,
-  "sd": 0.637,
-  "chroma": 0.451
+  "mean": 1.421,
+  "sd": 0.826,
+  "p50": 1.662,
+  "chroma": 0.61,
+  "exposure_offset_stops": 1.538,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

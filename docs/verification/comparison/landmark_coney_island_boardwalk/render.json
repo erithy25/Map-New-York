@@ -27,6 +27,7 @@
   "long_side_fov_deg": 54.432,
   "pitch_deg": 0.0,
   "portrait": false,
+  "raised_surface_named": true,
   "resolution": [
    1280,
    854
@@ -65,9 +66,9 @@
   "view_m": 75.9
  },
  "frame": {
-  "mean": 0.468,
+  "mean": 0.5185,
   "reason": null,
-  "sd": 0.1508,
+  "sd": 0.1534,
   "usable": true
  },
  "frame_retry": null,
@@ -76,6 +77,19 @@
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
  "lighting": {
   "background_strength": 0.03080693632364273,
+  "development": {
+   "linear_p05": 0.030341,
+   "linear_p50": 0.135646,
+   "linear_p95": 0.367993,
+   "log_average_linear": 0.14869,
+   "median_linear": 0.135646,
+   "metered": true,
+   "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
+   "stops": 0.408,
+   "stops_unclamped": 0.408,
+   "target_linear": 0.18,
+   "view_transform": "Filmic"
+  },
   "direct_normal_irradiance_w_m2": 926.5,
   "emissive": {
    "cone_faces_deleted": 24,
@@ -84,7 +98,8 @@
    "night": false,
    "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
-  "exposure_stops": 0.0,
+  "exposure_stops": 0.41,
+  "physical_rule_stops": 0.0,
   "sky_azimuth_deg": 190.223,
   "sky_elevation_deg": 63.418,
   "sun_lamp": true,
@@ -108,11 +123,18 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_coney_island_boardwalk/render.png",
- "rendered_at": "2026-09-09T04:51:35Z",
+ "rendered_at": "2026-09-09T19:09:04Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
+   "camera_clear_ped_basis": [
+    1.8,
+    38.0,
+    0.4
+   ],
+   "camera_clear_ped_m": 6.5,
+   "camera_clear_vehicle_m": 6.0,
    "caption": "Agents: 27 vehicles within 320 m and 36 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 72 vehicles and 158 people over the whole simulated ring, of which 95 and 219 were simulated; 251 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "dropped": {
     "pedestrian_in_the_carriageway_not_crossing": 9,
@@ -138,7 +160,7 @@
    "placed_pedestrians": 36,
    "placed_vehicles": 27,
    "reason": null,
-   "seconds": 27.06,
+   "seconds": 49.8,
    "snapshot": {
     "building_footprints_tested": 609,
     "density_lane_km": 9.458,
@@ -178,7 +200,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 95
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -2529_-14077_13_0_416b27d3a116e3c1_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 200979,
    "vehicle_lods": {
@@ -590,6 +612,42 @@
    "resolution": "2K",
    "slots": 110
   },
+  "parkground": {
+   "by_kind": {},
+   "dressed": {},
+   "faces_cut_for_landmark_ground": 0,
+   "flat_with_reason": {},
+   "imported": [],
+   "meshes": 0,
+   "per_tile": {},
+   "placement": "tile-local X/Y plus the tile origin, Z absolute NAVD88 (the tile convention add_structures and the shells use)",
+   "radius_m": 820.6488678628772,
+   "redraped_on_scene_heightmap": {
+    "applied": true,
+    "shifted": 0,
+    "vertices": 0
+   },
+   "source": "blender/parks/build_parkground.py over data/processed/parks/surfaces.parquet, tile pavement subtracted",
+   "surfaces": 0,
+   "terrain_clearance": {
+    "measured": false,
+    "reason": "no terrain object passed"
+   },
+   "terrain_rule": "the pavement's convention: a ground surface is draped on the heightmap the verify terrain is sampled from (TerrainSampler, the 501-sample source grid) plus its kind's own lift, never re-fitted to the terrain mesh.  The builder draped the glb on the UE landscape grid (505 samples resampled from the same heightmap), so each vertex is shifted here by the difference between the two readings at its own X/Y -- median -0.5 mm, 99th percentile of |difference| 0.13 m in the near field, measured around Bethesda -- and keeps its lift and its skirt.  Inside near_m the terrain is the 2 m heightmap itself and the lift (0.08-0.20 m, at least the drape tolerance) clears it; beyond near_m the terrain grid coarsens to far_spacing_m and bridges hollows the surface still follows, so a share of the far surface sits under the terrain there, exactly as the pavement does (J64 refines it only to 400 m).  The fractions below are that share, measured on this scene's own terrain mesh by band.",
+   "tiles": 0,
+   "tiles_dropped_for_budget": [],
+   "tiles_missing": [
+    "t_-2_-14",
+    "t_-2_-15",
+    "t_-3_-14",
+    "t_-3_-15",
+    "t_-4_-14",
+    "t_-4_-15"
+   ],
+   "tiles_wanted": 6,
+   "triangle_budget": 1500000,
+   "triangles": 0
+  },
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
@@ -620,13 +678,41 @@
    "vertices": 92935
   },
   "props": {
+   "canopy": {
+    "billboards": 753,
+    "card_missing_drawn_lod0": 0,
+    "dropped_for_budget": 0,
+    "lod0": 2,
+    "near_radius_m": 120.0,
+    "procedural_dataset_id": "rule:woodland_canopy",
+    "procedural_stems": 0,
+    "radius_m": 820.6488678628772,
+    "rows_beyond_prop_radius": 670,
+    "triangles": 4518,
+    "yaw_by_rule": 755,
+    "yaw_rule": "a tree's yaw is not in any source: it is drawn from a hash of the stem's own position (SplitMix64 over the metre-rounded x, y), uniform over 360 deg, so the same tree is drawn the same way in every render and no two neighbours share a silhouette; a rule, not a measurement"
+   },
    "capped": null,
-   "impostor_cards_dropped": 5,
+   "dropped_for_budget": 0,
+   "impostor_cards_dropped": 2,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
     "curb_ramp": 32
    },
    "leaf_off": false,
+   "per_dataset": {
+    "bike_shelters": 1,
+    "gtfs_bus": 4,
+    "hydrants": 36,
+    "osm_newyork_pbf": 448,
+    "osm_newyork_pbf+rule:park_post_lamp": 22,
+    "plan_cooling_towers": 54,
+    "rule:lamp_30_40m_alt": 24,
+    "rule:lamp_30_40m_alt+rule:park_post_lamp": 2,
+    "rule:manhole_40m": 49,
+    "street_trees_2015": 454,
+    "subway_entrances": 1
+   },
    "per_kind": {
     "bench": 96,
     "bike_rack": 4,
@@ -638,22 +724,26 @@
     "manhole": 49,
     "street_lamp": 80,
     "subway_entrance": 1,
-    "tree": 85,
+    "tree": 755,
     "waste_basket": 4
    },
-   "placed": 425,
+   "placed": 1095,
    "radius_m": 350.6488678628772,
-   "rows_in_range": 487,
+   "rows_in_range": 1157,
    "tiles_missing": [],
    "tiles_read": [
+    "t_-2_-14",
+    "t_-2_-15",
     "t_-3_-14",
-    "t_-3_-15"
+    "t_-3_-15",
+    "t_-4_-14",
+    "t_-4_-15"
    ],
-   "tree_instances_scaled": 85,
-   "tree_mean_scale": 0.792,
-   "tree_scale_out_of_band": 0,
-   "tree_species_substituted": 78,
-   "triangles": 795412,
+   "tree_instances_scaled": 753,
+   "tree_mean_scale": 0.852,
+   "tree_scale_out_of_band": 2,
+   "tree_species_substituted": 483,
+   "triangles": 439958,
    "unmapped_kinds": {
     "artwork": 1,
     "billboard": 5,
@@ -665,7 +755,20 @@
    }
   },
   "radius_m": 820.6488678628772,
-  "seconds": 48.16,
+  "seconds": 76.11,
+  "structures": {
+   "imported": [
+    "t_-2_-14",
+    "t_-2_-15",
+    "t_-3_-14",
+    "t_-3_-15",
+    "t_-4_-14",
+    "t_-4_-15"
+   ],
+   "tiles_imported": 6,
+   "tiles_without_a_file": 0,
+   "triangles": 51412
+  },
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -703,7 +806,7 @@
    "z_max_m": 5.07,
    "z_min_m": -0.68
   },
-  "triangles": 1516737
+  "triangles": 1161283
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -713,9 +816,9 @@
   "radius_m": 820.6488678628772
  },
  "seconds": {
-  "render": 38.2,
-  "scene": 48.6,
-  "total": 86.7
+  "render": 78.5,
+  "scene": 76.8,
+  "total": 155.3
  },
  "sightline": {
   "subject_note": "the item names no point subject",

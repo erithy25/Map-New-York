@@ -1,17 +1,19 @@
 {
  "slug": "landmark_coney_island_boardwalk",
- "rendered_at": "2026-09-09T04:51:35Z",
+ "rendered_at": "2026-09-09T19:09:04Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 854,
-  "mean": 0.4686,
-  "sd": 0.1499,
-  "p05": 0.2042,
-  "p95": 0.636,
-  "chroma": 0.1029
+  "mean": 0.5195,
+  "sd": 0.1527,
+  "p05": 0.2428,
+  "p50": 0.4993,
+  "p95": 0.687,
+  "chroma": 0.1046,
+  "exposure_offset_stops": 0.245
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.3872,
   "sd": 0.1966,
   "p05": 0.0801,
+  "p50": 0.3951,
   "p95": 0.716,
-  "chroma": 0.3464
+  "chroma": 0.3464,
+  "exposure_offset_stops": -0.475
  },
  "render_over_reference": {
-  "mean": 1.21,
-  "sd": 0.762,
-  "chroma": 0.297
+  "mean": 1.342,
+  "sd": 0.777,
+  "p50": 1.264,
+  "chroma": 0.302,
+  "exposure_offset_stops": 0.72,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

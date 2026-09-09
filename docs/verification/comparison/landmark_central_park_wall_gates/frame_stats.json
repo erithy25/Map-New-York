@@ -1,17 +1,19 @@
 {
  "slug": "landmark_central_park_wall_gates",
- "rendered_at": "2026-09-09T04:33:41Z",
+ "rendered_at": "2026-09-09T18:26:17Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 854,
-  "mean": 0.1749,
-  "sd": 0.1176,
-  "p05": 0.0036,
-  "p95": 0.4006,
-  "chroma": 0.0345
+  "mean": 0.467,
+  "sd": 0.1722,
+  "p05": 0.1594,
+  "p50": 0.4967,
+  "p95": 0.7751,
+  "chroma": 0.0821,
+  "exposure_offset_stops": 0.23
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.3612,
   "sd": 0.256,
   "p05": 0.0448,
+  "p50": 0.3104,
   "p95": 0.9527,
-  "chroma": 0.0668
+  "chroma": 0.0668,
+  "exposure_offset_stops": -1.197
  },
  "render_over_reference": {
-  "mean": 0.484,
-  "sd": 0.459,
-  "chroma": 0.516
+  "mean": 1.293,
+  "sd": 0.673,
+  "p50": 1.6,
+  "chroma": 1.229,
+  "exposure_offset_stops": 1.427,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

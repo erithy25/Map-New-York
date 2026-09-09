@@ -1,17 +1,19 @@
 {
  "slug": "landmark_central_park_sheep_meadow",
- "rendered_at": "2026-09-09T04:22:20Z",
+ "rendered_at": "2026-09-09T18:37:52Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1092,
   "height": 1000,
-  "mean": 0.5613,
-  "sd": 0.1562,
-  "p05": 0.2915,
-  "p95": 0.7987,
-  "chroma": 0.0677
+  "mean": 0.5493,
+  "sd": 0.1454,
+  "p05": 0.3152,
+  "p50": 0.4953,
+  "p95": 0.7833,
+  "chroma": 0.0985,
+  "exposure_offset_stops": 0.221
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5773,
   "sd": 0.3254,
   "p05": 0.106,
+  "p50": 0.7497,
   "p95": 0.9639,
-  "chroma": 0.143
+  "chroma": 0.143,
+  "exposure_offset_stops": 1.536
  },
  "render_over_reference": {
-  "mean": 0.972,
-  "sd": 0.48,
-  "chroma": 0.473
+  "mean": 0.951,
+  "sd": 0.447,
+  "p50": 0.661,
+  "chroma": 0.689,
+  "exposure_offset_stops": -1.315,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

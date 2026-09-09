@@ -1,17 +1,19 @@
 {
  "slug": "landmark_coney_island_wonder_wheel",
- "rendered_at": "2026-09-09T04:56:39Z",
+ "rendered_at": "2026-09-09T19:15:43Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.4355,
-  "sd": 0.1647,
-  "p05": 0.1777,
-  "p95": 0.5927,
-  "chroma": 0.0549
+  "mean": 0.4898,
+  "sd": 0.1704,
+  "p05": 0.2178,
+  "p50": 0.4985,
+  "p95": 0.6515,
+  "chroma": 0.0591,
+  "exposure_offset_stops": 0.24
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4662,
   "sd": 0.1413,
   "p05": 0.308,
+  "p50": 0.4328,
   "p95": 0.706,
-  "chroma": 0.3951
+  "chroma": 0.3951,
+  "exposure_offset_stops": -0.197
  },
  "render_over_reference": {
-  "mean": 0.934,
-  "sd": 1.166,
-  "chroma": 0.139
+  "mean": 1.051,
+  "sd": 1.206,
+  "p50": 1.152,
+  "chroma": 0.15,
+  "exposure_offset_stops": 0.437,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

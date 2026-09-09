@@ -1,17 +1,19 @@
 {
  "slug": "landmark_citi_field",
- "rendered_at": "2026-09-09T04:41:14Z",
+ "rendered_at": "2026-09-09T18:55:25Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.3345,
-  "sd": 0.2438,
-  "p05": 0.0,
-  "p95": 0.6148,
-  "chroma": 0.0449
+  "mean": 0.4796,
+  "sd": 0.2507,
+  "p05": 0.1095,
+  "p50": 0.4949,
+  "p95": 0.7571,
+  "chroma": 0.0784,
+  "exposure_offset_stops": 0.218
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5997,
   "sd": 0.2655,
   "p05": 0.1303,
+  "p50": 0.7531,
   "p95": 0.8467,
-  "chroma": 0.1378
+  "chroma": 0.1378,
+  "exposure_offset_stops": 1.551
  },
  "render_over_reference": {
-  "mean": 0.558,
-  "sd": 0.918,
-  "chroma": 0.326
+  "mean": 0.8,
+  "sd": 0.944,
+  "p50": 0.657,
+  "chroma": 0.569,
+  "exposure_offset_stops": -1.333,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

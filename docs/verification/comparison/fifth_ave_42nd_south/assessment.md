@@ -26,7 +26,7 @@
 * **The library is where the library is.** Its model — limestone, arched openings, a raised terrace with bare trees — occupies the right edge of the render, on the west side of Fifth south of 42nd, where the record's cone puts it.
 * **The canyon is the right kind of canyon**: a wide two-way avenue between walls of the same order of height as the photograph's, glass slabs beside masonry, with a continental crossing and a dashed lane line drawn from **717** crosswalk and **14,594** white-marking polygons in range.
 * **The trees are bare and the date is why**: **1,573** trees within range, leaf-off for 21 January at a mean scale of **0.927**; the photograph's own street trees, above the placards on the left, are bare in the same way.
-* **The traffic is a Fifth Avenue fleet**: **22** yellow taxis, **13** boro taxis, **9** black cars, **5** sedans, **2** vans, an SUV and a DSNY truck; a green boro taxi, a yellow taxi and two black SUVs are in the frame, and the left-hand fascia carries a lettered bank name from **88** storefront pieces.
+* **The traffic is a Fifth Avenue fleet**: **22** yellow taxis, **13** boro taxis, **9** black cars, **5** sedans, **2** vans, an SUV and a DSNY truck; a green boro taxi, a yellow taxi, a grey SUV and a black SUV are in the frame, and the left-hand fascia carries a lettered bank name from **88** storefront pieces.
 
 ## What does not match
 

@@ -33,6 +33,7 @@
   "long_side_fov_deg": 54.432,
   "pitch_deg": 0.0,
   "portrait": true,
+  "raised_surface_named": true,
   "resolution": [
    852,
    1278
@@ -70,9 +71,9 @@
   "view_m": 89.6
  },
  "frame": {
-  "mean": 0.2669,
+  "mean": 0.3819,
   "reason": null,
-  "sd": 0.2165,
+  "sd": 0.2888,
   "usable": true
  },
  "frame_retry": null,
@@ -81,6 +82,19 @@
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal); nothing built stands within 6 m of the subject's coordinate; the nearest built thing is t_-3_-15_concrete, 15 m away at bearing 270 deg, so the coordinate the item records is that far off the fabric it names, so the lens was not widened to contain it",
  "lighting": {
   "background_strength": 0.03254241868853569,
+  "development": {
+   "linear_p05": 0.0,
+   "linear_p50": 0.071644,
+   "linear_p95": 0.278396,
+   "log_average_linear": 0.002288,
+   "median_linear": 0.071644,
+   "metered": true,
+   "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
+   "stops": 1.329,
+   "stops_unclamped": 1.329,
+   "target_linear": 0.18,
+   "view_transform": "Filmic"
+  },
   "direct_normal_irradiance_w_m2": 866.7,
   "emissive": {
    "cone_faces_deleted": 24,
@@ -89,7 +103,8 @@
    "night": false,
    "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
-  "exposure_stops": 0.0,
+  "exposure_stops": 1.33,
+  "physical_rule_stops": 0.0,
   "sky_azimuth_deg": 190.215,
   "sky_elevation_deg": 44.899,
   "sun_lamp": true,
@@ -113,11 +128,18 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_coney_island_parachute_jump/render.png",
- "rendered_at": "2026-09-09T04:55:07Z",
+ "rendered_at": "2026-09-09T19:12:34Z",
  "resolution_note": "852x1278; the reference photograph is 1920x2880 (0.67:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
+   "camera_clear_ped_basis": [
+    1.8,
+    38.0,
+    0.4
+   ],
+   "camera_clear_ped_m": 6.5,
+   "camera_clear_vehicle_m": 6.0,
    "caption": "Agents: 37 vehicles within 320 m and 28 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 70 vehicles and 130 people over the whole simulated ring, of which 93 and 179 were simulated; 207 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "dropped": {
     "pedestrian_in_the_carriageway_not_crossing": 10,
@@ -145,7 +167,7 @@
    "placed_pedestrians": 28,
    "placed_vehicles": 37,
    "reason": null,
-   "seconds": 20.71,
+   "seconds": 35.85,
    "snapshot": {
     "building_footprints_tested": 1410,
     "density_lane_km": 9.177,
@@ -185,7 +207,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 93
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -2723_-14121_13_0_7135681bd07b4c6f_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 247167,
    "vehicle_lods": {
@@ -579,6 +601,40 @@
    "resolution": "2K",
    "slots": 82
   },
+  "parkground": {
+   "by_kind": {},
+   "dressed": {},
+   "faces_cut_for_landmark_ground": 0,
+   "flat_with_reason": {},
+   "imported": [],
+   "meshes": 0,
+   "per_tile": {},
+   "placement": "tile-local X/Y plus the tile origin, Z absolute NAVD88 (the tile convention add_structures and the shells use)",
+   "radius_m": 707.6446883654972,
+   "redraped_on_scene_heightmap": {
+    "applied": true,
+    "shifted": 0,
+    "vertices": 0
+   },
+   "source": "blender/parks/build_parkground.py over data/processed/parks/surfaces.parquet, tile pavement subtracted",
+   "surfaces": 0,
+   "terrain_clearance": {
+    "measured": false,
+    "reason": "no terrain object passed"
+   },
+   "terrain_rule": "the pavement's convention: a ground surface is draped on the heightmap the verify terrain is sampled from (TerrainSampler, the 501-sample source grid) plus its kind's own lift, never re-fitted to the terrain mesh.  The builder draped the glb on the UE landscape grid (505 samples resampled from the same heightmap), so each vertex is shifted here by the difference between the two readings at its own X/Y -- median -0.5 mm, 99th percentile of |difference| 0.13 m in the near field, measured around Bethesda -- and keeps its lift and its skirt.  Inside near_m the terrain is the 2 m heightmap itself and the lift (0.08-0.20 m, at least the drape tolerance) clears it; beyond near_m the terrain grid coarsens to far_spacing_m and bridges hollows the surface still follows, so a share of the far surface sits under the terrain there, exactly as the pavement does (J64 refines it only to 400 m).  The fractions below are that share, measured on this scene's own terrain mesh by band.",
+   "tiles": 0,
+   "tiles_dropped_for_budget": [],
+   "tiles_missing": [
+    "t_-3_-14",
+    "t_-3_-15",
+    "t_-4_-14",
+    "t_-4_-15"
+   ],
+   "tiles_wanted": 4,
+   "triangle_budget": 1500000,
+   "triangles": 0
+  },
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
@@ -606,11 +662,36 @@
    "vertices": 64929
   },
   "props": {
+   "canopy": {
+    "billboards": 492,
+    "card_missing_drawn_lod0": 0,
+    "dropped_for_budget": 0,
+    "lod0": 6,
+    "near_radius_m": 120.0,
+    "procedural_dataset_id": "rule:woodland_canopy",
+    "procedural_stems": 0,
+    "radius_m": 707.6446883654972,
+    "rows_beyond_prop_radius": 455,
+    "triangles": 2952,
+    "yaw_by_rule": 498,
+    "yaw_rule": "a tree's yaw is not in any source: it is drawn from a hash of the stem's own position (SplitMix64 over the metre-rounded x, y), uniform over 360 deg, so the same tree is drawn the same way in every render and no two neighbours share a silhouette; a rule, not a measurement"
+   },
    "capped": null,
-   "impostor_cards_dropped": 3,
+   "dropped_for_budget": 0,
+   "impostor_cards_dropped": 2,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {},
    "leaf_off": false,
+   "per_dataset": {
+    "hydrants": 13,
+    "osm_newyork_pbf": 294,
+    "osm_newyork_pbf+rule:park_post_lamp": 19,
+    "plan_cooling_towers": 11,
+    "rule:lamp_30_40m_alt": 16,
+    "rule:lamp_30_40m_alt+rule:park_post_lamp": 2,
+    "rule:manhole_40m": 28,
+    "street_trees_2015": 340
+   },
    "per_kind": {
     "bench": 105,
     "bike_rack": 6,
@@ -619,23 +700,24 @@
     "hydrant": 13,
     "manhole": 28,
     "street_lamp": 55,
-    "tree": 43,
+    "tree": 498,
     "waste_basket": 4
    },
-   "placed": 268,
+   "placed": 723,
    "radius_m": 281.3494541754859,
-   "rows_in_range": 291,
+   "rows_in_range": 746,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_-14",
     "t_-3_-15",
+    "t_-4_-14",
     "t_-4_-15"
    ],
-   "tree_instances_scaled": 43,
-   "tree_mean_scale": 0.918,
-   "tree_scale_out_of_band": 0,
-   "tree_species_substituted": 43,
-   "triangles": 501608,
+   "tree_instances_scaled": 497,
+   "tree_mean_scale": 0.802,
+   "tree_scale_out_of_band": 1,
+   "tree_species_substituted": 307,
+   "triangles": 321316,
    "unmapped_kinds": {
     "billboard": 1,
     "drinking_fountain": 5,
@@ -647,7 +729,18 @@
    }
   },
   "radius_m": 707.6446883654972,
-  "seconds": 36.97,
+  "seconds": 52.42,
+  "structures": {
+   "imported": [
+    "t_-3_-14",
+    "t_-3_-15",
+    "t_-4_-14",
+    "t_-4_-15"
+   ],
+   "tiles_imported": 4,
+   "tiles_without_a_file": 0,
+   "triangles": 29956
+  },
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -685,7 +778,7 @@
    "z_max_m": 5.04,
    "z_min_m": -0.93
   },
-  "triangles": 1100624
+  "triangles": 920332
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -695,9 +788,9 @@
   "radius_m": 707.6446883654972
  },
  "seconds": {
-  "render": 27.1,
-  "scene": 37.3,
-  "total": 64.4
+  "render": 60.5,
+  "scene": 53.1,
+  "total": 113.6
  },
  "sightline": {
   "subject_note": "nothing built stands within 6 m of the subject's coordinate; the nearest built thing is t_-3_-15_concrete, 15 m away at bearing 270 deg, so the coordinate the item records is that far off the fabric it names; no sightline was tested",
@@ -724,7 +817,7 @@
    },
    "note": "nothing built stands within 6 m of the subject's coordinate; the nearest built thing is t_-3_-15_concrete, 15 m away at bearing 270 deg, so the coordinate the item records is that far off the fabric it names",
    "object": null,
-   "rays_cast": 17,
+   "rays_cast": 43,
    "rays_on_built_fabric": 0,
    "z": null
   },

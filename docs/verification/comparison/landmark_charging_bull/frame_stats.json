@@ -1,17 +1,19 @@
 {
  "slug": "landmark_charging_bull",
- "rendered_at": "2026-09-09T11:14:50Z",
+ "rendered_at": "2026-09-09T18:34:05Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.5517,
-  "sd": 0.1909,
-  "p05": 0.3155,
-  "p95": 0.9628,
-  "chroma": 0.0631
+  "mean": 0.5299,
+  "sd": 0.2141,
+  "p05": 0.2012,
+  "p50": 0.4992,
+  "p95": 0.9622,
+  "chroma": 0.0688,
+  "exposure_offset_stops": 0.245
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.3922,
   "sd": 0.2611,
   "p05": 0.0801,
+  "p50": 0.3274,
   "p95": 0.9281,
-  "chroma": 0.0417
+  "chroma": 0.0417,
+  "exposure_offset_stops": -1.04
  },
  "render_over_reference": {
-  "mean": 1.407,
-  "sd": 0.731,
-  "chroma": 1.513
+  "mean": 1.351,
+  "sd": 0.82,
+  "p50": 1.525,
+  "chroma": 1.65,
+  "exposure_offset_stops": 1.285,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

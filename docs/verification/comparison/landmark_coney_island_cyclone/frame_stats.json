@@ -1,17 +1,19 @@
 {
  "slug": "landmark_coney_island_cyclone",
- "rendered_at": "2026-09-09T04:54:00Z",
+ "rendered_at": "2026-09-09T19:14:12Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.4872,
-  "sd": 0.1081,
-  "p05": 0.3333,
-  "p95": 0.6271,
-  "chroma": 0.0649
+  "mean": 0.497,
+  "sd": 0.1086,
+  "p05": 0.3437,
+  "p50": 0.4973,
+  "p95": 0.6358,
+  "chroma": 0.065,
+  "exposure_offset_stops": 0.233
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5052,
   "sd": 0.1769,
   "p05": 0.1372,
+  "p50": 0.5282,
   "p95": 0.7613,
-  "chroma": 0.2616
+  "chroma": 0.2616,
+  "exposure_offset_stops": 0.422
  },
  "render_over_reference": {
-  "mean": 0.964,
-  "sd": 0.611,
-  "chroma": 0.248
+  "mean": 0.984,
+  "sd": 0.614,
+  "p50": 0.941,
+  "chroma": 0.248,
+  "exposure_offset_stops": -0.189,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

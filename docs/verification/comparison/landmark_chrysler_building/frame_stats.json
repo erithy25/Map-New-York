@@ -1,17 +1,19 @@
 {
  "slug": "landmark_chrysler_building",
- "rendered_at": "2026-09-08T23:24:22Z",
+ "rendered_at": "2026-09-09T18:51:06Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.1089,
-  "sd": 0.11,
-  "p05": 0.0076,
-  "p95": 0.3422,
-  "chroma": 0.0295
+  "mean": 0.5102,
+  "sd": 0.2263,
+  "p05": 0.1986,
+  "p50": 0.4974,
+  "p95": 0.8871,
+  "chroma": 0.0917,
+  "exposure_offset_stops": 0.234
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.3247,
   "sd": 0.245,
   "p05": 0.0773,
+  "p50": 0.2303,
   "p95": 0.9363,
-  "chroma": 0.2208
+  "chroma": 0.2208,
+  "exposure_offset_stops": -2.054
  },
  "render_over_reference": {
-  "mean": 0.335,
-  "sd": 0.449,
-  "chroma": 0.134
+  "mean": 1.571,
+  "sd": 0.924,
+  "p50": 2.16,
+  "chroma": 0.415,
+  "exposure_offset_stops": 2.288,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
