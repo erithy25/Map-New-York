@@ -106,6 +106,11 @@ def slugs() -> list[str]:
 def _parse(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("slugs", nargs="*", help="only these slugs (default: every slug with a photograph)")
+    ap.add_argument("--last", nargs="*", default=[], metavar="SLUG",
+                    help="render these slugs at the end of the queue, in this order.  A world fix that "
+                         "is still being built (a canopy stage, a platform deck) only touches a few "
+                         "sheets; those go last so the fix can land while the rest of the pass runs, "
+                         "and they are rendered once, with it, instead of twice")
     ap.add_argument("--workers", type=int, default=1,
                     help="how many sheets to render at once.  Measured over the v15 pass a sheet spends "
                          "73 %% of its time in a single-threaded scene build and 27 %% in a render that "
@@ -119,6 +124,8 @@ def main(argv=None) -> int:
     a = _parse(argv)
     only = a.slugs or None
     todo = [s for s in slugs() if not only or s in only]
+    deferred = [s for s in a.last if s in todo]
+    todo = [s for s in todo if s not in deferred] + deferred
     state = json.loads(LOG.read_text()) if LOG.is_file() else {"done": [], "failed": [], "skipped": []}
     state.setdefault("declined", [])
     lock = threading.Lock()

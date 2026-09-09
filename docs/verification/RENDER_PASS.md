@@ -19,6 +19,9 @@ set are the reason for v16. **Every sheet is re-rendered**, for one or more of t
 | Bethesda Terrace | 1 | J65 — the photograph's GPS on the upper deck is usable |
 | the Barclays Center | 1 | J81 — the oculus canopy on the Atlantic/Flatbush corner |
 | every sheet whose frame holds a Citi Bike station | — | Stage 40 — a kiosk and the real number of dock units instead of one bicycle |
+| every street sheet with a bus shelter, LinkNYC kiosk, newsstand, bus stop blade or bike rack in frame | — | J84 — the six dataset-placed kerb kinds stood square to north; they now take the kerb's heading and the side of the centreline |
+| the seven Hudson Yards sheets | 7 | J85 — the platform is a terrain deck; Tenth Avenue no longer dives 8 m into the rail yard's DEM, and `landmark_15_hudson_yards` stands on the named node |
+| the twenty-three park and open-space sheets | 23 | Stage 55 — woodland coverage from the OSM polygons the build already holds, stems declared procedural; the Ramble and every other wood was bare terrain |
 
 Five sheets were rendered under the final code as the A/B before the pass and are already in the
 repository (`bethesda_terrace_fountain`, `landmark_flatiron_building`, `landmark_barclays_center`,
@@ -29,8 +32,15 @@ because the fan cap and Stage 40 landed after them.
 
 ```
 rm -f blender_out/render_all_state.json                      # only for a fresh start
-setsid nohup python3 tools/render_all_sheets.py --workers 2 > /tmp/render_all_v16.log 2>&1 &
+setsid nohup python3 tools/render_all_sheets.py --workers 2 --last $(cat docs/verification/render_pass_last.txt) \
+    > /tmp/render_all_v16.log 2>&1 &
 ```
+
+`--last` puts the thirty sheets in `render_pass_last.txt` (the seven Hudson Yards sheets, the
+twenty-three park sheets) at the end of the queue: the platform deck (J85) and the canopy stage
+(Stage 55) were still being built when the pass started, and a sheet those fixes touch is rendered
+once, with them, rather than twice. The kerb headings (J84) touch nearly every street sheet, so the
+pass did not start until that rebuild had landed.
 
 `render_all_sheets.py` skips everything in the state file's `done` and `declined`, so a restart picks
 up where it stopped. Two workers: a sheet spends 73 % of its time in a single-threaded scene build and
