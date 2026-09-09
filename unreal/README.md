@@ -257,39 +257,42 @@ Directories to Package* in Project Settings → Packaging (or `+DirectoriesToAlw
 `data/processed/` and `blender_out/` are gitignored — they are tens of gigabytes of derived
 artefacts — so a clone of this repository has all the code and none of the city.
 
-**The first-drive region is already built and pushed.** It is on the branch `dist/first-drive`, as
-48 numbered `.tar.gz` parts totalling **2.15 GB packed / 4.09 GB unpacked**, 1,041 files across the
-47-tile Manhattan region. Three commands from the repository root:
+**The first-drive region is already built and pushed.** It is at the tip of the branch
+`dist/first-drive` as **update-03**: 35 numbered `.tar.gz` parts, **1.39 GB packed / 2.96 GB
+unpacked**, 1,543 files across the 45-tile Manhattan region. It is **complete in itself** -- unlike
+update-01 and update-02, which were deltas and which the branch tip no longer carries, it is
+unpacked alone and nothing is laid over it. It stands at the state of the metered development
+(DEVIATIONS J83), the kerb-side props facing their own kerb (J84), the Hudson Yards platform as a
+terrain deck (J85), the woodland canopy declared procedural (J86) and the Citi Bike stations
+(Stage 40).
+
+Fetch it into a clone of its own, so the code checkout stays untouched and no history travels:
 
 ```bash
-git fetch origin dist/first-drive
-git checkout dist/first-drive -- dist/first-drive
-cat dist/first-drive/part_*.tar.gz | tar -xzvf - -i -C .
+git clone --depth 1 --single-branch --branch dist/first-drive <this repository> nyc-content
 ```
 
-Then the update pack, which carries the 165 files that changed after the snapshot was cut — the
-1,053 elevated station placements the stations stage added to the per-tile structure files, and the
-manifest regenerated over them (8.4 MB):
+**Do not use `--filter=blob:none`.** A partial clone cannot serve `git checkout <ref> -- <path>` for
+these blobs: every part is fetched and then reported as `unable to read sha1 file`.
+
+Each part is a complete archive and no file is ever split across two of them, so they are unpacked
+one after another from the repository root -- no concatenation, no temporary file, no elevated
+rights:
 
 ```bash
-git checkout dist/first-drive -- dist/first-drive/update-01
-cat dist/first-drive/update-01/part_*.tar.gz | tar -xzvf - -i -C .
+# Linux / macOS
+for p in ../nyc-content/dist/first-drive/update-03/part_*.tar.gz; do tar -xzf "$p"; done
 ```
 
-Then **update-02**, which is much larger — 38 parts, **1.96 GB packed / 2.72 GB raw**, the 349 files
-of the 1,084 that changed after update-01. It carries the surveyed curb ramps cut into the pavement
-of every tile in the region, the open-space ground (park lawn, court, ball field, pool, track and
-rink surfaces), the elevated structures and station platforms standing on measured ground, the
-rooftop plant lifted onto the roofs it was surveyed on, real tyre, seat, carpet and trim textures on
-every vehicle, and a `pois.nycb` carrying the 85,023 named places the GPS can search:
-
-```bash
-git checkout dist/first-drive -- dist/first-drive/update-02
-cat dist/first-drive/update-02/part_*.tar.gz | tar -xzvf - -i -C .
+```powershell
+# Windows PowerShell.  Do NOT use `cat`: it is text-based and corrupts the archives.
+Get-ChildItem ..\nyc-content\dist\first-drive\update-03\part_*.tar.gz |
+  Sort-Object Name | ForEach-Object { tar -xzf $_.FullName }
 ```
 
-**Order matters**: the base package, then update-01, then update-02. Each replaces files in place,
-so applying them out of order leaves older content on top of newer.
+Concatenating them into one file also works (`copy /b` on Windows, `cat` on a real shell), but then
+`tar` needs `--ignore-zeros` to read past the first archive's end-of-file marker, and the
+destination must be a directory you may write to -- the root of `C:` is not.
 
 Each package has an `index.json` naming every file and every part's SHA-256, and an `UNPACK.md`
 beside it repeating its own commands. To check what arrived, or to build a package for another
