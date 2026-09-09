@@ -34,18 +34,24 @@ THE FINDING (measured by a scoping agent; every number below is from the reposit
 * The woodland COVERAGE is already extracted and read by nothing: data/processed/osm/landuse_leisure.parquet holds
   natural=wood 6,521 / landuse=forest 390 / natural=scrub 2,196 polygons (within the five boroughs: wood 2,144 /
   3,783.7 ha, forest 365 / 549.3 ha, scrub 1,426 / 1,227.2 ha, union 5,557.1 ha; Central Park 145 polygons / 41.91 ha;
-  the Ramble bbox 76 polygons / 11.04 ha). furniture/build.py reads only the census and osm/trees.parquet;
+  the Ramble bbox NYC_TM (-1984,8384)-(-1519,8829): 76 polygons / 11.04 ha, holding 3 OSM tree nodes and 8 placed
+  tree instances; note there is no OSM polygon named "The Ramble" in Central Park -- the two rows with that name
+  are in New Jersey). furniture/build.py reads only the census and osm/trees.parquet;
   parks/surfaces.py has no woodland class. 94.5 % of the five boroughs' wood/forest/scrub polygons hold zero trees.
 * No canopy raster, LiDAR point cloud, canopy-change polygons or Conservancy map is held or registered
   (pipeline/nycsim_pipeline/sources.py: the only vegetation source is street_trees_2015). So the polygon extent is
   the only real claim; every stem position, the count, the species (unless from a tag or a mapped neighbour) and
   the height are inferred and must be declared so.
-* Even a planted Ramble would not reach the Bethesda sheet as configured: render_sheets.py RADIUS_OVERRIDES gives
-  bethesda_terrace_fountain prop_r 300 m (342.7 m after the spare); the nearest Ramble wood polygon centroid is
-  376 m from the camera (5.14 ha of wood within 400 m, 15.86 ha within 1,200 m in the 65.5 deg cone at azimuth
-  20.4). scene.py add_props instances LOD0 only (lib.get(..., max_lod=0)); a leaf tree is 3,676-9,564 triangles
-  and the 76 trees already in that frame account for most of the props' 673,140 of the 900,000 budget. Every
-  tree glb carries a LOD1 of 6 triangles (three crossed billboards with a 512 px impostor, catalogue lod suffix).
+* A planted Ramble reaches the Bethesda sheet's prop disc but not its triangle budget (a sceptic corrected the
+  scoping agent's "376 m" here): render_sheets.py RADIUS_OVERRIDES gives bethesda_terrace_fountain prop_r 300 m
+  (342.67 m after the spare); the nearest Ramble-bbox wood polygon is 83.4 m from the camera at its edge (way
+  1429681680, centroid 132.8 m), 27 of the bbox's 76 polygons (4.71 ha) lie inside the prop radius and 3.17 ha of
+  wood lies in the 65.5 deg cone (azimuth 20.4) within it; the bbox's far corner is 674.8 m away and 15.86 ha of
+  wood lies in the cone within 1,200 m. About 1,580 Ramble stems at LOD0 (3,676-9,564 triangles each) would be
+  5.8-15 M triangles against add_props' 900,000 budget, and the 76 trees already in that frame account for most of
+  its 673,140. scene.py add_props instances LOD0 only (lib.get(..., max_lod=0)). Every tree glb carries a LOD1 of
+  6 triangles (three crossed billboards with a 512 px impostor, catalogue lod suffix): the far ring is for the
+  budget, and the wider canopy radius is for the far shore, not for reaching the near wood at all.
 * The verification scene loads no park ground at all (blender/verify/scene.py has add_buildings, add_landmarks,
   add_pavement, add_structures, add_props, add_kit -- no parkground), and blender/parks/build_parkground.py has
   been run for the 43 first-drive tiles only (blender_out/tiles/*/tile_parkground.glb: 43 files, 44 MB). So in
