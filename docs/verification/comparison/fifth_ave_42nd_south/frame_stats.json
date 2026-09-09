@@ -1,17 +1,19 @@
 {
  "slug": "fifth_ave_42nd_south",
- "rendered_at": "2026-09-08T22:56:02Z",
+ "rendered_at": "2026-09-09T16:52:12Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.2789,
-  "sd": 0.1946,
-  "p05": 0.0403,
-  "p95": 0.7362,
-  "chroma": 0.0504
+  "mean": 0.4701,
+  "sd": 0.2199,
+  "p05": 0.1047,
+  "p50": 0.4993,
+  "p95": 0.9086,
+  "chroma": 0.0613,
+  "exposure_offset_stops": 0.245
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.434,
   "sd": 0.2586,
   "p05": 0.0566,
+  "p50": 0.416,
   "p95": 0.8681,
-  "chroma": 0.086
+  "chroma": 0.086,
+  "exposure_offset_stops": -0.318
  },
  "render_over_reference": {
-  "mean": 0.643,
-  "sd": 0.753,
-  "chroma": 0.586
+  "mean": 1.083,
+  "sd": 0.85,
+  "p50": 1.2,
+  "chroma": 0.713,
+  "exposure_offset_stops": 0.563,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

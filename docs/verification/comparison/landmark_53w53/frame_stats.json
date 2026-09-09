@@ -1,17 +1,19 @@
 {
  "slug": "landmark_53w53",
- "rendered_at": "2026-09-09T03:28:07Z",
+ "rendered_at": "2026-09-09T17:22:00Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 904,
   "height": 1206,
-  "mean": 0.0637,
-  "sd": 0.0957,
-  "p05": 0.0,
-  "p95": 0.2688,
-  "chroma": 0.0283
+  "mean": 0.3952,
+  "sd": 0.3033,
+  "p05": 0.0389,
+  "p50": 0.3071,
+  "p95": 0.92,
+  "chroma": 0.0554,
+  "exposure_offset_stops": -1.229
  },
  "reference": {
   "width": 1280,
@@ -19,12 +21,17 @@
   "mean": 0.6112,
   "sd": 0.2484,
   "p05": 0.1933,
+  "p50": 0.5847,
   "p95": 0.9116,
-  "chroma": 0.0778
+  "chroma": 0.0778,
+  "exposure_offset_stops": 0.742
  },
  "render_over_reference": {
-  "mean": 0.104,
-  "sd": 0.385,
-  "chroma": 0.364
+  "mean": 0.647,
+  "sd": 1.221,
+  "p50": 0.525,
+  "chroma": 0.712,
+  "exposure_offset_stops": -1.971,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

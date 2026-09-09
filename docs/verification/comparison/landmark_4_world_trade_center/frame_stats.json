@@ -1,17 +1,19 @@
 {
  "slug": "landmark_4_world_trade_center",
- "rendered_at": "2026-09-09T03:19:00Z",
+ "rendered_at": "2026-09-09T17:14:50Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 800,
-  "mean": 0.1115,
-  "sd": 0.111,
-  "p05": 0.0,
-  "p95": 0.3554,
-  "chroma": 0.0406
+  "mean": 0.529,
+  "sd": 0.1969,
+  "p05": 0.2285,
+  "p50": 0.4976,
+  "p95": 0.895,
+  "chroma": 0.1113,
+  "exposure_offset_stops": 0.235
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5035,
   "sd": 0.1904,
   "p05": 0.1529,
+  "p50": 0.5544,
   "p95": 0.7708,
-  "chroma": 0.1643
+  "chroma": 0.1643,
+  "exposure_offset_stops": 0.574
  },
  "render_over_reference": {
-  "mean": 0.221,
-  "sd": 0.583,
-  "chroma": 0.247
+  "mean": 1.051,
+  "sd": 1.034,
+  "p50": 0.898,
+  "chroma": 0.677,
+  "exposure_offset_stops": -0.339,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

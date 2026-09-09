@@ -33,6 +33,7 @@
   "long_side_fov_deg": 90.0,
   "pitch_deg": 30.683345989321595,
   "portrait": false,
+  "raised_surface_named": false,
   "resolution": [
    1280,
    606
@@ -69,16 +70,25 @@
    0.0
   ],
   "nearest_obstruction_m": 20.0,
-  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 32 m ahead, less than the 80 m this frame needs to show its subject; the camera was moved 52 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 96 m from there, and nothing built stands within 20 m of the lens, and the nearest simulated agent is agent_ped_1719.3 14.6 m away",
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 32 m ahead, less than the 80 m this frame needs to show its subject; the camera was moved 52 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  No point within 80 m had 80 m of open air along the view azimuth with nothing built inside 8 m of the lens, so the frame is closed off 96 m ahead and nothing built stands within 20 m of the lens, and the nearest simulated agent is agent_ped_1719.3 14.6 m away",
   "offset_m": 52.2,
   "reason": "boxed in: the view azimuth is closed off 32 m ahead, less than the 80 m this frame needs to show its subject",
-  "rule": "pavement snap with a clear frame",
+  "rule": "open air only, ranked on how much of the subject it sees",
+  "scored_on_subject_sightline": true,
+  "subject_sightline_at_choice": {
+   "subject_blocked_at_m": 35.9,
+   "subject_blocked_by": "t_-6_0_limestone",
+   "subject_rays": 13,
+   "subject_rays_on_subject": 0,
+   "subject_visible": false,
+   "subject_visible_fraction": 0.0
+  },
   "view_m": 96.0
  },
  "frame": {
-  "mean": 0.1052,
+  "mean": 0.5162,
   "reason": null,
-  "sd": 0.1073,
+  "sd": 0.2125,
   "usable": true
  },
  "frame_retry": null,
@@ -87,6 +97,20 @@
  "lens_reason": "widened from 35 mm to 18 mm (51 deg vertical) so that a level axis contains the subject: the top of lm_40_wall_street.2, the built thing standing at the subject's coordinate, 265 m above the ground there stands 266 m above the lens at 200 m, 53 deg above the horizon; held at the 18 mm floor, so the top of the subject is still cut off -- past that point the distortion would stop the two frames being comparable",
  "lighting": {
   "background_strength": 0.03925950825214386,
+  "development": {
+   "linear_p05": 0.000403,
+   "linear_p50": 0.002503,
+   "linear_p95": 0.04896,
+   "log_average_linear": 0.003163,
+   "median_linear": 0.002503,
+   "metered": true,
+   "note": "the frame wanted +6.17 stops and was held at +6.00: a scene this far from a photographable level is not developed into a picture of one",
+   "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
+   "stops": 6.0,
+   "stops_unclamped": 6.168,
+   "target_linear": 0.18,
+   "view_transform": "Filmic"
+  },
   "direct_normal_irradiance_w_m2": 687.1,
   "emissive": {
    "cone_faces_deleted": 24,
@@ -95,7 +119,8 @@
    "night": false,
    "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
-  "exposure_stops": 0.95,
+  "exposure_stops": 6.0,
+  "physical_rule_stops": 0.95,
   "sky_azimuth_deg": 242.866,
   "sky_elevation_deg": 22.402,
   "sun_lamp": true,
@@ -119,11 +144,18 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_40_wall_street/render.png",
- "rendered_at": "2026-09-08T23:01:43Z",
+ "rendered_at": "2026-09-09T17:16:33Z",
  "resolution_note": "1280x606; the reference photograph is 1920x909 (2.11:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
+   "camera_clear_ped_basis": [
+    1.8,
+    38.0,
+    0.4
+   ],
+   "camera_clear_ped_m": 6.5,
+   "camera_clear_vehicle_m": 6.0,
    "caption": "Agents: 81 vehicles within 320 m and 406 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 802 vehicles and 4744 people over the whole simulated ring, of which 932 and 3000 were simulated; 3445 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "dropped": {
     "pedestrian_in_the_carriageway_not_crossing": 298,
@@ -157,7 +189,7 @@
    "placed_pedestrians": 406,
    "placed_vehicles": 81,
    "reason": null,
-   "seconds": 193.91,
+   "seconds": 593.85,
    "snapshot": {
     "building_footprints_tested": 1416,
     "density_lane_km": 33.563,
@@ -278,24 +310,24 @@
    699.78
   ],
   "kit": {
-   "capped": "triangle budget 1147969",
+   "capped": "triangle budget 1098299",
    "per_category": {
     "antenna": 3,
     "bulkhead": 8,
     "cornice": 3,
-    "door_entry": 8,
+    "door_entry": 7,
     "hvac": 12,
-    "parapet": 11,
+    "parapet": 9,
     "pilaster": 10,
-    "scaffold": 18,
-    "storefront": 108,
+    "scaffold": 17,
+    "storefront": 102,
     "storefront_interior": 6,
     "string_course": 3,
     "water_tower": 4,
-    "window": 4176,
-    "window_accessory": 657
+    "window": 3981,
+    "window_accessory": 654
    },
-   "placed": 5027,
+   "placed": 4819,
    "radius_m": 120.0,
    "records_in_range": 19176,
    "stale_registry_ids": {},
@@ -304,7 +336,7 @@
    "tiles_read": [
     "t_-6_0"
    ],
-   "triangles": 1147984,
+   "triangles": 1098424,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -817,6 +849,235 @@
    "resolution": "2K",
    "slots": 234
   },
+  "parkground": {
+   "by_kind": {
+    "ballfield": {
+     "meshes": 1,
+     "polygons": 2,
+     "triangles": 2106
+    },
+    "cemetery": {
+     "meshes": 3,
+     "polygons": 15,
+     "triangles": 6661
+    },
+    "court": {
+     "meshes": 2,
+     "polygons": 19,
+     "triangles": 18679
+    },
+    "greenstreet": {
+     "meshes": 1,
+     "polygons": 11,
+     "triangles": 6344
+    },
+    "park_ground": {
+     "meshes": 4,
+     "polygons": 169,
+     "triangles": 170754
+    },
+    "pool": {
+     "meshes": 2,
+     "polygons": 3,
+     "triangles": 630
+    },
+    "recreation": {
+     "meshes": 5,
+     "polygons": 58,
+     "triangles": 25512
+    },
+    "vacant": {
+     "meshes": 2,
+     "polygons": 3,
+     "triangles": 1112
+    }
+   },
+   "dressed": {},
+   "faces_cut_for_landmark_ground": 53345,
+   "flat_with_reason": {
+    "park_ballfield_ball_dirt": "analytic: the texture catalogue has no photographic set for infield clay/dirt -- its entries are walls, roofs, roadway, floors and vehicle interiors -- so the base colour the park-ground builder authored is kept rather than the nearest wrong material (J40)",
+    "park_cemetery_grass": "analytic: the texture catalogue has no photographic set for mown grass -- its entries are walls, roofs, roadway, floors and vehicle interiors -- so the base colour the park-ground builder authored is kept rather than the nearest wrong material (J40)",
+    "park_court_sport_hard": "analytic: the texture catalogue has no photographic set for acrylic-coated asphalt court -- its entries are walls, roofs, roadway, floors and vehicle interiors -- so the base colour the park-ground builder authored is kept rather than the nearest wrong material (J40)",
+    "park_greenstreet_grass": "analytic: the texture catalogue has no photographic set for mown grass -- its entries are walls, roofs, roadway, floors and vehicle interiors -- so the base colour the park-ground builder authored is kept rather than the nearest wrong material (J40)",
+    "park_park_ground_grass": "analytic: the texture catalogue has no photographic set for mown grass -- its entries are walls, roofs, roadway, floors and vehicle interiors -- so the base colour the park-ground builder authored is kept rather than the nearest wrong material (J40)",
+    "park_pool_water": "analytic: the texture catalogue has no photographic set for pool water -- its entries are walls, roofs, roadway, floors and vehicle interiors -- so the base colour the park-ground builder authored is kept rather than the nearest wrong material (J40)",
+    "park_recreation_grass": "analytic: the texture catalogue has no photographic set for mown grass -- its entries are walls, roofs, roadway, floors and vehicle interiors -- so the base colour the park-ground builder authored is kept rather than the nearest wrong material (J40)",
+    "park_vacant_bare": "analytic: the texture catalogue has no photographic set for bare ground -- its entries are walls, roofs, roadway, floors and vehicle interiors -- so the base colour the park-ground builder authored is kept rather than the nearest wrong material (J40)"
+   },
+   "imported": [
+    "t_-5_0",
+    "t_-5_1",
+    "t_-6_-1",
+    "t_-6_0",
+    "t_-6_1"
+   ],
+   "meshes": 20,
+   "per_tile": {
+    "t_-5_0": {
+     "meshes": 2,
+     "polygons": 7,
+     "triangles": 5703
+    },
+    "t_-5_1": {
+     "meshes": 5,
+     "polygons": 115,
+     "triangles": 46654
+    },
+    "t_-6_-1": {
+     "meshes": 1,
+     "polygons": 2,
+     "triangles": 1761
+    },
+    "t_-6_0": {
+     "meshes": 5,
+     "polygons": 109,
+     "triangles": 73972
+    },
+    "t_-6_1": {
+     "meshes": 7,
+     "polygons": 47,
+     "triangles": 103708
+    }
+   },
+   "placement": "tile-local X/Y plus the tile origin, Z absolute NAVD88 (the tile convention add_structures and the shells use)",
+   "radius_m": 720.7110795832725,
+   "redraped_on_scene_heightmap": {
+    "applied": true,
+    "shift_abs_p99_m_max": 2.0052,
+    "shift_max_m": 2.449,
+    "shift_median_m_weighted": 0.0076,
+    "shift_min_m": -2.617,
+    "shifted": 189623,
+    "vertices": 189623,
+    "what": "TerrainSampler (501-sample source heightmap) minus LandscapeSampler (505-sample UE grid) at each vertex; lift and skirt kept"
+   },
+   "source": "blender/parks/build_parkground.py over data/processed/parks/surfaces.parquet, tile pavement subtracted",
+   "surfaces": 280,
+   "terrain_clearance": {
+    "bands": {
+     "all_draws": {
+      "clearance_max_m": 2.85,
+      "clearance_median_m": 0.195,
+      "clearance_min_m": -2.93,
+      "clearance_p01_m": -1.656,
+      "samples": 1607,
+      "under_by_more_than_0.05m_frac": 0.2458,
+      "under_frac": 0.2744,
+      "zfight_frac": 0.0224
+     },
+     "far_gt_400m": {
+      "clearance_max_m": 2.715,
+      "clearance_median_m": 0.238,
+      "clearance_min_m": -2.93,
+      "clearance_p01_m": -1.962,
+      "samples": 977,
+      "under_by_more_than_0.05m_frac": 0.1924,
+      "under_frac": 0.2201,
+      "zfight_frac": 0.0276
+     },
+     "mid_150_400m": {
+      "clearance_max_m": 2.85,
+      "clearance_median_m": 0.145,
+      "clearance_min_m": -1.336,
+      "clearance_p01_m": -1.068,
+      "samples": 612,
+      "under_by_more_than_0.05m_frac": 0.3382,
+      "under_frac": 0.3693,
+      "zfight_frac": 0.0147
+     },
+     "near_le_150m": {
+      "clearance_max_m": 0.195,
+      "clearance_median_m": 0.155,
+      "clearance_min_m": 0.07,
+      "clearance_p01_m": 0.072,
+      "samples": 18,
+      "under_by_more_than_0.05m_frac": 0.0,
+      "under_frac": 0.0,
+      "zfight_frac": 0.0
+     }
+    },
+    "by_kind": {
+     "ballfield": {
+      "samples": 0
+     },
+     "cemetery": {
+      "clearance_max_m": 2.85,
+      "clearance_median_m": 0.208,
+      "clearance_min_m": -1.336,
+      "clearance_p01_m": -1.103,
+      "samples": 462,
+      "under_by_more_than_0.05m_frac": 0.1905,
+      "under_frac": 0.2273,
+      "zfight_frac": 0.0216
+     },
+     "court": {
+      "samples": 0
+     },
+     "greenstreet": {
+      "clearance_max_m": 2.715,
+      "clearance_median_m": 0.316,
+      "clearance_min_m": -1.513,
+      "clearance_p01_m": -1.132,
+      "samples": 174,
+      "under_by_more_than_0.05m_frac": 0.1207,
+      "under_frac": 0.1379,
+      "zfight_frac": 0.0345
+     },
+     "park_ground": {
+      "clearance_max_m": 2.46,
+      "clearance_median_m": 0.241,
+      "clearance_min_m": -2.93,
+      "clearance_p01_m": -2.633,
+      "samples": 345,
+      "under_by_more_than_0.05m_frac": 0.2406,
+      "under_frac": 0.2609,
+      "zfight_frac": 0.029
+     },
+     "pool": {
+      "clearance_max_m": -0.233,
+      "clearance_median_m": -0.302,
+      "clearance_min_m": -0.339,
+      "clearance_p01_m": -0.33,
+      "samples": 138,
+      "under_by_more_than_0.05m_frac": 1.0,
+      "under_frac": 1.0,
+      "zfight_frac": 0.0
+     },
+     "recreation": {
+      "clearance_max_m": 0.859,
+      "clearance_median_m": 0.21,
+      "clearance_min_m": -0.527,
+      "clearance_p01_m": -0.438,
+      "samples": 285,
+      "under_by_more_than_0.05m_frac": 0.1228,
+      "under_frac": 0.1368,
+      "zfight_frac": 0.007
+     },
+     "vacant": {
+      "clearance_max_m": 0.823,
+      "clearance_median_m": 0.163,
+      "clearance_min_m": -0.744,
+      "clearance_p01_m": -0.656,
+      "samples": 203,
+      "under_by_more_than_0.05m_frac": 0.1478,
+      "under_frac": 0.2217,
+      "zfight_frac": 0.0394
+     }
+    },
+    "measured": true,
+    "method": "random points on upward park faces (one draw over the whole surface, a second over the faces inside near_m), ray-cast down onto this scene's terrain mesh; park top minus terrain.  'no_terrain_under' points lie outside the terrain square; 'all_draws' is not area-uniform, read the bands",
+    "near_m": 150.0,
+    "no_terrain_under": 1753,
+    "samples": 1607
+   },
+   "terrain_rule": "the pavement's convention: a ground surface is draped on the heightmap the verify terrain is sampled from (TerrainSampler, the 501-sample source grid) plus its kind's own lift, never re-fitted to the terrain mesh.  The builder draped the glb on the UE landscape grid (505 samples resampled from the same heightmap), so each vertex is shifted here by the difference between the two readings at its own X/Y -- median -0.5 mm, 99th percentile of |difference| 0.13 m in the near field, measured around Bethesda -- and keeps its lift and its skirt.  Inside near_m the terrain is the 2 m heightmap itself and the lift (0.08-0.20 m, at least the drape tolerance) clears it; beyond near_m the terrain grid coarsens to far_spacing_m and bridges hollows the surface still follows, so a share of the far surface sits under the terrain there, exactly as the pavement does (J64 refines it only to 400 m).  The fractions below are that share, measured on this scene's own terrain mesh by band.",
+   "tiles": 5,
+   "tiles_dropped_for_budget": [],
+   "tiles_missing": [],
+   "tiles_wanted": 5,
+   "triangle_budget": 1500000,
+   "triangles": 231798
+  },
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
@@ -845,54 +1106,101 @@
    "vertices": 276775
   },
   "props": {
-   "capped": "triangle budget 1202221",
-   "impostor_cards_dropped": 10,
+   "canopy": {
+    "billboards": 3653,
+    "card_missing_drawn_lod0": 0,
+    "dropped_for_budget": 0,
+    "lod0": 4,
+    "near_radius_m": 120.0,
+    "procedural_dataset_id": "rule:woodland_canopy",
+    "procedural_stems": 4,
+    "radius_m": 720.7110795832725,
+    "rows_beyond_prop_radius": 3548,
+    "triangles": 21918,
+    "yaw_by_rule": 3657,
+    "yaw_rule": "a tree's yaw is not in any source: it is drawn from a hash of the stem's own position (SplitMix64 over the metre-rounded x, y), uniform over 360 deg, so the same tree is drawn the same way in every render and no two neighbours share a silhouette; a rule, not a measurement"
+   },
+   "capped": null,
+   "dropped_for_budget": 0,
+   "impostor_cards_dropped": 1,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
-    "curb_ramp": 103
+    "curb_ramp": 109
    },
    "leaf_off": false,
+   "per_dataset": {
+    "bus_stop_shelters": 1,
+    "citibike_gbfs_station_status": 50,
+    "citibike_gbfs_stations": 128,
+    "gtfs_bus": 13,
+    "hydrants": 74,
+    "newsstands": 8,
+    "osm_newyork_pbf": 3068,
+    "osm_newyork_pbf+rule:park_post_lamp": 10,
+    "plan_cooling_towers": 89,
+    "plan_railroad_structure": 73,
+    "rule:lamp_30_40m_alt": 12,
+    "rule:manhole_40m": 109,
+    "rule:steam_vent_400m_manhattan_below_96": 3,
+    "rule:woodland_canopy": 4,
+    "street_trees_2015": 846,
+    "subway_entrances": 35
+   },
    "per_kind": {
-    "bench": 88,
-    "bike_rack": 30,
+    "bench": 95,
+    "bike_rack": 32,
     "bus_shelter": 1,
     "bus_stop_sign": 13,
-    "citibike_dock": 2,
-    "cooling_tower": 76,
+    "citibike_dock": 178,
+    "cooling_tower": 89,
     "flagpole": 3,
-    "hydrant": 66,
-    "mailbox": 1,
-    "manhole": 97,
+    "hydrant": 74,
+    "mailbox": 2,
+    "manhole": 109,
     "newsstand": 8,
-    "steam_vent": 2,
-    "street_lamp": 109,
-    "subway_entrance": 34,
-    "subway_vent_grate": 70,
-    "tree": 99,
-    "waste_basket": 26
+    "steam_vent": 3,
+    "street_lamp": 124,
+    "subway_entrance": 35,
+    "subway_vent_grate": 73,
+    "tree": 3657,
+    "waste_basket": 27
    },
-   "placed": 725,
+   "placed": 4523,
    "radius_m": 250.0,
-   "rows_in_range": 925,
+   "rows_in_range": 4649,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_0",
-    "t_-6_0"
+    "t_-5_1",
+    "t_-6_-1",
+    "t_-6_0",
+    "t_-6_1"
    ],
-   "tree_instances_scaled": 99,
-   "tree_mean_scale": 0.919,
-   "tree_scale_out_of_band": 0,
-   "tree_species_substituted": 79,
-   "triangles": 1202318,
+   "tree_instances_scaled": 3623,
+   "tree_mean_scale": 0.871,
+   "tree_scale_out_of_band": 34,
+   "tree_species_substituted": 3004,
+   "triangles": 1020190,
    "unmapped_kinds": {
-    "artwork": 4,
+    "artwork": 6,
     "drinking_fountain": 3,
-    "memorial": 6,
+    "memorial": 7,
     "misc_structure": 1
    }
   },
   "radius_m": 720.7110795832725,
-  "seconds": 256.13,
+  "seconds": 702.13,
+  "structures": {
+   "imported": [
+    "t_-5_0",
+    "t_-6_-1",
+    "t_-6_0",
+    "t_-6_1"
+   ],
+   "tiles_imported": 4,
+   "tiles_without_a_file": 1,
+   "triangles": 48520
+  },
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -950,7 +1258,7 @@
    "z_max_m": 13.49,
    "z_min_m": -4.11
   },
-  "triangles": 4500015
+  "triangles": 4500125
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -960,26 +1268,34 @@
   "radius_m": 720.7110795832725
  },
  "seconds": {
-  "render": 69.4,
-  "scene": 265.9,
-  "total": 335.3
+  "render": 190.6,
+  "scene": 844.1,
+  "total": 1034.7
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 132.0 m above its ground",
-  "subject_blocked_at_m": 37.5,
+  "subject_blocked_at_m": 35.9,
   "subject_blocked_by": "t_-6_0_limestone",
-  "subject_fan_from": "the subject's own measured height (J74)",
-  "subject_fan_half_angle_deg": 15.0,
-  "subject_fan_m": 264.0,
+  "subject_clear_fraction": 0.0,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate; clipped to the frame, because a ray outside the picture tests something that is not in it",
+  "subject_fan_half_angle_deg": 5.52,
+  "subject_fan_m": 39.3,
+  "subject_fan_tall_m": 264.0,
+  "subject_fan_v_half_angle_deg": 25.33,
   "subject_lands_at_m": null,
   "subject_lands_on": null,
+  "subject_own_fabric_nearest": null,
+  "subject_own_fabric_nearest_m": null,
   "subject_range_m": 203.1,
-  "subject_rays": 5,
+  "subject_rays": 13,
   "subject_rays_clear": 0,
   "subject_rays_into_nothing": 0,
+  "subject_rays_on_own_fabric_nearer_than_recorded": 0,
   "subject_rays_on_subject": 0,
   "subject_reach_m": 25.0,
-  "subject_visible": false
+  "subject_verdict_rule": "at least one ray lands on the subject (J78)",
+  "subject_visible": false,
+  "subject_visible_fraction": 0.0
  },
  "slug": "landmark_40_wall_street",
  "status": "rendered",
@@ -996,12 +1312,19 @@
     "within_120_m": true
    },
    "object": "lm_40_wall_street.2",
-   "rays_cast": 17,
-   "rays_on_built_fabric": 17,
+   "rays_cast": 43,
+   "rays_on_built_fabric": 43,
    "z": 272.76
   },
   "name": "40 Wall Street (Trump Building)",
-  "origin_distance_m": 200.4
+  "origin_distance_m": 200.4,
+  "plan_extent": {
+   "is_tile_mesh": false,
+   "narrow_m": 32.6,
+   "note": "the bounding box of the object the height was measured off",
+   "object": "lm_40_wall_street.2",
+   "width_m": 39.3
+  }
  },
  "sun": {
   "azimuth_deg": 242.86571652878922,
