@@ -217,19 +217,28 @@ def test_terrain_and_pavement_are_not_drawn_under_a_landmark_s_own_ground():
             assert not r2, f"1 WTC is a tower shell and should supply no ground, got {a2:.0f} m2"
 
 
-def test_a_deck_metres_above_the_heightmap_does_not_cut_the_terrain_under_it():
-    """Hudson Yards' plaza is 20,061 m2 at 7.82 m; the heightmap under it does not agree with that within a metre.
+def test_the_hudson_yards_ground_faces_cut_the_terrain_now_that_the_datum_is_the_decks_median():
+    """Hudson Yards' 20,061 m2 of ground faces now stand at the heightmap's median under them, so they cut.
 
-    A modelled surface that far from the published ground is not a statement about where the ground is,
-    and cutting the terrain under it would leave a hole (or a lip) where there is real ground.  When this
-    test was written the plaza stood **+5.34 m above** a heightmap median of 2.48 m -- the 2013 flight's
-    rail-yard floor -- and that scene's own assessment said the Vessel "hovers on a disc above the plaza
-    with nothing under it".  Since the platform was decked from its survey (docs/DEVIATIONS.md J85,
-    ADR-022) the heightmap median under the plaza is 8.88 m and the catalogue's 7.8232 m stands
-    **-1.06 m below** it: the same rule refuses the cut from the other side, because 7.8232 m is a mean
-    of six footprint grounds across two epochs, not a survey of the deck.  The sign is asserted so that
-    re-deriving the landmark datum -- the next decision -- has to revisit this test rather than pass it
-    by accident.
+    When this test was first written the model's datum was 7.8232 m -- ``c_common.ground_of``, the mean of
+    six OTI footprint grounds across two epochs -- and it stood **+5.34 m** above the 2013 rail-yard floor
+    the heightmap still held; after the platform was decked from its survey (docs/DEVIATIONS.md J85,
+    ADR-022) the same datum stood **-1.06 m** below a heightmap median of 8.88 m, and this test asserted
+    that sign so that the datum decision had to come back here.  It has: ``c_hudson_yards.GROUND_Z_M`` is
+    8.88 m, the median of the burned deck under those faces (5,009 lattice samples on the published
+    t_-5_5 / t_-5_6 terrain.png: p10 5.71, p50 8.88, p90 11.35 m), so ``above_heightmap_m`` is 0.00 and
+    the rule in ``landmark_ground_outlines`` accepts the faces as ground.  Held here: the outlines are
+    returned, their area is the model's (about 20,061 m2), and the datum is inside the band.
+
+    Two things this test does **not** claim, because the measurement says otherwise.  First, the "plaza
+    face" is mostly not a plaza: 18,313 m2 of it is the Shops podium's plan, filled from the ring of
+    spandrel-top faces the curtain wall carries 0.7 m above the datum; 1,606 m2 is the Vessel's plaza disc
+    and 142 m2 the Shed's rail tops.  The model has no ground face over the public square at all -- the
+    square's five 'New' spot elevations (10.0-12.3 m) all lie outside these outlines.  Second, the datum is
+    a median, not a fit: the deck under the faces grades about 4 % from Tenth Avenue to the square, only
+    39 % of it is within a metre of the median, and the flat model stands 4.0 m above the survey at
+    10 Hudson Yards' street corner and 2.6 m below it under the Vessel.  Both are recorded in J85 and the
+    third amendment to I11b; a model that follows the grade is the next landmark decision, not this one.
     """
     _skip_without_bpy()
     import scene as vscene
@@ -252,15 +261,18 @@ def test_a_deck_metres_above_the_heightmap_does_not_cut_the_terrain_under_it():
     if tpl is None:
         pytest.skip(f"{glb} did not import")
     ox, oy, oz = (float(v) for v in e["origin_tm"])
+    assert oz == pytest.approx(8.88, abs=0.005), f"the catalogue datum is {oz} m; J85 set it to 8.88 m (the deck's median)"
     obs = tpl.instance("lm_hy", Matrix.Translation((ox, oy, oz)), bpy.context.scene.collection)
     bpy.context.view_layer.update()
     rings, area, why = vscene.landmark_ground_outlines(obs, oz, sampler=vscene.TerrainSampler())
-    assert not rings, f"the Hudson Yards podium cut {area:.0f} m2 of terrain"
-    above = float(why.get("above_heightmap_m", 0.0))
-    assert abs(above) > vscene.LANDMARK_GROUND_BAND_M, why
-    assert above < 0.0, f"the plaza stands {above:+.2f} m from the heightmap: the terrain under it changed (J85 put it " \
-                        f"at 8.88 m) or the catalogue datum did; either way DEVIATIONS.md J85 and this test have to agree"
-    assert "deck on the ground, not" in why.get("reason", "")
+    assert rings, f"the Hudson Yards ground faces were refused: {why}"
+    assert area == pytest.approx(20061.0, abs=250.0), f"the outlines cover {area:.0f} m2, not the model's 20,061 m2"
+    above = float(why.get("above_heightmap_m", 99.0))
+    assert abs(above) <= vscene.LANDMARK_GROUND_BAND_M, why
+    assert abs(above) <= 0.05, f"the datum is the deck's median under these faces, so this is {above:+.2f} m only if the terrain " \
+                               f"under them changed (J85 put the median at 8.88 m) or the catalogue datum did; either way " \
+                               f"DEVIATIONS.md J85 and this test have to agree"
+    assert "reason" not in why, why
 
 
 def test_terrain_sampler_orientation_matches_the_north_first_png_row():

@@ -4,25 +4,51 @@
  "name": "The Shed",
  "group": "landmark",
  "viewpoint": {
-  "lat": 40.752774,
-  "lon": -74.00089,
-  "azimuth_deg": 290.0,
+  "lat": 40.753074,
+  "lon": -74.00204,
+  "lat_was": 40.752774,
+  "lon_was": -74.00089,
+  "azimuth_deg": 291.3,
+  "azimuth_deg_was": 290.0,
   "note": "the Hudson Yards public square about 180 m east-south-east of the building, looking west-north-west at The Shed and its telescoping shell",
+  "source": "moved onto the centroid of the DoITT planimetric public-plaza polygon the Hudson Yards public square is mapped as (NYC Open Data ue2e-9jm2 'plan_public_plazas', feat_code 6000 / sub_code 600000, status 'New', source_id 0 -- the id the planimetric datasets give every record of status 'New', so it is the record's own id and not a placeholder, exactly as for the square's five 'New' spot elevations in terrain/platforms.py; shape_area 16,909.95 sq ft = 1,571.0 m2; feature 713 of data/raw/nyc_opendata/plan_public_plazas.geojson, row 405 of data/processed/roads/pavement/t_-5_5.parquet; centroid NYC_TM (-4394.66, 5895.14) = (40.753074, -74.002040), 10.5 m inside the polygon's own boundary and 13.0 m west of OTI footprint 1088961), on the J75 rule that the city's own survey is the independent anchor (a real polygon, not a point chosen by eye) and J85's rule that a camera on the public square stands on ground the survey put there; the coordinate this replaces (40.752774, -74.00089 = NYC_TM (-4297.6, 5861.73)) stood 8.3 m inside OTI footprint 1088961 (the Shops / 30 Hudson Yards podium, which c_hudson_yards builds as a 34 m plinth), so the camera stood inside a building, 102.7 m from where it stands now; from the centroid the subject is 77.8 m away at 291.3 deg (the note's 'about 180 m east-south-east' described the old coordinate (180.4 m from the subject); from the centroid the building is 77.8 m away, the same west-north-west bearing); the heightmap at the new coordinate reads 7.05 m (the J85 platform deck interpolated between Tenth Avenue's 5.2-5.6 m spots and the square's 10.0-12.3 m spots -- the deck rule's level, not a survey of this point) against 5.3 m at the old one (docs/DEVIATIONS.md J85, the landmark-datum decision)",
+  "azimuth_source": "the bearing from the corrected viewpoint to the subject coordinate (40.753328, -74.002898 = NYC_TM (-4467.13, 5923.35)); the 290.0 deg it replaces pointed at the subject from the replaced coordinate to within 0.1 deg (290.0 recomputed), which is how the two were found to share one error (J75, J85)",
   "representative": false,
   "position_audit": {
-   "inside_footprint": {
+   "moved": true,
+   "was_inside_footprint": {
     "dataset": "OTI Building Footprints (buildings/footprints_raw.parquet)",
     "bin": 1088961,
     "name": "the Shops / 30 Hudson Yards podium, modelled as a 34 m plinth in c_hudson_yards",
     "distance_inside_m": 8.3,
-    "podium_west_face_x_at_this_latitude": -4314.5
+    "podium_west_face_x_at_this_latitude": -4314.5,
+    "note": "the coordinate this viewpoint had until the J85 landmark-datum decision (40.752774, -74.00089); measured, published and pinned by pipeline/tests/test_reference_subject_positions.py before it was moved (J82's rule), and still pinned there as lat_was/lon_was so the measurement stays in the record"
+   },
+   "on_polygon": {
+    "dataset": "DoITT planimetric public plazas (NYC Open Data ue2e-9jm2, data/raw/nyc_opendata/plan_public_plazas.geojson) via data/processed/roads/pavement/t_-5_5.parquet",
+    "feat_code": 6000,
+    "sub_code": 600000,
+    "status": "New",
+    "source_id": "0",
+    "source_id_note": "0 is the id the planimetric datasets assign to every record of status 'New' (the same convention as the square's five 'New' spot elevations in terrain/platforms.py), so it is the record's own id, not a placeholder; the polygon is identified by its area and centroid",
+    "shape_area_sqft": 16909.952916,
+    "area_m2": 1571.0,
+    "centroid_tm": [
+     -4394.66,
+     5895.14
+    ],
+    "raw_feature_index": 713,
+    "processed_row": 405,
+    "distance_inside_polygon_m": 10.5,
+    "distance_outside_footprint_1088961_m": 13.0
    },
    "terrain_m": {
-    "before_J85": 3.18,
-    "after_J85": 5.3,
-    "note": "heightmap at the recorded viewpoint, bilinear (DATA_CONTRACTS section 3); after J85 it is the platform deck interpolated from the perimeter survey (no spot elevation lies inside the podium footprint; the square's own New spots read 10.05-12.34 m and Tenth Avenue's 5.2-7.2 m), so it is the deck rule's level, not a survey of this point, inside the podium footprint"
+    "before_J85_at_old_coordinate": 3.18,
+    "after_J85_at_old_coordinate": 5.3,
+    "at_this_coordinate": 7.05,
+    "note": "heightmap, bilinear (DATA_CONTRACTS section 3); at this coordinate it is the J85 platform deck interpolated from the eight nearest survey points (Tenth Avenue's 'Unchanged' spots at 5.2-5.6 m to the east, the square's 'New' spots at 10.0-12.3 m to the north and west), so it is the deck rule's level, not a survey of this point; no spot elevation lies inside the plaza polygon"
    },
-   "not_moved_because": "the note puts the camera on the public square, which lies west of that footprint, but the exact position along the strip between the podium's west face and the subject is a choice a person should make, not a measurement; J82's rule: measured, published, not corrected. A real-polygon candidate: the centroid of the DoITT planimetric plaza polygon (feat_code 6000, 1,571 m2) at NYC_TM (-4394.7, 5895.1) = (40.753074, -74.00204), from which the Shed bears 291.3 deg at 77.8 m and the Vessel 350.5 deg at 81.7 m (docs/DEVIATIONS.md J85)"
+   "moved_because": "J85 recorded this viewpoint 8.3 m inside the podium footprint and published it unmoved (J82's rule) because the position along the open strip beside the podium was a choice, and named this polygon's centroid as the real-polygon candidate; the landmark-datum decision (J85, I11b third amendment) took the candidate, because a centroid of a surveyed polygon is a measurement and the strip was not: the camera now stands on the public square the note names, outside every OTI footprint"
   }
  },
  "subject": {

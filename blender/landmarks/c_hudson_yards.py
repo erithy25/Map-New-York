@@ -30,12 +30,23 @@ Dimensions used (source in brackets)
   the top. All **154 flights** are built as real stepped geometry (this is why the script's budget is 400k
   triangles).
 
+* Ground datum: local z = 0 is **8.88 m NAVD88** (``GROUND_Z_M``) -- the median of the platform deck the terrain
+  stage burned from the survey (``terrain/platforms.py`` register row ``hudson_yards_ery_platform``, ADR-022) under
+  the 20,061 m2 of upward faces this model carries at its ground, read from the published ``t_-5_5`` / ``t_-5_6``
+  ``terrain.png`` (5,009 lattice samples: p10 5.71, p50 8.88, p90 11.35 m; DEVIATIONS.md J85, I11b third amendment).
+  It replaces ``c_common.ground_of``'s 7.8232 m, which was the mean of six OTI footprint grounds across two epochs
+  (the Vessel's 2.74 m is the 2013 rail-yard floor) and not a survey of the deck. The datum is a **median, not a
+  fit**: the deck grades about 4 % from Tenth Avenue (4.9-5.6 m at the W 30th corner) up to the public square
+  (10.0-12.3 m), so this flat model stands 4.0 m above the survey at 10 Hudson Yards' street corner, 3.6 m above
+  it under the Shed's rails and 2.6 m below it under the Vessel. A model that follows that grade needs per-part
+  grounds and a sloped plaza, which this script does not build (stated below).
+
 Fidelity: real footprints; every published height, floor count and the Edge/Shed/Vessel dimensions above are
 modelled as geometry. Inferred (stated): the division of the two shared footprint polygons between buildings (cut at
 existing polygon vertices); tower plan shapes above the podium are simplified to their published massing (setbacks,
 chamfers, lobes) rather than measured floor plans; the podium of the Shops is a single 34 m volume. NOT modelled:
-the rail yard and platform below, the interiors, the retail signage, the public-square planting and the
-Thomas Heatherwick "Vessel" safety netting added in 2021.
+the rail yard and platform below, the grade of the platform deck (one flat datum, see above), the interiors, the
+retail signage, the public-square planting and the Thomas Heatherwick "Vessel" safety netting added in 2021.
 """
 from __future__ import annotations
 
@@ -62,13 +73,19 @@ VESSEL_FLIGHTS = 154
 VESSEL_LANDINGS = 80
 VESSEL_BASE_D, VESSEL_TOP_D = 15.2, 45.7
 PODIUM_TOP = 34.0
+# Ground datum, NAVD88 m: the median of the survey-burned platform deck (terrain/platforms.py, ADR-022) under this
+# model's 20,061 m2 of ground faces, measured on the published t_-5_5 / t_-5_6 terrain.png on 2026-09-09
+# (n 5,009 lattice samples, p10 5.71 / p50 8.88 / p90 11.35 m, min 4.41, max 12.11).  A median of a deck that grades
+# 4 %, not a fit; see the module docstring and DEVIATIONS.md J85.  Before: c_common.ground_of = 7.8232 m, the mean of
+# six OTI footprint grounds of two epochs, which stood 1.06 m below the burned deck (tests/test_comparison.py).
+GROUND_Z_M = 8.88
 
 
 def build():
     C.reset()
     cc.materials(["glass_blue", "glass_clear", "aluminium", "steel_dark", "steel_nirosta", "limestone", "concrete",
                   "roof_dark", "pavement", "granite_grey", "copper_new"])
-    g = cc.Group(ID, angle_deg=cc.GRID_ANGLE, origin_bin=B_PODIUM)
+    g = cc.Group(ID, angle_deg=cc.GRID_ANGLE, origin_bin=B_PODIUM, ground_z=GROUND_Z_M)
     objs: list = []
     P_pod = g.poly(B_PODIUM)
     P_10 = g.poly(B_10HY)
@@ -375,15 +392,25 @@ def main():
                           "bogies as separate objects; the Vessel built as 154 real stepped flights and 80 landings "
                           "widening 15.2 -> 45.7 m over 46.0 m. Inferred (stated): the split of the two shared "
                           "footprint polygons (cut at existing polygon vertices), the tower plan shapes above the "
-                          "podium (published massing, not measured floor plans) and the 34 m podium height. Not "
-                          "modelled: the rail yard and platform below, interiors, retail signage, plaza planting, "
-                          "and the Vessel's 2021 safety netting."),
+                          "podium (published massing, not measured floor plans) and the 34 m podium height. Ground "
+                          "datum 8.88 m NAVD88 = the median of the survey-burned platform deck under the model's "
+                          "ground faces (a median of a deck that grades 4 %, not a fit: +4.0 m at 10 HY's street "
+                          "corner, -2.6 m at the Vessel). Not modelled: the rail yard and platform below, the "
+                          "deck's grade, interiors, retail signage, plaza planting, and the Vessel's 2021 safety "
+                          "netting."),
                       dimensions={"30_hy_m": H30, "edge_deck_m": EDGE_DECK_Z, "edge_cantilever_m": EDGE_CANTILEVER,
                                   "35_hy_m": H35, "10_hy_m": H10, "55_hy_m": H55, "15_hy_m": H15, "50_hy_m": H50,
                                   "shed_shell_h_m": SHELL_H, "shed_shell_travel_m": SHELL_TRAVEL,
                                   "vessel_h_m": VESSEL_H, "vessel_flights": VESSEL_FLIGHTS,
                                   "vessel_landings": VESSEL_LANDINGS,
-                                  "vessel_diameter_m": [VESSEL_BASE_D, VESSEL_TOP_D], "podium_top_m": PODIUM_TOP},
+                                  "vessel_diameter_m": [VESSEL_BASE_D, VESSEL_TOP_D], "podium_top_m": PODIUM_TOP,
+                                  "ground_datum_m": GROUND_Z_M,
+                                  "ground_datum_source": ("median of the survey-burned platform deck (terrain/platforms.py "
+                                                          "hudson_yards_ery_platform, ADR-022) under the model's 20,061 m2 "
+                                                          "of ground faces, published t_-5_5/t_-5_6 terrain.png, n 5,009: "
+                                                          "p10 5.71 / p50 8.88 / p90 11.35 m; a median, not a fit "
+                                                          "(DEVIATIONS.md J85). Was 7.8232 m = c_common.ground_of, the "
+                                                          "mean of six OTI footprint grounds across two epochs")},
                       material_slots={"shell": "The Shed's movable shell is the object c_hudson_yards_shed_shell "
                                                "(role='shell'); translate it -83.2 m along local +x to retract it"},
                       notes="The Shed's shell is exported as its own node so the engine can animate it along the rails.")

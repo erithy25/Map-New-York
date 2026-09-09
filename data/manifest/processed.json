@@ -8361,14 +8361,14 @@
     1090274,
     1090391
    ],
-   "bytes": 21383616,
+   "bytes": 7067876,
    "footprint_iou": 0.9593,
-   "git_commit": "d25a557a7b9b",
+   "git_commit": "1259896bbaba",
    "path": "blender_out/landmarks/c_hudson_yards.glb",
-   "produced_at": "2026-09-06T14:49:42Z",
+   "produced_at": "2026-09-09T15:51:37Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "39d4dd68d108ea7d333c47a6005f8b8159da44b341140091763e6e0d8c2219c7",
+   "sha256": "0c2dc6ddc971d26eea0138630625ff20879e42abd3c7f5b529707d19a4dc7738",
    "sources": [
     "building_footprints"
    ],
@@ -9746,9 +9746,9 @@
     "no_label": 0,
     "non_finite_point": 0
    },
-   "git_commit": "40340b4422d5",
+   "git_commit": "1259896bbaba",
    "path": "data/processed/runtime/landmarks.nycb",
-   "produced_at": "2026-09-09T13:02:46Z",
+   "produced_at": "2026-09-09T15:45:26Z",
    "rows": 65,
    "schema": "nycb.landmarks/1",
    "sha256": "ff1203b8be44f09114238b09c8abb6d982282eb79bc30ca2035c3c24ac2756da",
@@ -9761,9 +9761,9 @@
   "runtime_nycb_layout": {
    "artifact_id": "runtime_nycb_layout",
    "bytes": 10927,
-   "git_commit": "40340b4422d5",
+   "git_commit": "1259896bbaba",
    "path": "data/processed/runtime/nycb_layout.json",
-   "produced_at": "2026-09-09T13:02:46Z",
+   "produced_at": "2026-09-09T15:45:26Z",
    "rows": null,
    "schema": "nycb.layout/1",
    "sha256": "d8ad3e49115fc0938370911943b023ccd60333e83c990edb9093646b176f0aca",
@@ -9783,9 +9783,9 @@
     "no_label": 866,
     "non_finite_point": 0
    },
-   "git_commit": "40340b4422d5",
+   "git_commit": "1259896bbaba",
    "path": "data/processed/runtime/pois.nycb",
-   "produced_at": "2026-09-09T13:02:46Z",
+   "produced_at": "2026-09-09T15:45:26Z",
    "rows": 1082160,
    "schema": "nycb.pois/1",
    "sha256": "0103ba58f99668a53144ff5b0768d0d35618592053f65aff3e65cb73200ca93c",
@@ -9808,9 +9808,9 @@
     "vertices": 3910302,
     "yield_links": 588201
    },
-   "git_commit": "40340b4422d5",
+   "git_commit": "1259896bbaba",
    "path": "data/processed/runtime/roadgraph.nycb",
-   "produced_at": "2026-09-09T13:02:46Z",
+   "produced_at": "2026-09-09T15:45:26Z",
    "rows": 122235,
    "schema": "nycb.roadgraph/1",
    "sha256": "1e230fb17f97e05b349d3d52098c0c7197d167482ae9cddc9e3651976400de99",
@@ -9829,9 +9829,9 @@
     "controllers": 19814,
     "phases": 39649
    },
-   "git_commit": "40340b4422d5",
+   "git_commit": "1259896bbaba",
    "path": "data/processed/runtime/signals.nycb",
-   "produced_at": "2026-09-09T13:02:46Z",
+   "produced_at": "2026-09-09T15:45:26Z",
    "rows": 19814,
    "schema": "nycb.signals/1",
    "sha256": "36b3d4d7af5eb20969198834b1eeb78eb6ed9006cc9860f9ce5418b9adf72b14",
@@ -9846,22 +9846,22 @@
    "counts": {
     "tiles": 2916
    },
-   "git_commit": "40340b4422d5",
+   "git_commit": "1259896bbaba",
    "path": "data/processed/runtime/tiles.nycb",
-   "produced_at": "2026-09-09T13:02:46Z",
+   "produced_at": "2026-09-09T15:45:26Z",
    "rows": 2916,
    "schema": "nycb.tiles/1",
-   "sha256": "980fba9bed8c8c05458e6e64226311ac5bd5b33c90bcccc9296a073a5fe79c25",
+   "sha256": "d36c10c26ebbfcefd5d36a8c538eda49cd99b2be546d861c696f16e78c18305b",
    "sources": [
     "tiles_index"
    ],
    "stage": "runtime.export",
    "totals": {
     "buildings": 1314408,
-    "props": 1883278,
+    "props": 3635997,
     "tiles_with_buildings": 1399,
     "tiles_with_nj": 1022,
-    "tiles_with_props": 1648
+    "tiles_with_props": 1680
    }
   },
   "runtime_transit_nycb": {
@@ -9978,9 +9978,9 @@
    "artifact_id": "terrain_overview_16m",
    "bytes": 19652052,
    "cell_m": 16.0,
-   "git_commit": "1fd7be7b517b",
+   "git_commit": "7fc9c82ee1f9",
    "path": "data/processed/terrain/overview_16m.tif",
-   "produced_at": "2026-09-09T14:35:25Z",
+   "produced_at": "2026-09-09T15:43:35Z",
    "rows": 11394000,
    "schema": "terrain.overview/1",
    "sha256": "44c98945f64c00e7347807958c49f802909a71fb436dae3b8222c9c8be60edb1",

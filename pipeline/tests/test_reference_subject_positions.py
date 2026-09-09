@@ -349,20 +349,32 @@ VIEWPOINT_NAMED_NODE = {
 VIEWPOINT_NODE_MAX_M = 15.0
 
 #: Viewpoints that were moved (J85), and so have to carry what they were and why, like a moved subject.
-MOVED_VIEWPOINTS = ("landmark_15_hudson_yards",)
+MOVED_VIEWPOINTS = ("landmark_15_hudson_yards", "landmark_hudson_yards_vessel", "landmark_the_shed")
 
-#: Viewpoints **known** to stand inside the OTI footprint of a building the landmark model builds as a solid
-#: plinth, with the distance measured when they were recorded (J85).  Not corrected, on J82's rule: the exact
-#: position along the open strip beside the podium is a choice a person should make.  Pinned so the fault
-#: cannot silently get worse and cannot be silently repaired without this test and DEVIATIONS.md J85 disagreeing.
-KNOWN_INSIDE_A_FOOTPRINT = {
+#: Viewpoints that **stood** inside the OTI footprint of a building the landmark model builds as a solid plinth,
+#: with the distance measured when they were recorded (J85: 52.1 m and 8.3 m inside the Shops / 30 Hudson Yards
+#: podium, BIN 1088961).  J85 published them unmoved on J82's rule -- the position along the open strip beside
+#: the podium was a choice -- and named a real polygon as the candidate: the DoITT planimetric public-plaza
+#: polygon of the Hudson Yards public square (feat_code 6000, 1,571 m2, source_id 0 -- the id the planimetric
+#: datasets give every record of status 'New', so the polygon is named here by its area and centroid).  The
+#: landmark-datum decision (J85, I11b third amendment) moved both onto that polygon's centroid, because the
+#: centroid of a surveyed polygon is a measurement and the strip was not.  The old distance stays pinned against
+#: ``lat_was``/``lon_was`` so the fault that was found cannot be quietly rewritten either way.
+MOVED_OUT_OF_A_FOOTPRINT = {
     "landmark_hudson_yards_vessel": (1088961, 52.1),
     "landmark_the_shed": (1088961, 8.3),
 }
 FOOTPRINT_PIN_BAND_M = 2.0
+PLAZA_FEAT_CODE = 6000
+PLAZA_AREA_M2 = 1571.0
+PLAZA_CENTROID_TM = (-4394.66, 5895.14)
+#: The polygon is 1,571 m2 and its centroid is 10.5 m inside its own boundary; a coordinate rounded to six
+#: decimals of a degree moves 0.05 m.  1 m is a **choice** that is far inside the first and far outside the second.
+PLAZA_CENTROID_MAX_M = 1.0
 
 NODES = PROCESSED / "roads" / "nodes.parquet"
 FOOTPRINTS = PROCESSED / "buildings" / "footprints_raw.parquet"
+PAVEMENT_T_5_5 = PROCESSED / "roads" / "pavement" / "t_-5_5.parquet"
 
 
 def _viewpoints() -> dict[str, tuple[dict, float, float]]:
@@ -422,16 +434,29 @@ def test_a_corrected_viewpoint_says_what_it_was_and_why():
         assert abs((bearing - float(vp["azimuth_deg"]) + 180.0) % 360.0 - 180.0) <= 0.1, (bearing, vp["azimuth_deg"])
 
 
-@pytest.mark.skipif(not FOOTPRINTS.is_file(), reason="the footprints have not been ingested")
-def test_a_viewpoint_pinned_inside_a_footprint_is_declared_rather_than_hidden():
-    """The two Hudson Yards square viewpoints stand inside the Shops podium's OTI footprint; say so and hold it."""
+@pytest.mark.skipif(not (FOOTPRINTS.is_file() and PAVEMENT_T_5_5.is_file()),
+                    reason="the footprints or the pavement tables have not been built")
+def test_a_viewpoint_moved_out_of_a_footprint_stands_on_the_plaza_polygon_and_says_where_it_was():
+    """The two Hudson Yards square viewpoints stand on the DoITT plaza polygon, outside the podium, and say so.
+
+    This is the inverse of the test it replaces, which pinned them 52.1 m and 8.3 m *inside* BIN 1088961.
+    Three things are held: the camera is inside the plaza polygon at its centroid and outside the podium
+    footprint; the coordinate it replaced (``lat_was``/``lon_was``) still measures the pinned distance inside
+    the footprint, so the record of the fault cannot drift; and the audit block says the move and its source.
+    """
     import geopandas as gpd
     from shapely.geometry import Point
 
     fp = gpd.read_parquet(FOOTPRINTS, columns=["bin", "geometry"])
+    pav = gpd.read_parquet(PAVEMENT_T_5_5, columns=["feat_code", "area_m2", "geometry"])
+    plazas = pav[(pav["feat_code"] == PLAZA_FEAT_CODE) & ((pav["area_m2"] - PLAZA_AREA_M2).abs() < 5.0)]
+    assert len(plazas) == 1, f"expected one {PLAZA_AREA_M2} m2 plaza polygon in t_-5_5, found {len(plazas)}"
+    plaza = plazas.geometry.iloc[0]
+    c = plaza.centroid
+    assert math.hypot(c.x - PLAZA_CENTROID_TM[0], c.y - PLAZA_CENTROID_TM[1]) < 0.1, (c.x, c.y)
     vps = _viewpoints()
     deviations = (Path(__file__).resolve().parents[2] / "docs" / "DEVIATIONS.md").read_text()
-    for slug, (bin_, pin) in KNOWN_INSIDE_A_FOOTPRINT.items():
+    for slug, (bin_, pin) in MOVED_OUT_OF_A_FOOTPRINT.items():
         if slug not in vps:
             continue
         vp, x, y = vps[slug]
@@ -439,11 +464,21 @@ def test_a_viewpoint_pinned_inside_a_footprint_is_declared_rather_than_hidden():
         assert len(geom) == 1, f"BIN {bin_} is not in the footprints"
         g = geom.iloc[0]
         p = Point(x, y)
-        assert g.contains(p), f"{slug}: recorded as inside BIN {bin_} (J85) and now stands outside it; " \
-                              f"KNOWN_INSIDE_A_FOOTPRINT and DEVIATIONS.md J85 have to say so"
-        d = float(g.boundary.distance(p))
-        assert abs(d - pin) <= FOOTPRINT_PIN_BAND_M, f"{slug}: pinned at {pin} m inside, measures {d:.1f} m"
+        assert not g.contains(p), f"{slug}: moved out of BIN {bin_} (J85) and stands inside it again"
+        assert plaza.contains(p), f"{slug}: stands outside the plaza polygon it was moved onto"
+        assert math.hypot(x - c.x, y - c.y) <= PLAZA_CENTROID_MAX_M, \
+            f"{slug}: {math.hypot(x - c.x, y - c.y):.2f} m from the plaza centroid it is recorded at"
+        wx, wy = (float(v) for v in lonlat_to_tm(vp["lon_was"], vp["lat_was"]))
+        w = Point(wx, wy)
+        assert g.contains(w), f"{slug}: lat_was/lon_was no longer stands inside BIN {bin_}; the record of the fault moved"
+        d = float(g.boundary.distance(w))
+        assert abs(d - pin) <= FOOTPRINT_PIN_BAND_M, f"{slug}: was pinned {pin} m inside, lat_was/lon_was measures {d:.1f} m"
         audit = vp.get("position_audit", {})
-        assert audit.get("inside_footprint", {}).get("bin") == bin_ and audit.get("not_moved_because"), \
-            f"{slug}: stands inside a footprint and its meta.json does not say so"
+        assert audit.get("moved") is True and audit.get("moved_because"), f"{slug}: moved and its meta.json does not say so"
+        assert audit.get("was_inside_footprint", {}).get("bin") == bin_ and \
+            abs(float(audit["was_inside_footprint"]["distance_inside_m"]) - pin) <= FOOTPRINT_PIN_BAND_M, \
+            f"{slug}: the audit lost the distance it was found at"
+        on = audit.get("on_polygon", {})
+        assert on.get("feat_code") == PLAZA_FEAT_CODE and abs(float(on.get("area_m2", 0.0)) - PLAZA_AREA_M2) < 5.0, \
+            f"{slug}: the audit does not name the plaza polygon"
         assert slug in deviations and "J85" in deviations
