@@ -41,15 +41,33 @@ KINDS: tuple[Kind, ...] = (
     Kind(1, "hydrant", "utility", "DEP fire hydrant", ("hydrants",), (0.30, 0.30, 0.75),
          "nominal: NYC DEP hydrant ~0.75 m above grade (typical; DEP does not publish a single standard)", "", "unitid"),
     Kind(2, "bus_shelter", "transit", "DOT/JCDecaux bus stop shelter", ("bus_stop_shelters",), (4.3, 1.6, 2.7),
-         "nominal: Grimshaw-designed NYC standard shelter (~14 ft x 5 ft footprint), approximate", "", "On street / cross street"),
+         "nominal: Grimshaw-designed NYC standard shelter (~14 ft x 5 ft footprint), approximate", "", "On street / cross street",
+         extra={"attrs": "shelter_id, corner, on_street, cross_street, boro; kerb: axis_deg, axis_source (nearest_segment|none), axis_segment_id, axis_distance_m, axis_rw_type, side (left|right|on of the segment's digitised direction), facing, heading_source (kerb_axis), heading_rule, rules, axis_match (named_street|nearest)",
+                "heading": "away_from_roadway: the perpendicular to the kerb axis pointing away from the centreline, so the "
+                           "open front (asset +Y) is to the footway and the glazed back to the kerb (a rule, kerb.RULES); axis = "
+                           "nearest roadway-class CSCL segment within 25 m, preferring one named as On_Street; NaN where none"}),
     Kind(3, "linknyc", "utility", "LinkNYC kiosk", ("linknyc",), (0.90, 0.30, 2.9),
-         "published: Link1.0 kiosk 9 ft 6 in tall; Link5G is a 32 ft (9.75 m) pole", "0 Link1.0, 1 Link5G_Ad, 2 Link5G_NonAd", "site id"),
+         "published: Link1.0 kiosk 9 ft 6 in tall; Link5G is a 32 ft (9.75 m) pole", "0 Link1.0, 1 Link5G_Ad, 2 Link5G_NonAd", "site id",
+         extra={"attrs": "site_id, kiosk_type, status, address; kerb: axis_deg, axis_source (nearest_segment|none), axis_segment_id, axis_distance_m, axis_rw_type, side (left|right|on of the segment's digitised direction), facing, heading_source (kerb_axis), heading_rule, rules",
+                "heading": "along_kerb: the kerb axis itself, so the slab stands perpendicular to the kerb with its two screens "
+                           "(asset +/-Y) looking along the footway (a rule, kerb.RULES); NaN where no roadway segment is within 25 m"}),
     Kind(4, "newsstand", "commerce", "Licensed sidewalk newsstand", ("newsstands",), (3.7, 1.8, 2.9),
-         "legal maximum 72 sq ft footprint (NYC Admin Code 20-231); Cemusa standard unit ~12 ft x 6 ft (approximate height)", "", "street"),
+         "legal maximum 72 sq ft footprint (NYC Admin Code 20-231); Cemusa standard unit ~12 ft x 6 ft (approximate height)", "", "street",
+         extra={"attrs": "newsstand_id, street, built, boro; kerb: axis_deg, axis_source (nearest_segment|none), axis_segment_id, axis_distance_m, axis_rw_type, side (left|right|on of the segment's digitised direction), facing, heading_source (kerb_axis), heading_rule, rules",
+                "heading": "away_from_roadway: serving window and racks (asset +Y) to the footway, service door to the kerb "
+                           "(a rule, kerb.RULES); NaN where no roadway segment is within 25 m"}),
     Kind(5, "bike_shelter", "transit", "DOT covered bicycle parking shelter", ("bike_shelters",), (4.3, 1.6, 2.7),
-         "nominal: same family as the bus shelter (Cemusa), approximate", "", "location"),
+         "nominal: same family as the bus shelter (Cemusa), approximate", "", "location",
+         extra={"attrs": "shelter_id, location, street, built; kerb: axis_deg, axis_source (nearest_segment|none), axis_segment_id, axis_distance_m, axis_rw_type, side (left|right|on of the segment's digitised direction), facing, heading_source (kerb_axis), heading_rule, rules",
+                "heading": "away_from_roadway, as the bus shelter it is drawn by (a rule, kerb.RULES); NaN where no roadway "
+                           "segment is within 25 m"}),
     Kind(6, "bike_rack", "transit", "Bicycle parking (OSM amenity=bicycle_parking); capacity where tagged", ("osm",), (0.50, 0.10, 0.86),
-         "published: DOT CityRack hoop 34 in tall", "0 unknown type, 1 stands/hoop, 2 wall_loops/rack, 3 shed/lockers", "OSM name"),
+         "published: DOT CityRack hoop 34 in tall", "0 unknown type, 1 stands/hoop, 2 wall_loops/rack, 3 shed/lockers", "OSM name",
+         extra={"attrs": "osm_id, subtype, operator, ref, material, support; kerb: axis_deg, axis_source (nearest_segment|none), axis_segment_id, axis_distance_m, axis_rw_type, side (left|right|on of the segment's digitised direction), facing, heading_source (kerb_axis), heading_rule, rules; an OSM direction tag is kept "
+                         "as the heading with heading_source osm_direction and kept_source_heading",
+                "heading": "toward_roadway: the perpendicular to the kerb axis pointing at the centreline, so the hoop (asset "
+                           "+X) lies along the kerb (a rule, kerb.RULES; the hoop is symmetric under a half turn); an OSM "
+                           "direction wins where one exists; NaN where no roadway segment is within 25 m"}),
     Kind(7, "citibike_dock", "transit",
          "Citi Bike station (GBFS station_information) expanded into its parts: one row per dock unit and one kiosk row "
          "per station; capacity (docks) is carried on the kiosk row, so sum(capacity) over the kind is the dock-row count. "
@@ -62,10 +80,13 @@ KINDS: tuple[Kind, ...] = (
          "otherwise; 0 is never written",
          "station name",
          extra={"attrs": "station_id, short_name, region_id, name, part (kiosk|dock|bike), dock_index, capacity, "
-                         "axis_deg, axis_source (nearest_segment|none), axis_segment_id, axis_distance_m, rules; "
+                         "axis_deg, axis_source (nearest_segment|none), axis_segment_id, axis_distance_m, side "
+                         "(left|right|on), facing (away_from_roadway), rules; "
                          "(bike) snapshot_last_updated, num_bikes_available, num_ebikes_available",
-                "heading": "axis - 90 so the dock's tileable +X lies along the kerb; NaN where no CSCL segment is "
-                           "within 25 m (the run is then east-west, the direction consumers draw a NaN heading in)"}),
+                "heading": "the perpendicular to the kerb axis pointing away from the centreline (away_from_roadway: the "
+                           "kiosk terminal and the dock forks to the footway, a rule; the side is read from the geometry, "
+                           "kerb.side_of_centreline), so the dock's tileable +X lies along the kerb; NaN where no CSCL "
+                           "segment is within 25 m (the run is then east-west, the direction consumers draw a NaN heading in)"}),
     Kind(8, "subway_entrance", "transit", "MTA subway entrance/exit (data.ny.gov 2024)", ("subway_entrances",), (1.5, 3.0, 2.4),
          "nominal stair opening; globe lamps 2.4 m", "0 stair, 1 escalator, 2 elevator, 3 easement/station house (no globe)",
          "Stop name — routes", extra={"attrs": "lines, entrance_type, has_globe (0 none, 1 green, 2 red), entry, exit"}),
@@ -93,7 +114,11 @@ KINDS: tuple[Kind, ...] = (
     Kind(23, "manhole", "utility", "Manhole cover (OSM man_made=manhole; rule-based fill flagged source=1)", ("osm", "rule:manhole_40m"),
          (0.61, 0.61, 0.0), "nominal: 24 in cover", "", "manhole type"),
     Kind(24, "bus_stop_sign", "transit", "MTA bus stop sign pole at every GTFS bus stop", ("gtfs_bus",), (0.45, 0.1, 3.0),
-         "nominal pole-mounted MTA bus stop sign", "", "stop name", extra={"attrs": "stop_id, routes"}),
+         "nominal pole-mounted MTA bus stop sign", "", "stop name",
+         extra={"attrs": "stop_id, routes, has_shelter, feeds; kerb: axis_deg, axis_source (nearest_segment|none), axis_segment_id, axis_distance_m, axis_rw_type, side (left|right|on of the segment's digitised direction), facing, heading_source (kerb_axis), heading_rule, rules, axis_match (named_street|nearest)",
+                "heading": "along_kerb: the kerb axis itself, so the two-sided blade (asset +Y) is perpendicular to the kerb "
+                           "and reads from the approaching bus (a rule, kerb.RULES); axis = nearest roadway-class CSCL segment "
+                           "within 25 m, preferring one named as the first street of the GTFS stop name; NaN where none"}),
     Kind(25, "parks_comfort_station", "parks", "NYC Parks structure with public restroom", ("parks_structures",), (0.0, 0.0, 0.0),
          "per-instance: footprint dims and roof height from the dataset", "", "DESCRIPTION", extra={"attrs": "bin, footprint_w, footprint_d, area_m2"}),
     Kind(26, "parks_recreation_center", "parks", "NYC Parks recreation center building", ("parks_structures",), (0.0, 0.0, 0.0),

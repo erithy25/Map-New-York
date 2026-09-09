@@ -18,6 +18,8 @@ Everything below that the sources do not say is a rule, named in :data:`RULES`, 
 (:func:`station_axes`, the same tangent :func:`rules._densify` uses) reduced to an undirected line; where no
 segment lies within :data:`AXIS_MAX_M` the run is laid east--west with ``heading`` NaN, which is the direction
 both consumers draw a NaN heading in (yaw 0, asset +X = east), so the file says what the picture shows.
+Which side of the centreline a station stands on is read from the geometry (:func:`station_facing`, through
+:func:`kerb.side_of_centreline`), and the kiosk and docks face away from it, toward the footway.
 """
 from __future__ import annotations
 
@@ -63,8 +65,13 @@ RULES: tuple[str, ...] = (
     "axis = local bearing of the nearest CSCL centreline within 25 m, reduced mod 180; no segment within reach "
     "-> east-west with heading NaN (the consumers' NaN convention)",
     "the kiosk stands one pitch (0.90 m) beyond the last dock at the axis+180 end of the run (south / west)",
-    "docks and kiosk face the same side of the kerb (heading = axis - 90); which side is the sidewalk is not in "
-    "any source of this build",
+    "docks and kiosk face the footway: heading = the perpendicular to the axis that points away from the "
+    "centreline (away_from_roadway), the side read from the geometry -- the sign of the cross product of the "
+    "segment's local tangent with the vector from the foot of the perpendicular to the GBFS point "
+    "(kerb.side_of_centreline), not a rule. What is a rule is the facing itself: the kiosk's terminal and "
+    "the docks' forks toward the footway, so the docked bikes (nose along the dock's front) extend toward "
+    "the roadway; the asset docstrings do not say. A station within 0.5 m of the centreline is a coin "
+    "(counted). No segment within reach -> heading NaN",
     "a station of capacity 0 is its kiosk alone",
     "bikes are written only from a station_status snapshot; num_bikes_available is capped at capacity and the "
     "bikes fill the docks from the kiosk end (the snapshot says how many, never which)",
@@ -108,16 +115,8 @@ def station_axes(x: np.ndarray, y: np.ndarray, seg: dict | None, max_dist_m: flo
     pts = shapely.points(np.asarray(x, dtype=np.float64), np.asarray(y, dtype=np.float64))
     qi, li = tree.query_nearest(pts, return_distance=False, all_matches=False)
     near = lines[li]
-    dist = shapely.distance(pts[qi], near)
-    length = shapely.length(near)
-    d = shapely.line_locate_point(near, pts[qi])
-    eps = np.minimum(1.0, np.maximum(length * 1e-3, 0.05))
-    p0 = shapely.get_coordinates(shapely.line_interpolate_point(near, np.maximum(d - eps, 0.0)))[:, :2]
-    p1 = shapely.get_coordinates(shapely.line_interpolate_point(near, np.minimum(d + eps, length)))[:, :2]
-    t = p1 - p0
-    nrm = np.hypot(t[:, 0], t[:, 1])
-    nrm[nrm == 0] = 1.0
-    bearing = np.degrees(np.arctan2(t[:, 0] / nrm, t[:, 1] / nrm)) % 360.0
+    frame = local_frame(near, pts[qi])
+    dist, length, bearing = frame["distance_m"], frame["length_m"], frame["bearing_deg"]
     seg_rows = np.flatnonzero(ok)[li]
     out["distance_m"][qi] = dist
     out["segment_id"][qi] = np.asarray(seg["segment_id"])[seg_rows]
@@ -128,6 +127,33 @@ def station_axes(x: np.ndarray, y: np.ndarray, seg: dict | None, max_dist_m: flo
     for i in qi[accept].tolist():
         out["axis_source"][i] = "nearest_segment"
     return out
+
+
+def local_frame(lines: np.ndarray, pts: np.ndarray) -> dict:
+    """The local frame of every point on its own line: the tangent :func:`rules._densify` takes, and the foot.
+
+    ``lines[i]`` is the segment point ``pts[i]`` is measured against (one line per point). Returns arrays
+    ``distance_m`` (point to line), ``length_m``, ``along_m`` (the projection's offset along the line),
+    ``proj`` (n, 2: the foot of the perpendicular), ``tangent`` (n, 2: unit chord between the points ``eps``
+    before and after the foot, in the line's digitised vertex order) and ``bearing_deg`` (compass bearing of
+    that tangent, 0-360). :func:`station_axes` and :mod:`.kerb` share it so a dock, a shelter and a rule lamp
+    on the same block agree on the kerb's direction to the last digit.
+    """
+    lines = np.asarray(lines, dtype=object)
+    pts = np.asarray(pts, dtype=object)
+    dist = shapely.distance(pts, lines)
+    length = shapely.length(lines)
+    d = shapely.line_locate_point(lines, pts)
+    eps = np.minimum(1.0, np.maximum(length * 1e-3, 0.05))
+    p0 = shapely.get_coordinates(shapely.line_interpolate_point(lines, np.maximum(d - eps, 0.0)))[:, :2]
+    p1 = shapely.get_coordinates(shapely.line_interpolate_point(lines, np.minimum(d + eps, length)))[:, :2]
+    proj = shapely.get_coordinates(shapely.line_interpolate_point(lines, d))[:, :2]
+    t = p1 - p0
+    nrm = np.hypot(t[:, 0], t[:, 1])
+    nrm[nrm == 0] = 1.0
+    t = t / nrm[:, None]
+    bearing = np.degrees(np.arctan2(t[:, 0], t[:, 1])) % 360.0
+    return {"distance_m": dist, "length_m": length, "along_m": d, "proj": proj, "tangent": t, "bearing_deg": bearing}
 
 
 # --------------------------------------------------------------------------------------- station status
@@ -174,18 +200,51 @@ def _pct(v: np.ndarray, qs=(5, 25, 50, 75, 90, 95, 99)) -> dict:
     return d
 
 
-def _unit(axis_deg: float) -> tuple[float, float, float, float]:
+def _unit(axis_deg: float, front_deg: float = np.nan) -> tuple[float, float, float, float]:
     """``(ux, uy, fx, fy)``: the run direction and the front (facing) direction for a compass axis.
 
-    The dock asset tiles along its +X and faces +Y; a row with ``heading = axis - 90`` is rotated so that its
-    +X lies along the compass direction ``axis`` and its +Y along ``axis - 90``. A NaN axis is drawn at yaw 0
+    The dock asset tiles along its +X and faces +Y; a row with ``heading = front`` is rotated so that its +Y
+    lies along the compass direction ``front`` and its +X along ``front + 90``, which for either perpendicular
+    of the axis is the axis line. ``front_deg`` is the perpendicular pointing away from the centreline
+    (:func:`station_facing`); where it is NaN the old ``axis - 90`` stands in. A NaN axis is drawn at yaw 0
     by every consumer, so its run direction is east and its front is north.
     """
     if not np.isfinite(axis_deg):
         return 1.0, 0.0, 0.0, 1.0
     a = np.radians(axis_deg)
     ux, uy = float(np.sin(a)), float(np.cos(a))
-    return ux, uy, -uy, ux
+    f = np.radians(front_deg if np.isfinite(front_deg) else axis_deg - 90.0)
+    return ux, uy, float(np.sin(f)), float(np.cos(f))
+
+
+def station_facing(x: np.ndarray, y: np.ndarray, seg: dict | None, axes: dict) -> dict:
+    """Add to :func:`station_axes`' dict the side of the centreline each station stands on and its front.
+
+    ``front_deg`` is the perpendicular to the axis pointing away from the centreline -- toward the footway,
+    the facing :data:`RULES` gives the kiosk and the docks -- read from the geometry by
+    :func:`kerb.side_of_centreline` on the segment ``station_axes`` accepted; ``side`` is ``left`` / ``right``
+    / ``on`` of that segment's digitised direction and ``offset_m`` the perpendicular distance. Stations
+    with no axis keep NaN / ''.
+    """
+    from .kerb import side_of_centreline, toward_roadway_deg
+    n = len(axes["axis_deg"])
+    axes["front_deg"] = np.full(n, np.nan)
+    axes["side"] = [""] * n
+    axes["offset_m"] = np.full(n, np.nan)
+    acc = np.flatnonzero(np.isfinite(axes["axis_deg"]))
+    if seg is None or acc.size == 0:
+        return axes
+    row_of = {int(s): i for i, s in enumerate(np.asarray(seg["segment_id"]).tolist())}
+    lines = np.asarray(seg["geometry"], dtype=object)[[row_of[int(s)] for s in axes["segment_id"][acc]]]
+    pts = shapely.points(np.asarray(x, dtype=np.float64)[acc], np.asarray(y, dtype=np.float64)[acc])
+    frame = local_frame(lines, pts)
+    sides = side_of_centreline(np.asarray(x, dtype=np.float64)[acc], np.asarray(y, dtype=np.float64)[acc],
+                               frame["proj"], frame["tangent"])
+    axes["front_deg"][acc] = (toward_roadway_deg(axes["axis_deg"][acc], sides["v"]) + 180.0) % 360.0
+    axes["offset_m"][acc] = sides["offset_m"]
+    for j, i in enumerate(acc.tolist()):
+        axes["side"][i] = sides["side"][j]
+    return axes
 
 
 def expand(cols: dict, kind_id: int, axes: dict, status: dict | None = None) -> tuple[dict, dict]:
@@ -221,7 +280,11 @@ def expand(cols: dict, kind_id: int, axes: dict, status: dict | None = None) -> 
     # ---- per-station geometry
     ax = np.asarray(axes["axis_deg"], dtype=np.float64)
     src = list(axes["axis_source"])
-    heading = np.where(np.isfinite(ax), (ax - 90.0) % 360.0, np.nan).astype(np.float32)
+    front = np.asarray(axes.get("front_deg", np.full(n_st, np.nan)), dtype=np.float64)
+    side = list(axes.get("side", [""] * n_st))
+    offset = np.asarray(axes.get("offset_m", np.full(n_st, np.nan)), dtype=np.float64)
+    front = np.where(np.isfinite(front), front, (ax - 90.0) % 360.0)
+    heading = np.where(np.isfinite(ax), front % 360.0, np.nan).astype(np.float32)
     run_len = cap.astype(np.float64) * PITCH_M
     seg_len = np.asarray(axes.get("segment_length_m", np.full(n_st, np.nan)), dtype=np.float64)
 
@@ -283,13 +346,15 @@ def expand(cols: dict, kind_id: int, axes: dict, status: dict | None = None) -> 
     k = 0
     for i in range(n_st):
         N = int(max(cap[i], 0))
-        ux, uy, fx, fy = _unit(ax[i])
+        ux, uy, fx, fy = _unit(ax[i], front[i])
         base = {"station_id": attrs_in[i].get("station_id", ""), "short_name": attrs_in[i].get("short_name", ""),
                 "region_id": attrs_in[i].get("region_id", ""), "name": names[i], "capacity": N,
                 "axis_source": src[i], "rules": "citibike.RULES"}
         if src[i] != "none":
             base.update({"axis_deg": round(float(ax[i]), 2), "axis_segment_id": int(axes["segment_id"][i]),
                          "axis_distance_m": round(float(axes["distance_m"][i]), 2)})
+            if side[i]:
+                base.update({"side": side[i], "facing": "away_from_roadway"})
         # dock i at c + (i - (N-1)/2) * pitch * u, i = 0 .. N-1; the kiosk one pitch past dock 0
         for j in range(N):
             s = (j - (N - 1) / 2.0) * PITCH_M
@@ -335,6 +400,9 @@ def expand(cols: dict, kind_id: int, axes: dict, status: dict | None = None) -> 
         "zero_capacity": zero_capacity,
         "axis_source": {s: int(src.count(s)) for s in sorted(set(src))},
         "axis_distance_m": _pct(np.asarray(axes["distance_m"], dtype=np.float64)),
+        "facing": "away_from_roadway (kiosk terminal and dock forks to the footway; the side is read from the geometry)",
+        "side": {s: int(side.count(s)) for s in ("left", "right", "on")},
+        "side_from_offset_under_0_5m": int(np.nansum(offset < 0.5)),
         "stations_with_no_axis": [
             {"station_id": attrs_in[i].get("station_id", ""), "name": names[i], "region_id": attrs_in[i].get("region_id", ""),
              "nearest_segment_m": (round(float(axes["distance_m"][i]), 1) if np.isfinite(axes["distance_m"][i]) else None)}
@@ -353,14 +421,21 @@ def expand(cols: dict, kind_id: int, axes: dict, status: dict | None = None) -> 
     return concat([keep, out]), report
 
 
-def apply(cols: dict, segments_path: Path, status_path: Path = STATUS) -> tuple[dict, dict]:
-    """The build's entry point: axes from the segments table, status from disk, then :func:`expand`."""
+def apply(cols: dict, segments_path: Path, status_path: Path = STATUS, seg: dict | None = None) -> tuple[dict, dict]:
+    """The build's entry point: axes and facing from the segments table, status from disk, then :func:`expand`.
+
+    ``seg`` is :func:`rules.load_segments`' dict when the caller already holds it (the build reads the table
+    once for this pass and :mod:`.kerb`); otherwise it is read from ``segments_path``.
+    """
     from .rules import load_segments
     kind_id = KIND_BY_NAME["citibike_dock"].id
     kind = np.asarray(cols["kind"], dtype=np.int16)
     rows = np.flatnonzero(kind == kind_id)
-    seg = load_segments(Path(segments_path))
-    axes = station_axes(np.asarray(cols["x"], dtype=np.float64)[rows], np.asarray(cols["y"], dtype=np.float64)[rows], seg)
+    if seg is None:
+        seg = load_segments(Path(segments_path))
+    sx = np.asarray(cols["x"], dtype=np.float64)[rows]
+    sy = np.asarray(cols["y"], dtype=np.float64)[rows]
+    axes = station_facing(sx, sy, seg, station_axes(sx, sy, seg))
     status = load_status(status_path)
     cols, report = expand(cols, kind_id, axes, status)
     report["status_snapshot_used"] = status is not None

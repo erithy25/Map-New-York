@@ -180,14 +180,60 @@ kiosk (one per station; the station's `capacity` and GBFS attributes live on thi
 the kind equals the number of dock rows), `variant` 2 is one dock unit at the observed 0.90 m pitch along the
 kerb axis, centred on the GBFS point, and `variant` 3 is a docked bicycle. Station identity is `attrs.station_id`
 (with `attrs.part` and `attrs.dock_index`), never `prop_id` contiguity — a long run may cross a tile edge. The
-kerb axis is the local bearing of the nearest CSCL centreline (`roads/segments.parquet`) within 25 m, written as
-`heading = axis − 90` with `attrs.axis_source = nearest_segment`, `axis_segment_id` and `axis_distance_m`; where no
-segment is within reach `axis_source = none`, `heading` is NaN and the run lies east–west, which is the direction
-every consumer draws a NaN heading in. Bicycles exist **only** where a GBFS `station_status` snapshot was
-ingested (`dataset_id` `citibike_gbfs_station_status`); each carries `attrs.snapshot_last_updated`, the one
+kerb axis is the local bearing of the nearest CSCL centreline (`roads/segments.parquet`) within 25 m, and
+`heading` is the perpendicular to it that points **away from the centreline** (`attrs.facing =
+away_from_roadway`: the kiosk's terminal and the docks' forks to the footway, the docked bikes extending toward
+the roadway), with `attrs.axis_source = nearest_segment`, `axis_segment_id`, `axis_distance_m` and `attrs.side`
+(`left` / `right` / `on` of the segment's digitised direction). Either perpendicular keeps the dock's tileable
++X along the kerb, so the run itself does not depend on the side. Which side the station stands on is **read
+from the geometry**, not ruled: the sign of the cross product of the segment's local tangent with the vector
+from the foot of the perpendicular to the GBFS point (`furniture/kerb.py::side_of_centreline`, §8.2); a station
+within 0.5 m of the centreline is a coin and is counted in `build_summary.json` `citibike.side_from_offset_under_0_5m`.
+Where no segment is within reach `axis_source = none`, `heading` is NaN and the run lies east–west, which is the
+direction every consumer draws a NaN heading in. Bicycles exist **only** where a GBFS `station_status` snapshot
+was ingested (`dataset_id` `citibike_gbfs_station_status`); each carries `attrs.snapshot_last_updated`, the one
 instant (ttl 60 s) whose occupancy it is, and a build without the snapshot has no bikes rather than an invented
-occupancy. Which side of the kerb the run stands on and which end carries the kiosk are rules, listed in
-`build_summary.json` under `citibike.rules`; the source has neither.
+occupancy. Which end carries the kiosk and which way the bikes extend are rules, listed in `build_summary.json`
+under `citibike.rules`; the source has neither.
+
+### 8.2 Kerb-side kinds carry the kerb's heading and the side of the centreline
+`heading` is, for every kind, the compass bearing of the asset's authored front (+Y; `props_catalog.json`
+`kinds[].heading_meaning`), drawn by `blender/verify/scene.py` as yaw `−heading` about +Z and by
+`unreal/.../build_levels.py` as yaw `heading − 90` in the X-east / Y-south frame — both put the front at the
+compass bearing, and both draw NaN facing north. Six dataset-placed kinds whose loaders carry no heading —
+`bus_shelter` (2), `linknyc` (3), `newsstand` (4), `bike_shelter` (5), `bike_rack` (6), `bus_stop_sign` (24) —
+receive it from the furniture stage's kerb pass (`furniture/kerb.py`, run after dedupe beside the Citi Bike
+expansion) from two things the sources hold and one rule per kind:
+
+* **axis** — the local bearing (mod 180) of the nearest *roadway-class* CSCL centreline within 25 m: `rw_type`
+  6 path, 7 step street, 12 non-physical, 13 U-turn and 14 ferry are not candidates. The tangent is the one
+  `rules._densify` and `citibike.station_axes` take (`citibike.local_frame`). For `bus_shelter` and
+  `bus_stop_sign` the source names the street served (`On_Street`; the first street of the GTFS stop name
+  `ON ST/CROSS ST`): the nearest segment within 25 m carrying that name is preferred (`attrs.axis_match =
+  named_street`, else `nearest`); the name match is a rule (`kerb.RULES`).
+* **side** — `attrs.side` is `left` / `right` / `on` of the segment's digitised direction, the sign of the
+  cross product of the local tangent with the vector from the foot of the perpendicular to the prop, in the
+  x-east / y-north frame. The digitised direction is arbitrary with respect to traffic, so `side` means
+  something only with `axis_segment_id`; what it fixes is where the roadway is (toward the centreline).
+* **facing** — `attrs.facing`, one rule per kind (`kerb.FACING`, spelled out in `kerb.RULES`,
+  `build_summary.json` `kerb.rules` and every row's `attrs.rules`), no siting document being held in the
+  repository:
+
+  | kind | `facing` | `heading` |
+  |---|---|---|
+  | `bus_shelter`, `bike_shelter`, `newsstand` | `away_from_roadway` | the perpendicular to the axis pointing away from the centreline (glazed back / service door to the kerb, open front / serving window to the footway) |
+  | `linknyc`, `bus_stop_sign` | `along_kerb` | the axis itself (slab and blade perpendicular to the kerb; both are two-faced, so axis and axis + 180 draw the same) |
+  | `bike_rack` | `toward_roadway` | the perpendicular pointing at the centreline (hoop along the kerb; symmetric under a half turn) |
+
+`attrs` of these rows carry `axis_deg`, `axis_source` (`nearest_segment` | `none`), `axis_segment_id`,
+`axis_distance_m`, `axis_rw_type`, `side`, `facing`, `heading_source` (`kerb_axis`), `heading_rule`, `rules`
+(`kerb.RULES`), and for the two named kinds `axis_match`. A heading the loader already carried (an OSM
+`direction` on a `bike_rack`) is kept and marked `heading_source = osm_direction`, `kept_source_heading = true`.
+Where no roadway segment is within 25 m the heading stays NaN with `axis_source = none` and no `facing`, and both
+consumers draw the row facing north; the count per kind is in `build_summary.json` `kerb.<kind>.heading_nan`.
+A prop within 0.5 m of the centreline was geocoded into the roadbed: its perpendicular is right and its
+toward/away choice is a coin, counted as `side_from_offset_under_0_5m`, never smoothed. A prop that projects
+onto an endpoint of its segment gets the perpendicular to the segment's axis, not to the chord to the endpoint.
 
 ## 9. Transit
 `transit/bus_routes.parquet` (route_id, short_name, long_name, borough, shape geometry, headway by hour list<int16>), `transit/bus_stops.parquet` (stop_id, x, y, z, name, routes list, has_shelter), `transit/rail_structures.parquet` (elevated/embankment/open-cut segments with track geometry and deck height), `transit/ferry_routes.parquet`, `transit/subway_entrances.parquet` (entrance_id, x, y, z, lines list<string>, kind(stair, escalator, elevator), has_globe(0 none,1 green,2 red)).

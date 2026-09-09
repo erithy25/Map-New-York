@@ -107,8 +107,10 @@ def load_segments(path: Path = SEGMENTS):
     cols = ["segment_id", "geometry", "rw_type", "width_m", "borough"]
     # Older segment tables predate the column; read it when it is there and default to "" when it is
     # not, so a rule that needs it degrades to the road-class test rather than failing to load.
-    has_nonped = "nonped" in pq.read_schema(path).names
-    t = pq.read_table(path, columns=cols + (["nonped"] if has_nonped else []))
+    names = pq.read_schema(path).names
+    has_nonped = "nonped" in names
+    has_name = "street_name" in names
+    t = pq.read_table(path, columns=cols + (["nonped"] if has_nonped else []) + (["street_name"] if has_name else []))
     geoms = shapely.from_wkb(t.column("geometry").to_pylist())
     return {
         "segment_id": t.column("segment_id").to_numpy(zero_copy_only=False).astype(np.int64),
@@ -120,6 +122,10 @@ def load_segments(path: Path = SEGMENTS):
         # needs it to tell a park drive from a parkway mainline that CSCL types as a street.
         "nonped": (np.asarray(t.column("nonped").to_pylist(), dtype=object) if has_nonped
                    else np.full(t.num_rows, "", dtype=object)),
+        # The CSCL street name, for the kerb pass's named-street preference (:mod:`.kerb`): a shelter's
+        # source names the street it serves, and at a corner the nearest centreline is often the other one.
+        "street_name": (np.asarray([str(v or "") for v in t.column("street_name").to_pylist()], dtype=object)
+                        if has_name else np.full(t.num_rows, "", dtype=object)),
     }
 
 

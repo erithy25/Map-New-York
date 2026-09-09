@@ -13,6 +13,9 @@ Pipeline:
  3b. expand every Citi Bike station row into its kiosk, its dock units and -- only from a ``station_status``
     snapshot -- its bikes (:mod:`.citibike`). After dedupe on purpose: the 0.9 m dock pitch is inside the
     1.5 m bike_parking radius and dedupe would delete every other dock;
+ 3c. give the six dataset-placed kerb-side kinds (bus shelter, LinkNYC, newsstand, bike shelter, bike rack,
+    bus stop sign) the kerb's heading from the nearest roadway centreline and the side of it they stand on
+    (:mod:`.kerb`); a heading the loader already carried (an OSM ``direction``) is kept;
  4. sample the ground elevation from surveyed points (:mod:`.elevation`);
  5. assign ``prop_id = kind * 10^10 + rank within kind (sorted by x, y)`` and the tile, and write one
     ``props.parquet`` per tile plus ``furniture/props_catalog.json`` and ``furniture/build_summary.json``.
@@ -24,6 +27,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import logging
 import sys
 import time
@@ -44,6 +48,7 @@ from . import rules as R
 from . import trees as T
 from .catalog import HEIGHT_SOURCE, KINDS, KIND_BY_NAME, catalog_json
 from . import citibike
+from . import kerb
 from . import park_lamps
 from . import rooftop
 from .elevation import GroundModel
@@ -300,7 +305,11 @@ def write_tiles(table: pa.Table, tiles_root: Path) -> dict:
         if p.is_file() and p.stat().st_size == len(data) and p.read_bytes() == data:
             unchanged += 1
         else:
-            p.write_bytes(data)
+            # Written beside and renamed over: a comparison render or a tile reader that opens this
+            # file while the stage runs sees the old bytes or the new ones, never a truncated file.
+            tmp = p.with_name(p.name + ".tmp")
+            tmp.write_bytes(data)
+            os.replace(tmp, p)
             rewritten.append(str(name))
         files[str(name)] = int(sl.num_rows)
         total_bytes += len(data)
@@ -356,8 +365,17 @@ def main(argv: list[str] | None = None) -> int:
     # The single station row that went through dedupe is also what the 4 OSM bike_rack drops were
     # decided against.
     t = time.perf_counter()
-    cols, report["citibike"] = citibike.apply(cols, Path(a.segments))
+    segments = R.load_segments(Path(a.segments))          # read once for the two kerb passes
+    cols, report["citibike"] = citibike.apply(cols, Path(a.segments), seg=segments)
     report["timings_s"]["citibike"] = round(time.perf_counter() - t, 1)
+
+    # 3c. The six dataset-placed kerb-side kinds take the kerb's heading and the side of the centreline
+    # (:mod:`.kerb`, docs/DEVIATIONS.md J84). After dedupe, so the rows that survive are the rows measured,
+    # and before the ground sample; it writes heading and attrs of those kinds and nothing else.
+    t = time.perf_counter()
+    cols, report["kerb"] = kerb.apply(cols, Path(a.segments), seg=segments)
+    report["timings_s"]["kerb"] = round(time.perf_counter() - t, 1)
+    del segments
 
     t = time.perf_counter()
     ground = GroundModel.build()

@@ -1542,23 +1542,22 @@ def test_a_citibike_station_is_its_kiosk_and_every_one_of_its_docks():
         assert not bad_reasons, f"prop rows fell off the declared variant maps: {dict(bad_reasons)}"
 
 
-#: Dataset-placed kerb-side kinds that carry no heading at all, so every one of them is drawn facing
-#: north (docs/DEVIATIONS.md J84).  The number is the rows with a NaN heading -- all of them -- so a
-#: loader that starts writing a kerb bearing fails this in the good direction and the register moves.
-KERB_KINDS_FACING_NORTH = {
-    "bus_shelter": 3_380, "bike_rack": 9_864, "linknyc": 2_251, "newsstand": 360,
-    "bus_stop_sign": 13_341, "bike_shelter": 17,
+#: The six dataset-placed kerb-side kinds and the facing each takes (docs/DEVIATIONS.md J84, closed):
+#: heading = the compass bearing of the asset's +Y front, derived from the kerb axis (the nearest
+#: roadway-class CSCL centreline within 25 m) and the side of the centreline the prop stands on.
+#: ``nan_ceiling`` is the number of rows the rebuild left with no roadway segment in reach (the build
+#: summary's kerb.<kind>.heading_nan), pinned as a ceiling so a regression to "all NaN" fails here.
+KERB_KINDS_FACING = {
+    "bus_shelter": ("away_from_roadway", 4), "bike_shelter": ("away_from_roadway", 0),
+    "newsstand": ("away_from_roadway", 19), "linknyc": ("along_kerb", 0),
+    "bus_stop_sign": ("along_kerb", 123), "bike_rack": ("toward_roadway", 1_141),
 }
+KERB_KIND_ROWS = {"bus_shelter": 3_380, "bike_rack": 9_864, "linknyc": 2_251, "newsstand": 360,
+                  "bus_stop_sign": 13_341, "bike_shelter": 17}
 
 
-def test_kerb_kinds_carry_no_heading():
-    """J84's register: a shelter, a kiosk, a newsstand and a bus stop sign all stand parallel to a kerb,
-    and their loaders (furniture/datasets.py) never assign ``heading``; both consumers turn NaN into
-    yaw 0.  ``citibike.station_axes`` is the piece that would close it.  This test pins the fact so
-    it cannot drift silently in either direction: fixing a kind means removing it here and in J84.
-    """
-    import collections
-    import math
+def _kerb_rows():
+    """Every row of the six kerb kinds over every tile, with parsed attrs. Skips when the tiles are not built."""
     import sys
     sys.path.insert(0, str(REPO_ROOT / "pipeline"))
     from nycsim_pipeline.furniture.catalog import KIND_ID
@@ -1566,20 +1565,207 @@ def test_kerb_kinds_carry_no_heading():
     files = sorted(TILES.glob("*/props.parquet"))
     if not files:
         pytest.skip("no built tiles in this checkout")
-    want_ids = {KIND_ID[n]: n for n in KERB_KINDS_FACING_NORTH}
-    rows, nan = collections.Counter(), collections.Counter()
+    want = {KIND_ID[n]: n for n in KERB_KINDS_FACING}
+    out = {"kind": [], "x": [], "y": [], "heading": [], "attrs": []}
     for f in files:
-        t = pq.read_table(f, columns=["kind", "heading"])
-        for k, h in zip(t.column("kind").to_pylist(), t.column("heading").to_pylist()):
-            if k in want_ids:
-                rows[want_ids[k]] += 1
-                if h is None or math.isnan(h):
-                    nan[want_ids[k]] += 1
+        t = pq.read_table(f, columns=["kind", "x", "y", "heading", "attrs"])
+        k = t.column("kind").to_numpy(zero_copy_only=False)
+        idx = [i for i, v in enumerate(k.tolist()) if v in want]
+        if not idx:
+            continue
+        sub = t.take(idx)
+        out["kind"].extend(want[v] for v in sub.column("kind").to_pylist())
+        for c in ("x", "y", "heading", "attrs"):
+            out[c].extend(sub.column(c).to_pylist())
+    out["attrs"] = [json.loads(a) if a else {} for a in out["attrs"]]
+    return out
+
+
+def _angle_diff(a: float, b: float) -> float:
+    return abs((a - b + 180.0) % 360.0 - 180.0)
+
+
+def test_kerb_kinds_carry_the_kerbs_heading():
+    """J84's closure: every shelter, kiosk, newsstand, rack and bus stop blade with a roadway centreline
+    within 25 m carries the kerb's heading and the side of the centreline it stands on; the rest are NaN
+    with ``axis_source = none`` and their count is at most what the rebuild measured.
+
+    The contract identity is checked row by row: ``heading`` is finite iff ``attrs.axis_source`` is
+    ``nearest_segment`` (or the loader's own heading was kept), and then it is ``axis_deg`` itself
+    (along_kerb) or one of the two perpendiculars (toward / away), with ``attrs.facing`` the kind's rule.
+    """
+    import collections
+    import math
+
+    rows = _kerb_rows()
+    n = collections.Counter(rows["kind"])
+    for name, want in KERB_KIND_ROWS.items():
+        assert n[name] == want, f"{name}: {n[name]:,} rows, the catalogue count is {want:,}"
+    nan = collections.Counter()
+    bad = []
+    for i, name in enumerate(rows["kind"]):
+        a = rows["attrs"][i]
+        h = rows["heading"][i]
+        facing, _ceiling = KERB_KINDS_FACING[name]
+        if h is None or math.isnan(h):
+            nan[name] += 1
+            if a.get("axis_source") != "none" or "facing" in a:
+                bad.append((name, "NaN heading without axis_source none", a))
+            continue
+        if a.get("kept_source_heading"):
+            assert a.get("heading_source"), a
+            continue
+        if a.get("axis_source") != "nearest_segment" or a.get("side") not in ("left", "right", "on") \
+                or a.get("facing") != facing or a.get("rules") != "kerb.RULES":
+            bad.append((name, "finite heading without the kerb attrs", a))
+            continue
+        axis = float(a["axis_deg"])
+        if facing == "along_kerb":
+            ok = _angle_diff(h, axis) < 0.011                      # attrs round axis_deg to 0.01
+        else:
+            ok = min(_angle_diff(h, axis - 90.0), _angle_diff(h, axis + 90.0)) < 0.011
+        if not ok:
+            bad.append((name, f"heading {h} is not {facing} of axis {axis}", a))
+    assert not bad, f"{len(bad)} rows break the kerb contract; first: {bad[:3]}"
+    over = {k: (nan[k], v[1]) for k, v in KERB_KINDS_FACING.items() if nan[k] > v[1]}
+    assert not over, f"more NaN headings than the rebuild measured (kind: (now, ceiling)): {over}"
+    assert sum(nan.values()) < 0.05 * len(rows["kind"]), "the pass wrote almost nothing"
+
+
+def test_kerb_side_is_geometry_read_back_from_the_segments():
+    """Recompute the side of the centreline for 500 random rows from ``roads/segments.parquet`` and the
+    segment each row names in ``attrs.axis_segment_id``, and check the sign; then check that the facing
+    points the way the side says (a shelter's front away from the foot of the perpendicular, a rack's
+    toward it, a blade and a Link along the tangent)."""
+    import math
+    import random
+    import sys
+    sys.path.insert(0, str(REPO_ROOT / "pipeline"))
+    import numpy as np
+    import shapely
+    from nycsim_pipeline.furniture.citibike import local_frame
+    from nycsim_pipeline.furniture.kerb import side_of_centreline
+
+    seg_path = _need(PROCESSED / "roads" / "segments.parquet", "roads/segments.parquet")
+    rows = _kerb_rows()
+    idx = [i for i, a in enumerate(rows["attrs"]) if a.get("axis_source") == "nearest_segment"]
+    random.Random(84).shuffle(idx)
+    idx = idx[:500]
+    t = pq.read_table(seg_path, columns=["segment_id", "geometry"])
+    want = {rows["attrs"][i]["axis_segment_id"] for i in idx}
+    geom = {}
+    for sid, wkb in zip(t.column("segment_id").to_pylist(), t.column("geometry").to_pylist()):
+        if sid in want:
+            geom[sid] = shapely.from_wkb(wkb)
+    lines = np.array([geom[rows["attrs"][i]["axis_segment_id"]] for i in idx], dtype=object)
+    pts = shapely.points([rows["x"][i] for i in idx], [rows["y"][i] for i in idx])
+    frame = local_frame(lines, pts)
+    sides = side_of_centreline(np.array([rows["x"][i] for i in idx]), np.array([rows["y"][i] for i in idx]),
+                               frame["proj"], frame["tangent"])
     wrong = []
-    for name, n in KERB_KINDS_FACING_NORTH.items():
-        if rows[name] != n or nan[name] != n:
-            wrong.append(f"{name}: {rows[name]:,} rows, {nan[name]:,} with no heading; J84 records {n:,} of {n:,}")
-    assert not wrong, "the J84 register moved:\n  " + "\n  ".join(wrong)
+    for j, i in enumerate(idx):
+        a = rows["attrs"][i]
+        if sides["side"][j] != a["side"]:
+            wrong.append((a, sides["side"][j]))
+            continue
+        h = math.radians(rows["heading"][i])
+        fx, fy = math.sin(h), math.cos(h)                        # the +Y front the consumers rotate to
+        vx, vy = sides["v"][j]                                   # foot of the perpendicular -> prop
+        off = math.hypot(vx, vy)
+        if off < 0.5:
+            continue                                             # geocoded into the roadbed: a coin, counted in the summary
+        dot = (fx * vx + fy * vy) / off
+        tx, ty = frame["tangent"][j]
+        along = abs(fx * tx + fy * ty)
+        # the contract: the front is exactly perpendicular to the local axis (or exactly along it) and
+        # points into the half-plane the side says. The offset vector itself is not always the
+        # perpendicular -- a prop past the end of its segment projects onto the endpoint -- so only
+        # its sign is tested (33 of 27,926 rows measured so, all with the right sign).
+        expect = {"away_from_roadway": along < 0.011 and dot > 0, "toward_roadway": along < 0.011 and dot < 0,
+                  "along_kerb": along > 0.99}[a["facing"]]
+        if not expect:
+            wrong.append((a, f"dot {dot:.3f} along {along:.3f}"))
+    assert not wrong, f"{len(wrong)} of {len(idx)} rows disagree with the geometry: {wrong[:3]}"
+
+
+def test_citibike_parts_face_away_from_the_centreline():
+    """Every kiosk and dock with an axis faces the footway: its +Y front has a positive dot with the
+    vector from the foot of the perpendicular on its own segment to the station point (read back from
+    ``roads/segments.parquet`` for a sample), and ``attrs.side`` is what the geometry says."""
+    import math
+    import random
+    import sys
+    sys.path.insert(0, str(REPO_ROOT / "pipeline"))
+    import numpy as np
+    import shapely
+    from nycsim_pipeline.furniture.citibike import local_frame
+    from nycsim_pipeline.furniture.kerb import side_of_centreline
+
+    seg_path = _need(PROCESSED / "roads" / "segments.parquet", "roads/segments.parquet")
+    rows = _kind7_rows()
+    kiosks = [i for i, a in enumerate(rows["attrs"]) if a.get("part") == "kiosk" and a.get("axis_source") == "nearest_segment"]
+    assert kiosks, "no kiosk with an axis"
+    assert all(rows["attrs"][i].get("facing") == "away_from_roadway" and rows["attrs"][i].get("side") in ("left", "right", "on")
+               for i in kiosks), "a kiosk with an axis lacks side/facing"
+    random.Random(58).shuffle(kiosks)
+    sample = kiosks[:300]
+    # the station point is the centre of the dock run; the kiosk stands one pitch past its end, so use the
+    # docks' mean where there are docks and the kiosk itself for a capacity-0 station
+    by_station = {}
+    for i, a in enumerate(rows["attrs"]):
+        if a.get("part") == "dock":
+            by_station.setdefault(a["station_id"], []).append(i)
+    px, py = [], []
+    for i in sample:
+        d = by_station.get(rows["attrs"][i]["station_id"], [])
+        px.append(sum(rows["x"][j] for j in d) / len(d) if d else rows["x"][i])
+        py.append(sum(rows["y"][j] for j in d) / len(d) if d else rows["y"][i])
+    t = pq.read_table(seg_path, columns=["segment_id", "geometry"])
+    want = {rows["attrs"][i]["axis_segment_id"] for i in sample}
+    geom = {sid: shapely.from_wkb(w) for sid, w in zip(t.column("segment_id").to_pylist(), t.column("geometry").to_pylist()) if sid in want}
+    lines = np.array([geom[rows["attrs"][i]["axis_segment_id"]] for i in sample], dtype=object)
+    frame = local_frame(lines, shapely.points(px, py))
+    sides = side_of_centreline(np.array(px), np.array(py), frame["proj"], frame["tangent"])
+    wrong = []
+    for j, i in enumerate(sample):
+        a = rows["attrs"][i]
+        vx, vy = sides["v"][j]
+        off = math.hypot(vx, vy)
+        if sides["side"][j] != a["side"]:
+            wrong.append((a["station_id"], "side", a["side"], sides["side"][j]))
+        if off < 0.5:
+            continue
+        h = math.radians(rows["heading"][i])
+        dot = (math.sin(h) * vx + math.cos(h) * vy) / off
+        tx, ty = frame["tangent"][j]
+        along = abs(math.sin(h) * tx + math.cos(h) * ty)
+        if along > 0.011 or dot <= 0:                         # perpendicular to the axis, into the footway half-plane
+            wrong.append((a["station_id"], "front", round(dot, 3), round(along, 3)))
+    assert not wrong, f"{len(wrong)} of {len(sample)} stations do not face away from their centreline: {wrong[:5]}"
+
+
+def test_unreal_yaw_puts_the_front_at_the_compass_heading():
+    """``build_levels.heading_to_yaw`` under the project's frame (X east, Y = -north, yaw clockwise from
+    +X): the forward vector must be the unit vector of the compass heading for the four cardinal cases,
+    which is the same picture ``blender/verify/scene.py`` draws with ``yaw = -heading``. Read from the
+    source with ast so the ``unreal`` import is not needed."""
+    import ast
+    import math
+
+    src = (REPO_ROOT / "unreal" / "NYCSim" / "Content" / "Python" / "build_levels.py").read_text()
+    tree = ast.parse(src)
+    fn = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "heading_to_yaw")
+    ns: dict = {}
+    exec(compile(ast.Module(body=[fn], type_ignores=[]), "build_levels.heading_to_yaw", "exec"), ns)
+    heading_to_yaw = ns["heading_to_yaw"]
+    for heading, (east, north) in {0.0: (0, 1), 90.0: (1, 0), 180.0: (0, -1), 270.0: (-1, 0)}.items():
+        yaw = math.radians(heading_to_yaw(heading))
+        ue_x, ue_y = math.cos(yaw), math.sin(yaw)          # UE forward in the X-east / Y-south plane
+        assert abs(ue_x - east) < 1e-9 and abs(-ue_y - north) < 1e-9, (heading, ue_x, ue_y)
+        # Blender: rotate +Y by -heading about +Z
+        b = math.radians(-heading)
+        bx, by = -math.sin(b), math.cos(b)
+        assert abs(bx - east) < 1e-9 and abs(by - north) < 1e-9, (heading, bx, by)
 
 
 def test_the_engines_prop_manifest_is_not_older_than_the_props_it_lists():

@@ -6604,13 +6604,13 @@
   },
   "furniture_build_summary": {
    "artifact_id": "furniture_build_summary",
-   "bytes": 78395,
-   "git_commit": "bccaf51cd025",
+   "bytes": 118297,
+   "git_commit": "40340b4422d5",
    "path": "data/processed/furniture/build_summary.json",
-   "produced_at": "2026-09-09T11:09:40Z",
+   "produced_at": "2026-09-09T12:47:49Z",
    "rows": null,
    "schema": "furniture_build_summary/1",
-   "sha256": "077e3d5ce6e6559dd3d53fc1e5ed4caa45f57908a830850ffb4d07dec3f218da",
+   "sha256": "7a1054c92d6227cd1c614604a1daebb82986cce360f68508d9dcfb5396edc76a",
    "sources": [
     "hydrants",
     "bus_stop_shelters",
@@ -6636,13 +6636,13 @@
   },
   "furniture_props_catalog": {
    "artifact_id": "furniture_props_catalog",
-   "bytes": 21644,
-   "git_commit": "bccaf51cd025",
+   "bytes": 25134,
+   "git_commit": "40340b4422d5",
    "path": "data/processed/furniture/props_catalog.json",
-   "produced_at": "2026-09-09T11:09:40Z",
+   "produced_at": "2026-09-09T12:47:49Z",
    "rows": 1883278,
    "schema": "props_catalog/1",
-   "sha256": "1f156e7485bb8622f266e3c586c3666fcc1c165d6474047953f9eb658873ace4",
+   "sha256": "767d2234d11428c08f8fddf10867be9b08a4a677e208b31108abc563d5367ffb",
    "sources": [
     "hydrants",
     "bus_stop_shelters",
@@ -6669,12 +6669,12 @@
   "furniture_tiles": {
    "artifact_id": "furniture_tiles",
    "bytes": 29357,
-   "git_commit": "bccaf51cd025",
+   "git_commit": "40340b4422d5",
    "path": "data/processed/furniture/tiles_index.json",
-   "produced_at": "2026-09-09T11:09:40Z",
+   "produced_at": "2026-09-09T12:47:49Z",
    "rows": 1883278,
    "schema": "furniture_tiles_index/1",
-   "sha256": "ce61d9e4bb9375d8181094922a930f9d7c879e648b57be310698387cf2df1a15",
+   "sha256": "0681feac3c8c55b29ba5c6cc8ef91128250041bba1468e078ed98feb4a142c19",
    "sources": [
     "hydrants",
     "bus_stop_shelters",
@@ -9554,12 +9554,12 @@
   "roads_junction_lanes": {
    "artifact_id": "roads_junction_lanes",
    "bytes": 59648428,
-   "git_commit": "3b5d1262beec",
+   "git_commit": "40340b4422d5",
    "path": "data/processed/roads/junction_lanes.parquet",
-   "produced_at": "2026-09-06T13:46:48Z",
+   "produced_at": "2026-09-09T13:02:37Z",
    "rows": 469754,
    "schema": "roads.junction_lanes.v1",
-   "sha256": "5586786076e594075157c039253eacafb5154a634657cff252168f31491f05f6",
+   "sha256": "684f6cb2ab45b4a8df53ed1e94eb0ef91d06aafe8fa35718c0b1def15c45ab4a",
    "sources": [
     "terrain_tiles"
    ],
@@ -9569,12 +9569,12 @@
   "roads_lanes": {
    "artifact_id": "roads_lanes",
    "bytes": 36832851,
-   "git_commit": "3b5d1262beec",
+   "git_commit": "40340b4422d5",
    "path": "data/processed/roads/lanes.parquet",
-   "produced_at": "2026-09-06T13:46:47Z",
+   "produced_at": "2026-09-09T13:02:37Z",
    "rows": 381971,
    "schema": "roads.lanes.v1",
-   "sha256": "aab51497fcc6afcf646e910f9ff71243f6b46ea267da676ee156c8f2486efd9e",
+   "sha256": "0835237ec281f2db0d147d4bff8e35863ddcaa3ef8622405fdb9be5916d43475",
    "sources": [
     "terrain_tiles"
    ],
@@ -9584,12 +9584,12 @@
   "roads_nodes": {
    "artifact_id": "roads_nodes",
    "bytes": 4209554,
-   "git_commit": "3b5d1262beec",
+   "git_commit": "40340b4422d5",
    "path": "data/processed/roads/nodes.parquet",
-   "produced_at": "2026-09-06T13:46:47Z",
+   "produced_at": "2026-09-09T13:02:37Z",
    "rows": 79291,
    "schema": "roads.nodes.v1",
-   "sha256": "364b59af9786ecb914a11df224aa0e7a6bf725cbe49158177ff805942530c7b0",
+   "sha256": "2eec69ac0381dda1b2602afb01a24c569a80743c232b7865937cbab6d42638eb",
    "sources": [
     "terrain_tiles"
    ],
@@ -9634,12 +9634,12 @@
   "roads_segments": {
    "artifact_id": "roads_segments",
    "bytes": 13673283,
-   "git_commit": "3b5d1262beec",
+   "git_commit": "40340b4422d5",
    "path": "data/processed/roads/segments.parquet",
-   "produced_at": "2026-09-06T13:46:47Z",
+   "produced_at": "2026-09-09T13:02:37Z",
    "rows": 122235,
    "schema": "roads.segments.v1",
-   "sha256": "d04685b14c998d9769508d4dd66792ba56c89d99ed276d28aa6107fe61a46865",
+   "sha256": "a511a8f7bac788941e635a1fa1986551dd93c2e5c380d87b6982adc112730af5",
    "sources": [
     "terrain_tiles"
    ],
@@ -9683,12 +9683,12 @@
   "roads_signs": {
    "artifact_id": "roads_signs",
    "bytes": 33737415,
-   "git_commit": "3b5d1262beec",
+   "git_commit": "40340b4422d5",
    "path": "data/processed/roads/signs.parquet",
-   "produced_at": "2026-09-06T13:46:48Z",
+   "produced_at": "2026-09-09T13:02:37Z",
    "rows": 633287,
    "schema": "roads.signs.v1",
-   "sha256": "e3eb45c3d5e425ed885cc126265593f2dc0b4badfe2e0f3d6bbce3213913595b",
+   "sha256": "680a99a47c8963caf384264ae62c13fa9cbd050b743ab13103607fcc0876797e",
    "sources": [
     "terrain_tiles"
    ],
@@ -9697,13 +9697,13 @@
   },
   "roads_terrain_z": {
    "artifact_id": "roads_terrain_z",
-   "bytes": 1195,
-   "git_commit": "3b5d1262beec",
+   "bytes": 1194,
+   "git_commit": "40340b4422d5",
    "path": "data/processed/roads/terrain_z_summary.json",
-   "produced_at": "2026-09-06T13:46:46Z",
+   "produced_at": "2026-09-09T13:02:37Z",
    "rows": null,
    "schema": "roads.terrain_z/1",
-   "sha256": "3956dfc104aefc5490af12c42429d269ddae47fd2358a85a315f4cb4ce6a5e3f",
+   "sha256": "fa5c5a32ef04d73c7f641267bc04cf581882603d0c3e32260a2281bf2e84d0f9",
    "sources": [
     "terrain_tiles"
    ],
@@ -9746,9 +9746,9 @@
     "no_label": 0,
     "non_finite_point": 0
    },
-   "git_commit": "6e6232b7a029",
+   "git_commit": "40340b4422d5",
    "path": "data/processed/runtime/landmarks.nycb",
-   "produced_at": "2026-09-07T12:12:56Z",
+   "produced_at": "2026-09-09T13:02:46Z",
    "rows": 65,
    "schema": "nycb.landmarks/1",
    "sha256": "ff1203b8be44f09114238b09c8abb6d982282eb79bc30ca2035c3c24ac2756da",
@@ -9760,34 +9760,35 @@
   },
   "runtime_nycb_layout": {
    "artifact_id": "runtime_nycb_layout",
-   "bytes": 10548,
-   "git_commit": "6e6232b7a029",
+   "bytes": 10927,
+   "git_commit": "40340b4422d5",
    "path": "data/processed/runtime/nycb_layout.json",
-   "produced_at": "2026-09-07T12:12:56Z",
+   "produced_at": "2026-09-09T13:02:46Z",
    "rows": null,
    "schema": "nycb.layout/1",
-   "sha256": "6f6249223af4905224c8d34ddd2211e05df8aa62a48629655af3072afb871aef",
+   "sha256": "d8ad3e49115fc0938370911943b023ccd60333e83c990edb9093646b176f0aca",
    "sources": [],
    "stage": "runtime.export"
   },
   "runtime_pois": {
    "artifact_id": "runtime_pois",
-   "bytes": 27807376,
+   "bytes": 30226232,
    "counts": {
+    "places": 85023,
     "pois": 1082160,
-    "strtab_bytes": 14821351
+    "strtab_bytes": 16219886
    },
    "dropped": {
     "duplicate_label_and_point": 0,
     "no_label": 866,
     "non_finite_point": 0
    },
-   "git_commit": "6e6232b7a029",
+   "git_commit": "40340b4422d5",
    "path": "data/processed/runtime/pois.nycb",
-   "produced_at": "2026-09-07T12:12:56Z",
+   "produced_at": "2026-09-09T13:02:46Z",
    "rows": 1082160,
    "schema": "nycb.pois/1",
-   "sha256": "2ccc767be93a7476ab10babf90f15fad4d70b6bf77aea924b77052e45f1161c2",
+   "sha256": "0103ba58f99668a53144ff5b0768d0d35618592053f65aff3e65cb73200ca93c",
    "source_rows": 1083026,
    "sources": [
     "buildings_base"
@@ -9807,12 +9808,12 @@
     "vertices": 3910302,
     "yield_links": 588201
    },
-   "git_commit": "3b5d1262beec",
+   "git_commit": "40340b4422d5",
    "path": "data/processed/runtime/roadgraph.nycb",
-   "produced_at": "2026-09-06T13:47:13Z",
+   "produced_at": "2026-09-09T13:02:46Z",
    "rows": 122235,
    "schema": "nycb.roadgraph/1",
-   "sha256": "97d483b10515f48722dccf13f5677dfe8ccc1ba6118df64f769099529052d24d",
+   "sha256": "1e230fb17f97e05b349d3d52098c0c7197d167482ae9cddc9e3651976400de99",
    "sources": [
     "roads_segments",
     "roads_nodes",
@@ -9828,9 +9829,9 @@
     "controllers": 19814,
     "phases": 39649
    },
-   "git_commit": "3b5d1262beec",
+   "git_commit": "40340b4422d5",
    "path": "data/processed/runtime/signals.nycb",
-   "produced_at": "2026-09-06T13:47:14Z",
+   "produced_at": "2026-09-09T13:02:46Z",
    "rows": 19814,
    "schema": "nycb.signals/1",
    "sha256": "36b3d4d7af5eb20969198834b1eeb78eb6ed9006cc9860f9ce5418b9adf72b14",
@@ -9845,22 +9846,22 @@
    "counts": {
     "tiles": 2916
    },
-   "git_commit": "6e6232b7a029",
+   "git_commit": "40340b4422d5",
    "path": "data/processed/runtime/tiles.nycb",
-   "produced_at": "2026-09-07T12:12:56Z",
+   "produced_at": "2026-09-09T13:02:46Z",
    "rows": 2916,
    "schema": "nycb.tiles/1",
-   "sha256": "d92f9b18479075994dfa68d1026873b20d9f9b7162f899074e195deababb97fa",
+   "sha256": "980fba9bed8c8c05458e6e64226311ac5bd5b33c90bcccc9296a073a5fe79c25",
    "sources": [
     "tiles_index"
    ],
    "stage": "runtime.export",
    "totals": {
     "buildings": 1314408,
-    "props": 1724589,
+    "props": 1883278,
     "tiles_with_buildings": 1399,
     "tiles_with_nj": 1022,
-    "tiles_with_props": 1576
+    "tiles_with_props": 1648
    }
   },
   "runtime_transit_nycb": {
@@ -9975,14 +9976,14 @@
   },
   "terrain_overview_16m": {
    "artifact_id": "terrain_overview_16m",
-   "bytes": 19652118,
+   "bytes": 19652052,
    "cell_m": 16.0,
-   "git_commit": "3b5d1262beec",
+   "git_commit": "40340b4422d5",
    "path": "data/processed/terrain/overview_16m.tif",
-   "produced_at": "2026-09-06T13:50:41Z",
+   "produced_at": "2026-09-09T13:01:57Z",
    "rows": 11394000,
    "schema": "terrain.overview/1",
-   "sha256": "6fb7b2d0ad40d3b6414a00573a5b9b4c86a2d956f784b8e8aafdc49408475a07",
+   "sha256": "44c98945f64c00e7347807958c49f802909a71fb436dae3b8222c9c8be60edb1",
    "sources": [
     "usgs_3dep",
     "plan_hydrography",
@@ -9990,6 +9991,48 @@
     "building_footprints"
    ],
    "stage": "terrain"
+  },
+  "terrain_platform_decks": {
+   "area_m2": 67683.1,
+   "artifact_id": "terrain_platform_decks",
+   "bytes": 29247,
+   "deck_ids": [
+    "hudson_yards_ery_platform",
+    "eleventh_ave_west_side_yard_viaduct"
+   ],
+   "git_commit": "40340b4422d5",
+   "path": "data/processed/terrain/platform_decks.parquet",
+   "produced_at": "2026-09-09T13:00:02Z",
+   "rows": 2,
+   "schema": "terrain.platform_decks/1",
+   "sha256": "275740e1aceb1862c1fc4330473b0b9dd8653dd381d95c0816368d741f4085d7",
+   "sources": [
+    "plan_roadbed",
+    "road_network_nodes",
+    "plan_elevation_points",
+    "building_footprints"
+   ],
+   "stage": "terrain"
+  },
+  "terrain_platform_decks_applied": {
+   "artifact_id": "terrain_platform_decks_applied",
+   "bytes": 2269,
+   "git_commit": "40340b4422d5",
+   "path": "data/processed/terrain/platform_decks_applied.json",
+   "produced_at": "2026-09-09T13:00:03Z",
+   "rows": 2,
+   "schema": "terrain.platform_decks_applied/1",
+   "sha256": "a51130636601cd680e6b73c52e721bc6ca75b23f1f9e558db5e708747f137c4d",
+   "sources": [
+    "terrain_platform_decks",
+    "plan_elevation_points",
+    "building_footprints"
+   ],
+   "stage": "terrain",
+   "tiles": [
+    "t_-5_5",
+    "t_-5_6"
+   ]
   },
   "terrain_src2m_usgs_3dep_13_n41w074__-1_-2": {
    "artifact_id": "terrain_src2m_usgs_3dep_13_n41w074__-1_-2",
@@ -12122,13 +12165,13 @@
   },
   "tiles_index": {
    "artifact_id": "tiles_index",
-   "bytes": 46584,
-   "git_commit": "3b5d1262beec",
+   "bytes": 66555,
+   "git_commit": "40340b4422d5",
    "path": "data/processed/tiles/index.parquet",
-   "produced_at": "2026-09-06T13:38:18Z",
+   "produced_at": "2026-09-09T13:00:52Z",
    "rows": 2916,
    "schema": "tiles.index/1",
-   "sha256": "fad71608a7020b2cd4ecda4af8c9feb4911a67e876964b63b66b55bd214e4a83",
+   "sha256": "a7b60c9e53e0a776154f2fff0602329226a67fa774830c7f5309d7964a5051d5",
    "sources": [
     "usgs_3dep",
     "plan_hydrography",
@@ -12505,13 +12548,13 @@
   },
   "unreal_manifest": {
    "artifact_id": "unreal_manifest",
-   "bytes": 14122968,
-   "git_commit": "ace07fece0f2",
+   "bytes": 14123035,
+   "git_commit": "40340b4422d5",
    "path": "data/processed/unreal_manifest.json",
-   "produced_at": "2026-09-09T12:19:23Z",
+   "produced_at": "2026-09-09T13:04:07Z",
    "rows": 8234,
    "schema": "unreal_manifest/1",
-   "sha256": "71f7af8eb367db2309f8eb88b7e77bff6d9dd847d9044f999dc89bcdf29a486d",
+   "sha256": "85bd3454703fa70fbf6a2b63e7f43c77f6f53b3958d628e97f74e54143280a34",
    "sources": [
     "blender_out",
     "tiles",

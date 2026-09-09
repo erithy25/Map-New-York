@@ -963,13 +963,19 @@ def _station_cols(capacity: int, x: float = 0.0, y: float = 0.0, station_id: str
     return cols
 
 
-def _segment_along(bearing_deg: float, through=(0.0, 0.0), half_len: float = 100.0, segment_id: int = 9) -> dict:
+def _segment_along(bearing_deg: float, through=(0.0, 0.0), half_len: float = 100.0, segment_id: int = 9,
+                   rw_type: int = 1, name: str = "A ST") -> dict:
     b = math.radians(bearing_deg)
     ux, uy = math.sin(b), math.cos(b)
     line = shapely.LineString([(through[0] - half_len * ux, through[1] - half_len * uy),
                                (through[0] + half_len * ux, through[1] + half_len * uy)])
     return {"segment_id": np.array([segment_id], dtype=np.int64), "geometry": np.array([line], dtype=object),
-            "rw_type": np.array([1], dtype=np.int8), "width_m": np.array([12.0]), "borough": np.array([1], dtype=np.int8)}
+            "rw_type": np.array([rw_type], dtype=np.int8), "width_m": np.array([12.0]), "borough": np.array([1], dtype=np.int8),
+            "street_name": np.array([name], dtype=object)}
+
+
+def _segments(*segs: dict) -> dict:
+    return {k: np.concatenate([s[k] for s in segs]) for k in segs[0]}
 
 
 def _parts(out: dict, variant: int) -> list[int]:
@@ -983,7 +989,8 @@ def _expand(capacity: int, bearing: float | None = 37.0, status=None, station_xy
 
     cols = _station_cols(capacity, *station_xy)
     seg = _segment_along(bearing, through=seg_through) if bearing is not None else None
-    axes = C.station_axes(np.array([station_xy[0]]), np.array([station_xy[1]]), seg)
+    sx, sy = np.array([station_xy[0]]), np.array([station_xy[1]])
+    axes = C.station_facing(sx, sy, seg, C.station_axes(sx, sy, seg))
     return C.expand(cols, catalog.KIND_ID["citibike_dock"], axes, status)
 
 
@@ -1007,9 +1014,11 @@ def test_citibike_station_is_a_kiosk_and_n_docks_at_0_9_m_along_the_kerb():
         assert abs(bearing - 37.0) < 3.0, bearing
     # centred on the GBFS point
     assert abs(x[order].mean()) < 1e-9 and abs(y[order].mean()) < 1e-9
-    # heading = axis - 90 so the tileable +X of the dock lies along the kerb
+    # the station of this fixture stands ON the segment, so the side is a coin (rep says so) and the front
+    # is the coin's away side, axis + 90 = 127; the tileable +X of the dock lies along the kerb either way
+    assert rep["side"] == {"left": 0, "right": 0, "on": 1} and rep["side_from_offset_under_0_5m"] == 1
     for i in docks + kiosks:
-        assert abs(float(out["heading"][i]) - ((37.0 - 90.0) % 360.0)) < 1e-3
+        assert abs(float(out["heading"][i]) - ((37.0 + 90.0) % 360.0)) < 1e-3
     # the kiosk is one pitch beyond dock 0, at the axis+180 (south/west) end
     k = kiosks[0]
     assert abs(math.hypot(x[k] - x[order[0]], y[k] - y[order[0]]) - C.PITCH_M) < 1e-6
@@ -1080,12 +1089,18 @@ def _status(bikes: int, ebikes: int = 0, station_id: str = "s1", last_updated: i
 def test_citibike_bikes_come_only_from_the_snapshot_fill_from_the_kiosk_end_and_carry_its_instant():
     from nycsim_pipeline.furniture import citibike as C
 
-    out, rep = _expand(5, bearing=37.0, status=_status(3, ebikes=2))
+    # the segment runs at bearing 37 through a point 5 m to the station's left (bearing 37 - 90 from it), so
+    # the station stands on the segment's right and "away from the roadway" is bearing 37 + 90 = 127
+    left = (5.0 * math.sin(math.radians(-53.0)), 5.0 * math.cos(math.radians(-53.0)))
+    out, rep = _expand(5, bearing=37.0, status=_status(3, ebikes=2), seg_through=left)
     docks, bikes = _parts(out, 2), _parts(out, 3)
     assert len(bikes) == 3 and rep["bikes"] == 3
     x = np.asarray(out["x"]); y = np.asarray(out["y"])
     by_index = {json.loads(out["attrs"][i])["dock_index"]: i for i in docks}
-    b = math.radians(37.0 - 90.0)
+    assert all(abs(float(out["heading"][i]) - 127.0) < 1e-3 for i in docks), "front away from the centreline"
+    assert all(json.loads(out["attrs"][i])["side"] == "right" and json.loads(out["attrs"][i])["facing"] == "away_from_roadway"
+               for i in docks)
+    b = math.radians(127.0)
     fx, fy = math.sin(b), math.cos(b)                      # the dock's front, as the consumers rotate it
     for i in bikes:
         a = json.loads(out["attrs"][i])
@@ -1143,3 +1158,167 @@ def test_citibike_expansion_must_run_after_dedupe():
     parts = np.asarray(out["kind"]) == kind_id
     assert int((~keep[parts]).sum()) >= 2, "dedupe would delete docks from an expanded station"
     assert rep["rows_dropped"] >= 2
+
+
+# --------------------------------------------------------------------------------------- kerb heading and side
+
+def _kerb_cols(kinds: list[str], xy=(0.0, 0.0), attrs: list[dict] | None = None, heading: list[float] | None = None) -> dict:
+    cols = schema.empty_columns(len(kinds) + 1)
+    cols["kind"] = np.array([catalog.KIND_ID[k] for k in kinds] + [catalog.KIND_ID["hydrant"]], dtype=np.int16)
+    cols["x"] = np.full(len(kinds) + 1, xy[0]); cols["y"] = np.full(len(kinds) + 1, xy[1])
+    cols["attrs"] = [json.dumps(a, separators=(",", ":")) for a in (attrs or [{} for _ in kinds])] + [json.dumps({"unitid": "H1"})]
+    if heading is not None:
+        h = np.asarray(cols["heading"], dtype=np.float32).copy()
+        h[:len(kinds)] = np.array(heading, dtype=np.float32)
+        cols["heading"] = h
+    return cols
+
+
+def _left_of(bearing_deg: float, m: float) -> tuple[float, float]:
+    """A point ``m`` metres to the left of a line through the origin running at ``bearing_deg``."""
+    b = math.radians(bearing_deg - 90.0)
+    return m * math.sin(b), m * math.cos(b)
+
+
+def test_kerb_side_and_facing_from_the_worked_example():
+    """A prop 5 m left of a segment running bearing 37: side = left, toward_roadway = 127, and per kind the
+    front the rule table gives -- shelters and the newsstand 307 (away), Link and blade 37 (along), rack 127
+    (toward). Mirrored to the right side the perpendiculars swap and the along-kerb headings stay."""
+    from nycsim_pipeline.furniture import kerb as K
+
+    kinds = list(K.KINDS)
+    for side, sign in (("left", 1.0), ("right", -1.0)):
+        px, py = _left_of(37.0, 5.0 * sign)
+        cols = _kerb_cols(kinds, (px, py))
+        out, rep = K.apply(cols, Path("/nonexistent"), seg=_segment_along(37.0))
+        toward = 127.0 if side == "left" else 307.0
+        want = {"bus_shelter": (toward + 180) % 360, "bike_shelter": (toward + 180) % 360, "newsstand": (toward + 180) % 360,
+                "linknyc": 37.0, "bus_stop_sign": 37.0, "bike_rack": toward}
+        for i, k in enumerate(kinds):
+            a = json.loads(out["attrs"][i])
+            assert abs(float(out["heading"][i]) - want[k]) < 1e-3, (side, k, float(out["heading"][i]), want[k])
+            assert a["side"] == side and a["facing"] == K.FACING[k] and a["axis_source"] == "nearest_segment"
+            assert abs(a["axis_deg"] - 37.0) < 0.01 and a["axis_segment_id"] == 9 and abs(a["axis_distance_m"] - 5.0) < 0.01
+            assert a["rules"] == K.RULES_ID and a["heading_rule"] == f"{K.RULES_ID}:{k}:{K.FACING[k]}"
+        # the hydrant is untouched
+        assert np.isnan(float(out["heading"][len(kinds)])) and json.loads(out["attrs"][len(kinds)]) == {"unitid": "H1"}
+        assert rep["kinds"]["bus_shelter"]["side"] == {"left": int(side == "left"), "right": int(side == "right"), "on": 0}
+    # the sign convention against the geometry directly: cross > 0 is left of the digitised direction
+    proj = np.array([[0.0, 0.0]]); tangent = np.array([[math.sin(math.radians(37.0)), math.cos(math.radians(37.0))]])
+    lx, ly = _left_of(37.0, 5.0)
+    assert K.side_of_centreline(np.array([lx]), np.array([ly]), proj, tangent)["side"] == ["left"]
+    assert K.side_of_centreline(np.array([-lx]), np.array([-ly]), proj, tangent)["side"] == ["right"]
+    assert K.side_of_centreline(np.array([0.0]), np.array([0.0]), proj, tangent)["side"] == ["on"]
+
+
+def test_kerb_no_segment_in_reach_leaves_nan_and_says_so():
+    from nycsim_pipeline.furniture import kerb as K
+
+    cols = _kerb_cols(["bus_shelter", "bike_rack"])
+    out, rep = K.apply(cols, Path("/nonexistent"), seg=_segment_along(90.0, through=(0.0, 40.0)))
+    for i in range(2):
+        a = json.loads(out["attrs"][i])
+        assert np.isnan(float(out["heading"][i]))
+        assert a["axis_source"] == "none" and "facing" not in a and "side" not in a and a["rules"] == K.RULES_ID
+        assert abs(a["axis_distance_m"] - 40.0) < 0.2
+    assert rep["kinds"]["bus_shelter"]["heading_nan"] == 1 and rep["kinds"]["bus_shelter"]["no_axis"]["count"] == 1
+    assert rep["heading_written"] == 0
+
+
+def test_kerb_keeps_a_heading_the_source_carried():
+    """An OSM bike rack with direction=200 keeps 200, and its attrs say the source heading was kept."""
+    from nycsim_pipeline.furniture import kerb as K
+
+    cols = _kerb_cols(["bike_rack", "bike_rack"], _left_of(37.0, 5.0), heading=[200.0, float("nan")])
+    out, rep = K.apply(cols, Path("/nonexistent"), seg=_segment_along(37.0))
+    a0, a1 = json.loads(out["attrs"][0]), json.loads(out["attrs"][1])
+    assert float(out["heading"][0]) == 200.0 and a0["kept_source_heading"] is True and a0["heading_source"] == "osm_direction"
+    assert "facing" not in a0
+    assert abs(float(out["heading"][1]) - 127.0) < 1e-3 and a1["facing"] == "toward_roadway" and a1["heading_source"] == "kerb_axis"
+    assert rep["kinds"]["bike_rack"]["kept_source_heading"] == 1 and rep["kinds"]["bike_rack"]["heading_written"] == 1
+
+
+def test_kerb_ignores_a_path_in_favour_of_a_street():
+    """A path (rw_type 6) 3 m away is not a kerb; the street 10 m away is the axis."""
+    from nycsim_pipeline.furniture import kerb as K
+
+    path = _segment_along(120.0, through=_left_of(120.0, 3.0), segment_id=1, rw_type=6, name="ROOSEVELT I HOUSES PED PATH")
+    street = _segment_along(37.0, through=_left_of(37.0, -10.0), segment_id=2, rw_type=1, name="DEKALB AV")
+    cols = _kerb_cols(["bus_shelter"])
+    out, rep = K.apply(cols, Path("/nonexistent"), seg=_segments(path, street))
+    a = json.loads(out["attrs"][0])
+    assert a["axis_segment_id"] == 2 and a["axis_rw_type"] == 1 and abs(a["axis_deg"] - 37.0) < 0.01
+    assert abs(a["axis_distance_m"] - 10.0) < 0.01
+    assert rep["kinds"]["bus_shelter"]["class_mask"]["nearest_segment_changed"] == 1
+    # with only the path in reach the shelter has no axis, and the summary says which line was in reach
+    out, rep = K.apply(_kerb_cols(["bus_shelter"]), Path("/nonexistent"), seg=path)
+    assert json.loads(out["attrs"][0])["axis_source"] == "none"
+    assert rep["kinds"]["bus_shelter"]["no_axis"]["only_a_non_roadway_line_within_25m"] == 1
+
+
+def test_kerb_prefers_the_street_the_source_names():
+    """A shelter nearer to COURT ST than to its own ATLANTIC AV takes Atlantic (axis_match = named_street);
+    with no name in reach it falls back to the nearest (axis_match = nearest)."""
+    from nycsim_pipeline.furniture import kerb as K
+
+    court = _segment_along(10.0, through=_left_of(10.0, 6.0), segment_id=1, name="COURT ST")
+    atlantic = _segment_along(100.0, through=_left_of(100.0, 9.0), segment_id=2, name="ATLANTIC AVE")
+    seg = _segments(court, atlantic)
+    out, rep = K.apply(_kerb_cols(["bus_shelter"], attrs=[{"shelter_id": "BR0049", "corner": "NW",
+                                                            "on_street": "ATLANTIC AVENUE", "cross_street": "COURT STREET"}]),
+                       Path("/nonexistent"), seg=seg)
+    a = json.loads(out["attrs"][0])
+    assert a["axis_segment_id"] == 2 and a["axis_match"] == "named_street" and abs(a["axis_deg"] - 100.0) < 0.01
+    assert a["shelter_id"] == "BR0049" and a["corner"] == "NW" and a["on_street"] == "ATLANTIC AVENUE", "existing attrs survive"
+    ns = rep["kinds"]["bus_shelter"]["named_street"]
+    assert ns["named_street_matched"] == 1 and ns["differs_from_nearest"] == 1 and ns["axis_changed_over_30deg"] == 1
+    out, rep = K.apply(_kerb_cols(["bus_shelter"], attrs=[{"shelter_id": "X", "on_street": "FULTON ST"}]), Path("/nonexistent"), seg=seg)
+    a = json.loads(out["attrs"][0])
+    assert a["axis_segment_id"] == 1 and a["axis_match"] == "nearest"
+    assert rep["kinds"]["bus_shelter"]["named_street"]["fell_back_to_nearest"] == 1
+    # the same for a bus stop sign, whose street is the first name of 'ON ST/CROSS ST'
+    cols = _kerb_cols(["bus_stop_sign"]); cols["text"] = ["ATLANTIC AV/COURT ST", ""]
+    out, rep = K.apply(cols, Path("/nonexistent"), seg=seg)
+    assert json.loads(out["attrs"][0])["axis_segment_id"] == 2
+    assert K.normalise_street("East 34th Street") == "E 34 ST" and K.normalise_street("ATLANTIC AVE.") == "ATLANTIC AV"
+
+
+def test_kerb_apply_is_idempotent_and_touches_nothing_else():
+    """A second pass finds no NaN among the six kinds and changes nothing; every non-kerb kind's heading and
+    attrs are byte-identical before and after."""
+    from nycsim_pipeline.furniture import kerb as K
+
+    kinds = list(K.KINDS) + ["street_lamp", "hydrant", "citibike_dock"]
+    cols = _kerb_cols(kinds, _left_of(37.0, 5.0), heading=[float("nan")] * len(K.KINDS) + [200.0, float("nan"), 45.0])
+    before = {k: (list(v) if isinstance(v, list) else np.asarray(v).copy()) for k, v in cols.items()}
+    out, rep = K.apply(cols, Path("/nonexistent"), seg=_segment_along(37.0))
+    n = len(K.KINDS)
+    for k in out:
+        if k in ("heading", "attrs"):
+            continue
+        if isinstance(out[k], list):
+            assert out[k] == before[k], k
+        else:
+            assert np.array_equal(np.asarray(out[k]), before[k], equal_nan=True), k
+    assert out["attrs"][n:] == before["attrs"][n:]
+    assert np.array_equal(np.asarray(out["heading"])[n:], before["heading"][n:], equal_nan=True)
+    h1 = np.asarray(out["heading"]).copy(); a1 = list(out["attrs"])
+    out2, rep2 = K.apply(out, Path("/nonexistent"), seg=_segment_along(37.0))
+    assert np.array_equal(np.asarray(out2["heading"]), h1, equal_nan=True) and list(out2["attrs"]) == a1
+    assert rep2["heading_written"] == 0 and rep2["kept_source_heading"] == 0
+    assert sum(r["already_written_by_an_earlier_pass"] for r in rep2["kinds"].values()) == n
+
+
+def test_kerb_rules_are_named_in_the_summary_and_in_every_written_row():
+    from nycsim_pipeline.furniture import kerb as K
+
+    out, rep = K.apply(_kerb_cols(list(K.KINDS), _left_of(37.0, 5.0)), Path("/nonexistent"), seg=_segment_along(37.0))
+    assert rep["rules"] == list(K.RULES) and rep["rules_id"] == K.RULES_ID
+    assert rep["facing"] == K.FACING and set(K.FACING) == set(K.KINDS)
+    for k in K.KINDS:
+        assert any(r.startswith(f"{k}:") or r.startswith(f"{k} and ") for r in K.RULES), k
+    for i in range(len(K.KINDS)):
+        assert json.loads(out["attrs"][i])["rules"] == K.RULES_ID
+    # and the citibike parts now carry the side, read the same way
+    from nycsim_pipeline.furniture import citibike as C
+    assert any("kerb.side_of_centreline" in r for r in C.RULES)
