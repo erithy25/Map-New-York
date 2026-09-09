@@ -173,6 +173,9 @@ class CameraPlacement:
     ground_mode: str = "local"
     ground_source: str = ""
     ground_detail: dict = field(default_factory=dict)
+    #: The viewpoint note names a raised surface (a terrace, a deck, a promenade).  Kept on the
+    #: placement because the deck rule needs it after the note is out of reach (J65).
+    raised_surface_named: bool = False
 
     def as_dict(self) -> dict:
         d = asdict(self)
@@ -204,6 +207,12 @@ _STREET_WORDS = ("roadway", "sidewalk", "street", "avenue", "curb", "crosswalk",
 _RAISED_WORDS = ("terrace", "promenade", "deck", "observation", "steps", "walkway", "bridge",
                  "pier", "boardwalk", "platform", "parapet", "railing", "roof", "balcony",
                  "overlook", "viaduct", "ferry", "high line")
+
+
+def names_a_raised_surface(note: str | None) -> bool:
+    """Does the viewpoint note say the photographer stood on a terrace, a deck, a promenade?"""
+    n = (note or "").lower()
+    return any(w in n for w in _RAISED_WORDS)
 
 
 def ground_mode_for(slug: str, note: str | None) -> tuple[str, float, str]:
@@ -285,7 +294,8 @@ def place_camera(*, slug: str, lat: float, lon: float, azimuth_deg: float, sampl
                            hfov_deg=hfov, eye_height_m=rule.height_m,
                            eye_datum=rule.datum, eye_source=rule.source, terrain_z_m=terrain_z,
                            resolution=resolution, portrait=portrait, long_side_fov_deg=long_fov,
-                           ground_mode=mode, ground_source=mode_why, ground_detail=ground_detail)
+                           ground_mode=mode, ground_source=mode_why, ground_detail=ground_detail,
+                           raised_surface_named=names_a_raised_surface(note))
 
 
 def is_shell(ob) -> bool:
@@ -583,7 +593,8 @@ def _blocked(x: float, y: float, z: float, azimuth_deg: float) -> tuple[bool, st
 DECK_RISE_MAX_M = 8.0
 
 
-def _first_landmark_deck_above(x: float, y: float, z: float, *, limit_m: float):
+def _first_landmark_deck_above(x: float, y: float, z: float, *, limit_m: float,
+                               allow_pavement: bool = False):
     """The first landmark-model surface over the eye, looking **through** foliage, terrain and
     pavement: ``(object, z, normal_z)`` or ``(None, None, None)``.
 
@@ -591,6 +602,13 @@ def _first_landmark_deck_above(x: float, y: float, z: float, *, limit_m: float):
     landmark's deck is built as far as it is concerned -- so at Bethesda Terrace it reported
     ``verify_pavement`` 1.8 m overhead and never saw the terrace's own upper deck the pavement lies
     on.  The deck rule needs the deck.
+
+    With ``allow_pavement`` a paved surface overhead **is** the deck.  That is only asked for when
+    the viewpoint note names a raised surface, because the DoITT plaza polygons bridge a two-level
+    site as one surface at the upper level: at Bethesda Terrace the photographer's GPS lands in the
+    arcade with that bridged pavement 1.8 m overhead and no landmark geometry between, so a rule
+    that only accepts a landmark deck leaves the eye in the arcade.  Without the note it is not
+    asked for -- an eye under an elevated roadway's paving is under a road, not below a step.
     """
     from mathutils import Vector
     dg = bpy.context.evaluated_depsgraph_get()
@@ -603,6 +621,10 @@ def _first_landmark_deck_above(x: float, y: float, z: float, *, limit_m: float):
                                               distance=max(limit_m - travelled, 0.0))
         if not hit or ob is None:
             return None, None, None
+        if allow_pavement and ob.name in ("verify_terrain", "verify_pavement"):
+            # A draped surface is single-sided; its normal points up whichever side the ray came
+            # from, and its top *is* the surface.
+            return ob, float(loc.z), abs(float(nrm.z))
         if ob.name.startswith("lm_") and not is_foliage(ob):
             if float(nrm.z) >= -0.5:
                 return ob, float(loc.z), float(nrm.z)
@@ -632,7 +654,7 @@ def _first_landmark_deck_above(x: float, y: float, z: float, *, limit_m: float):
 
 
 def deck_underfoot(x: float, y: float, z: float, azimuth_deg: float,
-                   eye_height_m: float) -> tuple[float | None, str]:
+                   eye_height_m: float, *, raised_surface_named: bool = False) -> tuple[float | None, str]:
     """The modelled deck this eye point was put *under* and belongs on top of.
 
     A landmark model carries its own ground, and that ground does not have to agree with the 1 m
@@ -656,7 +678,8 @@ def deck_underfoot(x: float, y: float, z: float, azimuth_deg: float,
     lying on it, because that skin is what hid Bethesda Terrace's upper deck from the first version
     of this rule (docs/DEVIATIONS.md J65).  Returns ``(z, why)`` or ``(None, "")``.
     """
-    ob, deck_z, normal_z = _first_landmark_deck_above(x, y, z, limit_m=DECK_RISE_MAX_M + 0.5)
+    ob, deck_z, normal_z = _first_landmark_deck_above(x, y, z, limit_m=DECK_RISE_MAX_M + 0.5,
+                                                      allow_pavement=raised_surface_named)
     if ob is None:
         return None, ""
     rise = deck_z - z
@@ -667,10 +690,12 @@ def deck_underfoot(x: float, y: float, z: float, azimuth_deg: float,
     nz = deck_z + eye_height_m
     if _blocked(x, y, nz, azimuth_deg)[0]:
         return None, ""
-    return nz, (f"the eye point sat {rise:.2f} m under {ob.name}, the landmark model's own level "
-                f"deck at {deck_z:.2f} m NAVD88, which stands above the heightmap the eye height "
-                f"was measured from; the camera was raised onto it, so it stands on the surface "
-                f"that is actually drawn under it at {nz:.2f} m NAVD88")
+    what = ("the paved upper level the viewpoint note names" if ob.name in ("verify_terrain", "verify_pavement")
+            else "the landmark model's own level deck")
+    return nz, (f"the eye point sat {rise:.2f} m under {ob.name}, {what} at {deck_z:.2f} m NAVD88, "
+                f"which stands above the heightmap the eye height was measured from; the camera "
+                f"was raised onto it, so it stands on the surface that is actually drawn under it "
+                f"at {nz:.2f} m NAVD88")
 
 
 def probe_origin(slug: str, lat: float, lon: float, azimuth_deg: float, sampler,
@@ -691,7 +716,8 @@ def probe_origin(slug: str, lat: float, lon: float, azimuth_deg: float, sampler,
                   else (None, {}))
     base = 0.0 if rule.datum == "sea" else (gz if gz is not None else 0.0)
     z = base + rule.height_m
-    deck_z, deck_why = deck_underfoot(x, y, z, azimuth_deg, rule.height_m)
+    deck_z, deck_why = deck_underfoot(x, y, z, azimuth_deg, rule.height_m,
+                                      raised_surface_named=names_a_raised_surface(note))
     if deck_z is not None:
         z, gz = deck_z, deck_z - rule.height_m
     blocked, why = _blocked(x, y, z, azimuth_deg)
@@ -1439,7 +1465,7 @@ def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 8
     eye_above_ground = placement.z - (placement.terrain_z_m if placement.terrain_z_m is not None
                                       else placement.z)
     deck_z, deck_why = deck_underfoot(placement.x, placement.y, placement.z, placement.azimuth_deg,
-                                      eye_above_ground)
+                                      eye_above_ground, raised_surface_named=placement.raised_surface_named)
     if deck_z is not None:
         cam = bpy.context.scene.camera
         cam.location = (placement.x, placement.y, deck_z)

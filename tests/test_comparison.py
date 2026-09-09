@@ -1264,6 +1264,115 @@ def test_an_eye_under_a_landmarks_deck_is_lifted_onto_it_even_through_its_paving
     z, _ = vcam.deck_underfoot(0.0, 0.0, 1.6, 0.0, 1.6)
     assert z is None
 
+    # 5. The Bethesda case as it actually is: the bridged plaza polygon 1.8 m overhead and no
+    # landmark geometry between.  Paving is the deck only when the note names a raised surface;
+    # without the note an eye under paving is under a road, and is left for the sideways snap.
+    nb.reset_scene()
+    _cube("verify_pavement", 0.0, 0.0, 3.4, size=40.0, size_z=0.02)
+    z, _ = vcam.deck_underfoot(0.0, 0.0, 1.6, 0.0, 1.6)
+    assert z is None, "paving overhead with no raised surface named must not lift the eye"
+    z, why = vcam.deck_underfoot(0.0, 0.0, 1.6, 0.0, 1.6, raised_surface_named=True)
+    assert z == pytest.approx(3.41 + 1.6, abs=0.05), z
+    assert "paved upper level" in why
+    assert vcam.names_a_raised_surface("upper level of Bethesda Terrace (72nd Street transverse)")
+    assert not vcam.names_a_raised_surface("Wall Street south sidewalk opposite 26 Wall Street")
+
+
+def test_every_daylight_render_publishes_the_exposure_it_was_metered_at():
+    """A sheet developed at a fixed convention is not comparable with a metered photograph (J83).
+
+    Red until every daylight sheet has been re-rendered under the metered development; that is the
+    point of it being here.
+    """
+    slugs = _rendered_slugs()
+    if not slugs:
+        pytest.skip("no comparison renders produced yet")
+    missing = []
+    for slug in slugs:
+        rec = json.loads((COMPARISON_DIR / slug / "render.json").read_text())
+        if rec.get("status") != "rendered" or rec.get("night"):
+            continue
+        dev = (rec.get("lighting") or {}).get("development") or {}
+        if not dev.get("metered") or "stops" not in dev or "median_linear" not in dev:
+            missing.append(slug)
+    assert not missing, ("daylight sheets not developed at a metered exposure:\n   "
+                         + "\n   ".join(missing))
+
+
+def test_every_subject_sightline_publishes_its_fraction_and_its_rule():
+    """`subject_visible` is a fraction with a stated rule, not a majority of five rays (J78).
+
+    Red until every subject sheet has been re-rendered under the new probe.
+    """
+    slugs = _rendered_slugs()
+    if not slugs:
+        pytest.skip("no comparison renders produced yet")
+    missing = []
+    for slug in slugs:
+        rec = json.loads((COMPARISON_DIR / slug / "render.json").read_text())
+        sight = rec.get("sightline") or {}
+        if sight.get("subject_visible") is None:
+            continue
+        for key in ("subject_visible_fraction", "subject_clear_fraction", "subject_verdict_rule",
+                    "subject_rays_on_own_fabric_nearer_than_recorded", "subject_fan_tall_m"):
+            if key not in sight:
+                missing.append(f"{slug}: {key}")
+                break
+    assert not missing, "subject sheets without the fraction and its rule:\n   " + "\n   ".join(missing)
+
+
+def test_a_daylight_frame_is_developed_at_the_exposure_its_own_median_meters():
+    """The stops are the measurement; the picture is the consequence (J83).
+
+    Measured over the 164 daylight sheets of the v15 pass the render sat below the photograph by
+    the same factor at every quantile -- a level, not a contrast -- because the development was
+    pinned to a calibration target (a sunlit 0.26-albedo ground at 150/255) that the photographs
+    do not exhibit: every one of them was metered by its camera, median pixel at 0.454 in display,
+    middle grey in linear light.  A frame is now metered the same way, and the stops it needed are
+    published as the physical statement about the scene.
+    """
+    rs = _skip_without_render_sheets()
+    import numpy as np
+
+    # A frame whose median is already middle grey needs nothing.
+    flat = np.full((20, 30, 3), 0.18, dtype=np.float32)
+    got = rs.meter_exposure(flat)
+    assert got["stops"] == pytest.approx(0.0, abs=1e-6)
+    assert got["median_linear"] == pytest.approx(0.18, abs=1e-6)
+    assert "note" not in got
+
+    # Two stops dark -> +2 stops; the linear percentiles are the frame's, untouched.
+    dark = np.full((20, 30, 3), 0.045, dtype=np.float32)
+    got = rs.meter_exposure(dark)
+    assert got["stops"] == pytest.approx(2.0, abs=1e-3)
+    assert got["linear_p95"] == pytest.approx(0.045, abs=1e-6)
+
+    # The median, not the mean: a frame that is mostly deep shade with a few blown highlights is
+    # metered on the shade, the way a camera's average metering reads a canyon.
+    canyon = np.full((20, 30, 3), 0.02, dtype=np.float32)
+    canyon[:2, :, :] = 5.0
+    got = rs.meter_exposure(canyon)
+    assert got["stops"] == pytest.approx(math.log2(0.18 / 0.02), abs=1e-3)
+
+    # Beyond the clamps the frame is held and the record says so.
+    black = np.full((20, 30, 3), 0.0001, dtype=np.float32)
+    got = rs.meter_exposure(black)
+    assert got["stops"] == pytest.approx(rs.METER_MAX_STOPS)
+    assert got["stops_unclamped"] > rs.METER_MAX_STOPS
+    assert "not developed into a picture" in got["note"]
+    under = np.full((20, 30, 3), 0.18 / 2 ** 4.5, dtype=np.float32)
+    got = rs.meter_exposure(under)
+    assert got["stops"] == pytest.approx(4.5, abs=1e-3)
+    assert "under-lit" in got["note"]
+    bright = np.full((20, 30, 3), 4.0, dtype=np.float32)
+    got = rs.meter_exposure(bright)
+    assert got["stops"] == pytest.approx(rs.METER_MIN_STOPS)
+
+    # Non-finite pixels do not poison the metering.
+    holed = np.full((20, 30, 3), 0.18, dtype=np.float32)
+    holed[0, 0, :] = np.nan
+    assert rs.meter_exposure(holed)["stops"] == pytest.approx(0.0, abs=1e-6)
+
 
 def test_a_ray_that_lands_on_the_subjects_own_fabric_has_found_it():
     """The Flatiron blocked the Flatiron, and the rule that let it is a centroid mistaken for a face.

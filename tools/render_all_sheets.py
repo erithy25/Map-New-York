@@ -116,6 +116,16 @@ def main(argv=None) -> int:
             status = json.loads((COMPARISON / slug / "render.json").read_text()).get("status")
         except (OSError, ValueError):
             pass
+        if not ok and r.returncode == -9 and slug not in killed_once:
+            # The kernel's memory killer, not the renderer: a scene build that overlapped another
+            # worker's render.  Once, and only once, the slug goes back on the queue behind the
+            # others; a second kill is a real failure and is recorded as one.
+            with lock:
+                killed_once.add(slug)
+                print(f"[{i}/{len(todo)}] KILL {slug} {dt / 60:.1f} min -- out of memory (returncode -9); "
+                      f"queued once more", flush=True)
+            pool.submit(one, i, slug)
+            return
         with lock:
             if not ok and status == "not_renderable_interior":
                 state["declined"].append(slug)
@@ -141,7 +151,9 @@ def main(argv=None) -> int:
 
     pending = [(i, s_) for i, s_ in enumerate(todo, 1)
                if s_ not in state["done"] and s_ not in state["declined"]]
-    with ThreadPoolExecutor(max_workers=max(1, a.workers)) as pool:
+    killed_once: set = set()
+    pool = ThreadPoolExecutor(max_workers=max(1, a.workers))
+    with pool:
         for i, slug in pending:
             pool.submit(one, i, slug)
     if stop.is_set():

@@ -68,6 +68,15 @@ def main(slug: str) -> int:
           f"at {sun.get('local')} ({sun.get('time_source')}); {lt.get('direct_normal_irradiance_w_m2')} "
           f"W/m² direct normal, sky at strength {lt.get('background_strength'):.4f}, "
           f"{lt.get('view_transform')}, {lt.get('exposure_stops'):+.2f} stops.")
+    dev = lt.get("development") or {}
+    if dev.get("metered"):
+        print(f"    development: metered {dev.get('stops'):+.2f} stops (unclamped {dev.get('stops_unclamped'):+.2f}; "
+              f"the physical rule alone would have given {lt.get('physical_rule_stops', 0):+.2f}); linear median "
+              f"{dev.get('median_linear')}, p05 {dev.get('linear_p05')}, p95 {dev.get('linear_p95')}"
+              + (f"; NOTE: {dev.get('note')}" if dev.get("note") else ""))
+    elif lt:
+        print(f"    development: not metered (physical rule {lt.get('exposure_stops'):+.2f} stops"
+              + (", night frame)" if rec.get("night") else ")"))
     ck = f.get("crowd_clock") or {}
     if ck:
         print(f"    {ck.get('date')} is a **{ck.get('weekday')}**; the crowd was drawn for "

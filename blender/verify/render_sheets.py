@@ -90,6 +90,68 @@ DIFFUSE_KEY_W = 90.0
 REFERENCE_KEY_W = 681.0
 SKY_STRENGTH_NIGHT = 0.5
 
+#: The exposure a daylight frame is developed at is **metered on the frame**, the way every camera
+#: that took a reference photograph metered its own: the median scene luminance of the linear
+#: render is placed at middle grey.  It is not the fixed physical rule above, and this is why
+#: (docs/DEVIATIONS.md J83).  Measured over the 164 daylight sheets of the v15 pass, the render sat
+#: below the photograph by a near-constant display factor of 0.5-0.65 at *every* quantile -- the
+#: brightest 5 % (0.62), the sky (0.47-0.66), the median pixel (0.52) -- and a per-sheet fit of
+#: render = gain * photo^gamma gave gamma 1.07 and gain 0.59: a level, not a contrast.  The level
+#: was set by SUN_CALIBRATION, solved so that a sunlit 0.26-albedo ground lands at 150/255, and the
+#: renders do land there (p95 0.592 on the fourteen best-lit frames); the photographs put their
+#: median pixel at 0.454 in display -- 0.18 in linear light, middle grey, which is what average
+#: metering does -- and their brightest 5 % at 0.875.  So the physical Sun and sky are kept exactly
+#: as calibrated (the direct-to-diffuse balance matches the photographs: sky/sunlit 0.58 against
+#: 0.61), and the *development* is metered.  The stops the metering needs are published on every
+#: sheet: they are the physical measurement -- a canyon that needs +4 stops to read as a picture
+#: is a canyon four stops darker than the one photographed -- and the assessments read them.
+METER_TARGET_LINEAR = 0.18
+#: Clamps, so a frame from inside a wall cannot be developed into a picture: +6 stops is a scene
+#: sixty-four times darker than a photographable one, and no reference photograph in the set was
+#: taken in one.  -3 stops is the corresponding ceiling for a frame that is mostly sky.
+METER_MIN_STOPS = -3.0
+METER_MAX_STOPS = 6.0
+#: Above this the frame is published with a warning in the record: the picture is readable but the
+#: scene was under-lit by more than a photographer could recover without a tripod.
+METER_UNDERLIT_STOPS = 4.0
+
+
+def meter_exposure(lin_rgb) -> dict:
+    """The stops that put a linear frame's median luminance at middle grey, and the evidence.
+
+    ``lin_rgb`` is an (H, W, 3+) float array of scene-linear Rec.709 values.  Returns the metered
+    stops (clamped, with the unclamped value beside it), the median and log-average luminance the
+    decision was made on, and the linear percentiles a reader needs to see the physical frame
+    before any development touched it.  Pure, so that it can be tested without a render.
+    """
+    import numpy as np
+    a = np.asarray(lin_rgb, dtype=np.float64)
+    lum = 0.2126 * a[..., 0] + 0.7152 * a[..., 1] + 0.0722 * a[..., 2]
+    lum = lum[np.isfinite(lum)]
+    if lum.size == 0:
+        return {"stops": 0.0, "stops_unclamped": 0.0, "median_linear": None, "log_average_linear": None,
+                "note": "no finite pixels to meter"}
+    median = float(np.median(lum))
+    logavg = float(np.exp(np.mean(np.log(np.clip(lum, 1e-6, None)))))
+    raw = math.log2(METER_TARGET_LINEAR / max(median, 1e-6))
+    stops = min(METER_MAX_STOPS, max(METER_MIN_STOPS, raw))
+    out = {"stops": round(stops, 3), "stops_unclamped": round(raw, 3),
+           "target_linear": METER_TARGET_LINEAR,
+           "median_linear": round(median, 6), "log_average_linear": round(logavg, 6),
+           "linear_p05": round(float(np.percentile(lum, 5)), 6),
+           "linear_p50": round(median, 6),
+           "linear_p95": round(float(np.percentile(lum, 95)), 6),
+           "rule": "median scene luminance of the linear frame placed at middle grey (0.18); "
+                   "the stops are the measurement, the development is the consequence"}
+    if raw > METER_MAX_STOPS or raw < METER_MIN_STOPS:
+        out["note"] = (f"the frame wanted {raw:+.2f} stops and was held at {stops:+.2f}: a scene this "
+                       f"far from a photographable level is not developed into a picture of one")
+    elif raw > METER_UNDERLIT_STOPS:
+        out["note"] = (f"under-lit: the scene needed {raw:+.2f} stops to read as a picture, more than "
+                       f"the {METER_UNDERLIT_STOPS:.0f} a photographer recovers hand-held; the frame "
+                       f"is published and this is the number to read it by")
+    return out
+
 #: Horizontal irradiance a **strength 1.0** Nishita sky delivers, in the same Blender units the Sun
 #: lamp uses, by Sun elevation.  Measured rather than assumed: a 0.18-albedo lambertian plane, sky
 #: only, no bounces, Standard view transform, four stops down so nothing clips, and the irradiance
@@ -978,6 +1040,87 @@ FRAME_SD_MIN = 0.025
 FRAME_BLOWN_SD = 0.05
 
 
+#: Only one Cycles render runs at a time across concurrent sheet processes.  A scene build is
+#: single-threaded and holds one to three gigabytes; the render that follows uses every core and
+#: peaks near eight gigabytes (the Charging Bull scene: 4.5 M triangles, 88 vehicles, 309 people,
+#: killed at 7.7 GB resident when three renders overlapped inside a memory cgroup).  Serialising
+#: the renders costs no throughput -- Cycles already saturates the cores -- and lets the builds,
+#: which are 73 % of a sheet's time, overlap.
+RENDER_LOCK = REPO_ROOT / "blender_out" / ".render_lock"
+
+
+class _render_lock:
+    """An inter-process lock held for the duration of one render; a no-op where fcntl is missing."""
+
+    def __enter__(self):
+        self._fh = None
+        try:
+            import fcntl
+            RENDER_LOCK.parent.mkdir(parents=True, exist_ok=True)
+            self._fh = open(RENDER_LOCK, "w")
+            fcntl.flock(self._fh, fcntl.LOCK_EX)
+        except Exception as exc:                          # pragma: no cover - platform without flock
+            LOG.warning("render lock unavailable (%s); rendering without it", exc)
+            self._fh = None
+        return self
+
+    def __exit__(self, *exc):
+        if self._fh is not None:
+            try:
+                import fcntl
+                fcntl.flock(self._fh, fcntl.LOCK_UN)
+            finally:
+                self._fh.close()
+        return False
+
+
+def render_and_develop(render_path: Path, *, meter: bool, fallback_stops: float) -> dict:
+    """Render the frame in linear light, meter it, develop it at the metered exposure, write PNG.
+
+    The physical Sun and sky are already configured; what this decides is only the exposure the
+    view transform is applied at.  With ``meter`` the stops come from :func:`meter_exposure` on the
+    linear frame; without (a night frame) ``fallback_stops`` is used unchanged.  The linear EXR is
+    deleted once the PNG is written -- at 172 sheets it would not fit the disk -- and everything
+    the decision was made on is returned for the record.
+    """
+    import bpy
+    import numpy as np
+    sc = bpy.context.scene
+    exr_path = render_path.with_suffix(".exr")
+    img_settings = sc.render.image_settings
+    img_settings.file_format = "OPEN_EXR"
+    img_settings.color_mode = "RGB"
+    img_settings.color_depth = "16"
+    img_settings.exr_codec = "ZIP"
+    sc.render.filepath = str(exr_path)
+    with _render_lock():
+        bpy.ops.render.render(write_still=True)
+    metered: dict = {"metered": False, "stops": float(fallback_stops)}
+    if meter:
+        img = bpy.data.images.load(str(exr_path), check_existing=False)
+        try:
+            w, h = img.size
+            buf = np.empty(w * h * 4, dtype=np.float32)
+            img.pixels.foreach_get(buf)
+            metered = {"metered": True, **meter_exposure(buf.reshape(h, w, 4)[..., :3])}
+        finally:
+            bpy.data.images.remove(img)
+    sc.view_settings.exposure = float(metered["stops"])
+    # Develop: the scene's view transform and the metered exposure applied to the linear frame.
+    img = bpy.data.images.load(str(exr_path), check_existing=False)
+    try:
+        img_settings.file_format = "PNG"
+        img_settings.color_mode = "RGB"
+        img_settings.color_depth = "8"
+        sc.render.filepath = str(render_path)
+        img.save_render(str(render_path), scene=sc)
+    finally:
+        bpy.data.images.remove(img)
+        exr_path.unlink(missing_ok=True)
+    metered["view_transform"] = sc.view_settings.view_transform
+    return metered
+
+
 def frame_metrics(path: Path) -> dict:
     """Mean and standard deviation of a rendered frame's luminance, and whether it is evidence."""
     from PIL import Image
@@ -1378,7 +1521,14 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
     render_path = outdir / "render.png"
     bpy.context.scene.render.filepath = str(render_path)
     t1 = time.time()
-    bpy.ops.render.render(write_still=True)
+    # The physical rule's stops are kept in the record beside the metered ones, so a reader can see
+    # what the calibration alone would have done (J83).
+    physical_stops = float(light.get("exposure_stops") or 0.0)
+    developed = render_and_develop(render_path, meter=not bool(meta.get("night")),
+                                   fallback_stops=physical_stops)
+    light["physical_rule_stops"] = round(physical_stops, 2)
+    light["exposure_stops"] = round(float(developed["stops"]), 2)
+    light["development"] = developed
     t2 = time.time()
 
     # A frame that is black, blown out or featureless is not evidence of anything.  Measure it
@@ -1402,7 +1552,10 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
                                         subject=subject_for_walk)
         forced["min_view_m"] = round(min_view_m, 1)
         if forced.get("moved"):
-            bpy.ops.render.render(write_still=True)
+            developed = render_and_develop(render_path, meter=not bool(meta.get("night")),
+                                           fallback_stops=physical_stops)
+            light["exposure_stops"] = round(float(developed["stops"]), 2)
+            light["development"] = developed
             t2 = time.time()
             retry = {"first_frame": frame, "clearance": clearance}
             clearance = forced
