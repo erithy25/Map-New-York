@@ -2374,13 +2374,36 @@ def _tree_yaw_rule(x: float, y: float) -> float:
 CANOPY_DATASET_ID = "rule:woodland_canopy"
 
 
+def _attrs_bin(attrs) -> int | None:
+    """The BIN a prop row's attrs name, or None -- read without a JSON parse for speed."""
+    if not attrs or not isinstance(attrs, str):
+        return None
+    i = attrs.find('"bin":')
+    if i < 0:
+        return None
+    j = i + 6
+    while j < len(attrs) and attrs[j] in ' "':
+        j += 1
+    k = j
+    while k < len(attrs) and attrs[k].isdigit():
+        k += 1
+    return int(attrs[j:k]) if k > j else None
+
+
 def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
               sampler: TerrainSampler | None = None, triangle_budget: int = 900_000,
               max_instances: int = 40_000, leaf_off: bool = False,
               col: bpy.types.Collection | None = None,
               canopy_radius_m: float | None = None,
-              lod0_radius_m: float = PROP_LOD0_RADIUS_M) -> dict:
+              lod0_radius_m: float = PROP_LOD0_RADIUS_M,
+              suppressed_bins: set[int] | None = None) -> dict:
     """Instance ``props.parquet`` rows nearest first, under a triangle cap that counts the cards.
+
+    ``suppressed_bins`` are the buildings whose tile shells :func:`add_buildings` removed because a
+    landmark model stands in for them.  A prop that names one of those buildings in its attrs --
+    a surveyed rooftop cooling tower, placed at the *shell's* roof datum -- would otherwise be
+    drawn where that roof no longer is: on the 9 West 57th sheet three grey boxes hung in the sky
+    above the Plaza's mansard (v16).  Such a row is dropped and counted.
 
     Every kind is gathered inside ``radius_m``.  Trees are gathered further, to ``canopy_radius_m``
     (:data:`CANOPY_RADIUS_M` by default), and drawn two ways:
@@ -2411,7 +2434,7 @@ def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
     canopy_r = CANOPY_RADIUS_M if canopy_radius_m is None else float(canopy_radius_m)
     canopy_r = max(canopy_r, radius_m)
     tree_kinds = {k for k, n in assets_index.kind_names.items() if n == "tree"}
-    cols = ["kind", "x", "y", "z", "heading", "variant", "species", "height_m", "dataset_id"]
+    cols = ["kind", "x", "y", "z", "heading", "variant", "species", "height_m", "dataset_id", "attrs"]
     rows = []
     tiles_read, tiles_missing = [], []
     for tx, ty in tiles_in_radius(cx, cy, canopy_r):
@@ -2466,6 +2489,7 @@ def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
               "yaw_by_rule": 0, "yaw_rule": TREE_YAW_RULE,
               "rows_beyond_prop_radius": int((is_tree & (d > radius_m) & (d <= canopy_r)).sum())}
     dropped_for_budget = 0
+    dropped_on_suppressed_building = 0
     for idx in order:
         if placed >= max_instances:
             capped_reason = f"instance cap {max_instances}"
@@ -2473,6 +2497,11 @@ def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
         i = int(idx)
         kind_id = int(kinds[i])
         kind_name = assets_index.name_of(kind_id)
+        if suppressed_bins:
+            bin_ = _attrs_bin(merged["attrs"][i])
+            if bin_ is not None and bin_ in suppressed_bins:
+                dropped_on_suppressed_building += 1
+                continue
         # One resolver for the renderer, the manifest and the editor: which asset a row is was
         # answered three different ways and two of them answered "none" for every row in the city.
         entry, why, scale = assets_index.resolve_scaled(kind_id, variant=merged["variant"][i],
@@ -2562,6 +2591,7 @@ def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
             else:
                 canopy["lod0"] += 1
     return {"rows_in_range": int(order.size), "placed": placed, "triangles": tris,
+            "dropped_on_suppressed_building": dropped_on_suppressed_building,
             "leaf_off": leaf_off, "impostor_cards_dropped": lib.impostors_dropped,
             "impostor_faces_dropped": lib.impostor_faces_dropped,
             "capped": capped_reason, "dropped_for_budget": dropped_for_budget,
@@ -2919,9 +2949,10 @@ def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float |
     # A landmark model and the tile shell of the same building are two versions of one object.
     # The catalogue names the BINs each model was built from, so those shells are removed from the
     # merged per-material meshes before anything else is placed.
+    suppressed_bins = landmark_bins()
     rep.buildings = add_buildings(cx, cy, radius_m, lod0_radius_m=lod0_radius_m,
                                   triangle_budget=int(triangle_budget * 0.78), col=c_build,
-                                  suppress_landmark_bins=landmark_bins())
+                                  suppress_landmark_bins=suppressed_bins)
 
     used = (int(rep.terrain.get("triangles", 0)) + int(rep.pavement.get("triangles", 0))
             + int(rep.parkground.get("triangles", 0))
@@ -2930,7 +2961,8 @@ def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float |
     if with_props:
         rep.props = add_props(lib, cx, cy, prop_radius_m if prop_radius_m is not None else min(radius_m, 400.0),
                               sampler=sampler, triangle_budget=int(left * 0.35), leaf_off=leaf_off,
-                              col=c_props, canopy_radius_m=min(radius_m, canopy_radius_m))
+                              col=c_props, canopy_radius_m=min(radius_m, canopy_radius_m),
+                              suppressed_bins=suppressed_bins)
     else:
         rep.props = {"placed": 0, "reason": "disabled"}
     left = max(0, left - int(rep.props.get("triangles", 0)))

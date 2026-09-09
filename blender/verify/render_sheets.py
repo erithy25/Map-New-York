@@ -1046,6 +1046,19 @@ def aim_pitch(slug: str, meta: dict, cam_x: float, cam_y: float, cam_z: float,
     if top_z is None:
         # The axis is tilted only to hold a subject whose height is *measured*.  Tilting towards
         # half of an invented 10 m aimed the Manhattan Bridge's Brooklyn tower at the water (J72).
+        # A subject that is a *surface* rather than a height -- a memorial pool, a skating rink, a
+        # plaza -- is measured too: the probe finds the deck at its coordinate and refuses a height.
+        # A photographer of such a thing stands near it and looks down into it; a level axis from
+        # the parapet showed the 9/11 pool as a slot the frame could not see into (v16).  So a
+        # subject with no height inside 60 m is aimed at its own ground, capped at 20 deg -- steeper
+        # than the 8 deg a standing subject is allowed, because looking down at the ground at one's
+        # feet is what the photograph itself does.
+        if ground_z is not None and dist <= 60.0:
+            pitch = math.degrees(math.atan2(float(ground_z) - cam_z, dist))
+            if pitch < -0.5 and pitch >= -20.0:
+                return pitch, (f"aimed at {name}'s own ground {dist:.0f} m away -- nothing stands at "
+                               f"its coordinate, so it is a surface, looked down into as the photograph "
+                               f"does; {pitch:+.1f} deg from horizontal")
         return 0.0, (f"level optical axis (nothing built stands at {name}'s coordinate, so its "
                      f"mid-height is not known and there is nothing to tilt towards)")
     ground = ground_z if ground_z is not None else cam_z - 1.6

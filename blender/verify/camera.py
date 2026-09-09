@@ -1488,16 +1488,32 @@ def sidestep_prop_at_lens(placement: "CameraPlacement", subject: dict) -> dict |
     here = look(placement.x, placement.y)
     if not closed_by_prop(here):
         return None
+    # Every candidate that is refused is counted, with why, so a record can say "the sidestep was
+    # tried and nothing helped" instead of leaving the prop named and the camera unmoved without a
+    # word (DUMBO, v16: a lamp standard 5.5 m out took all thirteen rays and the sheet did not say
+    # whether anyone had tried to step round it).
+    diag = {"prop": here.get("subject_blocked_by"), "at_m": here.get("subject_blocked_at_m"),
+            "tried": 0, "rejected_in_geometry": 0, "rejected_still_closed": 0,
+            "rejected_in_geometry_why": [], "rejected_still_closed_by": []}
     a = math.radians(placement.azimuth_deg)
     side = (math.cos(a), -math.sin(a))          # perpendicular to the view azimuth, to the right
     t = SIDESTEP_STEP_M
     while t <= SIDESTEP_MAX_M + 1e-9:
         for sign, label in ((1.0, "to the right"), (-1.0, "to the left")):
             nx, ny = placement.x + side[0] * t * sign, placement.y + side[1] * t * sign
-            if _blocked(nx, ny, placement.z, placement.azimuth_deg)[0]:
+            diag["tried"] += 1
+            blocked, why = _blocked(nx, ny, placement.z, placement.azimuth_deg)
+            if blocked:
+                diag["rejected_in_geometry"] += 1
+                if len(diag["rejected_in_geometry_why"]) < 3:
+                    diag["rejected_in_geometry_why"].append(f"{t:.1f} m {label}: {why}")
                 continue
             sl = look(nx, ny)
             if closed_by_prop(sl):
+                diag["rejected_still_closed"] += 1
+                if len(diag["rejected_still_closed_by"]) < 3:
+                    diag["rejected_still_closed_by"].append(
+                        f"{t:.1f} m {label}: {sl.get('subject_blocked_by')} at {sl.get('subject_blocked_at_m')} m")
                 continue
             cam = bpy.context.scene.camera
             cam.location = (nx, ny, placement.z)
@@ -1527,7 +1543,7 @@ def sidestep_prop_at_lens(placement: "CameraPlacement", subject: dict) -> dict |
                              f"where the line is not closed by a prop at the lens.  From there the view "
                              f"azimuth is clear for {view_m:.0f} m and " + clearance_sentence(reading, with_angle=False))}
         t += SIDESTEP_STEP_M
-    return None
+    return {"moved": False, "sidestep": dict(diag, none_helped=True)}
 
 
 def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 80.0,
@@ -1569,8 +1585,11 @@ def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 8
     if subject is not None and not out.get("moved"):
         # An unmoved viewpoint with a lamp standard on the line to its subject: step around it.
         stepped = sidestep_prop_at_lens(placement, subject)
-        if stepped is not None:
+        if stepped is not None and stepped.get("moved"):
             out = stepped
+        elif stepped is not None:
+            # Tried and nothing helped: the record says so, and why each candidate was refused.
+            out["sidestep"] = stepped["sidestep"]
     if deck_why:
         out["stood_on_deck"] = deck_why
     return out
