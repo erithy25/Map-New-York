@@ -45,6 +45,37 @@ must stay at `<repo>/unreal/NYCSim`.
 
 ---
 
+## 2b. Windows: one command for the whole bring-up
+
+`unreal/tools/bring_up.ps1` does sections 3 to 5 in one run, and it **discovers** the machine instead of
+assuming it. Every hard-coded path in the sections below was wrong on the first machine that tried it: the
+engine was not under `C:\Program Files\Epic Games\UE_5.4`, the drive root was not writable, a partial
+clone could not serve the content blobs. The script asks instead.
+
+```powershell
+.\unreal\tools\bring_up.ps1 -DiscoverOnly   # which engines does this machine have, and where
+.\unreal\tools\bring_up.ps1                 # build, smoke import, full import, open the editor
+.\unreal\tools\bring_up.ps1 -SkipBuild -SkipImport -Play   # just drive
+```
+
+What it does, in order:
+
+| Phase | What it establishes |
+|---|---|
+| Find the engine | the Epic launcher manifest, then `HKLM\SOFTWARE\EpicGames` and the source-build keys under `HKCU`, then a bounded scan of every fixed drive. The version comes from `Engine/Build/Build.version`, never from the folder name — a directory called `UE_5.4` holding 5.5 is exactly the failure the checklist does not cover |
+| Check the machine | the MSVC C++ toolset via `vswhere`, ~30 GB of free disk, and whether `data/processed/tiles` and `blender_out/tiles` actually hold the city |
+| Gate the version | only 5.4 builds by default; anything else stops with the choice spelled out, and `-AllowEngineVersion` overrides |
+| Build | project files, then `NYCSimEditor`, teed to `unreal/NYCSim/Saved/Logs/bring_up_build.log`. On failure it prints the first error line and names the `COMPILE_CHECKLIST.md` §7 entry that covers that file |
+| Import | the `-tiles=` list is built from the tiles **present on disk**, which is what keeps a partial unpack from reporting thousands of missing sources; two tiles as a smoke run first, then the rest, then `import_report.json` read back with every skip and its reason |
+| Start | the editor, or `-Play` for the standalone window, followed by the control list |
+
+Useful switches: `-EnginePath`, `-SkipBuild`, `-SkipSmoke`, `-SkipImport`, `-Play`, `-ResX`/`-ResY`,
+`-AllowEngineVersion`. The script writes only under `unreal/NYCSim/{Binaries,Intermediate,Saved,Content}`.
+
+The sections below are the same work by hand, and they are what to read when a phase fails.
+
+---
+
 ## 3. Build (first time: 25–60 min, incremental: 1–5 min)
 
 The 38 wrapper translation units that pull `core/src` into the `NYCSimCore` module are **committed**,
@@ -55,14 +86,15 @@ so step 1 is a check rather than a prerequisite. Run it after changing anything 
 python3 unreal/tools/gen_core_unity.py --check    # ~2 min; compiles each one as UBT will
 
 # 2. generate project files
-#    Windows
-"C:\Program Files\Epic Games\UE_5.4\Engine\Build\BatchFiles\Build.bat" -projectfiles -project="%CD%\unreal\NYCSim\NYCSim.uproject" -game -rocket -progress
+#    Windows -- $UE is the engine root; ask the machine for it rather than assuming a path:
+#    .\unreal\tools\bring_up.ps1 -DiscoverOnly
+"$UE\Engine\Build\BatchFiles\Build.bat" -projectfiles -project="%CD%\unreal\NYCSim\NYCSim.uproject" -game -rocket -progress
 #    Linux
 "$UE_ROOT/Engine/Build/BatchFiles/Linux/GenerateProjectFiles.sh" -project="$PWD/unreal/NYCSim/NYCSim.uproject" -game
 
 # 3. build the editor target
 #    Windows
-"C:\Program Files\Epic Games\UE_5.4\Engine\Build\BatchFiles\Build.bat" NYCSimEditor Win64 Development -project="%CD%\unreal\NYCSim\NYCSim.uproject" -waitmutex
+"$UE\Engine\Build\BatchFiles\Build.bat" NYCSimEditor Win64 Development -project="%CD%\unreal\NYCSim\NYCSim.uproject" -waitmutex
 #    Linux
 "$UE_ROOT/Engine/Build/BatchFiles/Linux/Build.sh" NYCSimEditor Linux Development -project="$PWD/unreal/NYCSim/NYCSim.uproject" -waitmutex
 ```
@@ -86,10 +118,18 @@ python3 -m nycsim_pipeline.unreal.manifest        # minutes; longer with --no-ha
 
 Then, from the repository root:
 
+**A partial unpack needs `-tiles=`.** The manifest describes the whole city; a machine that unpacked one
+region holds a fraction of it, and a bare run then reports a missing source for every tile it does not have.
+`bring_up.ps1` builds the list from the tiles on disk. By hand, in PowerShell:
+
+```powershell
+$tiles = (Get-ChildItem data\processed\tiles -Directory | Select-Object -Expand Name) -join ','
+```
+
 ```bash
-# Windows
-"C:\Program Files\Epic Games\UE_5.4\Engine\Binaries\Win64\UnrealEditor-Cmd.exe" ^
-   "%CD%\unreal\NYCSim\NYCSim.uproject" -run=NYCImport -unattended -nosplash -nopause -stdout
+# Windows -- $UE is the engine root (bring_up.ps1 -DiscoverOnly names it)
+"$UE\Engine\Binaries\Win64\UnrealEditor-Cmd.exe" ^
+   "%CD%\unreal\NYCSim\NYCSim.uproject" -run=NYCImport -tiles=%tiles% -unattended -nosplash -nopause -stdout
 
 # Linux
 "$UE_ROOT/Engine/Binaries/Linux/UnrealEditor-Cmd" \
@@ -322,6 +362,10 @@ the props. It packs to 2.15 GB.
 
 | Symptom | Cause and fix |
 |---|---|
+| `Build.bat … wurde nicht als Name eines Cmdlet … erkannt` / `is not recognized` | the engine is not where the command assumed. `unreal\tools\bring_up.ps1 -DiscoverOnly` names every engine on the machine with its real version; pass it with `-EnginePath` or let the script do the run |
+| `unable to read sha1 file` on every content part | the clone was made with `--filter=blob:none`. A partial clone cannot serve `git checkout <ref> -- <path>` for these blobs. Clone the content branch on its own instead, per §9b |
+| `Zugriff verweigert` / `Access denied` writing the joined archive | the destination was the root of a drive, which needs administrator rights. Each part is a complete archive, so unpack them one by one and join nothing, per §9b |
+| The import reports thousands of missing sources | the manifest describes the whole city and this machine holds one region. Pass `-tiles=` with the tiles on disk; `bring_up.ps1` builds that list itself |
 | `TileStreaming: world data not ready` | `Content/NYCSim/Runtime/{crs.json,tiles.nycb}` missing — run `-run=NYCImport -stages=stage` |
 | The car is invisible and falls | The physics asset simulates every bone. `import_assets.py` makes all but `Body` kinematic; if the editor's Python refused, it says so in the log — open `PHYS_FusionHybrid`, delete every body except `Body`, save. This is the one step that may need a human |
 | The car has no wheels and no doors move | The skeletal import produced a static mesh. Check `fusion_hybrid.glb` has `skins: 1` (`pytest tests/test_vehicle_rig.py`) and that the Interchange glTF path is enabled |
