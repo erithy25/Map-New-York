@@ -1,6 +1,6 @@
 {
  "slug": "bethesda_terrace_fountain",
- "rendered_at": "2026-09-09T15:24:51Z",
+ "rendered_at": "2026-09-10T21:53:30Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
@@ -12,7 +12,7 @@
   "p05": 0.1827,
   "p50": 0.498,
   "p95": 0.6749,
-  "chroma": 0.0827,
+  "chroma": 0.0828,
   "exposure_offset_stops": 0.238
  },
  "reference": {
@@ -30,7 +30,7 @@
   "mean": 1.191,
   "sd": 0.706,
   "p50": 1.39,
-  "chroma": 0.576,
+  "chroma": 0.577,
   "exposure_offset_stops": 1.009,
   "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }

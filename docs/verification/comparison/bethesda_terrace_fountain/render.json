@@ -77,11 +77,11 @@
  "lighting": {
   "background_strength": 0.0403778962790966,
   "development": {
-   "linear_p05": 0.01401,
-   "linear_p50": 0.101209,
-   "linear_p95": 0.252027,
-   "log_average_linear": 0.07989,
-   "median_linear": 0.101209,
+   "linear_p05": 0.014008,
+   "linear_p50": 0.10121,
+   "linear_p95": 0.25202,
+   "log_average_linear": 0.079887,
+   "median_linear": 0.10121,
    "metered": true,
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
    "stops": 0.831,
@@ -122,11 +122,18 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/bethesda_terrace_fountain/render.png",
- "rendered_at": "2026-09-09T15:24:51Z",
+ "rendered_at": "2026-09-10T21:53:30Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
+   "camera_clear_ped_basis": [
+    1.8,
+    38.0,
+    0.4
+   ],
+   "camera_clear_ped_m": 6.5,
+   "camera_clear_vehicle_m": 6.0,
    "caption": "Agents: 0 vehicles within 320 m and 11 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 73 vehicles and 13 people over the whole simulated ring, of which 96 and 27 were simulated; 112 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "dropped": {
     "pedestrian_in_the_carriageway_not_crossing": 2,
@@ -143,12 +150,12 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 25966,
+   "pedestrian_triangles": 25965,
    "per_class": {},
    "placed_pedestrians": 11,
    "placed_vehicles": 0,
    "reason": null,
-   "seconds": 57.27,
+   "seconds": 110.13,
    "snapshot": {
     "building_footprints_tested": 2814,
     "car_free_park_drives_matched": 46,
@@ -191,7 +198,7 @@
    },
    "snapshot_note": "cached -1777_8205_8_1_10e969708121647f_1788868452.json",
    "triangle_budget": 1125000,
-   "triangles": 25966,
+   "triangles": 25965,
    "vehicle_lods": {},
    "vehicle_radius_m": 320.0,
    "vehicle_triangle_budget": 506250,
@@ -981,6 +988,7 @@
    },
    "capped": null,
    "dropped_for_budget": 0,
+   "dropped_on_suppressed_building": 0,
    "impostor_cards_dropped": 0,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {},
@@ -1030,7 +1038,7 @@
    }
   },
   "radius_m": 742.6651793355627,
-  "seconds": 88.04,
+  "seconds": 233.07,
   "structures": {
    "imported": [
     "t_-2_8"
@@ -1106,7 +1114,7 @@
    "z_max_m": 42.39,
    "z_min_m": 9.16
   },
-  "triangles": 1990717
+  "triangles": 1990716
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1116,9 +1124,9 @@
   "radius_m": 742.6651793355627
  },
  "seconds": {
-  "render": 75.6,
-  "scene": 89.7,
-  "total": 165.4
+  "render": 70.2,
+  "scene": 235.3,
+  "total": 305.5
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 4.3 m above its ground",
