@@ -1,17 +1,19 @@
 {
  "slug": "landmark_four_times_square",
- "rendered_at": "2026-09-09T05:09:50Z",
+ "rendered_at": "2026-09-09T21:21:10Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.3876,
-  "sd": 0.1805,
-  "p05": 0.1356,
-  "p95": 0.7218,
-  "chroma": 0.0571
+  "mean": 0.5099,
+  "sd": 0.1913,
+  "p05": 0.215,
+  "p50": 0.499,
+  "p95": 0.8347,
+  "chroma": 0.0635,
+  "exposure_offset_stops": 0.244
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4155,
   "sd": 0.26,
   "p05": 0.0886,
+  "p50": 0.4036,
   "p95": 0.8439,
-  "chroma": 0.1503
+  "chroma": 0.1503,
+  "exposure_offset_stops": -0.411
  },
  "render_over_reference": {
-  "mean": 0.933,
-  "sd": 0.694,
-  "chroma": 0.38
+  "mean": 1.227,
+  "sd": 0.736,
+  "p50": 1.236,
+  "chroma": 0.422,
+  "exposure_offset_stops": 0.655,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

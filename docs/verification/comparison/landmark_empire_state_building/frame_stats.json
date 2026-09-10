@@ -1,17 +1,19 @@
 {
  "slug": "landmark_empire_state_building",
- "rendered_at": "2026-09-08T23:41:05Z",
+ "rendered_at": "2026-09-09T21:14:05Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.3542,
-  "sd": 0.187,
-  "p05": 0.0946,
-  "p95": 0.6003,
-  "chroma": 0.1144
+  "mean": 0.5606,
+  "sd": 0.2037,
+  "p05": 0.2424,
+  "p50": 0.4932,
+  "p95": 0.8127,
+  "chroma": 0.1386,
+  "exposure_offset_stops": 0.207
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4418,
   "sd": 0.303,
   "p05": 0.1095,
+  "p50": 0.3115,
   "p95": 0.9245,
-  "chroma": 0.0346
+  "chroma": 0.0346,
+  "exposure_offset_stops": -1.187
  },
  "render_over_reference": {
-  "mean": 0.802,
-  "sd": 0.617,
-  "chroma": 3.306
+  "mean": 1.269,
+  "sd": 0.672,
+  "p50": 1.583,
+  "chroma": 4.006,
+  "exposure_offset_stops": 1.394,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

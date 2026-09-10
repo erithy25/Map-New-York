@@ -1,17 +1,19 @@
 {
  "slug": "landmark_grand_central_facade",
- "rendered_at": "2026-09-09T00:00:23Z",
+ "rendered_at": "2026-09-09T21:27:24Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.102,
-  "sd": 0.0616,
-  "p05": 0.0238,
-  "p95": 0.2359,
-  "chroma": 0.023
+  "mean": 0.5316,
+  "sd": 0.151,
+  "p05": 0.2502,
+  "p50": 0.4997,
+  "p95": 0.8044,
+  "chroma": 0.0513,
+  "exposure_offset_stops": 0.248
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4786,
   "sd": 0.2757,
   "p05": 0.1261,
+  "p50": 0.4433,
   "p95": 1.0,
-  "chroma": 0.0491
+  "chroma": 0.0491,
+  "exposure_offset_stops": -0.123
  },
  "render_over_reference": {
-  "mean": 0.213,
-  "sd": 0.223,
-  "chroma": 0.468
+  "mean": 1.111,
+  "sd": 0.548,
+  "p50": 1.127,
+  "chroma": 1.045,
+  "exposure_offset_stops": 0.371,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

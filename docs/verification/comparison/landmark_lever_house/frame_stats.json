@@ -1,17 +1,19 @@
 {
  "slug": "landmark_lever_house",
- "rendered_at": "2026-09-09T05:57:16Z",
+ "rendered_at": "2026-09-09T22:09:56Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.2267,
-  "sd": 0.1862,
-  "p05": 0.0278,
-  "p95": 0.5736,
-  "chroma": 0.0409
+  "mean": 0.5071,
+  "sd": 0.2592,
+  "p05": 0.1037,
+  "p50": 0.4948,
+  "p95": 0.8392,
+  "chroma": 0.0651,
+  "exposure_offset_stops": 0.217
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4405,
   "sd": 0.2522,
   "p05": 0.0956,
+  "p50": 0.4022,
   "p95": 0.9193,
-  "chroma": 0.079
+  "chroma": 0.079,
+  "exposure_offset_stops": -0.421
  },
  "render_over_reference": {
-  "mean": 0.515,
-  "sd": 0.738,
-  "chroma": 0.518
+  "mean": 1.151,
+  "sd": 1.028,
+  "p50": 1.23,
+  "chroma": 0.824,
+  "exposure_offset_stops": 0.638,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

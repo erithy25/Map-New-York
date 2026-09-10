@@ -1,17 +1,19 @@
 {
  "slug": "landmark_new_york_times_building",
- "rendered_at": "2026-09-09T00:43:35Z",
+ "rendered_at": "2026-09-09T23:17:00Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.3728,
-  "sd": 0.1674,
-  "p05": 0.0885,
-  "p95": 0.6568,
-  "chroma": 0.0763
+  "mean": 0.4481,
+  "sd": 0.1793,
+  "p05": 0.1196,
+  "p50": 0.4887,
+  "p95": 0.7369,
+  "chroma": 0.0814,
+  "exposure_offset_stops": 0.178
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4115,
   "sd": 0.2521,
   "p05": 0.07,
+  "p50": 0.3975,
   "p95": 0.8269,
-  "chroma": 0.0406
+  "chroma": 0.0406,
+  "exposure_offset_stops": -0.457
  },
  "render_over_reference": {
-  "mean": 0.906,
-  "sd": 0.664,
-  "chroma": 1.879
+  "mean": 1.089,
+  "sd": 0.711,
+  "p50": 1.229,
+  "chroma": 2.005,
+  "exposure_offset_stops": 0.635,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

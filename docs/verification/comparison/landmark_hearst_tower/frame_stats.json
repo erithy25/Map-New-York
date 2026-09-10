@@ -1,17 +1,19 @@
 {
  "slug": "landmark_hearst_tower",
- "rendered_at": "2026-09-09T05:28:40Z",
+ "rendered_at": "2026-09-09T21:38:20Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 708,
   "height": 1542,
-  "mean": 0.0991,
-  "sd": 0.132,
-  "p05": 0.0048,
-  "p95": 0.3553,
-  "chroma": 0.0367
+  "mean": 0.5249,
+  "sd": 0.2538,
+  "p05": 0.1606,
+  "p50": 0.4965,
+  "p95": 0.951,
+  "chroma": 0.0622,
+  "exposure_offset_stops": 0.228
  },
  "reference": {
   "width": 1280,
@@ -19,12 +21,17 @@
   "mean": 0.6646,
   "sd": 0.2385,
   "p05": 0.2263,
+  "p50": 0.6795,
   "p95": 0.9373,
-  "chroma": 0.0638
+  "chroma": 0.0638,
+  "exposure_offset_stops": 1.22
  },
  "render_over_reference": {
-  "mean": 0.149,
-  "sd": 0.553,
-  "chroma": 0.575
+  "mean": 0.79,
+  "sd": 1.064,
+  "p50": 0.731,
+  "chroma": 0.975,
+  "exposure_offset_stops": -0.992,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

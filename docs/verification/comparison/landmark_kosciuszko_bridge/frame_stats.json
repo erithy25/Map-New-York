@@ -1,17 +1,19 @@
 {
  "slug": "landmark_kosciuszko_bridge",
- "rendered_at": "2026-09-09T05:52:21Z",
+ "rendered_at": "2026-09-09T22:07:13Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.4662,
-  "sd": 0.1653,
-  "p05": 0.1837,
-  "p95": 0.6596,
-  "chroma": 0.054
+  "mean": 0.5417,
+  "sd": 0.1706,
+  "p05": 0.2353,
+  "p50": 0.4985,
+  "p95": 0.737,
+  "chroma": 0.0567,
+  "exposure_offset_stops": 0.24
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5044,
   "sd": 0.281,
   "p05": 0.0709,
+  "p50": 0.5676,
   "p95": 0.9082,
-  "chroma": 0.1274
+  "chroma": 0.1274,
+  "exposure_offset_stops": 0.648
  },
  "render_over_reference": {
-  "mean": 0.924,
-  "sd": 0.588,
-  "chroma": 0.424
+  "mean": 1.074,
+  "sd": 0.607,
+  "p50": 0.878,
+  "chroma": 0.445,
+  "exposure_offset_stops": -0.408,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

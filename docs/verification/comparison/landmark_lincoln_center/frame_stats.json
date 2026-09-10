@@ -1,17 +1,19 @@
 {
  "slug": "landmark_lincoln_center",
- "rendered_at": "2026-09-09T06:01:11Z",
+ "rendered_at": "2026-09-09T22:19:09Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 854,
-  "mean": 0.2911,
-  "sd": 0.2289,
-  "p05": 0.0627,
-  "p95": 0.6467,
-  "chroma": 0.0421
+  "mean": 0.5906,
+  "sd": 0.2587,
+  "p05": 0.256,
+  "p50": 0.5001,
+  "p95": 0.9375,
+  "chroma": 0.0502,
+  "exposure_offset_stops": 0.251
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4542,
   "sd": 0.2354,
   "p05": 0.1037,
+  "p50": 0.454,
   "p95": 0.9488,
-  "chroma": 0.1619
+  "chroma": 0.1619,
+  "exposure_offset_stops": -0.05
  },
  "render_over_reference": {
-  "mean": 0.641,
-  "sd": 0.972,
-  "chroma": 0.26
+  "mean": 1.3,
+  "sd": 1.099,
+  "p50": 1.102,
+  "chroma": 0.31,
+  "exposure_offset_stops": 0.301,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

@@ -1,17 +1,19 @@
 {
  "slug": "landmark_one_wall_street",
- "rendered_at": "2026-09-09T01:14:41Z",
+ "rendered_at": "2026-09-10T00:00:39Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 904,
   "height": 1206,
-  "mean": 0.0779,
-  "sd": 0.1114,
+  "mean": 0.3409,
+  "sd": 0.3199,
   "p05": 0.0,
-  "p95": 0.3543,
-  "chroma": 0.0301
+  "p50": 0.4111,
+  "p95": 0.9068,
+  "chroma": 0.0567,
+  "exposure_offset_stops": -0.354
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4237,
   "sd": 0.2045,
   "p05": 0.1123,
+  "p50": 0.4054,
   "p95": 0.7414,
-  "chroma": 0.0878
+  "chroma": 0.0878,
+  "exposure_offset_stops": -0.397
  },
  "render_over_reference": {
-  "mean": 0.184,
-  "sd": 0.545,
-  "chroma": 0.343
+  "mean": 0.805,
+  "sd": 1.564,
+  "p50": 1.014,
+  "chroma": 0.646,
+  "exposure_offset_stops": 0.043,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

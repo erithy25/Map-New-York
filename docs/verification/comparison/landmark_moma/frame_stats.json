@@ -1,17 +1,19 @@
 {
  "slug": "landmark_moma",
- "rendered_at": "2026-09-09T00:33:39Z",
+ "rendered_at": "2026-09-09T22:58:53Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1044,
   "height": 1044,
-  "mean": 0.1415,
-  "sd": 0.147,
-  "p05": 0.0154,
-  "p95": 0.5443,
-  "chroma": 0.0413
+  "mean": 0.3539,
+  "sd": 0.2394,
+  "p05": 0.0395,
+  "p50": 0.3008,
+  "p95": 0.6883,
+  "chroma": 0.0268,
+  "exposure_offset_stops": -1.289
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.338,
   "sd": 0.259,
   "p05": 0.0078,
+  "p50": 0.2747,
   "p95": 0.8759,
-  "chroma": 0.0772
+  "chroma": 0.0772,
+  "exposure_offset_stops": -1.553
  },
  "render_over_reference": {
-  "mean": 0.419,
-  "sd": 0.568,
-  "chroma": 0.535
+  "mean": 1.047,
+  "sd": 0.924,
+  "p50": 1.095,
+  "chroma": 0.347,
+  "exposure_offset_stops": 0.264,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

@@ -1,17 +1,19 @@
 {
  "slug": "landmark_high_line",
- "rendered_at": "2026-09-09T00:05:54Z",
+ "rendered_at": "2026-09-09T21:44:07Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.3455,
-  "sd": 0.2075,
-  "p05": 0.0865,
-  "p95": 0.6933,
-  "chroma": 0.0682
+  "mean": 0.5285,
+  "sd": 0.2305,
+  "p05": 0.1926,
+  "p50": 0.4973,
+  "p95": 0.8706,
+  "chroma": 0.078,
+  "exposure_offset_stops": 0.233
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.3804,
   "sd": 0.2733,
   "p05": 0.1011,
+  "p50": 0.2985,
   "p95": 1.0,
-  "chroma": 0.0542
+  "chroma": 0.0542,
+  "exposure_offset_stops": -1.312
  },
  "render_over_reference": {
-  "mean": 0.908,
-  "sd": 0.759,
-  "chroma": 1.258
+  "mean": 1.389,
+  "sd": 0.843,
+  "p50": 1.666,
+  "chroma": 1.439,
+  "exposure_offset_stops": 1.545,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

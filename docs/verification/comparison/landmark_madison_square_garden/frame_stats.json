@@ -1,17 +1,19 @@
 {
  "slug": "landmark_madison_square_garden",
- "rendered_at": "2026-09-09T00:16:00Z",
+ "rendered_at": "2026-09-09T22:35:25Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.3892,
-  "sd": 0.1871,
-  "p05": 0.0311,
-  "p95": 0.6651,
-  "chroma": 0.0475
+  "mean": 0.4847,
+  "sd": 0.1952,
+  "p05": 0.063,
+  "p50": 0.4993,
+  "p95": 0.7513,
+  "chroma": 0.0581,
+  "exposure_offset_stops": 0.245
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.3618,
   "sd": 0.308,
   "p05": 0.0493,
+  "p50": 0.228,
   "p95": 0.9855,
-  "chroma": 0.0625
+  "chroma": 0.0625,
+  "exposure_offset_stops": -2.082
  },
  "render_over_reference": {
-  "mean": 1.076,
-  "sd": 0.607,
-  "chroma": 0.76
+  "mean": 1.34,
+  "sd": 0.634,
+  "p50": 2.19,
+  "chroma": 0.93,
+  "exposure_offset_stops": 2.327,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

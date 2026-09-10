@@ -1,17 +1,19 @@
 {
  "slug": "landmark_metlife_building",
- "rendered_at": "2026-09-09T00:26:30Z",
+ "rendered_at": "2026-09-09T22:51:28Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.0837,
-  "sd": 0.073,
-  "p05": 0.0064,
-  "p95": 0.1861,
-  "chroma": 0.0309
+  "mean": 0.4991,
+  "sd": 0.1733,
+  "p05": 0.244,
+  "p50": 0.4975,
+  "p95": 0.8166,
+  "chroma": 0.0828,
+  "exposure_offset_stops": 0.235
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4914,
   "sd": 0.2565,
   "p05": 0.0962,
+  "p50": 0.5089,
   "p95": 0.9317,
-  "chroma": 0.0586
+  "chroma": 0.0586,
+  "exposure_offset_stops": 0.305
  },
  "render_over_reference": {
-  "mean": 0.17,
-  "sd": 0.285,
-  "chroma": 0.527
+  "mean": 1.016,
+  "sd": 0.676,
+  "p50": 0.978,
+  "chroma": 1.413,
+  "exposure_offset_stops": -0.07,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

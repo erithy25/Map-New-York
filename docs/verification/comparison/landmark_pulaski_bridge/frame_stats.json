@@ -1,17 +1,19 @@
 {
  "slug": "landmark_pulaski_bridge",
- "rendered_at": "2026-09-09T06:57:39Z",
+ "rendered_at": "2026-09-10T00:26:58Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 854,
-  "mean": 0.4103,
-  "sd": 0.1896,
-  "p05": 0.1316,
-  "p95": 0.6624,
-  "chroma": 0.0525
+  "mean": 0.4517,
+  "sd": 0.1252,
+  "p05": 0.184,
+  "p50": 0.4982,
+  "p95": 0.5676,
+  "chroma": 0.0587,
+  "exposure_offset_stops": 0.239
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5678,
   "sd": 0.2633,
   "p05": 0.1727,
+  "p50": 0.5924,
   "p95": 0.8626,
-  "chroma": 0.1145
+  "chroma": 0.1145,
+  "exposure_offset_stops": 0.783
  },
  "render_over_reference": {
-  "mean": 0.723,
-  "sd": 0.72,
-  "chroma": 0.459
+  "mean": 0.796,
+  "sd": 0.476,
+  "p50": 0.841,
+  "chroma": 0.513,
+  "exposure_offset_stops": -0.544,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

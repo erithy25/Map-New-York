@@ -1,17 +1,19 @@
 {
  "slug": "landmark_one_vanderbilt",
- "rendered_at": "2026-09-09T01:09:20Z",
+ "rendered_at": "2026-09-09T23:55:17Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 904,
   "height": 1206,
-  "mean": 0.1824,
-  "sd": 0.1053,
-  "p05": 0.0345,
-  "p95": 0.3246,
-  "chroma": 0.0651
+  "mean": 0.4685,
+  "sd": 0.1829,
+  "p05": 0.1456,
+  "p50": 0.4955,
+  "p95": 0.6935,
+  "chroma": 0.1003,
+  "exposure_offset_stops": 0.222
  },
  "reference": {
   "width": 1280,
@@ -19,12 +21,17 @@
   "mean": 0.6946,
   "sd": 0.2889,
   "p05": 0.1723,
+  "p50": 0.872,
   "p95": 0.9785,
-  "chroma": 0.0488
+  "chroma": 0.0488,
+  "exposure_offset_stops": 2.026
  },
  "render_over_reference": {
-  "mean": 0.263,
-  "sd": 0.364,
-  "chroma": 1.334
+  "mean": 0.674,
+  "sd": 0.633,
+  "p50": 0.568,
+  "chroma": 2.055,
+  "exposure_offset_stops": -1.804,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

@@ -1,17 +1,19 @@
 {
  "slug": "landmark_lincoln_tunnel_portal",
- "rendered_at": "2026-09-09T06:06:15Z",
+ "rendered_at": "2026-09-09T22:21:02Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 576,
-  "mean": 0.242,
-  "sd": 0.1738,
-  "p05": 0.0258,
-  "p95": 0.6271,
-  "chroma": 0.0356
+  "mean": 0.4967,
+  "sd": 0.1925,
+  "p05": 0.1485,
+  "p50": 0.4927,
+  "p95": 0.7762,
+  "chroma": 0.0889,
+  "exposure_offset_stops": 0.204
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5363,
   "sd": 0.2031,
   "p05": 0.1344,
+  "p50": 0.5319,
   "p95": 0.8542,
-  "chroma": 0.1953
+  "chroma": 0.1953,
+  "exposure_offset_stops": 0.443
  },
  "render_over_reference": {
-  "mean": 0.451,
-  "sd": 0.856,
-  "chroma": 0.182
+  "mean": 0.926,
+  "sd": 0.948,
+  "p50": 0.926,
+  "chroma": 0.455,
+  "exposure_offset_stops": -0.239,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

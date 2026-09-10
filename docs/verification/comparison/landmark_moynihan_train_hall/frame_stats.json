@@ -1,17 +1,19 @@
 {
  "slug": "landmark_moynihan_train_hall",
- "rendered_at": "2026-09-09T06:30:34Z",
+ "rendered_at": "2026-09-09T23:02:45Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.16,
-  "sd": 0.0594,
-  "p05": 0.0969,
-  "p95": 0.2518,
-  "chroma": 0.0304
+  "mean": 0.5703,
+  "sd": 0.1108,
+  "p05": 0.4439,
+  "p50": 0.4994,
+  "p95": 0.7268,
+  "chroma": 0.0539,
+  "exposure_offset_stops": 0.246
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.3653,
   "sd": 0.2747,
   "p05": 0.0308,
+  "p50": 0.2916,
   "p95": 0.8835,
-  "chroma": 0.0322
+  "chroma": 0.0322,
+  "exposure_offset_stops": -1.38
  },
  "render_over_reference": {
-  "mean": 0.438,
-  "sd": 0.216,
-  "chroma": 0.944
+  "mean": 1.561,
+  "sd": 0.403,
+  "p50": 1.713,
+  "chroma": 1.674,
+  "exposure_offset_stops": 1.626,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

@@ -15,13 +15,13 @@
   "focal_mm": 35.0,
   "ground_detail": {
    "below_point_excluded": null,
-   "chosen_m": 3.08,
-   "max_m": 3.09,
-   "median_m": 3.04,
-   "min_m": 3.01,
+   "chosen_m": 3.91,
+   "max_m": 3.91,
+   "median_m": 3.87,
+   "min_m": 3.75,
    "mode": "local",
    "percentile": null,
-   "point_m": 3.08,
+   "point_m": 3.91,
    "radius_m": 5.0,
    "samples": 16
   },
@@ -33,18 +33,19 @@
   "long_side_fov_deg": 54.432,
   "pitch_deg": 0.0,
   "portrait": false,
+  "raised_surface_named": false,
   "resolution": [
    1280,
    854
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_pulaski_bridge",
-  "terrain_z_m": 3.077,
-  "x": -66.711,
-  "y": 4029.847,
-  "z": 4.677
+  "terrain_z_m": 3.912,
+  "x": -107.56,
+  "y": 4066.06,
+  "z": 5.512
  },
- "camera_caption": "camera 40.73621, -73.95108 (NYC_TM -67, 4030) z 4.7 m NAVD88 | azimuth 340.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x854",
+ "camera_caption": "camera 40.73621, -73.95108 (NYC_TM -108, 4066) z 5.5 m NAVD88 | azimuth 340.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x854",
  "camera_origin": {
   "from_photograph_gps": false,
   "lat": 40.736209,
@@ -53,28 +54,37 @@
   "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 826 m away, past the 250 m at which it could still be the same view, so the camera was not stood on it.  That is a statement about this pairing and not about the photograph: a fix this far out is usually correct and simply of somewhere else"
  },
  "clearance": {
-  "direction": "to the right",
+  "direction": "along the view azimuth",
   "min_view_m": 80.0,
   "moved": true,
   "nearest_agent": null,
   "nearest_agent_m": null,
   "nearest_agent_probe_m": 20.0,
-  "nearest_obstruction": "t_-1_4_red_brick",
+  "nearest_obstruction": null,
   "nearest_obstruction_at_deg": [
-   -27.2,
+   0.0,
    0.0
   ],
-  "nearest_obstruction_m": 14.0,
-  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 16 m ahead, less than the 80 m this frame needs to show its subject; the camera was moved 26 m to the right -- the nearest point in open air -- keeping the same eye height above the heightmap.  The view azimuth is clear for 96 m from there, and the nearest built thing in the frame is t_-1_4_red_brick 14.0 m away, and no simulated agent stands within 20 m of it",
-  "offset_m": 26.0,
+  "nearest_obstruction_m": 20.0,
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 16 m ahead, less than the 80 m this frame needs to show its subject; the camera was moved 48 m along the view azimuth -- the nearest point in open air -- keeping the same eye height above the heightmap.  The view azimuth is clear for 96 m from there, and nothing built stands within 20 m of the lens, and no simulated agent stands within 20 m of it",
+  "offset_m": 48.0,
   "reason": "boxed in: the view azimuth is closed off 16 m ahead, less than the 80 m this frame needs to show its subject",
-  "rule": "radial search with a clear frame",
+  "rule": "radial search with a clear frame that sees the subject",
+  "scored_on_subject_sightline": true,
+  "subject_sightline_at_choice": {
+   "subject_blocked_at_m": 31.1,
+   "subject_blocked_by": "t_-1_4_red_brick",
+   "subject_rays": 13,
+   "subject_rays_on_subject": 2,
+   "subject_visible": true,
+   "subject_visible_fraction": 0.154
+  },
   "view_m": 96.0
  },
  "frame": {
-  "mean": 0.4101,
+  "mean": 0.4508,
   "reason": null,
-  "sd": 0.1895,
+  "sd": 0.1257,
   "usable": true
  },
  "frame_retry": null,
@@ -83,6 +93,19 @@
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
  "lighting": {
   "background_strength": 0.031174635514616966,
+  "development": {
+   "linear_p05": 0.01678,
+   "linear_p50": 0.122776,
+   "linear_p95": 0.173403,
+   "log_average_linear": 0.090645,
+   "median_linear": 0.122776,
+   "metered": true,
+   "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
+   "stops": 0.552,
+   "stops_unclamped": 0.552,
+   "target_linear": 0.18,
+   "view_transform": "Filmic"
+  },
   "direct_normal_irradiance_w_m2": 914.0,
   "emissive": {
    "cone_faces_deleted": 8,
@@ -91,7 +114,8 @@
    "night": false,
    "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
-  "exposure_stops": 0.0,
+  "exposure_stops": 0.55,
+  "physical_rule_stops": 0.0,
   "sky_azimuth_deg": 170.398,
   "sky_elevation_deg": 58.16,
   "sun_lamp": true,
@@ -115,11 +139,18 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_pulaski_bridge/render.png",
- "rendered_at": "2026-09-09T06:57:39Z",
+ "rendered_at": "2026-09-10T00:26:58Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
+   "camera_clear_ped_basis": [
+    1.8,
+    38.0,
+    0.4
+   ],
+   "camera_clear_ped_m": 6.5,
+   "camera_clear_vehicle_m": 6.0,
    "caption": "Agents: 89 vehicles within 320 m and 390 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 218 vehicles and 778 people over the whole simulated ring, of which 252 and 967 were simulated; 740 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "dropped": {
     "pedestrian_in_the_carriageway_not_crossing": 204,
@@ -152,7 +183,7 @@
    "placed_pedestrians": 390,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 93.42,
+   "seconds": 368.96,
    "snapshot": {
     "building_footprints_tested": 3096,
     "density_lane_km": 15.974,
@@ -192,7 +223,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 252
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -91_4021_12_0_087f9161f2132766_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 1019643,
    "vehicle_lods": {
@@ -684,6 +715,40 @@
    "resolution": "2K",
    "slots": 164
   },
+  "parkground": {
+   "by_kind": {},
+   "dressed": {},
+   "faces_cut_for_landmark_ground": 0,
+   "flat_with_reason": {},
+   "imported": [],
+   "meshes": 0,
+   "per_tile": {},
+   "placement": "tile-local X/Y plus the tile origin, Z absolute NAVD88 (the tile convention add_structures and the shells use)",
+   "radius_m": 900.0,
+   "redraped_on_scene_heightmap": {
+    "applied": true,
+    "shifted": 0,
+    "vertices": 0
+   },
+   "source": "blender/parks/build_parkground.py over data/processed/parks/surfaces.parquet, tile pavement subtracted",
+   "surfaces": 0,
+   "terrain_clearance": {
+    "measured": false,
+    "reason": "no terrain object passed"
+   },
+   "terrain_rule": "the pavement's convention: a ground surface is draped on the heightmap the verify terrain is sampled from (TerrainSampler, the 501-sample source grid) plus its kind's own lift, never re-fitted to the terrain mesh.  The builder draped the glb on the UE landscape grid (505 samples resampled from the same heightmap), so each vertex is shifted here by the difference between the two readings at its own X/Y -- median -0.5 mm, 99th percentile of |difference| 0.13 m in the near field, measured around Bethesda -- and keeps its lift and its skirt.  Inside near_m the terrain is the 2 m heightmap itself and the lift (0.08-0.20 m, at least the drape tolerance) clears it; beyond near_m the terrain grid coarsens to far_spacing_m and bridges hollows the surface still follows, so a share of the far surface sits under the terrain there, exactly as the pavement does (J64 refines it only to 400 m).  The fractions below are that share, measured on this scene's own terrain mesh by band.",
+   "tiles": 0,
+   "tiles_dropped_for_budget": [],
+   "tiles_missing": [
+    "t_-1_3",
+    "t_-1_4",
+    "t_0_3",
+    "t_0_4"
+   ],
+   "tiles_wanted": 4,
+   "triangle_budget": 1500000,
+   "triangles": 0
+  },
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
@@ -711,45 +776,88 @@
    "vertices": 271343
   },
   "props": {
+   "canopy": {
+    "billboards": 2112,
+    "card_missing_drawn_lod0": 0,
+    "dropped_for_budget": 0,
+    "lod0": 62,
+    "near_radius_m": 120.0,
+    "procedural_dataset_id": "rule:woodland_canopy",
+    "procedural_stems": 263,
+    "radius_m": 959.5601771408617,
+    "rows_beyond_prop_radius": 2016,
+    "triangles": 12672,
+    "yaw_by_rule": 2174,
+    "yaw_rule": "a tree's yaw is not in any source: it is drawn from a hash of the stem's own position (SplitMix64 over the metre-rounded x, y), uniform over 360 deg, so the same tree is drawn the same way in every render and no two neighbours share a silhouette; a rule, not a measurement"
+   },
    "capped": null,
-   "impostor_cards_dropped": 13,
+   "dropped_for_budget": 0,
+   "dropped_on_suppressed_building": 0,
+   "impostor_cards_dropped": 8,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
     "curb_ramp": 60
    },
    "leaf_off": true,
+   "per_dataset": {
+    "citibike_gbfs_station_status": 37,
+    "citibike_gbfs_stations": 43,
+    "gtfs_bus": 3,
+    "hydrants": 36,
+    "osm_newyork_pbf": 184,
+    "plan_cooling_towers": 38,
+    "rule:lamp_30_40m_alt": 106,
+    "rule:manhole_40m": 108,
+    "rule:woodland_canopy": 263,
+    "street_trees_2015": 1731
+   },
    "per_kind": {
     "bike_rack": 2,
     "bus_stop_sign": 3,
-    "citibike_dock": 1,
+    "citibike_dock": 80,
     "cooling_tower": 38,
     "hydrant": 36,
     "manhole": 108,
     "street_lamp": 108,
-    "tree": 158
+    "tree": 2174
    },
-   "placed": 454,
+   "placed": 2549,
    "radius_m": 250.0,
-   "rows_in_range": 516,
+   "rows_in_range": 2611,
    "tiles_missing": [],
    "tiles_read": [
     "t_-1_3",
     "t_-1_4",
+    "t_-2_3",
+    "t_-2_4",
     "t_0_3",
     "t_0_4"
    ],
-   "tree_instances_scaled": 158,
-   "tree_mean_scale": 0.882,
-   "tree_scale_out_of_band": 0,
-   "tree_species_substituted": 78,
-   "triangles": 972826,
+   "tree_instances_scaled": 2164,
+   "tree_mean_scale": 0.876,
+   "tree_scale_out_of_band": 10,
+   "tree_species_substituted": 813,
+   "triangles": 780258,
    "unmapped_kinds": {
     "billboard": 1,
     "misc_structure": 1
    }
   },
   "radius_m": 959.5601771408617,
-  "seconds": 141.29,
+  "seconds": 452.75,
+  "structures": {
+   "imported": [
+    "t_-1_3",
+    "t_-1_4",
+    "t_-2_3",
+    "t_-2_4",
+    "t_0_3",
+    "t_0_4"
+   ],
+   "tiles_imported": 6,
+   "tiles_without_a_file": 0,
+   "triangles": 27492
+  },
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -802,7 +910,7 @@
    "z_max_m": 11.87,
    "z_min_m": -2.2
   },
-  "triangles": 2747449
+  "triangles": 2554881
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -812,32 +920,40 @@
   "radius_m": 959.5601771408617
  },
  "seconds": {
-  "render": 43.8,
-  "scene": 160.4,
-  "total": 204.2
+  "render": 102.1,
+  "scene": 504.2,
+  "total": 606.3
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 7.7 m above its ground",
-  "subject_blocked_at_m": 29.5,
+  "subject_blocked_at_m": 31.1,
   "subject_blocked_by": "t_-1_4_red_brick",
-  "subject_fan_from": "the subject's own measured height (J74)",
-  "subject_fan_half_angle_deg": 1.26,
-  "subject_fan_m": 15.4,
-  "subject_lands_at_m": null,
-  "subject_lands_on": null,
-  "subject_range_m": 350.7,
-  "subject_rays": 5,
-  "subject_rays_clear": 0,
+  "subject_clear_fraction": 0.308,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate; clipped to the frame, because a ray outside the picture tests something that is not in it",
+  "subject_fan_half_angle_deg": 27.22,
+  "subject_fan_m": 634.5,
+  "subject_fan_tall_m": 15.4,
+  "subject_fan_v_half_angle_deg": 1.46,
+  "subject_lands_at_m": 304.5,
+  "subject_lands_on": "lm_b_pulaski.24",
+  "subject_own_fabric_nearest": null,
+  "subject_own_fabric_nearest_m": null,
+  "subject_range_m": 301.7,
+  "subject_rays": 13,
+  "subject_rays_clear": 4,
   "subject_rays_into_nothing": 0,
-  "subject_rays_on_subject": 0,
+  "subject_rays_on_own_fabric_nearer_than_recorded": 0,
+  "subject_rays_on_subject": 2,
   "subject_reach_m": 25.0,
-  "subject_visible": false
+  "subject_verdict_rule": "at least one ray lands on the subject (J78)",
+  "subject_visible": true,
+  "subject_visible_fraction": 0.154
  },
  "slug": "landmark_pulaski_bridge",
  "status": "rendered",
  "subject": {
   "distance_from": "the placed camera, after the clearance walk",
-  "distance_m": 350.7,
+  "distance_m": 301.7,
   "height_probe": {
    "ground_z_m": 0.0,
    "height_above_ground_m": 15.4,
@@ -848,12 +964,19 @@
     "within_120_m": true
    },
    "object": "lm_b_pulaski.35",
-   "rays_cast": 17,
-   "rays_on_built_fabric": 7,
+   "rays_cast": 43,
+   "rays_on_built_fabric": 18,
    "z": 15.4
   },
   "name": "Pulaski Bridge",
-  "origin_distance_m": 349.7
+  "origin_distance_m": 349.7,
+  "plan_extent": {
+   "is_tile_mesh": false,
+   "narrow_m": 162.9,
+   "note": "the bounding box of the object the height was measured off",
+   "object": "lm_b_pulaski.35",
+   "width_m": 634.5
+  }
  },
  "sun": {
   "azimuth_deg": 170.3980274044187,

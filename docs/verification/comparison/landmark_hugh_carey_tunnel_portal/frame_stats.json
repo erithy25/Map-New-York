@@ -1,17 +1,19 @@
 {
  "slug": "landmark_hugh_carey_tunnel_portal",
- "rendered_at": "2026-09-09T05:39:27Z",
+ "rendered_at": "2026-09-09T21:48:38Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.4711,
-  "sd": 0.1519,
-  "p05": 0.1366,
-  "p95": 0.6533,
-  "chroma": 0.0669
+  "mean": 0.46,
+  "sd": 0.1272,
+  "p05": 0.1702,
+  "p50": 0.498,
+  "p95": 0.6166,
+  "chroma": 0.0657,
+  "exposure_offset_stops": 0.238
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.3716,
   "sd": 0.3527,
   "p05": 0.0622,
+  "p50": 0.1742,
   "p95": 1.0,
-  "chroma": 0.0265
+  "chroma": 0.0265,
+  "exposure_offset_stops": -2.812
  },
  "render_over_reference": {
-  "mean": 1.268,
-  "sd": 0.431,
-  "chroma": 2.525
+  "mean": 1.238,
+  "sd": 0.361,
+  "p50": 2.859,
+  "chroma": 2.479,
+  "exposure_offset_stops": 3.05,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

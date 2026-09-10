@@ -1,17 +1,19 @@
 {
  "slug": "landmark_manhattan_bridge",
- "rendered_at": "2026-09-09T00:20:55Z",
+ "rendered_at": "2026-09-09T22:38:47Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.4301,
-  "sd": 0.1776,
-  "p05": 0.138,
-  "p95": 0.7328,
-  "chroma": 0.0816
+  "mean": 0.4799,
+  "sd": 0.1844,
+  "p05": 0.1694,
+  "p50": 0.4938,
+  "p95": 0.7891,
+  "chroma": 0.0887,
+  "exposure_offset_stops": 0.211
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.3488,
   "sd": 0.2099,
   "p05": 0.0317,
+  "p50": 0.3761,
   "p95": 0.7009,
-  "chroma": 0.2548
+  "chroma": 0.2548,
+  "exposure_offset_stops": -0.625
  },
  "render_over_reference": {
-  "mean": 1.233,
-  "sd": 0.846,
-  "chroma": 0.32
+  "mean": 1.376,
+  "sd": 0.879,
+  "p50": 1.313,
+  "chroma": 0.348,
+  "exposure_offset_stops": 0.836,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

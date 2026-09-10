@@ -1,17 +1,19 @@
 {
  "slug": "landmark_pier_17",
- "rendered_at": "2026-09-09T06:43:03Z",
+ "rendered_at": "2026-09-10T00:16:47Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.3736,
-  "sd": 0.1831,
-  "p05": 0.0563,
-  "p95": 0.565,
-  "chroma": 0.0436
+  "mean": 0.4793,
+  "sd": 0.2094,
+  "p05": 0.0902,
+  "p50": 0.4949,
+  "p95": 0.6896,
+  "chroma": 0.0506,
+  "exposure_offset_stops": 0.218
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4476,
   "sd": 0.2409,
   "p05": 0.0986,
+  "p50": 0.4773,
   "p95": 0.92,
-  "chroma": 0.1807
+  "chroma": 0.1807,
+  "exposure_offset_stops": 0.106
  },
  "render_over_reference": {
-  "mean": 0.835,
-  "sd": 0.76,
-  "chroma": 0.241
+  "mean": 1.071,
+  "sd": 0.869,
+  "p50": 1.037,
+  "chroma": 0.28,
+  "exposure_offset_stops": 0.112,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

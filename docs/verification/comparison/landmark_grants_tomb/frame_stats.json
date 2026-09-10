@@ -1,17 +1,19 @@
 {
  "slug": "landmark_grants_tomb",
- "rendered_at": "2026-09-09T05:20:04Z",
+ "rendered_at": "2026-09-09T21:29:29Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 904,
   "height": 1206,
-  "mean": 0.4216,
-  "sd": 0.1313,
-  "p05": 0.1395,
-  "p95": 0.5723,
-  "chroma": 0.0525
+  "mean": 0.466,
+  "sd": 0.1384,
+  "p05": 0.1781,
+  "p50": 0.4965,
+  "p95": 0.6264,
+  "chroma": 0.0951,
+  "exposure_offset_stops": 0.228
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5265,
   "sd": 0.1951,
   "p05": 0.1689,
+  "p50": 0.5363,
   "p95": 0.8002,
-  "chroma": 0.1417
+  "chroma": 0.1417,
+  "exposure_offset_stops": 0.469
  },
  "render_over_reference": {
-  "mean": 0.801,
-  "sd": 0.673,
-  "chroma": 0.371
+  "mean": 0.885,
+  "sd": 0.709,
+  "p50": 0.926,
+  "chroma": 0.671,
+  "exposure_offset_stops": -0.241,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

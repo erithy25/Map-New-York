@@ -1,17 +1,19 @@
 {
  "slug": "landmark_oculus",
- "rendered_at": "2026-09-09T00:58:33Z",
+ "rendered_at": "2026-09-09T23:30:30Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 854,
-  "mean": 0.1729,
-  "sd": 0.1143,
-  "p05": 0.0227,
-  "p95": 0.3717,
-  "chroma": 0.0215
+  "mean": 0.4922,
+  "sd": 0.2114,
+  "p05": 0.1308,
+  "p50": 0.4986,
+  "p95": 0.7938,
+  "chroma": 0.0399,
+  "exposure_offset_stops": 0.241
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.7648,
   "sd": 0.2281,
   "p05": 0.2614,
+  "p50": 0.8774,
   "p95": 0.9684,
-  "chroma": 0.0613
+  "chroma": 0.0613,
+  "exposure_offset_stops": 2.046
  },
  "render_over_reference": {
-  "mean": 0.226,
-  "sd": 0.501,
-  "chroma": 0.351
+  "mean": 0.644,
+  "sd": 0.927,
+  "p50": 0.568,
+  "chroma": 0.651,
+  "exposure_offset_stops": -1.805,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
