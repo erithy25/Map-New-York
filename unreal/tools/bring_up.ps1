@@ -205,8 +205,8 @@ function Test-EngineRoot {
 
 function Add-EngineCandidate {
     param(
-        [Parameter(Mandatory)][System.Collections.ArrayList] $Into,
-        [Parameter(Mandatory)][AllowEmptyString()][string] $Root,
+        [Parameter(Mandatory)][AllowEmptyCollection()][System.Collections.ArrayList] $Into,
+        [AllowNull()][AllowEmptyString()][string] $Root = '',
         [Parameter(Mandatory)][string] $Source
     )
     if ([string]::IsNullOrWhiteSpace($Root)) { return }
@@ -224,8 +224,9 @@ function Add-EngineCandidate {
 }
 
 function Get-EnginesFromLauncher {
-    param([Parameter(Mandatory)][System.Collections.ArrayList] $Into)
+    param([Parameter(Mandatory)][AllowEmptyCollection()][System.Collections.ArrayList] $Into)
 
+    if ([string]::IsNullOrWhiteSpace($env:ProgramData)) { return }
     $dat = Join-Path $env:ProgramData 'Epic\UnrealEngineLauncher\LauncherInstalled.dat'
     if (-not (Test-Path -LiteralPath $dat)) { return }
 
@@ -247,7 +248,7 @@ function Get-EnginesFromLauncher {
 }
 
 function Get-EnginesFromRegistry {
-    param([Parameter(Mandatory)][System.Collections.ArrayList] $Into)
+    param([Parameter(Mandatory)][AllowEmptyCollection()][System.Collections.ArrayList] $Into)
 
     # Binary installs register here, one subkey per version, with InstalledDirectory.
     $machineKey = 'HKLM:\SOFTWARE\EpicGames\Unreal Engine'
@@ -274,10 +275,11 @@ function Get-EnginesFromRegistry {
 }
 
 function Get-EnginesFromDriveScan {
-    param([Parameter(Mandatory)][System.Collections.ArrayList] $Into)
+    param([Parameter(Mandatory)][AllowEmptyCollection()][System.Collections.ArrayList] $Into)
 
     # Last resort, and the reason this script exists: an engine somewhere neither the launcher nor the
     # registry admits to. Depth is bounded so this stays seconds rather than minutes.
+    if (-not (Get-Command Get-CimInstance -ErrorAction SilentlyContinue)) { return }
     $drives = Get-CimInstance -ClassName Win32_LogicalDisk -Filter 'DriveType = 3' -ErrorAction SilentlyContinue
     if ($null -eq $drives) { return }
 
@@ -303,14 +305,17 @@ function Find-Engines {
 }
 
 function Select-Engine {
-    param([Parameter(Mandatory)][System.Collections.ArrayList] $Candidates)
+    param(
+        [Parameter(Mandatory)][AllowEmptyCollection()][object[]] $Candidates,
+        [switch] $AllowAnyVersion
+    )
 
     $wanted = $Candidates | Where-Object {
         $null -ne $_.Version -and $_.Version.Major -eq $script:WantedMajor -and $_.Version.Minor -eq $script:WantedMinor
     }
     if ($wanted) { return @($wanted)[0] }
 
-    if (-not $AllowEngineVersion) {
+    if (-not $AllowAnyVersion) {
         $have = ($Candidates | ForEach-Object {
             $v = if ($null -eq $_.Version) { 'unknown version' } else { $_.Version.Text }
             "$v at $($_.Root)"
@@ -340,8 +345,14 @@ function Select-Engine {
 # ---------------------------------------------------------------------------------------------------
 
 function Test-Toolchain {
-    $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
-    if (-not (Test-Path -LiteralPath $vswhere)) {
+    # vswhere ships in the 32-bit Program Files on every Visual Studio 2017 and later install.
+    $vswhere = $null
+    foreach ($base in @(${env:ProgramFiles(x86)}, $env:ProgramFiles)) {
+        if ([string]::IsNullOrWhiteSpace($base)) { continue }
+        $candidate = Join-Path $base 'Microsoft Visual Studio\Installer\vswhere.exe'
+        if (Test-Path -LiteralPath $candidate) { $vswhere = $candidate; break }
+    }
+    if ($null -eq $vswhere) {
         Stop-WithReason -Reason 'Visual Studio 2022 is not installed (no vswhere.exe)' -NextSteps @(
             'Install the Visual Studio 2022 Build Tools from https://visualstudio.microsoft.com/downloads/',
             'Select the workload "Desktop development with C++" (Microsoft.VisualStudio.Workload.NativeDesktop).',
@@ -359,12 +370,16 @@ function Test-Toolchain {
             'The MSVC v143 toolset and the Windows 10/11 SDK are the two parts that matter.'
         )
     }
-    Write-Good "C++ toolset: $($install -split "`n" | Select-Object -First 1)"
+    Write-Good "C++ toolset: $(@($install)[0])"
 }
 
 function Test-FreeDisk {
     param([Parameter(Mandatory)][string] $RepoRoot)
 
+    if (-not (Get-Command Get-CimInstance -ErrorAction SilentlyContinue)) {
+        Write-Warn 'no Get-CimInstance on this host; skipping the free-space check'
+        return
+    }
     $qualifier = (Split-Path -Qualifier (Resolve-Path -LiteralPath $RepoRoot).Path)
     $drive = Get-CimInstance -ClassName Win32_LogicalDisk -Filter "DeviceID = '$qualifier'" -ErrorAction SilentlyContinue
     if ($null -eq $drive) {
@@ -407,7 +422,7 @@ function Test-Content {
         )
     }
 
-    $tiles = Get-PresentTiles -RepoRoot $RepoRoot
+    $tiles = @(Get-PresentTiles -RepoRoot $RepoRoot)
     if ($tiles.Count -eq 0) {
         Stop-WithReason -Reason 'data\processed\tiles is empty, so the city is not on this machine' -NextSteps @(
             'Unpack the content package: see section 9b of unreal\README.md.'
@@ -508,6 +523,11 @@ function Invoke-Build {
 # ---------------------------------------------------------------------------------------------------
 
 function Show-ImportReport {
+    <#
+      The schema is the one import_world.py writes: counts and warnings at the top, a "stages" object
+      keyed by stage name, and the staging stage's "missing" list -- which is where a partial unpack
+      shows up as a source the manifest names and the disk does not have.
+    #>
     param([Parameter(Mandatory)][string] $RepoRoot)
 
     $report = Join-Path $RepoRoot 'unreal\NYCSim\Saved\NYCSim\import_report.json'
@@ -522,33 +542,61 @@ function Show-ImportReport {
         Write-Warn "import_report.json is not readable JSON: $($_.Exception.Message)"
         return
     }
+    $top = $doc.PSObject.Properties.Name
 
-    $names = $doc.PSObject.Properties.Name
-    if ($names -contains 'stages') {
-        foreach ($stage in $doc.stages) {
-            $stageNames = $stage.PSObject.Properties.Name
-            $name    = if ($stageNames -contains 'name')    { $stage.name }    else { '(unnamed)' }
-            $ok      = if ($stageNames -contains 'ok')      { $stage.ok }      else { $null }
-            $seconds = if ($stageNames -contains 'seconds') { $stage.seconds } else { $null }
-            $mark    = if ($ok -eq $true) { 'ok  ' } elseif ($null -eq $ok) { '?   ' } else { 'FAIL' }
-            $time    = if ($null -eq $seconds) { '' } else { (' {0,8:N1} s' -f [double] $seconds) }
-            Write-Detail ("{0} {1}{2}" -f $mark, $name.PadRight(12), $time)
+    if ($top -contains 'seconds' -and $null -ne $doc.seconds) {
+        Write-Detail ("took {0:N1} s" -f [double] $doc.seconds)
+    }
+    if ($top -contains 'manifest_git_commit' -and -not [string]::IsNullOrWhiteSpace([string] $doc.manifest_git_commit)) {
+        Write-Detail "manifest from commit $($doc.manifest_git_commit)"
+    }
+
+    # entries is the manifest's per-kind counts.
+    if ($top -contains 'entries' -and $null -ne $doc.entries) {
+        $counts = @($doc.entries.PSObject.Properties | ForEach-Object { "$($_.Name) $($_.Value)" })
+        if ($counts.Count -gt 0) { Write-Detail ("manifest entries: " + ($counts -join ', ')) }
+    }
+
+    if ($top -contains 'manifest_warnings' -and $null -ne $doc.manifest_warnings) {
+        $warnings = @($doc.manifest_warnings)
+        foreach ($warning in ($warnings | Select-Object -First 10)) { Write-Warn "manifest: $warning" }
+        if ($warnings.Count -gt 10) { Write-Warn "... $($warnings.Count - 10) more manifest warnings" }
+    }
+
+    if ($top -contains 'stages' -and $null -ne $doc.stages) {
+        foreach ($stage in $doc.stages.PSObject.Properties) {
+            $value = $stage.Value
+            $fields = if ($null -eq $value) { @() } else { $value.PSObject.Properties.Name }
+
+            if ($fields -contains 'exit') {
+                $mark = if ([int] $value.exit -eq 0) { 'ok  ' } else { 'FAIL' }
+                Write-Detail ("{0} {1}  exit {2}" -f $mark, $stage.Name.PadRight(8), [int] $value.exit)
+                continue
+            }
+
+            $copied  = if ($fields -contains 'copied') { [int] $value.copied } else { 0 }
+            $missing = if ($fields -contains 'missing' -and $null -ne $value.missing) { @($value.missing) } else { @() }
+            $mark    = if ($missing.Count -eq 0) { 'ok  ' } else { 'WARN' }
+            Write-Detail ("{0} {1}  {2} file(s) staged, {3} source(s) missing" -f
+                          $mark, $stage.Name.PadRight(8), $copied, $missing.Count)
+
+            # A missing source is silent otherwise, and a silent skip is how a missing asset becomes a
+            # missing building.
+            foreach ($item in ($missing | Select-Object -First 25)) {
+                Write-Host "         missing: $item" -ForegroundColor Yellow
+            }
+            if ($missing.Count -gt 25) {
+                Write-Host "         ... $($missing.Count - 25) more, all listed in $report" -ForegroundColor Yellow
+            }
+            if ($missing.Count -gt 0) {
+                Write-Warn 'A missing source usually means the content package was unpacked in part.'
+                Write-Warn 'This script imports only the tiles on disk, so a missing source here is not a tile filter.'
+            }
         }
     }
 
-    # Every skip carries its reason. A silent skip is how a missing asset becomes a missing building.
-    if ($names -contains 'skipped' -and $null -ne $doc.skipped) {
-        $skips = @($doc.skipped)
-        if ($skips.Count -gt 0) {
-            Write-Host ''
-            Write-Warn "$($skips.Count) skip(s), each with its reason:"
-            foreach ($skip in ($skips | Select-Object -First 25)) {
-                Write-Host "      $skip"
-            }
-            if ($skips.Count -gt 25) { Write-Host "      ... $($skips.Count - 25) more in $report" }
-        } else {
-            Write-Good 'no skips'
-        }
+    if ($top -contains 'exit' -and $null -ne $doc.exit -and [int] $doc.exit -ne 0) {
+        Write-Warn "the report's own exit status is $([int] $doc.exit)"
     }
 }
 
@@ -609,7 +657,10 @@ function Invoke-Import {
 function Start-Game {
     param(
         [Parameter(Mandatory)][string] $RepoRoot,
-        [Parameter(Mandatory)][string] $EngineRoot
+        [Parameter(Mandatory)][string] $EngineRoot,
+        [switch] $Standalone,
+        [int] $Width = 2560,
+        [int] $Height = 1440
     )
 
     $editor   = Join-Path $EngineRoot 'Engine\Binaries\Win64\UnrealEditor.exe'
@@ -620,10 +671,10 @@ function Start-Game {
         )
     }
 
-    if ($Play) {
-        Write-Detail "standalone window at ${ResX}x${ResY}"
+    if ($Standalone) {
+        Write-Detail "standalone window at ${Width}x${Height}"
         Start-Process -FilePath $editor -ArgumentList @(
-            $uproject, '/Game/NYCSim/Maps/NYC', '-game', '-windowed', "-resx=$ResX", "-resy=$ResY"
+            $uproject, '/Game/NYCSim/Maps/NYC', '-game', '-windowed', "-resx=$Width", "-resy=$Height"
         )
     } else {
         Write-Detail 'opening the editor -- load /Game/NYCSim/Maps/NYC and press Play'
@@ -663,7 +714,7 @@ if ($EnginePath) {
     }
     Write-Good "using $(if ($null -eq $version) { 'unknown version' } else { $version.Text }) at $($engine.Root)"
 } else {
-    $candidates = Find-Engines
+    $candidates = @(Find-Engines)
     if ($candidates.Count -eq 0) {
         Stop-WithReason -Reason 'no Unreal Engine found in the launcher manifest, the registry, or on any fixed drive' -NextSteps @(
             'Install Unreal Engine 5.4 from the Epic Games Launcher.',
@@ -674,7 +725,7 @@ if ($EnginePath) {
         $shown = if ($null -eq $candidate.Version) { 'unknown version' } else { $candidate.Version.Text }
         Write-Detail ("{0,-12} {1,-32} {2}" -f $shown, $candidate.Source, $candidate.Root)
     }
-    $engine = Select-Engine -Candidates $candidates
+    $engine = Select-Engine -Candidates $candidates -AllowAnyVersion:$AllowEngineVersion
     Write-Good "using $(if ($null -eq $engine.Version) { 'unknown version' } else { $engine.Version.Text }) at $($engine.Root)"
 }
 
@@ -688,7 +739,7 @@ if ($DiscoverOnly) {
 Write-Phase 'Checking the machine'
 Test-Toolchain
 Test-FreeDisk -RepoRoot $repoRoot
-$tiles = Test-Content -RepoRoot $repoRoot
+$tiles = @(Test-Content -RepoRoot $repoRoot)
 
 if (-not $SkipBuild) {
     Write-Phase 'Building'
@@ -711,6 +762,6 @@ if (-not $SkipImport) {
 }
 
 Write-Phase 'Starting'
-Start-Game -RepoRoot $repoRoot -EngineRoot $engine.Root
+Start-Game -RepoRoot $repoRoot -EngineRoot $engine.Root -Standalone:$Play -Width $ResX -Height $ResY
 Write-Host ''
 exit 0
