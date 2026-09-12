@@ -1,0 +1,37 @@
+{
+ "slug": "landmark_port_authority_bus_terminal",
+ "rendered_at": "2026-09-12T21:52:14Z",
+ "reference_file": "3.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 854,
+  "mean": 0.3387,
+  "sd": 0.1839,
+  "p05": 0.0118,
+  "p50": 0.3698,
+  "p95": 0.6239,
+  "chroma": 0.0635,
+  "exposure_offset_stops": -0.676
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1280,
+  "mean": 0.3028,
+  "sd": 0.2547,
+  "p05": 0.0353,
+  "p50": 0.2119,
+  "p95": 0.8811,
+  "chroma": 0.0838,
+  "exposure_offset_stops": -2.285
+ },
+ "render_over_reference": {
+  "mean": 1.119,
+  "sd": 0.722,
+  "p50": 1.745,
+  "chroma": 0.758,
+  "exposure_offset_stops": 1.609,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
+ }
+}
