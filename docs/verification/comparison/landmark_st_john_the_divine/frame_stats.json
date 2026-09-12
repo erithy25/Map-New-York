@@ -1,17 +1,19 @@
 {
  "slug": "landmark_st_john_the_divine",
- "rendered_at": "2026-09-09T07:37:41Z",
+ "rendered_at": "2026-09-12T18:49:34Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1044,
   "height": 1044,
-  "mean": 0.0872,
-  "sd": 0.0602,
-  "p05": 0.0039,
-  "p95": 0.1893,
-  "chroma": 0.0226
+  "mean": 0.5334,
+  "sd": 0.1571,
+  "p05": 0.2588,
+  "p50": 0.4982,
+  "p95": 0.7746,
+  "chroma": 0.0753,
+  "exposure_offset_stops": 0.238
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5271,
   "sd": 0.2425,
   "p05": 0.1557,
+  "p50": 0.5107,
   "p95": 0.9294,
-  "chroma": 0.1061
+  "chroma": 0.1061,
+  "exposure_offset_stops": 0.316
  },
  "render_over_reference": {
-  "mean": 0.165,
-  "sd": 0.248,
-  "chroma": 0.213
+  "mean": 1.012,
+  "sd": 0.648,
+  "p50": 0.976,
+  "chroma": 0.71,
+  "exposure_offset_stops": -0.078,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

@@ -33,6 +33,7 @@
   "long_side_fov_deg": 66.699,
   "pitch_deg": 0.4287810466039126,
   "portrait": true,
+  "raised_surface_named": false,
   "resolution": [
    854,
    1280
@@ -69,9 +70,9 @@
   "view_m": 47.4
  },
  "frame": {
-  "mean": 0.4561,
+  "mean": 0.4288,
   "reason": null,
-  "sd": 0.1476,
+  "sd": 0.1409,
   "usable": true
  },
  "frame_retry": null,
@@ -80,6 +81,19 @@
  "lens_reason": "widened from 35 mm to 27 mm (67 deg vertical) so that a level axis contains the subject: the top of lm_b_statue_of_liberty.11, the built thing standing at the subject's coordinate, 48 m above the ground there stands 48 m above the lens at 84 m, 30 deg above the horizon",
  "lighting": {
   "background_strength": 0.03475267067551613,
+  "development": {
+   "linear_p05": 0.026812,
+   "linear_p50": 0.168418,
+   "linear_p95": 0.242639,
+   "log_average_linear": 0.109061,
+   "median_linear": 0.168418,
+   "metered": true,
+   "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
+   "stops": 0.096,
+   "stops_unclamped": 0.096,
+   "target_linear": 0.18,
+   "view_transform": "Filmic"
+  },
   "direct_normal_irradiance_w_m2": 804.1,
   "emissive": {
    "cone_faces_deleted": 8,
@@ -88,7 +102,8 @@
    "night": false,
    "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
-  "exposure_stops": 0.33,
+  "exposure_stops": 0.1,
+  "physical_rule_stops": 0.33,
   "sky_azimuth_deg": 225.771,
   "sky_elevation_deg": 34.207,
   "sun_lamp": true,
@@ -112,11 +127,18 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_statue_of_liberty/render.png",
- "rendered_at": "2026-09-09T01:41:07Z",
+ "rendered_at": "2026-09-12T18:50:39Z",
  "resolution_note": "854x1280; the reference photograph is 1920x2876 (0.67:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
+   "camera_clear_ped_basis": [
+    1.8,
+    38.0,
+    0.4
+   ],
+   "camera_clear_ped_m": 6.5,
+   "camera_clear_vehicle_m": 6.0,
    "caption": "Agents: none placed - the simulation frame is empty here",
    "dropped": {},
    "ped_lods": {},
@@ -167,7 +189,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 0
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -7919_-1237_15_0_c423b5d6445e0548_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 0,
    "vehicle_lods": {},
@@ -479,6 +501,40 @@
    "resolution": "2K",
    "slots": 44
   },
+  "parkground": {
+   "by_kind": {},
+   "dressed": {},
+   "faces_cut_for_landmark_ground": 0,
+   "flat_with_reason": {},
+   "imported": [],
+   "meshes": 0,
+   "per_tile": {},
+   "placement": "tile-local X/Y plus the tile origin, Z absolute NAVD88 (the tile convention add_structures and the shells use)",
+   "radius_m": 586.5378098756723,
+   "redraped_on_scene_heightmap": {
+    "applied": true,
+    "shifted": 0,
+    "vertices": 0
+   },
+   "source": "blender/parks/build_parkground.py over data/processed/parks/surfaces.parquet, tile pavement subtracted",
+   "surfaces": 0,
+   "terrain_clearance": {
+    "measured": false,
+    "reason": "no terrain object passed"
+   },
+   "terrain_rule": "the pavement's convention: a ground surface is draped on the heightmap the verify terrain is sampled from (TerrainSampler, the 501-sample source grid) plus its kind's own lift, never re-fitted to the terrain mesh.  The builder draped the glb on the UE landscape grid (505 samples resampled from the same heightmap), so each vertex is shifted here by the difference between the two readings at its own X/Y -- median -0.5 mm, 99th percentile of |difference| 0.13 m in the near field, measured around Bethesda -- and keeps its lift and its skirt.  Inside near_m the terrain is the 2 m heightmap itself and the lift (0.08-0.20 m, at least the drape tolerance) clears it; beyond near_m the terrain grid coarsens to far_spacing_m and bridges hollows the surface still follows, so a share of the far surface sits under the terrain there, exactly as the pavement does (J64 refines it only to 400 m).  The fractions below are that share, measured on this scene's own terrain mesh by band.",
+   "tiles": 0,
+   "tiles_dropped_for_budget": [],
+   "tiles_missing": [
+    "t_-8_-1",
+    "t_-8_-2",
+    "t_-9_-1",
+    "t_-9_-2"
+   ],
+   "tiles_wanted": 4,
+   "triangle_budget": 1500000,
+   "triangles": 0
+  },
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
@@ -499,23 +555,45 @@
    "vertices": 4015
   },
   "props": {
+   "canopy": {
+    "billboards": 269,
+    "card_missing_drawn_lod0": 0,
+    "dropped_for_budget": 0,
+    "lod0": 8,
+    "near_radius_m": 120.0,
+    "procedural_dataset_id": "rule:woodland_canopy",
+    "procedural_stems": 0,
+    "radius_m": 586.5378098756723,
+    "rows_beyond_prop_radius": 15,
+    "triangles": 1614,
+    "yaw_by_rule": 277,
+    "yaw_rule": "a tree's yaw is not in any source: it is drawn from a hash of the stem's own position (SplitMix64 over the metre-rounded x, y), uniform over 360 deg, so the same tree is drawn the same way in every render and no two neighbours share a silhouette; a rule, not a measurement"
+   },
    "capped": null,
+   "dropped_for_budget": 0,
+   "dropped_on_suppressed_building": 0,
    "impostor_cards_dropped": 3,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {},
    "leaf_off": false,
+   "per_dataset": {
+    "osm_newyork_pbf": 310,
+    "rule:lamp_30_40m_alt": 25,
+    "rule:manhole_40m": 22,
+    "rule:steam_vent_400m_manhattan_below_96": 2
+   },
    "per_kind": {
     "bench": 8,
     "flagpole": 1,
     "manhole": 22,
     "steam_vent": 2,
     "street_lamp": 25,
-    "tree": 262,
+    "tree": 277,
     "waste_basket": 24
    },
-   "placed": 344,
+   "placed": 359,
    "radius_m": 302.53343620195903,
-   "rows_in_range": 346,
+   "rows_in_range": 361,
    "tiles_missing": [],
    "tiles_read": [
     "t_-8_-1",
@@ -523,17 +601,28 @@
     "t_-9_-1",
     "t_-9_-2"
    ],
-   "tree_instances_scaled": 262,
-   "tree_mean_scale": 0.999,
+   "tree_instances_scaled": 277,
+   "tree_mean_scale": 0.992,
    "tree_scale_out_of_band": 0,
-   "tree_species_substituted": 262,
-   "triangles": 1367324,
+   "tree_species_substituted": 277,
+   "triangles": 167394,
    "unmapped_kinds": {
     "artwork": 2
    }
   },
   "radius_m": 586.5378098756723,
-  "seconds": 11.35,
+  "seconds": 4.81,
+  "structures": {
+   "imported": [
+    "t_-8_-1",
+    "t_-8_-2",
+    "t_-9_-1",
+    "t_-9_-2"
+   ],
+   "tiles_imported": 4,
+   "tiles_without_a_file": 0,
+   "triangles": 4688
+  },
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -561,7 +650,7 @@
    "z_max_m": 6.02,
    "z_min_m": -0.2
   },
-  "triangles": 2002308
+  "triangles": 802378
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -571,26 +660,34 @@
   "radius_m": 586.5378098756723
  },
  "seconds": {
-  "render": 42.8,
-  "scene": 11.7,
-  "total": 54.5
+  "render": 56.0,
+  "scene": 5.2,
+  "total": 61.1
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 24.1 m above its ground",
-  "subject_blocked_at_m": 47.0,
+  "subject_blocked_at_m": 47.5,
   "subject_blocked_by": "lm_b_statue_of_liberty.4",
-  "subject_fan_from": "the subject's own measured height (J74)",
-  "subject_fan_half_angle_deg": 15.0,
-  "subject_fan_m": 48.1,
+  "subject_clear_fraction": 0.0,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate",
+  "subject_fan_half_angle_deg": 4.85,
+  "subject_fan_m": 14.8,
+  "subject_fan_tall_m": 48.1,
+  "subject_fan_v_half_angle_deg": 15.43,
   "subject_lands_at_m": null,
   "subject_lands_on": null,
+  "subject_own_fabric_nearest": null,
+  "subject_own_fabric_nearest_m": null,
   "subject_range_m": 87.2,
-  "subject_rays": 5,
+  "subject_rays": 13,
   "subject_rays_clear": 0,
   "subject_rays_into_nothing": 0,
+  "subject_rays_on_own_fabric_nearer_than_recorded": 0,
   "subject_rays_on_subject": 0,
   "subject_reach_m": 25.0,
-  "subject_visible": false
+  "subject_verdict_rule": "at least one ray lands on the subject (J78)",
+  "subject_visible": false,
+  "subject_visible_fraction": 0.0
  },
  "slug": "landmark_statue_of_liberty",
  "status": "rendered",
@@ -607,12 +704,19 @@
     "within_120_m": true
    },
    "object": "lm_b_statue_of_liberty.11",
-   "rays_cast": 17,
-   "rays_on_built_fabric": 17,
+   "rays_cast": 43,
+   "rays_on_built_fabric": 43,
    "z": 52.94
   },
   "name": "Statue of Liberty",
-  "origin_distance_m": 83.8
+  "origin_distance_m": 83.8,
+  "plan_extent": {
+   "is_tile_mesh": false,
+   "narrow_m": 14.8,
+   "note": "the bounding box of the object the height was measured off",
+   "object": "lm_b_statue_of_liberty.11",
+   "width_m": 14.8
+  }
  },
  "sun": {
   "azimuth_deg": 225.77098308456982,

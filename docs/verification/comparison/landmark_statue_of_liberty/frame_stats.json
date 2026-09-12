@@ -1,17 +1,19 @@
 {
  "slug": "landmark_statue_of_liberty",
- "rendered_at": "2026-09-09T01:41:07Z",
+ "rendered_at": "2026-09-12T18:50:39Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 854,
   "height": 1280,
-  "mean": 0.4565,
-  "sd": 0.1466,
-  "p05": 0.2174,
-  "p95": 0.6003,
-  "chroma": 0.0285
+  "mean": 0.4292,
+  "sd": 0.14,
+  "p05": 0.2,
+  "p50": 0.5014,
+  "p95": 0.5691,
+  "chroma": 0.028,
+  "exposure_offset_stops": 0.259
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5707,
   "sd": 0.1482,
   "p05": 0.2315,
+  "p50": 0.6141,
   "p95": 0.7073,
-  "chroma": 0.2506
+  "chroma": 0.2506,
+  "exposure_offset_stops": 0.897
  },
  "render_over_reference": {
-  "mean": 0.8,
-  "sd": 0.989,
-  "chroma": 0.114
+  "mean": 0.752,
+  "sd": 0.945,
+  "p50": 0.816,
+  "chroma": 0.112,
+  "exposure_offset_stops": -0.638,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

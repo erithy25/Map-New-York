@@ -1,17 +1,19 @@
 {
  "slug": "landmark_st_george_ferry_terminal",
- "rendered_at": "2026-09-09T07:34:23Z",
+ "rendered_at": "2026-09-12T18:47:27Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 854,
-  "mean": 0.2873,
-  "sd": 0.1875,
-  "p05": 0.0275,
-  "p95": 0.5207,
-  "chroma": 0.0116
+  "mean": 0.4003,
+  "sd": 0.2363,
+  "p05": 0.0541,
+  "p50": 0.5017,
+  "p95": 0.6748,
+  "chroma": 0.013,
+  "exposure_offset_stops": 0.26
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.2928,
   "sd": 0.221,
   "p05": 0.028,
+  "p50": 0.2451,
   "p95": 0.75,
-  "chroma": 0.0611
+  "chroma": 0.0611,
+  "exposure_offset_stops": -1.879
  },
  "render_over_reference": {
-  "mean": 0.981,
-  "sd": 0.848,
-  "chroma": 0.19
+  "mean": 1.367,
+  "sd": 1.069,
+  "p50": 2.047,
+  "chroma": 0.213,
+  "exposure_offset_stops": 2.139,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
