@@ -56,7 +56,16 @@ if [ -z "$PID" ] && [ -f blender_out/.render_lock ]; then
 fi
 
 # --- 2. Commit what finished. A restart should cost the sheet in the oven, not the ones before it. -
-CHANGED="$(git status --porcelain -- docs/verification | wc -l | tr -d ' ')"
+# Only the render's own artefacts. An assessment is prose written by hand and belongs in a commit
+# that says what it found, not swept into a batch of sheets by a background tick.
+ARTEFACTS=(
+    'docs/verification/comparison/*/render.png'
+    'docs/verification/comparison/*/sheet.png'
+    'docs/verification/comparison/*/render.json'
+    'docs/verification/comparison/*/frame_stats.json'
+    'docs/verification/sheets'
+)
+CHANGED="$(git status --porcelain -- "${ARTEFACTS[@]}" 2>/dev/null | wc -l | tr -d ' ')"
 if [ "$CHANGED" != "0" ]; then
     DECODE="$(python3 tools/png_decodes.py 2>&1 | tail -1)"
     echo "decode: ${DECODE}"
@@ -64,10 +73,10 @@ if [ "$CHANGED" != "0" ]; then
         *", 0 do not,"*) ;;
         *) echo "decode: a changed PNG does not decode -- not committing, look at it by hand"; exit 1 ;;
     esac
-    SLUGS="$(git status --porcelain -- docs/verification |
+    SLUGS="$(git status --porcelain -- "${ARTEFACTS[@]}" 2>/dev/null |
              sed 's|.*comparison/||; s|/.*||' | sort -u | tr '\n' ' ')"
     COUNT="$(printf '%s' "$SLUGS" | wc -w | tr -d ' ')"
-    git add -A docs/verification
+    git add -A -- "${ARTEFACTS[@]}"
     git commit -q -F - <<MSG
 verification: ${COUNT} sheet(s) from the v16 pass
 
