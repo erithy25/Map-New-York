@@ -1,17 +1,19 @@
 {
  "slug": "landmark_soldiers_sailors_arch",
- "rendered_at": "2026-09-09T01:35:03Z",
+ "rendered_at": "2026-09-12T18:45:07Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 720,
-  "mean": 0.445,
-  "sd": 0.1676,
-  "p05": 0.1058,
-  "p95": 0.658,
-  "chroma": 0.0603
+  "mean": 0.4575,
+  "sd": 0.1741,
+  "p05": 0.1059,
+  "p50": 0.4964,
+  "p95": 0.6779,
+  "chroma": 0.0605,
+  "exposure_offset_stops": 0.227
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5532,
   "sd": 0.1882,
   "p05": 0.2037,
+  "p50": 0.5448,
   "p95": 0.8521,
-  "chroma": 0.2419
+  "chroma": 0.2419,
+  "exposure_offset_stops": 0.519
  },
  "render_over_reference": {
-  "mean": 0.804,
-  "sd": 0.891,
-  "chroma": 0.249
+  "mean": 0.827,
+  "sd": 0.925,
+  "p50": 0.911,
+  "chroma": 0.25,
+  "exposure_offset_stops": -0.292,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
