@@ -1,17 +1,19 @@
 {
  "slug": "landmark_united_nations_hq",
- "rendered_at": "2026-09-09T08:29:30Z",
+ "rendered_at": "2026-09-12T19:41:00Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 904,
   "height": 1206,
-  "mean": 0.2659,
-  "sd": 0.1415,
-  "p05": 0.0527,
-  "p95": 0.5461,
-  "chroma": 0.0734
+  "mean": 0.5024,
+  "sd": 0.1858,
+  "p05": 0.1567,
+  "p50": 0.499,
+  "p95": 0.8091,
+  "chroma": 0.0916,
+  "exposure_offset_stops": 0.243
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4138,
   "sd": 0.2436,
   "p05": 0.0975,
+  "p50": 0.3685,
   "p95": 0.7857,
-  "chroma": 0.1758
+  "chroma": 0.1758,
+  "exposure_offset_stops": -0.686
  },
  "render_over_reference": {
-  "mean": 0.643,
-  "sd": 0.581,
-  "chroma": 0.418
+  "mean": 1.214,
+  "sd": 0.763,
+  "p50": 1.354,
+  "chroma": 0.521,
+  "exposure_offset_stops": 0.929,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
