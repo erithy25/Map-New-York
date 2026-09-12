@@ -1,17 +1,19 @@
 {
  "slug": "street_midtown_avenue_rush_hour",
- "rendered_at": "2026-09-09T09:12:07Z",
+ "rendered_at": "2026-09-12T20:33:23Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 854,
-  "mean": 0.2218,
-  "sd": 0.1947,
-  "p05": 0.0081,
-  "p95": 0.6204,
-  "chroma": 0.0231
+  "mean": 0.4993,
+  "sd": 0.2398,
+  "p05": 0.0855,
+  "p50": 0.5001,
+  "p95": 0.9061,
+  "chroma": 0.0315,
+  "exposure_offset_stops": 0.25
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4403,
   "sd": 0.2941,
   "p05": 0.035,
+  "p50": 0.3859,
   "p95": 0.9387,
-  "chroma": 0.1234
+  "chroma": 0.1234,
+  "exposure_offset_stops": -0.547
  },
  "render_over_reference": {
-  "mean": 0.504,
-  "sd": 0.662,
-  "chroma": 0.187
+  "mean": 1.134,
+  "sd": 0.815,
+  "p50": 1.296,
+  "chroma": 0.255,
+  "exposure_offset_stops": 0.797,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

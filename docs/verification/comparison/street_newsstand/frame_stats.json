@@ -1,17 +1,19 @@
 {
  "slug": "street_newsstand",
- "rendered_at": "2026-09-09T09:16:45Z",
+ "rendered_at": "2026-09-12T20:35:33Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.0982,
-  "sd": 0.0679,
-  "p05": 0.0277,
-  "p95": 0.1746,
-  "chroma": 0.017
+  "mean": 0.5148,
+  "sd": 0.1457,
+  "p05": 0.2612,
+  "p50": 0.4995,
+  "p95": 0.7174,
+  "chroma": 0.0472,
+  "exposure_offset_stops": 0.247
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5465,
   "sd": 0.259,
   "p05": 0.1398,
+  "p50": 0.4882,
   "p95": 1.0,
-  "chroma": 0.0256
+  "chroma": 0.0256,
+  "exposure_offset_stops": 0.175
  },
  "render_over_reference": {
-  "mean": 0.18,
-  "sd": 0.262,
-  "chroma": 0.664
+  "mean": 0.942,
+  "sd": 0.563,
+  "p50": 1.023,
+  "chroma": 1.844,
+  "exposure_offset_stops": 0.072,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
