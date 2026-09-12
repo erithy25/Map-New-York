@@ -1,17 +1,19 @@
 {
  "slug": "landmark_brooklyn_museum",
- "rendered_at": "2026-09-09T04:08:38Z",
+ "rendered_at": "2026-09-12T17:40:51Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.3343,
-  "sd": 0.1527,
-  "p05": 0.0569,
-  "p95": 0.5882,
-  "chroma": 0.0635
+  "mean": 0.4684,
+  "sd": 0.1843,
+  "p05": 0.1048,
+  "p50": 0.4977,
+  "p95": 0.7381,
+  "chroma": 0.0695,
+  "exposure_offset_stops": 0.235
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5396,
   "sd": 0.2629,
   "p05": 0.2091,
+  "p50": 0.4423,
   "p95": 0.9069,
-  "chroma": 0.1401
+  "chroma": 0.1401,
+  "exposure_offset_stops": -0.13
  },
  "render_over_reference": {
-  "mean": 0.62,
-  "sd": 0.581,
-  "chroma": 0.453
+  "mean": 0.868,
+  "sd": 0.701,
+  "p50": 1.125,
+  "chroma": 0.496,
+  "exposure_offset_stops": 0.365,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

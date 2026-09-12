@@ -1,17 +1,19 @@
 {
  "slug": "landmark_castle_williams",
- "rendered_at": "2026-09-09T04:18:26Z",
+ "rendered_at": "2026-09-12T17:40:00Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.3145,
-  "sd": 0.194,
-  "p05": 0.0028,
-  "p95": 0.5423,
-  "chroma": 0.0555
+  "mean": 0.4741,
+  "sd": 0.1977,
+  "p05": 0.1332,
+  "p50": 0.49,
+  "p95": 0.6935,
+  "chroma": 0.0845,
+  "exposure_offset_stops": 0.187
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5069,
   "sd": 0.2281,
   "p05": 0.0084,
+  "p50": 0.5356,
   "p95": 0.8686,
-  "chroma": 0.105
+  "chroma": 0.105,
+  "exposure_offset_stops": 0.465
  },
  "render_over_reference": {
-  "mean": 0.62,
-  "sd": 0.851,
-  "chroma": 0.529
+  "mean": 0.935,
+  "sd": 0.867,
+  "p50": 0.915,
+  "chroma": 0.805,
+  "exposure_offset_stops": -0.278,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
