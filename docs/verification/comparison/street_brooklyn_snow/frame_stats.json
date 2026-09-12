@@ -1,17 +1,19 @@
 {
  "slug": "street_brooklyn_snow",
- "rendered_at": "2026-09-09T08:48:18Z",
+ "rendered_at": "2026-09-12T20:13:41Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 852,
-  "mean": 0.3306,
-  "sd": 0.1889,
-  "p05": 0.0342,
-  "p95": 0.6645,
-  "chroma": 0.0519
+  "mean": 0.5201,
+  "sd": 0.2116,
+  "p05": 0.1478,
+  "p50": 0.5003,
+  "p95": 0.8463,
+  "chroma": 0.0641,
+  "exposure_offset_stops": 0.252
  },
  "reference": {
   "width": 1280,
@@ -19,12 +21,17 @@
   "mean": 0.738,
   "sd": 0.1796,
   "p05": 0.41,
+  "p50": 0.7946,
   "p95": 0.945,
-  "chroma": 0.2124
+  "chroma": 0.2124,
+  "exposure_offset_stops": 1.724
  },
  "render_over_reference": {
-  "mean": 0.448,
-  "sd": 1.052,
-  "chroma": 0.244
+  "mean": 0.705,
+  "sd": 1.178,
+  "p50": 0.63,
+  "chroma": 0.302,
+  "exposure_offset_stops": -1.472,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
