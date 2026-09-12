@@ -32,6 +32,7 @@ from __future__ import annotations
 
 import json
 import struct
+import importlib.util
 import sys
 from pathlib import Path
 from typing import Any
@@ -199,22 +200,49 @@ def albedo_correction(have: float | None, target_rgb) -> dict[str, Any] | None:
     return out
 
 
+def _load_from_root(repo_root: Path, relative: str, module: str):
+    """Import ``blender/<relative>/<module>.py`` from *this* root, not from whichever is loaded.
+
+    These two modules used to be brought in with ``sys.path.insert`` and a bare ``import``.  That
+    reads the *name* from ``sys.modules``, so once any root had been loaded every later call got
+    that one back and ``repo_root`` was silently ignored: a manifest generated over a temporary
+    tree came out carrying absolute texture paths from the real repository, ten entries where the
+    tree held one.  Found by bisecting a test that failed only when it ran after the Blender scene
+    tests.  Loading by file location under a root-qualified name gives one module object per root
+    and claims no global name.
+    """
+    path = repo_root / "blender" / relative / f"{module}.py"
+    if not path.is_file():
+        raise FileNotFoundError(f"{module}.py not found under {repo_root}")
+    key = f"_nycsim_city_surfaces.{abs(hash(str(repo_root.resolve())))}.{module}"
+    cached = sys.modules.get(key)
+    if cached is not None:
+        return cached
+    spec = importlib.util.spec_from_file_location(key, path)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"cannot load {path}")
+    loaded = importlib.util.module_from_spec(spec)
+    # Its own siblings are imported by bare name, so the directory still has to be reachable.
+    sibling = str(path.parent)
+    if sibling not in sys.path:
+        sys.path.insert(0, sibling)
+    sys.modules[key] = loaded
+    try:
+        spec.loader.exec_module(loaded)
+    except BaseException:
+        sys.modules.pop(key, None)
+        raise
+    return loaded
+
+
 def _shellmat(repo_root: Path):
     """``blender/buildings/shellmat.py``, which imports no ``bpy`` at module level and says so."""
-    p = str(repo_root / "blender" / "buildings")
-    if p not in sys.path:
-        sys.path.insert(0, p)
-    import shellmat                                        # noqa: PLC0415
-    return shellmat
+    return _load_from_root(repo_root, "buildings", "shellmat")
 
 
 def _textures(repo_root: Path):
     """``blender/common/textures.py``: the catalogue, its aliases and the files on disk."""
-    p = str(repo_root / "blender" / "common")
-    if p not in sys.path:
-        sys.path.insert(0, p)
-    import textures                                        # noqa: PLC0415
-    return textures
+    return _load_from_root(repo_root, "common", "textures")
 
 
 def build(repo_root: Path, tiles_root: Path, *, resolution: str = "2K",

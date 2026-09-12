@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import tempfile
 import struct
 from pathlib import Path
 
@@ -194,6 +195,29 @@ def test_empty_world(tmp_path: Path) -> None:
     assert doc["counts"]["entries"] == 1  # unreal_water.json with no bodies is still produced
     assert any("crs.json missing" in w for w in doc["warnings"])
     assert json.loads((processed / "unreal_water.json").read_text())["bodies"] == []
+
+
+def test_a_manifest_never_carries_a_source_from_outside_the_root_it_was_given() -> None:
+    """`generate(repo_root=...)` must describe that tree and no other.
+
+    It did not.  `city_surfaces.build` reached its two Blender modules with `sys.path.insert` and a
+    bare `import`, which resolves by *name* out of `sys.modules`: once any root had been loaded,
+    every later call got that one back and the argument was ignored.  A manifest generated over an
+    empty temporary tree came out with ten entries, nine of them absolute paths into the real
+    repository's `assets/textures`.  It surfaced as a test that passed alone and failed after the
+    Blender scene tests -- the manifest's content depended on what else had run in the process,
+    which for the single list of what the import needs is not a small thing.
+    """
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        processed = root / "processed"
+        processed.mkdir()
+        _, doc = um.generate(processed, root / "no_blender_out", repo_root=root, record=False)
+        outside = [str(e.get("src")) for e in doc.get("entries", [])
+                   if e.get("src") and not str(Path(str(e["src"]))).startswith(("processed", "no_blender_out"))
+                   and not str(Path(str(e["src"])).resolve()).startswith(str(root.resolve()))]
+        assert not outside, ("the manifest carries sources from outside the root it was given:\n   "
+                             + "\n   ".join(outside[:10]))
 
 
 def test_a_glb_that_names_its_images_carries_them_as_sidecars(world) -> None:
