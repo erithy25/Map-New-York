@@ -1,17 +1,19 @@
 {
  "slug": "landmark_times_square_tower",
- "rendered_at": "2026-09-09T08:05:10Z",
+ "rendered_at": "2026-09-12T19:17:02Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 854,
-  "mean": 0.3792,
-  "sd": 0.2296,
-  "p05": 0.0597,
-  "p95": 0.8669,
-  "chroma": 0.0605
+  "mean": 0.4885,
+  "sd": 0.2374,
+  "p05": 0.1014,
+  "p50": 0.4976,
+  "p95": 0.9373,
+  "chroma": 0.0683,
+  "exposure_offset_stops": 0.235
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5072,
   "sd": 0.1902,
   "p05": 0.1978,
+  "p50": 0.5068,
   "p95": 0.8007,
-  "chroma": 0.0787
+  "chroma": 0.0787,
+  "exposure_offset_stops": 0.292
  },
  "render_over_reference": {
-  "mean": 0.748,
-  "sd": 1.207,
-  "chroma": 0.769
+  "mean": 0.963,
+  "sd": 1.248,
+  "p50": 0.982,
+  "chroma": 0.868,
+  "exposure_offset_stops": -0.057,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
