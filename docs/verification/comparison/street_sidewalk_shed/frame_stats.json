@@ -1,17 +1,19 @@
 {
  "slug": "street_sidewalk_shed",
- "rendered_at": "2026-09-09T09:41:40Z",
+ "rendered_at": "2026-09-12T20:54:17Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.1045,
-  "sd": 0.0652,
-  "p05": 0.035,
-  "p95": 0.1883,
-  "chroma": 0.0135
+  "mean": 0.5209,
+  "sd": 0.1431,
+  "p05": 0.2875,
+  "p50": 0.4998,
+  "p95": 0.7274,
+  "chroma": 0.0346,
+  "exposure_offset_stops": 0.248
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4442,
   "sd": 0.2774,
   "p05": 0.0695,
+  "p50": 0.4167,
   "p95": 1.0,
-  "chroma": 0.0601
+  "chroma": 0.0601,
+  "exposure_offset_stops": -0.313
  },
  "render_over_reference": {
-  "mean": 0.235,
-  "sd": 0.235,
-  "chroma": 0.225
+  "mean": 1.173,
+  "sd": 0.516,
+  "p50": 1.199,
+  "chroma": 0.576,
+  "exposure_offset_stops": 0.561,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
