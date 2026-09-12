@@ -1,17 +1,19 @@
 {
  "slug": "landmark_williamsburgh_savings_bank_tower",
- "rendered_at": "2026-09-09T08:40:39Z",
+ "rendered_at": "2026-09-12T19:59:21Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.2315,
-  "sd": 0.1588,
-  "p05": 0.0742,
-  "p95": 0.5759,
-  "chroma": 0.0581
+  "mean": 0.5366,
+  "sd": 0.2116,
+  "p05": 0.2511,
+  "p50": 0.4984,
+  "p95": 0.8773,
+  "chroma": 0.0748,
+  "exposure_offset_stops": 0.24
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.7365,
   "sd": 0.2629,
   "p05": 0.2723,
+  "p50": 0.8396,
   "p95": 1.0,
-  "chroma": 0.0453
+  "chroma": 0.0453,
+  "exposure_offset_stops": 1.903
  },
  "render_over_reference": {
-  "mean": 0.314,
-  "sd": 0.604,
-  "chroma": 1.283
+  "mean": 0.729,
+  "sd": 0.805,
+  "p50": 0.594,
+  "chroma": 1.651,
+  "exposure_offset_stops": -1.663,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
