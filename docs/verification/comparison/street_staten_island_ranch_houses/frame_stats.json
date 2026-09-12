@@ -1,17 +1,19 @@
 {
  "slug": "street_staten_island_ranch_houses",
- "rendered_at": "2026-09-09T09:49:55Z",
+ "rendered_at": "2026-09-12T20:57:52Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 680,
-  "mean": 0.4055,
-  "sd": 0.1636,
-  "p05": 0.109,
-  "p95": 0.5686,
-  "chroma": 0.047
+  "mean": 0.4302,
+  "sd": 0.1622,
+  "p05": 0.1319,
+  "p50": 0.498,
+  "p95": 0.5882,
+  "chroma": 0.0479,
+  "exposure_offset_stops": 0.238
  },
  "reference": {
   "width": 1280,
@@ -19,12 +21,17 @@
   "mean": 0.6578,
   "sd": 0.2672,
   "p05": 0.0567,
+  "p50": 0.746,
   "p95": 0.9669,
-  "chroma": 0.0836
+  "chroma": 0.0836,
+  "exposure_offset_stops": 1.52
  },
  "render_over_reference": {
-  "mean": 0.616,
-  "sd": 0.612,
-  "chroma": 0.562
+  "mean": 0.654,
+  "sd": 0.607,
+  "p50": 0.668,
+  "chroma": 0.573,
+  "exposure_offset_stops": -1.282,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

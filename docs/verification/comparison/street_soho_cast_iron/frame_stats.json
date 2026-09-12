@@ -1,17 +1,19 @@
 {
  "slug": "street_soho_cast_iron",
- "rendered_at": "2026-09-09T09:47:55Z",
+ "rendered_at": "2026-09-12T20:56:20Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 904,
   "height": 1206,
-  "mean": 0.0729,
-  "sd": 0.0851,
-  "p05": 0.0059,
-  "p95": 0.2484,
-  "chroma": 0.015
+  "mean": 0.5109,
+  "sd": 0.2538,
+  "p05": 0.1894,
+  "p50": 0.4615,
+  "p95": 0.9216,
+  "chroma": 0.0662,
+  "exposure_offset_stops": 0.001
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4558,
   "sd": 0.2191,
   "p05": 0.1098,
+  "p50": 0.4539,
   "p95": 0.8459,
-  "chroma": 0.2081
+  "chroma": 0.2081,
+  "exposure_offset_stops": -0.05
  },
  "render_over_reference": {
-  "mean": 0.16,
-  "sd": 0.388,
-  "chroma": 0.072
+  "mean": 1.121,
+  "sd": 1.158,
+  "p50": 1.017,
+  "chroma": 0.318,
+  "exposure_offset_stops": 0.051,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
