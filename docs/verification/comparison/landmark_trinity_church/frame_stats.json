@@ -1,17 +1,19 @@
 {
  "slug": "landmark_trinity_church",
- "rendered_at": "2026-09-09T11:05:39Z",
+ "rendered_at": "2026-09-12T19:23:47Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 824,
   "height": 1326,
-  "mean": 0.4108,
-  "sd": 0.1954,
-  "p05": 0.1491,
-  "p95": 0.8521,
-  "chroma": 0.058
+  "mean": 0.4144,
+  "sd": 0.1964,
+  "p05": 0.1426,
+  "p50": 0.3544,
+  "p95": 0.8631,
+  "chroma": 0.0546,
+  "exposure_offset_stops": -0.803
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.3856,
   "sd": 0.2264,
   "p05": 0.0137,
+  "p50": 0.3806,
   "p95": 0.7726,
-  "chroma": 0.0565
+  "chroma": 0.0565,
+  "exposure_offset_stops": -0.589
  },
  "render_over_reference": {
-  "mean": 1.065,
-  "sd": 0.863,
-  "chroma": 1.027
+  "mean": 1.075,
+  "sd": 0.867,
+  "p50": 0.931,
+  "chroma": 0.966,
+  "exposure_offset_stops": -0.214,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
