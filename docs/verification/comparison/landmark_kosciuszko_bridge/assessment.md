@@ -28,7 +28,7 @@
 * **The 250 m rule reasoned about the subject** and kept a measurement it would otherwise have rejected, with the distances stated.
 * **The development is metered and unclamped**, +0.62 stops from a median linear luminance of 0.117135.
 * **The clearance walk worked as designed**: a 6 m closure detected, 27.3 m onto real surveyed roadbed, scored on the subject's sightline (J79).
-* **The kit is nearly complete**: 4,612 pieces of 4,730 in range, nothing capped.
+* **The kit was fully placed**: 4,612 of 4,612 records in range, nothing capped and nothing suppressed.
 * **Every building tile has a shell** — 12 of 12, 279,056 triangles.
 * **The pavement is complete**: 19,911 polygons, **0 dropped**, including 5,704 roadbed, 5,547 white markings, 3,859 sidewalk, 2,313 parking lot and 1,495 curb.
 * **The crowd reads as a park**: 369 people drawn, standing in groups along the wall.
