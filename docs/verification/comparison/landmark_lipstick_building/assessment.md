@@ -1,0 +1,80 @@
+# Lipstick Building (885 Third Avenue)
+
+`landmark_lipstick_building` · sheet: [`sheet.png`](sheet.png) · render record: [`render.json`](render.json)
+
+**Reference** — File:Lipstick Building (51923067068).jpg by ajay_suresh, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), taken 2022 — **the year and nothing finer** — 1920x3413. [Commons page](https://commons.wikimedia.org/wiki/File:Lipstick_Building_(51923067068).jpg) — the photograph's own view direction is derived from the image at **high** confidence.
+
+**Camera** — 40.757194, -73.969789 (NYC_TM -1671, 6352) at z 12.5 m NAVD88 | azimuth 49.5°, pitch +14.2° | 18 mm on 36 mm (58.7° horizontal, 90.0° vertical, portrait) | 784x1394. The camera stands on **this photograph's own EXIF GPS**, **65.2 m** from the item's recorded viewpoint, and the heading is the bearing from that GPS position to the subject; the item's recorded azimuth is 20.0°, **29.5° away**, and belongs to the nominal viewpoint rather than to this picture. The walk **did not move the camera**: the viewpoint is in open air, the view azimuth is clear for **83.5 m** against a **50.0 m** requirement, the nearest built thing in the frame is `prop_lamp_cobra_davit_3` **11.5 m** away and no simulated agent stands within **60.0 m**. The ground under it reads 10.888 m NAVD88, the **10th percentile of 113 samples within 12 m**, range 10.82 to 11.08 m.
+
+**Sun** — azimuth 85.5°, elevation 32.2° at 2022-06-21T08:30:00−04:00. The instant is **chosen, not measured** (J80): the photograph carries a year, 21 June is the project-wide fallback date, and 08:30 is the hour whose solar bearing comes closest to the item's recorded azimuth of 20.0°, **65° off** it. 788.4 W/m² direct normal, sky at strength 0.0352, Filmic, **+6.00 stops** — clamped from **6.013**, because the linear frame's median is **0.002787** against a middle-grey target of **0.18**. The physical rule would have given **0.42 stops**. This sheet is therefore published **under-lit and at the clamp**, and, per J80, **its luminance comparison is not evidence about the render**.
+
+**In the scene** — 4,500,035 triangles: 4 building tiles (197,492 tris, 0 missing, 0 LOD-substituted), 9 landmark models of which 3 can fall inside the 58.7° frame, 25,534 pavement polygons, 1,226 props, 6,562 kit pieces, 14 park-ground meshes, 2,920 triangles of structures, 58 vehicles and 255 people.
+
+## Verdict — the closest-matched shape in the pass, published in the wrong season, and the season is what a year-only date costs
+
+**The building is right.** The height probe casts **43 rays and lands 43 of them on built fabric**, measuring **138.42 m** above a ground of 10.55 m on an object **34.9 m by 20.4 m** in plan — against the catalogue's **138.0 m** for `c_lipstick_building`, whose origin stands 14.2 m from the probe. The object it measured is a real landmark model, `lm_c_lipstick_building.2`, **not a tile mesh** (J94), so the extent is the ellipse's own and the figures mean what they say. Put the two halves of the sheet side by side and the same building is in both: the elliptical plan, the three telescoping setbacks at the same fractions of the height, the horizontal banding of ribbon glass against warm stone, and the stilted base that lifts the tower off the pavement on columns. Of the sheets in this pass this is among the least ambiguous identifications, and the frustum agrees for once — **off axis −3.8°** at 111.8 m, a landmark that is actually where the record says it is rather than a composite's centroid.
+
+**The season is wrong, and the record already contains the switch that would have fixed it.** The photograph's trees are **bare**: leafless London plane and pear crowns over the Third Avenue sidewalk, a flat white overcast sky, no leaf anywhere in 1920x3413 pixels. The render is in full June canopy, because the props stage was told `leaf_off: false`, and that flag is set from the render date — `(month, day) >= (11, 15) or <= (4, 15)` in `render_sheets.py` — which is the **assumed** 21 June. The bare-canopy tree variants exist in the props kit and were not used. So J80's assumed instant is not only a shadow pattern: **it sets the foliage too**, and here the photograph itself carries the evidence that the assumed date is wrong. The same date never reaches the crowd at all — the request is built from position, hour, day type, seed and headlights, so the people are dressed for a fixed 15.0 C whatever the trees are doing, which is the other half of J97. That is the largest single visual difference between the two halves, larger than anything in the geometry, and it is a verification fault rather than a world fault.
+
+**The frame's foreground is the second difference, and it is the crowd budget.** The lower third of the render is bare asphalt. The photograph's lower third is a packed Third Avenue: two lanes of standing traffic, a yellow cab, parked SUVs, a bus, people on both kerbs, flags and awnings at the frame edge. The render drew **58 vehicles and 255 people** where the density table asked **1,150 vehicles and 1,997 people**, of which **1,344 and 2,809** were simulated and **3,840 dropped** — and the near carriageway, the part of the frame the eye goes to first, is empty.
+
+**One thing the record says about itself that the picture then contradicts.** The lens note reads that at the 18 mm floor "the top of the subject is still cut off", and the pitch note declares the frame **not comparable with the photograph on proportion** because the verticals converge. Both are computed against a *level* axis; the **+14.2° tilt** is what brought the crown in, and in the published render the top of the tower is inside the frame with sky above it. And the caveat is milder here than on most tilted sheets, because the reference is itself a wide-angle shot taken looking up from the pavement — its own verticals converge the same way, its own flanking buildings lean in. The warning is correct as a rule and overstated for this pair.
+
+## What matches
+
+* **The height, to within a third of a percent** — 138.42 m measured against a catalogued 138.0 m, on **43 of 43** probe rays. Ninth closest of the 149 sheets in the pass (see *Derived*).
+* **The plan and the setbacks.** An ellipse **34.9 m by 20.4 m**, stepping back three times, measured off `lm_c_lipstick_building.2` itself rather than off a catalogue row.
+* **The stilted base.** The render shows the tower lifted off the pavement on columns with an open plaza beneath, which is what the photograph shows and what the building does.
+* **The sightline is good by this pass's standards** — of 13 rays **12 are clear** and **9 land on the subject**, a visible fraction of **0.692**, the nearest own-fabric hit at **86.5 m** on `lm_c_lipstick_building.3`. The one obstruction is a street tree, `prop_tree_callery_pear_medium_16` at **36.5 m**, and **1 ray** went into nothing.
+* **Third Avenue is paved as Third Avenue** — 25,534 polygons with **11,678 white markings**, 5,099 sidewalk, 4,072 roadbed, 3,138 curb, 624 crosswalk, 585 plaza, 300 median, **0 dropped**.
+* **Trees are drawn from modelled branches, not only as cards** — **59 at LOD0** within 120 m and **292** impostor billboards out to 625.1 m, all 351 yawed by the position hash rule, at a mean scale of **0.936** with **0 out of band**.
+* **The block is furnished** — 286 Citi Bike units (Stage 40), 141 cooling towers off the planimetric survey, 123 street lamps, 103 manholes, 68 hydrants, 44 subway vent grates, 25 LinkNYC kiosks, 21 subway entrances, 12 bus-stop signs, 8 newsstands.
+* **The contrast is nearly identical** — standard deviation **0.2544** against **0.2743**, a ratio of **0.927**, and p95 **0.9734** against **0.9636**.
+* **The camera did not have to be walked.** `moved: False`, offset 0.0 m — one of the sheets where the photograph's own GPS was directly usable.
+
+## What does not match
+
+* **The trees are in leaf and the photograph's are bare.** `leaf_off: false`, from an assumed 21 June against a photograph dated to the year only (J97).
+* **The crowd is dressed for the render's June and the photograph's street is a winter street.** Bare legs and short sleeves on the Third Avenue sidewalk, because the pass builds its crowd request (`render_sheets.py`, `SnapshotRequest`) from position, hour, day type, seed and headlights alone: `temperature_c` stays at its default **15.0 C**, `rain_mm_h` at **0.00** and `snow_cover` at **0.00** on every sheet in the pass, so the cold half of the wardrobe cannot be drawn anywhere (J97).
+* **The sky is wrong in kind, not in shade.** The reference is flat white overcast with no shadow anywhere; the render has a clear Nishita sky and a hard 32.2° Sun. Nothing in this build reads a historical sky, and the instant is a fallback.
+* **The near carriageway is empty** — 58 vehicles and 255 people against a table asking 1,150 and 1,997. Dropped: **1,199 pedestrians outside the radius**, **1,120 pedestrians at the agent triangle budget**, 856 vehicles outside the radius, 400 vehicles at the budget, 186 pedestrians in the carriageway without crossing, 47 not on a walkable surface, **27 riderless vehicle bodies**, 3 vehicles and 2 pedestrians above the observer.
+* **The render is darker at the midtone than the photograph, despite the clamp** — p50 **0.4959** against **0.6375**, a ratio of **0.778**; mean **0.5659** against **0.6402** (**0.884×**). The photograph's own median sits **1.016 stops** above the grey convention, the render's **0.224** above, a **−0.792-stop** difference (J83). An overcast photograph developed for a white sky is a bright photograph; this ratio is that choice before it is the scene.
+* **The render is more colourful than the photograph** — chroma **0.0822** against **0.0572**, a ratio of **1.437**. The direction is unusual in this pass and the cause is the same two things: the reference is a desaturated grey-brown winter overcast, and the render is warm stone in clear-sky sunlight.
+* **The tower's crown reads pale.** In the upper few floors of the render the warm banding gives way to near-white, where the photograph carries the same stone-and-glass banding to the top. The shells carry a material name and a flat colour per surface and `glass_curtain` has **no photographic set in the catalogue** (J63), so a crown that is mostly glazed spandrel loses its band.
+* **Kit was capped to one piece in six** — **6,562 drawn of 40,204 in range** at a **1,104,351-triangle** budget, of which **6,000 are windows** against 284 window accessories, 116 storefronts, **78 scaffold** pieces, 26 parapets, 13 entry doors, 11 HVAC units, 6 antennae, **2 water towers**. Nothing was suppressed under a landmark shell.
+* **Props were capped and the trees paid for it** — **1,226 placed of 3,058 in range** at a **1,177,876-triangle** budget, **1,659 dropped for budget**, **1,374 of them tree rows**, **1,248 rows beyond the prop radius**, 10 impostor cards dropped and **7 dropped on a suppressed building**. **84 trees** are a substituted species.
+* **The windows are drawn on the shell, not cut into it** — Stage 34 / J51 remains open, measured at +48 GB and physically impossible in this container.
+* **Two of four tiles in range have no structures file** — 2 imported, **2 without a file**, **2,920 triangles** in total, on a block that sits over the Lexington Avenue–53rd Street interchange.
+* **Seven prop kinds in range have no asset** — payphone 3, artwork 2, real-time information sign 1, vending machine 1.
+* **The park ground is never checked near the camera** — **0 samples** within 150 m. Between 150 and 400 m the clearance median is **0.144 m** but an under-fraction of **0.2353** over 85 samples reads under the terrain, worst **−1.355 m**; beyond 400 m the median is **0.562 m** over 673 samples with a worst of **−2.372 m**, and the z-fighting fraction over all 758 samples is **0.0198**. The redrape moved **57,136** vertices, at most **0.484 m** up and **0.808 m** down, median **0.0001 m**.
+* **Five park surface kinds keep the builder's flat colour** — hard sport court, park grass, recreation grass, rink ice and bare ground, because the texture catalogue holds walls, roofs, roadway and floors and no photographic set for any of them (J40).
+* **The frustum lists a tramway 941 m away with a half-width of 0.0°.** A cable ride has no footprint in the catalogue, so it enters the in-cone count as a point; the Citigroup Center enters it at **−52.9° off axis** with a **24.4°** half-width, which puts only its far edge at the frame's left border, and its sloped crown is not in the picture.
+
+## Derived
+
+| figure | how |
+|---|---|
+| 1.003 | the probe's 138.42 m divided by the catalogue's 138.0 m for `c_lipstick_building`, both quoted above |
+| ninth closest of 149 | ranking every sheet in the v16 pass by the absolute distance of that same ratio from 1.0, over the render records on disk |
+| 36.0° | the chosen Sun's bearing of 85.5° against the camera's own azimuth of 49.5°; the record's 65° is measured against the item's recorded azimuth of 20.0°, which this camera does not use |
+| one tree in six | the 59 trees drawn at LOD0 against the 351 placed in total |
+
+## Cause of each gap
+
+| gap | cause | class |
+|---|---|---|
+| the trees are in leaf, the photograph's are bare | the reference carries a year and no date, so the render used the project-wide 21 June fallback; `leaf_off` is derived from that date and came out false, and the bare-canopy variants the props kit exports were not used. The photograph's own foliage is direct evidence against the assumed date, and nothing in the pass reads it | **verification — open (J97), and the switch already exists** |
+| the crowd in summer dress under bare-tree weather | the crowd request never receives the render date's weather: temperature is fixed at 15.0 C, rain and snow cover at 0.00, and the clothing draw follows exactly those fields (J97) | **verification — open, and the garments exist (J53, J62)** |
+| a clear sky against a flat overcast | no source in this build reads a historical sky, and the instant is a fallback | reference — no source exists |
+| the crown reads pale | `glass_curtain` has no photographic set in the texture catalogue and keeps a flat colour (J63) | data — declared, named on the sheet |
+| p50 0.778, chroma 1.437 | the photograph is developed 1.016 stops above the grey convention for its white sky and the render 0.224 above (J83); the reference is also a desaturated winter frame against a warm sunlit one | reference |
+| +6.00 stops, clamped | the linear median is 0.002787 against a 0.18 target on an 08:30 Sun chosen for a 20.0° azimuth this camera does not use — the frame is 6.013 stops from a photographable level and was held at 6.00 (J83) | verification — declared, and the luminance comparison is void (J80) |
+| 255 people, 58 vehicles | the agent triangle budget plus the placement rules, each with its own count | performance + verification |
+| 6,562 kit pieces of 40,204 | the kit triangle budget at 1,104,351 | performance |
+| 1,659 props dropped, 1,374 of them trees | the props triangle budget at 1,177,876 | performance |
+| windows drawn on the shell | Stage 34 / J51, measured at +48 GB | declared decision — physically impossible here |
+| 2 of 4 tiles without a structures file | those tiles are unbuilt, over the Lexington Avenue–53rd Street interchange | data — open |
+| 4 props across four kinds unmapped | no asset exists for those kinds | data |
+| no park-ground clearance samples within 150 m | there is no park within 150 m of the camera to sample | verification — nothing to check |
+| an under-fraction of 0.2353 in mid-range park ground | the park builder drapes on its own heightmap and the scene's differs; the redrape closes the bulk and leaves a −1.355 m tail (J71) | geometry — open, bounded |
+| a tramway in the cone at 0.0° half-width | the catalogue has no footprint for a cable ride, so it is tested as a point | verification — cosmetic, the note on the record says the test is not a visibility test |
