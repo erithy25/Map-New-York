@@ -1,17 +1,19 @@
 {
  "slug": "landmark_central_park_bow_bridge",
- "rendered_at": "2026-09-09T04:19:20Z",
+ "rendered_at": "2026-09-12T17:41:46Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 720,
-  "mean": 0.3815,
-  "sd": 0.134,
-  "p05": 0.1602,
-  "p95": 0.5702,
-  "chroma": 0.0685
+  "mean": 0.5095,
+  "sd": 0.1598,
+  "p05": 0.2371,
+  "p50": 0.4987,
+  "p95": 0.7354,
+  "chroma": 0.0835,
+  "exposure_offset_stops": 0.242
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4307,
   "sd": 0.1954,
   "p05": 0.1249,
+  "p50": 0.4134,
   "p95": 0.7653,
-  "chroma": 0.2021
+  "chroma": 0.2021,
+  "exposure_offset_stops": -0.337
  },
  "render_over_reference": {
-  "mean": 0.886,
-  "sd": 0.686,
-  "chroma": 0.339
+  "mean": 1.183,
+  "sd": 0.818,
+  "p50": 1.206,
+  "chroma": 0.413,
+  "exposure_offset_stops": 0.579,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
