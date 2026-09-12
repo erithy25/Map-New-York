@@ -2,38 +2,60 @@
 
 `landmark_moma` · sheet: [`sheet.png`](sheet.png) · render record: [`render.json`](render.json)
 
-**Reference** — File:Museum of Modern Art (MoMA) (51395759113).jpg by ajay_suresh, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), taken 2021-08-21 15:18, 1920x1920. [Commons page](https://commons.wikimedia.org/wiki/File:Museum_of_Modern_Art_(MoMA)_(51395759113).jpg)
+**Reference** — File:Museum of Modern Art (MoMA) (51395759113).jpg by ajay_suresh, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), taken 2021-08-21 15:18, 1920x1920. [Commons page](https://commons.wikimedia.org/wiki/File:Museum_of_Modern_Art_(MoMA)_(51395759113).jpg) — the photograph's own view direction is derived from the image at **high** confidence.
 
-**Camera** — camera 40.76129, -73.97775 (NYC_TM -2379, 6823) z 21.4 m NAVD88 | azimuth 24.6deg pitch +0.0deg | 18 mm on 36 mm (90.0deg horizontal) | 1044x1044. View direction: 24.6 deg, the bearing from this photograph's own GPS position to Museum of Modern Art; heading and position both come from the photograph.  The item's recorded azimuth is 0.0 deg, 24.6 deg away, and belongs to its nominal viewpoint. Aim: level optical axis (Museum of Modern Art is 50 m away and would need +36 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion).
+**Camera** — 40.761288, -73.977748 (NYC_TM -2383, 6825) at z 21.3 m NAVD88 | azimuth 24.6°, pitch +15.6° | 18 mm on 36 mm (90.0° horizontal) | 1044x1044. The camera stands on **this photograph's own EXIF GPS**, 26.2 m from the item's recorded viewpoint — and then two separate rules moved it. The recorded viewpoint was **boxed in**, the view azimuth closed off **4 m ahead** against the 25 m the frame needs, so the clearance walk moved the camera **44 m to the left**, ranking candidates on how much of the subject each one sees (J79). At that new point the eye sat **7.95 m under `lm_moma.15`**, the landmark model's own level deck at 29.73 m NAVD88, so it was **raised onto that deck** and now stands at **31.33 m NAVD88** (J65). The nearest built thing in the frame is `lm_moma.5` **9.3 m** away.
 
-**Sun** — azimuth 236.5°, elevation 48.0° at 2021-08-21T15:18:00-04:00 (EXIF DateTimeOriginal (minutes)).
+**Sun** — azimuth 236.5°, elevation 48.0° at 2021-08-21T15:18:00−04:00, from the photograph's own **EXIF DateTimeOriginal (minutes)**; 880.1 W/m² direct normal, sky at strength 0.0322, Filmic, **+6.00 stops** — and held there. The record's note is the sharpest in the set: *"the frame wanted +7.56 stops and was held at +6.00: a scene this far from a photographable level is not developed into a picture of one."* The linear median is **0.000955**. The physical rule would have given **0.0 stops**.
 
-**In frame** — 4/4 building tiles (163,194 tris), 9 landmark models, 959 pavement polygons, 511 props, 14,262 facade-kit pieces; 4,371,973 triangles; ground mesh 199² at 2.0 m near / 40.0 m far.
+**In the scene** — 4,500,007 triangles: 4 building tiles (222,112 tris), 9 landmark models of which 5 fall inside the 90.0° frame, 20,949 pavement polygons, 1,152 props, 6,730 kit pieces, 14 park-ground meshes, 68 vehicles and 333 people.
 
-**Camera clearance** — the recorded viewpoint is inside lm_moma.15 (a ray straight up from the eye point hits its roof); the camera was moved 40 m to the left -- the nearest point in open air -- keeping the same eye height above the heightmap.  The view azimuth is clear for 37 m from there
+## Verdict — two repairs each did exactly what they were written to do, and together they produced a frame with no museum in it
 
-**Verdict — raised from pure black (0.005) to barely legible (0.079) by pulling the camera out of the building it was standing inside; what is now visible is a fire hydrant, a sidewalk and the diagonal bracing of a tower in deep shadow — the museum itself is not identifiable**
+**This is the worst sheet in the set, and nothing in it is a modelling failure.** The render is a slot between two wall planes over a pale ground plane, with a diagrid frame receding up the middle and a fire hydrant at the right edge. MoMA's 53rd Street front — the dark glass wall, the cantilevered entrance canopy, the white vertical `MoMA` banner, the street tree — is not in the picture. Neither is a single one of the 68 vehicles or 333 people the scene holds.
+
+**The chain that produced it is legible line by line.** The recorded viewpoint was closed off 4 m ahead, so the clearance walk went looking for open air and found it **44 m to the left**. That point happens to lie over MoMA's own elevated deck, so the deck rule raised the camera onto it, out of the **7.95 m** it was sitting below it. From a terrace 9.3 m from the museum's flank, with a 90° lens tilted 15.6° up, the frame contains that flank, the neighbour across the slot, and the deck underfoot. Each rule is right. The composition of the two is not.
+
+**The sightline then certifies the result as a success.** 13 rays, **12 clear**, **12 on the subject**, visible fraction **0.923** — and every one of those 12 lands on **MoMA's own fabric nearer than the recorded coordinate**, at **9.1 m** on `lm_moma.5`, against a subject recorded **66.8 m** away. The self-fabric rule (J78) exists so that a building does not count as hiding itself; here it accepts a blank wall at arm's length as a view of the museum. The frustum test says the rest: **MoMA is 66.8° off axis** at 74.3 m, while what sits **1.4° off axis** is Billionaires' Row at **337.2 m** — the diagrid in the middle of the frame. The camera is not pointed at the subject.
+
+**The one thing the sheet proves is the height.** The probe casts **43 rays, all 43 on built fabric**, measuring **73.45 m** above a ground of 20.78 m against a catalogue **74.7 m** whose origin sits **13.6 m** from the recorded coordinate. The museum is modelled and it is the right height. This frame is not evidence of it.
 
 ## What matches
 
-* The camera correction worked and is stated: the recorded viewpoint sits inside a building shell, and the camera was moved onto the nearest real pavement polygon with 37 m of clear view against the 25 m this subject needs. The orchestrator's sweep had this frame at mean 0.005.
-* What can be seen is real: the diagonal steel bracing and curtain-wall grid of the tower behind MoMA, the museum's own block edge, a fire hydrant at the correct 0.75 m height and colour, and the sidewalk with its kerb reveal.
-* The heading and the lens are both derived rather than assumed, and 9 landmark models are in range with their shells suppressed.
-* 977 pavement polygons carry the West 53rd Street geometry.
+* **The subject's height is measured and agrees with the catalogue** — 73.45 m from 43 rays, all landing on fabric, against 74.7 m recorded.
+* **The camera stands on a real surface.** The deck it was raised onto is `lm_moma.15`, the landmark model's own level deck at 29.73 m NAVD88, and the eye is 1.6 m above the drawn surface rather than 7.95 m below it.
+* **Five landmarks are inside the frame and all five belong to this neighbourhood**: MoMA at 74.3 m, Billionaires' Row at **337.2 m** (1.4° off axis), Carnegie Hall at **419.6 m**, The Plaza Hotel at **459.9 m** and the Central Park perimeter wall at **2,733.4 m**, dead on axis.
+* **The walls are the right materials.** 201 material slots resolved against the shared photographic catalogue, and the near wall reads as stone rather than as flat colour.
+* **The crowd clock is right.** **Saturday** for 2021-08-21, which was a Saturday, and the fleet is a Midtown Saturday fleet: **30 yellow taxis, 15 boro taxis, 13 sedans, 8 black cars, 3 SUVs**.
+* **Citi Bike is a station**: 513 dock units in range (Stage 40).
+* **The agents above the camera were culled for being above it.** **8 pedestrians and 2 vehicles over the observer** were dropped — the cull that exists because the camera is on a deck and the street agents are below it.
 
 ## What does not match
 
-* Mean luminance 0.079 against a 0.06 floor. West 53rd Street is a 20 m canyon between 200 m towers and the Sun is behind them; the render is honest and almost unreadable.
-* MoMA's own facade — the glass and black granite screen, the entrance canopy, the museum's name in steel letters — is not identifiable in the frame.
-* No people, no vehicles, no banners, no signage, and none of the street life the reference carries.
-* Nothing in the frame has any surface: the walls are unlit flat planes and the glazing has no reflectance.
-* The reference and the render are of different things again: the item names no measured direction for the photograph.
+* **The subject is absent from its own sheet.** No glass curtain wall, no canopy, no banner, no entrance, no street tree. The photograph is of a building front; the render is of a gap between two buildings.
+* **No people and no traffic in frame** despite 333 people and 68 vehicles in the scene. They are on the street 10 m below and behind the camera.
+* **The frame is nearly monochrome.** Chroma **0.0268** against **0.0772**, a ratio of **0.347** — the render holds a third of the photograph's colour, because a shadowed slot of grey stone has almost none to hold.
+* **The exposure was clamped, not met.** The frame wanted **+7.56 stops** and got **+6.00**, so it is published **below its own metered target**. The record says why in as many words: a scene this far from a photographable level is not developed into a picture of one.
+* **The means agree and that agreement is meaningless.** Mean **0.3539** against **0.3380** (**1.047×**), median **0.3008** against **0.2747** (**1.095×**), standard deviation **0.2394** against **0.2590** (**0.924×**). Two dark frames of different things.
+* **6,269 of 6,730 kit pieces are windows**, against **6 cornices, 6 quoins, 9 string courses and 1 pilaster** in the whole scene. On a modernist glass front that ratio is less wrong than elsewhere, but the frame shows no fenestration at all.
+* **Both budgets were hit.** Props capped at **1,155,385** triangles, kit at **1,063,618** with **22,577 pieces in range** — a fifth of what the frame wanted. At the agent budget a further **303 vehicles and 1,210 people** were dropped, on top of 789 vehicles and 1,279 people outside the radius.
+* **MoMA's sculpture garden is not in the scene.** **9 artwork props** were wanted in range and had no asset, along with 1 memorial, 1 drinking fountain and 1 misc structure.
+* **476 tree rows did not fit the props budget**, and of the 214 trees placed only **60** are drawn from modelled branches within 120 m.
+* **There is no park ground within 150 m to check** — **0 samples** in the near band. Beyond 400 m, **0.4278 of 187 samples sit under the terrain**, the highest near-far under-fraction measured in this pass over a small sample.
+* **3 of the 4 tiles in range have no structures file**, leaving 96 triangles of structures.
+* **28 riderless bodies were dropped** — bicycles, e-bikes and pedicabs the fleet exports without a rider.
 
 ## Cause of each gap
 
 | gap | cause | class |
 |---|---|---|
-| frame almost unreadable | a 20 m canyon between 200 m towers with the Sun behind them and two light bounces | lighting |
-| the museum facade is not identifiable | the moma landmark model carries massing without the screen wall, canopy or lettering | geometry |
-| no people, vehicles or banners | no stage places any of them | data |
-| no reflectance on the glazing | the curtain-wall material is a flat base colour | material |
+| the museum is not in its own frame | the clearance walk moved the camera 44 m to the only open air it found, and the deck rule then raised it out of the 7.95 m it sat below MoMA's own terrace; from there the subject is a flank 9.3 m away and Billionaires' Row is what sits on axis at 337 m | **verification — open, the two rules compose badly** |
+| the sightline reports 0.923 visible | all 12 hits are on MoMA's own fabric nearer than the recorded coordinate, at 9.1 m against a subject 66.8 m out; the self-fabric rule (J78) accepts them | **verification — open, the rule needs a distance test** |
+| the camera points 66.8° away from the subject | the azimuth is the bearing from the photograph's GPS to the subject, computed before the walk moved the camera 44 m; the heading was not recomputed from the point actually used | **verification — open** |
+| published below its own metered target | the frame wanted +7.56 stops and the clamp holds at +6.00, by the rule that a scene this far from a photographable level is not developed into a picture of one (J83) | verification — declared |
+| chroma 0.347 | a shadowed slot of grey stone has little colour to hold | reference |
+| no sculpture garden | 9 artwork props had no asset; sculpture is not a class this build models | data |
+| props and kit capped, 22,577 kit pieces in range against a 1,063,618-triangle budget | the per-frame triangle budgets, each named with what it dropped | performance |
+| 476 tree rows dropped | the props triangle budget | performance |
+| 0.4278 of far park-ground samples under the terrain | surfaces draped on the 2 m heightmap against a scene edge coarsened to 40 m, over only 187 samples | verification |
+| 28 riderless bodies dropped | the fleet exports bicycle, e-bike and pedicab bodies without a rider | geometry |
