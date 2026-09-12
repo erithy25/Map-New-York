@@ -1,0 +1,37 @@
+{
+ "slug": "landmark_federal_hall",
+ "rendered_at": "2026-09-12T21:49:17Z",
+ "reference_file": "3.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.2841,
+  "sd": 0.1353,
+  "p05": 0.0586,
+  "p50": 0.2996,
+  "p95": 0.4824,
+  "chroma": 0.0517,
+  "exposure_offset_stops": -1.302
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.4161,
+  "sd": 0.2245,
+  "p05": 0.1098,
+  "p50": 0.407,
+  "p95": 0.9791,
+  "chroma": 0.0697,
+  "exposure_offset_stops": -0.385
+ },
+ "render_over_reference": {
+  "mean": 0.683,
+  "sd": 0.603,
+  "p50": 0.736,
+  "chroma": 0.742,
+  "exposure_offset_stops": -0.917,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
+ }
+}
