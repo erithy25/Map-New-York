@@ -2,64 +2,64 @@
 
 `landmark_domino_sugar_refinery` · sheet: [`sheet.png`](sheet.png) · render record: [`render.json`](render.json)
 
-**Reference** — File:Domino Sugar Refinery June 2022.jpg by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), taken 2022-06-28 13:43:57, 1920x1440. [Commons page](https://commons.wikimedia.org/wiki/File:Domino_Sugar_Refinery_June_2022.jpg)
+**Reference** — File:Domino Sugar Refinery June 2022.jpg by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), taken 2022-06-28 13:43:57, 1920x1440. [Commons page](https://commons.wikimedia.org/wiki/File:Domino_Sugar_Refinery_June_2022.jpg) — the photograph's own view direction is derived from the image at **high** confidence.
 
-**Camera** — camera 40.71318, -73.96774 (NYC_TM -1473, 1454) z 7.4 m NAVD88 | azimuth 9.4deg pitch +0.0deg | 26 mm on 36 mm (69.9deg horizontal) | 1208x906. View direction: 9.4 deg, the bearing from this photograph's own GPS position to Domino Sugar Refinery; heading and position both come from the photograph.  The item's recorded azimuth is 198.0 deg, 171.4 deg away, and belongs to its nominal viewpoint. Aim: level optical axis (Domino Sugar Refinery is 126 m away and would need +12 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion).
+**Camera** — 40.713183, -73.967742 (NYC_TM -1463, 1481) at z 7.4 m NAVD88 | azimuth 9.4°, pitch +0.4° | 26 mm on 36 mm (70.0° horizontal) | 1208x906. The camera stands on **this photograph's own EXIF GPS**, 206.9 m from the item's recorded viewpoint — and the heading disagreement is the largest in the pass: the derived bearing is **9.4°** and **the item's recorded azimuth is 198.0°, 171.4° away**, which is to say the nominal viewpoint looks at this building from the opposite side. The photograph's own position and bearing were used. The recorded viewpoint is also **inside a building** — a ray straight up from the eye point hits the roof of `t_-2_1_roof_membrane` — so the camera was **moved 39.2 m** onto the nearest surveyed sidewalk polygon. From there the view is clear for 75 m; the nearest built thing in the frame is `t_-2_1_glass_curtain` 10.3 m away and no simulated agent stands within 20 m. The ground under it reads 5.825 m NAVD88, the **10th percentile of 113 samples within 12 m**, range 5.74 to 7.14 m.
 
-**Sun** — azimuth 211.7°, elevation 70.2° at 2022-06-28T13:43:57-04:00 (EXIF DateTimeOriginal).
+**Sun** — azimuth 211.7°, elevation **70.2°** at 2022-06-28T13:43:57−04:00, from the photograph's own **EXIF DateTimeOriginal** — the highest sun on any sheet in the pass; 938.5 W/m² direct normal, sky at strength 0.0305, Filmic, **+3.29 stops**, measured from the linear frame's median of **0.018427** (J83). The physical rule would have given **0.0 stops**.
 
-**In frame** — 5/5 building tiles (134,182 tris), 2 landmark models, 1,045 pavement polygons, 498 props, 5,229 facade-kit pieces; 2,451,466 triangles; ground mesh 205² at 2.0 m near / 40.0 m far.
+**In the scene** — 4,500,140 triangles: 9 building tiles (278,754 tris), 2 landmark models of which 1 falls inside the 70.0° frame, 19,143 pavement polygons, 1,047 props, **7,443 kit pieces** — the most of any sheet in the pass — 36 park-ground meshes, **60,480 triangles of structures across 9 tiles with none missing**, 14,158 quads of water, 78 vehicles and 341 people.
 
-**Camera clearance** — the recorded viewpoint is inside t_-2_1_roof_membrane (a ray straight up from the eye point hits its roof); the camera was moved 28 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 75 m from there
+## Verdict — the refinery is genuinely recognisable, its height agrees with the catalogue to five centimetres, and the item's own viewpoint looks at it from the wrong side
 
-**Verdict — the refinery is the best brick landmark in the set — round-arched window grid, correct red brick, the barrel-vaulted glass roof of the 2023 conversion, and the raw-sugar tanks beside it — but it has no chimney, no steel bracing and no surface, and the esplanade it stands on is a bare plane**
+**This is one of the better landmark pairings in the set.** The render carries the refinery's dark red brick, its rows of round-arched windows in the right rhythm and even the heavy rust-coloured external steel frame that braces the facade — the three things that make the building identifiable. The probe casts **43 rays, all 43 on built fabric**, and measures **60.05 m** above a ground of 3.11 m against a catalogue **60.0 m** for an origin **22.4 m** from the coordinate: agreement to five centimetres.
 
-## Re-rendered 2026-09-07 — one of the strongest landmark sheets in the set
+**The item's recorded azimuth is 171.4° from the bearing the photograph implies.** That is not a small error in a heading; it is the other side of the building. The rule that prefers the photograph's own position and bearing is what saved this sheet, and the disagreement it had to override is the largest in the pass.
 
-The Domino Sugar Refinery is recognisable at 125.7 m, and recognisable for the right reasons: the
-Romanesque arched window grid across the brick mass, the barrel-vaulted glass crown of the residential
-conversion sitting inside the retained shell, the cylindrical brick tanks in front, the elevated
-walkway on its columns. Two landmark models, 78 vehicles including a rank of medallion cabs, 311
-people, `PHARMACY` fascias on the block opposite from the signage stage.
+**Its recorded viewpoint is also inside a building** — the fourth such coordinate found, after One World Trade Center, the New York Stock Exchange and the MetLife Building. The walk moved the camera 39.2 m to a surveyed sidewalk and the resulting sightline is decent: **10 of 13 rays clear, 8 on the subject, a fraction of 0.615**, with the blocked ones stopping at 28.1 m on a cobra-head lamp.
 
-Mean luminance **0.416 against the photograph's 0.386** — one of the closest matches in the set, and
-worth noting after a run of sheets where the gap was large in one direction or the other.
-
-`culled_after_camera_move` removed **5 pedestrians** who stood inside the clearance of the final
-camera position. The frame keeps a couple walking the pavement at a readable distance and a third
-figure at the shopfront, which is what the 3.5 m constant was re-derived to leave.
-
-**What is missing is the same class as everywhere else**: the brickwork is a flat colour with the
-window openings modelled but no reveal, no sill course and no relief in the arches, so the building
-has its shape and its rhythm and not its surface. The roadway and pavement are untextured.
+**What is missing is the industrial archaeology.** No chimney — the photograph's tall brick stack with `HAVEMEYERS & ELDER` on it is the building's signature — and no construction crane. The render's brick is also clean where the photograph's is a hundred and forty years weathered.
 
 ## What matches
 
-* The Refinery building is recognisably itself: a rectangular brick block with a regular grid of tall round-arched windows over six storeys, at the right footprint and the right height 82 m from the camera.
-* The brick colour is right — the deep red-brown of the real Havemeyers & Elder building — and it is one of the very few surfaces in the whole set that reads as the right material.
-* The barrel-vaulted glass roof added in the 2023 conversion is modelled and sits correctly above the retained brick shell, which is what the building looks like now rather than in the reference's 2022 state.
-* The cylindrical raw-sugar tanks stand beside it at the right diameter and height.
-* The heading is measured: 9.3 deg, the bearing from this photograph's own GPS to the refinery, against a recorded azimuth of 198.0 deg — 171 deg out, and the sheet says the recorded value was discarded.
-* The esplanade's lamps, railings and the Williamsburg block faces on the right are all placed, with 785 pavement polygons and 415 props.
+* **The building reads as itself**: dark red brick, round-arched window rows, and the external bracing frame in front of the facade.
+* **The height, to five centimetres of the catalogue** — 60.05 m measured against 60.0 m recorded.
+* **The heading is the photograph's**, not the item's, and the record states the 171.4° it had to reject.
+* **This is the most heavily kitted frame in the pass** — 7,443 pieces, including **344 storefronts, 232 window accessories, 94 parapets, 50 door entries, 32 fire escapes, 32 pilasters, 24 bulkheads, 16 cornices, 16 string courses, 13 quoins** and 2 billboards. Williamsburg's converted industrial frontages carry that kind of detail and here some of it survives the budget.
+* **Every tile in range has its structures file** — **60,480 triangles across 9 tiles, 0 missing** — the second-best structures coverage in the pass after the Manhattan Bridge.
+* **The waterfront is drawn**: **14,158 quads** across the East River, the Navy Yard Basin and the Wallabout Channel.
+* **The near park ground is clean**: within 150 m the under-fraction is **0.0** over 166 samples, median clearance **0.204 m** — Domino Park's own esplanade sits on the terrain.
+* **The fleet is an outer-Brooklyn fleet**: **37 sedans, 16 SUVs, 12 yellow taxis, 6 box trucks, 3 black cars, 3 boro taxis and a van** — far more private cars than any Manhattan sheet, which is what this neighbourhood has. The crowd clock reports **a weekday** for 2022-06-28, which was a Tuesday.
+* **The esplanade is furnished**: 199 street lamps, 185 manholes, **45 benches**, 56 hydrants, 19 bike racks, 12 waste baskets, and 213 Citi Bike dock units (Stage 40).
+* **Contrast agrees closely** — standard deviation **0.2125** against **0.2293**, a ratio of **0.927**.
 
 ## What does not match
 
-* The chimney is missing. The reference's most prominent element is the tall brick stack with 'HAVEMEYERS & ELDER' on it, and the render has nothing in that position.
-* The external steel bracing frame that wraps the reference's facade — the most striking thing about the building in its stripped state — is absent.
-* The brick has no texture: no courses, no mortar, no weathering, no blocked-up openings. The reference is 150 years of soot and repair.
-* No glass in the arched openings: they are dark recesses.
-* Domino Park is a flat grey plane. The reference's foreground is mature planting, a lawn and the park's own steel structures; the render has bare ground and a handful of trees rendered as dark silhouettes because they are backlit at a 70 deg June Sun.
-* ~~No people on an esplanade that is never empty, and no vehicles.~~ — **superseded 2026-09-07.** **311 people and 78 vehicles are in this scene** from one frame of the running simulation; what the reference still has and the render does not is recorded in the section above.
-* The pitch rule kept the axis level and stated why: the subject is 82 m away and would need +19 deg of tilt, so the render frames more foreground and less building than the reference does.
+* **The chimney is absent**, and with it the lettering that names the company.
+* **The construction crane is absent** — the photograph is of a building site, and cranes are not a class this build carries.
+* **The brick is clean.** The photograph's is stained, patched and weathered with gutted openings showing sky through them; the render's is an even course from the shared photographic catalogue.
+* **The midtone is more than twice the photograph's** — median **0.4987** against **0.2329** (**2.141×**), mean **0.4577** against **0.3170** (**1.444×**). The photograph's own median sits **2.023 stops** below the middle-grey convention, the render's **0.242** above it, a **2.265-stop** difference which is nearly all of that ratio (J83). The reference is a dark brick mass exposed for a bright sky.
+* **Half the photograph's colour** — chroma **0.0772** against **0.1416** (**0.545×**). A summer blue sky over weathered red brick is the reference's palette; the render's Nishita sky and catalogue brick are paler.
+* **No cloud.** The reference's sky carries summer cumulus; nothing in this build reads a historical sky.
+* **Park ground was not built for three tiles** in the 808 m radius — `t_-1_0`, `t_-1_1`, `t_-1_2` — leaving bare terrain there.
+* **6,532 of 7,443 kit pieces are windows**, and kit was still capped by a **1,192,177-triangle** budget with **27,926 pieces in range**.
+* **1,116 tree rows did not fit the props budget**, capped at **1,225,587** triangles, and only **11** of the 231 trees placed are drawn from modelled branches within 120 m — with a mean scale of **0.841**, the second-lowest in the pass.
+* **The placement rules had an unusually hard time here.** **303 pedestrians were dropped for not being on a walkable surface** and **49 for being inside buildings**, along with **11 vehicles inside buildings** and 43 not on a carriageway — the highest inside-building counts in the pass. A construction site has sparse walkable-surface data and the crowd model does not know that.
+* **The crowd is a fraction of the ask.** The density table wanted **289 vehicles and 1,971 people**; **362 and 2,236** were simulated and **2,177** dropped, including **634 pedestrians at the agent triangle budget** and 320 in the carriageway without crossing, plus **13 riderless bodies**.
+* **313 of 341 people and 75 of 78 vehicles are at LOD2.**
 
 ## Cause of each gap
 
 | gap | cause | class |
 |---|---|---|
-| no chimney | the refinery's stack is a separate structure with no footprint of its own and is not in the landmark model | geometry |
-| no external steel bracing | the bracing is temporary works, not in any dataset | geometry |
-| no brick texture | shells and landmark models carry a flat base colour per material | material |
-| no glass in the arches | the kit supplies openings without glazing | material |
-| no park, no planting | park surfacing and planting are in no dataset the scene reads | data |
-| ~~no people or vehicles~~ superseded | agents are placed now (311 people, 78 vehicles); what remains is framing and occlusion, not absence | reporting |
-| backlit trees read as silhouettes | the canopy is untextured geometry with no translucency | material |
+| the item's recorded azimuth is 171.4° from the photograph's bearing | the nominal viewpoint looks at the building from the opposite side; the rule that prefers the photograph's own position and bearing overrode it, and the record states the size of the disagreement | **verification — open, the item's azimuth** |
+| the recorded viewpoint is inside a building | fourth such coordinate in the pass; the walk recovered by moving 39.2 m to a surveyed sidewalk | **verification — open, the item's coordinate (J90)** |
+| no chimney, no crane | the chimney is not in the landmark model and construction plant is not a class this build carries | **geometry — open** |
+| the brick is clean where the photograph's is weathered | the shared photographic catalogue carries one course per material; per-building weathering has no source (J66) | data — no source exists |
+| p50 2.141×, mean 1.444× | the photograph is developed 2.023 stops under the grey convention and the render 0.242 over it, a 2.265-stop difference before the scene (J83) | reference |
+| chroma 0.545× | a summer blue over weathered red brick against a Nishita sky and catalogue brick | reference + data |
+| no cloud | nothing in this build reads a historical sky | reference — no source exists |
+| bare terrain on three tiles | park ground was not built for `t_-1_0`, `t_-1_1` or `t_-1_2` inside the 808 m radius | **data — open, three tiles unbuilt** |
+| 303 pedestrians off a walkable surface, 49 inside buildings, 11 vehicles inside buildings | the placement rules caught them; that the crowd and traffic models put them there is the construction site's sparse walkable-surface data | verification |
+| 1,116 tree rows dropped, 11 modelled trees against 220 cards, mean scale 0.841 | the props triangle budget and the scale band the placement rule applies | performance + data |
+| 341 people against a table asking 1,971 | the agent triangle budget plus the placement rules, each with its count | performance + verification |
