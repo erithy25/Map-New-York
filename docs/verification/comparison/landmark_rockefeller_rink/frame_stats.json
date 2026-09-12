@@ -1,17 +1,19 @@
 {
  "slug": "landmark_rockefeller_rink",
- "rendered_at": "2026-09-09T07:18:07Z",
+ "rendered_at": "2026-09-12T18:27:39Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 720,
-  "mean": 0.1018,
-  "sd": 0.0492,
-  "p05": 0.0162,
-  "p95": 0.1748,
-  "chroma": 0.0282
+  "mean": 0.4919,
+  "sd": 0.1439,
+  "p05": 0.1782,
+  "p50": 0.4988,
+  "p95": 0.6733,
+  "chroma": 0.0793,
+  "exposure_offset_stops": 0.242
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.457,
   "sd": 0.2288,
   "p05": 0.1258,
+  "p50": 0.4405,
   "p95": 0.8,
-  "chroma": 0.0423
+  "chroma": 0.0423,
+  "exposure_offset_stops": -0.143
  },
  "render_over_reference": {
-  "mean": 0.223,
-  "sd": 0.215,
-  "chroma": 0.667
+  "mean": 1.076,
+  "sd": 0.629,
+  "p50": 1.132,
+  "chroma": 1.875,
+  "exposure_offset_stops": 0.385,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

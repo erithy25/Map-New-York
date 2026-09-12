@@ -1,17 +1,19 @@
 {
  "slug": "landmark_rockefeller_center",
- "rendered_at": "2026-09-09T01:31:36Z",
+ "rendered_at": "2026-09-12T18:24:55Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 848,
   "height": 1284,
-  "mean": 0.1635,
-  "sd": 0.1222,
-  "p05": 0.0036,
-  "p95": 0.2999,
-  "chroma": 0.0584
+  "mean": 0.4618,
+  "sd": 0.1988,
+  "p05": 0.126,
+  "p50": 0.4982,
+  "p95": 0.7503,
+  "chroma": 0.1146,
+  "exposure_offset_stops": 0.239
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4947,
   "sd": 0.1862,
   "p05": 0.2392,
+  "p50": 0.4768,
   "p95": 0.9039,
-  "chroma": 0.1187
+  "chroma": 0.1187,
+  "exposure_offset_stops": 0.102
  },
  "render_over_reference": {
-  "mean": 0.331,
-  "sd": 0.656,
-  "chroma": 0.492
+  "mean": 0.933,
+  "sd": 1.068,
+  "p50": 1.045,
+  "chroma": 0.965,
+  "exposure_offset_stops": 0.137,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
