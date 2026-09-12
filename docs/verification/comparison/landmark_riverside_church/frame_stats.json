@@ -1,17 +1,19 @@
 {
  "slug": "landmark_riverside_church",
- "rendered_at": "2026-09-09T07:13:41Z",
+ "rendered_at": "2026-09-12T18:20:44Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.2374,
-  "sd": 0.153,
-  "p05": 0.0698,
-  "p95": 0.5131,
-  "chroma": 0.0188
+  "mean": 0.5966,
+  "sd": 0.2045,
+  "p05": 0.3076,
+  "p50": 0.5,
+  "p95": 0.8941,
+  "chroma": 0.0242,
+  "exposure_offset_stops": 0.25
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4588,
   "sd": 0.19,
   "p05": 0.1398,
+  "p50": 0.445,
   "p95": 0.8416,
-  "chroma": 0.2347
+  "chroma": 0.2347,
+  "exposure_offset_stops": -0.112
  },
  "render_over_reference": {
-  "mean": 0.517,
-  "sd": 0.805,
-  "chroma": 0.08
+  "mean": 1.3,
+  "sd": 1.076,
+  "p50": 1.124,
+  "chroma": 0.103,
+  "exposure_offset_stops": 0.362,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
