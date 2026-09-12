@@ -35,6 +35,13 @@ REFERENCE = REPO / "docs" / "verification" / "reference"
 #: sensor and focal lengths already spelled out elsewhere on the sheet, and the ordinals of prose.
 BOILERPLATE = re.compile(r"^(19|20)\d\d$|^\d{1,2}$")
 
+#: An assessment may cite a figure it measured itself -- off a glb, off a catalogue entry, off a
+#: parquet -- which by definition is not in the render record.  Such a figure is declared in a
+#: section under this heading, one table row per figure naming where it came from, and the checker
+#: accepts it *and prints it*, so a measurement can be cited but never hidden.  Everything else
+#: still has to be traceable to the record.
+DECLARED_HEADING = re.compile(r"^#+\s*(measured for this assessment|derived)\s*$", re.I)
+
 
 def facts(slug: str) -> str:
     r = subprocess.run([sys.executable, str(REPO / "tools" / "sheet_facts.py"), slug],
@@ -99,16 +106,49 @@ def rounds_from(value: float, decimals: int, pool: list[float]) -> bool:
     return any(round(v, decimals) == value for v in pool)
 
 
+def declared(text: str) -> tuple[set[str], list[tuple[str, str]]]:
+    """Split off the declared-measurement section: its figures, and the rows that carry them.
+
+    A row has to say where its figure comes from, so a row with nothing but a number in it is not
+    a declaration and its figure stays unsourced.
+    """
+    lines = text.splitlines()
+    start = next((i for i, l in enumerate(lines) if DECLARED_HEADING.match(l.strip())), None)
+    if start is None:
+        return set(), []
+    end = len(lines)
+    for i in range(start + 1, len(lines)):
+        if lines[i].strip().startswith("#"):
+            end = i
+            break
+    figures: set[str] = set()
+    rows: list[tuple[str, str]] = []
+    for line in lines[start + 1:end]:
+        found = re.findall(r"(?<![\w.])(\d[\d,]*\.?\d*)", line)
+        if not found:
+            continue
+        # A declaration names a source as well as a number: a path, a file, or some prose.
+        if len(re.sub(r"[\d,.|\s-]", "", line)) < 8:
+            continue
+        for n in found:
+            figures.add(n)
+            rows.append((n, line.strip()))
+    return figures, rows
+
+
 def unsourced(slug: str) -> list[tuple[str, str]]:
     md = COMPARISON / slug / "assessment.md"
     if not md.is_file():
         return []
     text = md.read_text()
+    declared_figures, _ = declared(text)
     hay = haystack(slug)
     pool = hay_numbers(hay)
     out = []
     for n in sorted(set(re.findall(r"(?<![\w.])(\d[\d,]*\.?\d*)", text)), key=len, reverse=True):
         if BOILERPLATE.match(n.replace(",", "")):
+            continue
+        if n in declared_figures:
             continue
         plain = n.replace(",", "")
         trimmed = plain.rstrip("0").rstrip(".") if "." in plain else plain
@@ -133,7 +173,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--context", action="store_true")
     a = ap.parse_args(argv)
     slugs = a.slugs or sorted(p.parent.name for p in COMPARISON.glob("*/assessment.md"))
-    bad = stale = measured_elsewhere = 0
+    bad = stale = measured_elsewhere = declarations = 0
     for slug in slugs:
         md = COMPARISON / slug / "assessment.md"
         rec = COMPARISON / slug / "render.json"
@@ -145,6 +185,13 @@ def main(argv: list[str] | None = None) -> int:
             stale += 1
             print(f"STALE {slug}: the assessment is older than the render it describes")
             continue
+        # A declared measurement is accepted and printed: citable, never invisible.
+        _, declared_rows = declared(md.read_text()) if md.is_file() else (set(), [])
+        if declared_rows:
+            declarations += len(declared_rows)
+            print(f"DECL  {slug}: {len(declared_rows)} figure(s) measured for this assessment")
+            for n, line in declared_rows:
+                print(f"        {n}   {line[:140]}")
         rows = unsourced(slug)
         if not rows:
             print(f"ok    {slug}")
@@ -155,7 +202,8 @@ def main(argv: list[str] | None = None) -> int:
             print(f"        {n}" + (f"   {line[:120]}" if a.context else ""))
     print(f"\n{len(slugs)} assessments, {stale} older than their own render, "
           f"{bad} with figures that need a source in the prose, "
-          f"{measured_elsewhere} whose frame_stats.json measures a previous image")
+          f"{measured_elsewhere} whose frame_stats.json measures a previous image, "
+          f"{declarations} figure(s) declared as measured for their assessment")
     return 1 if (bad or stale or measured_elsewhere) else 0
 
 

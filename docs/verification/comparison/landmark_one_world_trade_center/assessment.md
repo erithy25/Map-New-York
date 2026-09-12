@@ -67,3 +67,17 @@
 | no memorial furniture on the memorial plaza | 9 memorial and 7 artwork props had no asset | data |
 | every vehicle at LOD2 | the LOD ladder at this distance under the agent budget | performance |
 | 374 people against a table asking 4,603 | the agent triangle budget plus the placement rules, each with its count | performance + verification |
+
+## Measured for this assessment
+
+Four figures above are not in the render record: I measured them off the model itself, because the
+record's 292.65 m and the catalogue's 541.3 m cannot both describe this building and the model is the
+only thing that can settle it. Read with `blender_out/landmarks/b_one_world_trade_center.glb`, twelve
+meshes, heights taken from the POSITION accessor bounds on the glTF up axis.
+
+| figure | where it comes from |
+|---|---|
+| 542.80 | `spire_mast`, the tallest vertex in the model, from its accessor bounds in `b_one_world_trade_center.glb` |
+| 418.50 | `parapet`, top, from the same file — the catalogue states a 417.0 m roof and the parapet stands on it |
+| 57.80 | `podium_cap`, top, from the same file — the catalogue states a 56.4 m podium and the cap sits on it |
+| 56.40 | `podium`, top, from the same file, and the figure the catalogue entry itself gives for the podium |
