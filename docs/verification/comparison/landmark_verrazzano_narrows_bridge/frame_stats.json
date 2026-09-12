@@ -1,17 +1,19 @@
 {
  "slug": "landmark_verrazzano_narrows_bridge",
- "rendered_at": "2026-09-09T08:31:51Z",
+ "rendered_at": "2026-09-12T19:42:58Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1204,
   "height": 906,
-  "mean": 0.4452,
-  "sd": 0.1498,
-  "p05": 0.1083,
-  "p95": 0.6047,
-  "chroma": 0.0583
+  "mean": 0.4588,
+  "sd": 0.1392,
+  "p05": 0.1546,
+  "p50": 0.4985,
+  "p95": 0.612,
+  "chroma": 0.06,
+  "exposure_offset_stops": 0.24
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.589,
   "sd": 0.2268,
   "p05": 0.1667,
+  "p50": 0.6454,
   "p95": 0.8576,
-  "chroma": 0.258
+  "chroma": 0.258,
+  "exposure_offset_stops": 1.056
  },
  "render_over_reference": {
-  "mean": 0.756,
-  "sd": 0.66,
-  "chroma": 0.226
+  "mean": 0.779,
+  "sd": 0.614,
+  "p50": 0.772,
+  "chroma": 0.233,
+  "exposure_offset_stops": -0.816,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
