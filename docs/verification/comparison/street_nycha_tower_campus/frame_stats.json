@@ -1,17 +1,19 @@
 {
  "slug": "street_nycha_tower_campus",
- "rendered_at": "2026-09-09T09:33:02Z",
+ "rendered_at": "2026-09-12T20:47:52Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 904,
   "height": 1206,
-  "mean": 0.2632,
-  "sd": 0.1615,
-  "p05": 0.102,
-  "p95": 0.5997,
-  "chroma": 0.0593
+  "mean": 0.5131,
+  "sd": 0.1928,
+  "p05": 0.2855,
+  "p50": 0.4979,
+  "p95": 0.8619,
+  "chroma": 0.0782,
+  "exposure_offset_stops": 0.237
  },
  "reference": {
   "width": 1280,
@@ -19,12 +21,17 @@
   "mean": 0.4918,
   "sd": 0.2624,
   "p05": 0.1781,
+  "p50": 0.4176,
   "p95": 1.0,
-  "chroma": 0.0509
+  "chroma": 0.0509,
+  "exposure_offset_stops": -0.307
  },
  "render_over_reference": {
-  "mean": 0.535,
-  "sd": 0.615,
-  "chroma": 1.165
+  "mean": 1.043,
+  "sd": 0.735,
+  "p50": 1.192,
+  "chroma": 1.536,
+  "exposure_offset_stops": 0.544,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
