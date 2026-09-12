@@ -1,17 +1,19 @@
 {
  "slug": "vehicle_yellow_cab",
- "rendered_at": "2026-09-09T10:21:03Z",
+ "rendered_at": "2026-09-12T21:37:08Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 704,
-  "mean": 0.0947,
-  "sd": 0.0707,
-  "p05": 0.0196,
-  "p95": 0.1785,
-  "chroma": 0.0247
+  "mean": 0.5045,
+  "sd": 0.1499,
+  "p05": 0.2127,
+  "p50": 0.4973,
+  "p95": 0.7292,
+  "chroma": 0.074,
+  "exposure_offset_stops": 0.233
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4146,
   "sd": 0.2434,
   "p05": 0.0689,
+  "p50": 0.3915,
   "p95": 0.879,
-  "chroma": 0.1404
+  "chroma": 0.1404,
+  "exposure_offset_stops": -0.503
  },
  "render_over_reference": {
-  "mean": 0.228,
-  "sd": 0.29,
-  "chroma": 0.176
+  "mean": 1.217,
+  "sd": 0.616,
+  "p50": 1.27,
+  "chroma": 0.527,
+  "exposure_offset_stops": 0.736,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

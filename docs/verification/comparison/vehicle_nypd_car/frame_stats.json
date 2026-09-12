@@ -1,17 +1,19 @@
 {
  "slug": "vehicle_nypd_car",
- "rendered_at": "2026-09-09T10:16:49Z",
+ "rendered_at": "2026-09-12T21:35:46Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.096,
-  "sd": 0.0625,
-  "p05": 0.0261,
-  "p95": 0.1622,
-  "chroma": 0.0307
+  "mean": 0.4991,
+  "sd": 0.1338,
+  "p05": 0.232,
+  "p50": 0.4931,
+  "p95": 0.6841,
+  "chroma": 0.0881,
+  "exposure_offset_stops": 0.207
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4411,
   "sd": 0.2352,
   "p05": 0.0728,
+  "p50": 0.4836,
   "p95": 0.7781,
-  "chroma": 0.0712
+  "chroma": 0.0712,
+  "exposure_offset_stops": 0.146
  },
  "render_over_reference": {
-  "mean": 0.218,
-  "sd": 0.266,
-  "chroma": 0.431
+  "mean": 1.131,
+  "sd": 0.569,
+  "p50": 1.02,
+  "chroma": 1.237,
+  "exposure_offset_stops": 0.061,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
