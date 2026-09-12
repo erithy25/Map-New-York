@@ -1,17 +1,19 @@
 {
  "slug": "street_times_square_wet_night",
- "rendered_at": "2026-09-09T10:03:10Z",
+ "rendered_at": "2026-09-12T21:06:40Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 854,
-  "mean": 0.399,
-  "sd": 0.2179,
-  "p05": 0.0878,
-  "p95": 0.8457,
-  "chroma": 0.07
+  "mean": 0.166,
+  "sd": 0.1749,
+  "p05": 0.0,
+  "p50": 0.1218,
+  "p95": 0.6462,
+  "chroma": 0.0276,
+  "exposure_offset_stops": -3.71
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.1951,
   "sd": 0.1863,
   "p05": 0.0308,
+  "p50": 0.1342,
   "p95": 0.5865,
-  "chroma": 0.1743
+  "chroma": 0.1743,
+  "exposure_offset_stops": -3.476
  },
  "render_over_reference": {
-  "mean": 2.045,
-  "sd": 1.17,
-  "chroma": 0.402
+  "mean": 0.851,
+  "sd": 0.939,
+  "p50": 0.908,
+  "chroma": 0.158,
+  "exposure_offset_stops": -0.234,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
