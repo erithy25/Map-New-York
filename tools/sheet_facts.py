@@ -193,9 +193,16 @@ def facts(slug: str) -> dict:
                   "tree_instances_scaled": props.get("tree_instances_scaled"),
                   "tree_mean_scale": props.get("tree_mean_scale"),
                   "tree_scale_out_of_band": props.get("tree_scale_out_of_band"),
+                  "dropped_for_budget": props.get("dropped_for_budget"),
+                  "dropped_on_suppressed_building": props.get("dropped_on_suppressed_building"),
                   "radius_m": props.get("radius_m")},
+        # An assessment that names a shortfall has to name what caused it, and "capped" and
+        # "suppressed" are different causes with different classes: one is the triangle budget,
+        # the other is a landmark shell standing in place of the tile's buildings.
         "kit": {"total": sum((kit.get("per_category") or {}).values()) or None,
-                "per_category": kit.get("per_category"), "capped": kit.get("capped")},
+                "per_category": kit.get("per_category"), "capped": kit.get("capped"),
+                "in_range": kit.get("records_in_range"),
+                "suppressed_with_landmark_shells": kit.get("suppressed_with_landmark_shells")},
         "terrain": {"triangles": ter.get("triangles"), "spacing_m": ter.get("spacing_m"),
                     "far_spacing_m": ter.get("far_spacing_m"), "holes": ter.get("holes"),
                     "water_bodies": [w.get("name") for w in (ter.get("water_bodies") or [])]},

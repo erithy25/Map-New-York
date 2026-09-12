@@ -137,13 +137,19 @@ def main(argv: list[str] | None = None) -> int:
     kv("pavement", f"{pavement.get('placed')} polygons ({top(pavement.get('per_kind'))}), "
                    f"dropped {pavement.get('dropped')}")
     props = f.get("props") or {}
-    kv("props", f"{props.get('placed')} placed ({top(props.get('per_kind'))})")
+    kv("props", f"{props.get('placed')} placed of {props.get('in_range')} in range "
+                f"({top(props.get('per_kind'))})")
+    kv("props capped", props.get("capped") or "not capped")
     kv("props unmapped", top(props.get("unmapped")))
     for key in ("tree_species_substituted", "tree_instances_scaled", "tree_mean_scale",
-                "tree_scale_out_of_band", "impostor_cards_dropped"):
+                "tree_scale_out_of_band", "impostor_cards_dropped", "dropped_for_budget",
+                "dropped_on_suppressed_building"):
         kv(f"props.{key}", props.get(key))
     kit = f.get("kit") or {}
-    kv("kit", f"{kit.get('total')} pieces ({top(kit.get('per_category'))})")
+    kv("kit", f"{kit.get('total')} pieces of {kit.get('in_range')} in range "
+              f"({top(kit.get('per_category'))})")
+    kv("kit capped", kit.get("capped") or "not capped")
+    kv("kit suppressed with landmark shells", kit.get("suppressed_with_landmark_shells"))
     terrain = f.get("terrain") or {}
     kv("terrain", f"{terrain.get('triangles')} tris, {terrain.get('spacing_m')} m near / "
                   f"{terrain.get('far_spacing_m')} m far, holes {terrain.get('holes')}")
