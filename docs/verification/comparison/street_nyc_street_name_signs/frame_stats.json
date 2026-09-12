@@ -1,17 +1,19 @@
 {
  "slug": "street_nyc_street_name_signs",
- "rendered_at": "2026-09-09T09:21:15Z",
+ "rendered_at": "2026-09-12T20:39:46Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 576,
-  "mean": 0.0953,
-  "sd": 0.0582,
-  "p05": 0.0269,
-  "p95": 0.1664,
-  "chroma": 0.0124
+  "mean": 0.5191,
+  "sd": 0.1485,
+  "p05": 0.2566,
+  "p50": 0.4997,
+  "p95": 0.716,
+  "chroma": 0.0351,
+  "exposure_offset_stops": 0.248
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.6618,
   "sd": 0.2246,
   "p05": 0.1454,
+  "p50": 0.7696,
   "p95": 0.8009,
-  "chroma": 0.0751
+  "chroma": 0.0751,
+  "exposure_offset_stops": 1.621
  },
  "render_over_reference": {
-  "mean": 0.144,
-  "sd": 0.259,
-  "chroma": 0.165
+  "mean": 0.784,
+  "sd": 0.661,
+  "p50": 0.649,
+  "chroma": 0.467,
+  "exposure_offset_stops": -1.373,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
