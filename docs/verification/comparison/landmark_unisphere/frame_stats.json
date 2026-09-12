@@ -1,17 +1,19 @@
 {
  "slug": "landmark_unisphere",
- "rendered_at": "2026-09-09T08:24:36Z",
+ "rendered_at": "2026-09-12T19:34:19Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1204,
   "height": 906,
-  "mean": 0.5561,
-  "sd": 0.2693,
-  "p05": 0.1138,
-  "p95": 0.9221,
-  "chroma": 0.0416
+  "mean": 0.4947,
+  "sd": 0.2443,
+  "p05": 0.191,
+  "p50": 0.4941,
+  "p95": 0.8803,
+  "chroma": 0.0509,
+  "exposure_offset_stops": 0.213
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5878,
   "sd": 0.2662,
   "p05": 0.1182,
+  "p50": 0.7318,
   "p95": 0.8989,
-  "chroma": 0.0612
+  "chroma": 0.0612,
+  "exposure_offset_stops": 1.458
  },
  "render_over_reference": {
-  "mean": 0.946,
-  "sd": 1.012,
-  "chroma": 0.68
+  "mean": 0.842,
+  "sd": 0.918,
+  "p50": 0.675,
+  "chroma": 0.832,
+  "exposure_offset_stops": -1.245,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

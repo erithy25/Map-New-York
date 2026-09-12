@@ -1,17 +1,19 @@
 {
  "slug": "landmark_tsx_broadway",
- "rendered_at": "2026-09-09T08:16:44Z",
+ "rendered_at": "2026-09-12T19:32:36Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 854,
-  "mean": 0.1495,
-  "sd": 0.1099,
-  "p05": 0.0182,
-  "p95": 0.296,
-  "chroma": 0.0348
+  "mean": 0.4723,
+  "sd": 0.1924,
+  "p05": 0.1196,
+  "p50": 0.4983,
+  "p95": 0.7378,
+  "chroma": 0.0574,
+  "exposure_offset_stops": 0.239
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.3792,
   "sd": 0.2188,
   "p05": 0.1003,
+  "p50": 0.3405,
   "p95": 0.7773,
-  "chroma": 0.1101
+  "chroma": 0.1101,
+  "exposure_offset_stops": -0.923
  },
  "render_over_reference": {
-  "mean": 0.394,
-  "sd": 0.502,
-  "chroma": 0.316
+  "mean": 1.246,
+  "sd": 0.879,
+  "p50": 1.463,
+  "chroma": 0.521,
+  "exposure_offset_stops": 1.162,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

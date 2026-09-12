@@ -1,17 +1,19 @@
 {
  "slug": "landmark_two_times_square",
- "rendered_at": "2026-09-09T08:23:27Z",
+ "rendered_at": "2026-09-12T19:37:37Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 852,
-  "mean": 0.3976,
-  "sd": 0.2186,
-  "p05": 0.0426,
-  "p95": 0.8417,
-  "chroma": 0.0415
+  "mean": 0.4611,
+  "sd": 0.2277,
+  "p05": 0.0611,
+  "p50": 0.4996,
+  "p95": 0.886,
+  "chroma": 0.045,
+  "exposure_offset_stops": 0.247
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.352,
   "sd": 0.2001,
   "p05": 0.0549,
+  "p50": 0.3178,
   "p95": 0.7287,
-  "chroma": 0.0942
+  "chroma": 0.0942,
+  "exposure_offset_stops": -1.128
  },
  "render_over_reference": {
-  "mean": 1.13,
-  "sd": 1.092,
-  "chroma": 0.441
+  "mean": 1.31,
+  "sd": 1.138,
+  "p50": 1.572,
+  "chroma": 0.478,
+  "exposure_offset_stops": 1.375,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
