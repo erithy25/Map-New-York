@@ -1,17 +1,19 @@
 {
  "slug": "landmark_williamsburg_bridge",
- "rendered_at": "2026-09-09T02:02:25Z",
+ "rendered_at": "2026-09-12T19:51:59Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.2883,
-  "sd": 0.1568,
-  "p05": 0.0897,
-  "p95": 0.526,
-  "chroma": 0.0691
+  "mean": 0.4216,
+  "sd": 0.1947,
+  "p05": 0.1625,
+  "p50": 0.4963,
+  "p95": 0.6936,
+  "chroma": 0.08,
+  "exposure_offset_stops": 0.227
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.3721,
   "sd": 0.2551,
   "p05": 0.062,
+  "p50": 0.3363,
   "p95": 0.8669,
-  "chroma": 0.1825
+  "chroma": 0.1825,
+  "exposure_offset_stops": -0.96
  },
  "render_over_reference": {
-  "mean": 0.775,
-  "sd": 0.615,
-  "chroma": 0.379
+  "mean": 1.133,
+  "sd": 0.763,
+  "p50": 1.476,
+  "chroma": 0.438,
+  "exposure_offset_stops": 1.187,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
