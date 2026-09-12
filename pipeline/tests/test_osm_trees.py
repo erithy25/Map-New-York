@@ -246,10 +246,29 @@ def test_tree_rows_are_never_placed(tmp_path):
 
 # --------------------------------------------------------------------------------------- the dedupe rule
 
+#: The dataset id every rule-placed canopy stem carries (Stage 55 / J86).  It is not an inventory:
+#: the city's woodland is on disk as *coverage*, so the stems inside those polygons are seeded by
+#: rule and say so in both `dataset_id` and `source`.
+CANOPY_DATASET = "rule:woodland_canopy"
+
+
 def _rule() -> dedupe.CrossSourceRule:
-    rules = [r for r in dedupe.CROSS_SOURCE_RULES if r.group == "tree"]
-    assert len(rules) == 1, "exactly one cross-source rule governs trees"
+    """The rule that governs the two tree *inventories* against each other.
+
+    Trees are governed by three cross-source rules since the woodland canopy was added: census
+    against OSM, and each of those against the rule-placed stems.  This returns the first, which is
+    the one measured from control data and the one these tests are about.
+    """
+    rules = [r for r in dedupe.CROSS_SOURCE_RULES
+             if r.group == "tree" and r.keep_dataset == CENSUS and r.drop_dataset == OSM_DATASET]
+    assert len(rules) == 1, "exactly one cross-source rule governs census against OSM trees"
     return rules[0]
+
+
+def _canopy_rules() -> list[dedupe.CrossSourceRule]:
+    """The rules that drop a rule-placed stem standing on top of a surveyed tree."""
+    return [r for r in dedupe.CROSS_SOURCE_RULES
+            if r.group == "tree" and r.drop_dataset == CANOPY_DATASET]
 
 
 def _tree_cols(xs, ys, datasets_):
@@ -265,7 +284,10 @@ def test_the_radius_is_recorded_with_how_it_was_measured():
     assert 1.5 < r.radius_m <= 10.0
     assert "control" in r.basis, "the radius must carry the measurement it came from, not a round number"
     doc = catalog.catalog_json()
-    assert doc["dedupe"]["cross_source"][0]["radius_m"] == r.radius_m
+    entries = [e for e in doc["dedupe"]["cross_source"]
+               if e.get("kept_dataset") == CENSUS and e.get("dropped_dataset") == OSM_DATASET]
+    assert len(entries) == 1, "the census/OSM tree rule appears once in the catalogue"
+    assert entries[0]["radius_m"] == r.radius_m
 
 
 def test_an_osm_tree_inside_the_radius_is_dropped_and_one_outside_is_kept():
@@ -347,10 +369,61 @@ def test_no_osm_tree_stands_within_the_dedupe_radius_of_a_census_tree():
 
 @needs_osm_trees
 def test_every_osm_tree_says_which_inventory_it_came_from():
+    """A surveyed tree names its inventory; a rule-placed stem says it is one.
+
+    Before the woodland canopy existed this asserted that only the two inventories appear at all.
+    That is no longer true and should not be: Stage 55 seeds stems inside mapped woodland polygons,
+    which is a *declared procedural* placement (J86, DATA_CONTRACTS section 12).  The invariant
+    worth holding is the one that keeps the two apart -- every row that claims to be a record is
+    one, and every rule placement admits it in both columns.
+    """
     osm = TREES["dataset_id"] == OSM_DATASET
     assert np.all(TREES["source"][osm] == catalog.SOURCE_DATASET), "these are records, not rule placements"
-    assert set(np.unique(TREES["dataset_id"]).tolist()) == {CENSUS, OSM_DATASET}
     assert (TREES["dataset_id"] == CENSUS).sum() > 0
+
+    ids = set(np.unique(TREES["dataset_id"]).tolist())
+    assert {CENSUS, OSM_DATASET} <= ids, "both inventories must be present"
+    for extra in ids - {CENSUS, OSM_DATASET}:
+        assert extra.startswith("rule:"), f"{extra!r} is neither an inventory nor a declared rule"
+        rows = TREES["dataset_id"] == extra
+        assert np.all(TREES["source"][rows] == catalog.SOURCE_RULE), \
+            f"{extra!r} rows must be flagged SOURCE_RULE, not passed off as records"
+
+    surveyed = (TREES["dataset_id"] == CENSUS) | (TREES["dataset_id"] == OSM_DATASET)
+    assert np.all(TREES["source"][surveyed] == catalog.SOURCE_DATASET), \
+        "no surveyed row may be flagged as a rule placement"
+    rule_placed = TREES["source"] == catalog.SOURCE_RULE
+    assert not np.any(rule_placed & surveyed), "a row cannot be both a record and a rule placement"
+
+
+@needs_osm_trees
+def test_a_rule_placed_stem_is_dropped_where_a_surveyed_tree_already_stands():
+    """The canopy is seeded inside polygons that already contain mapped trees, so it must yield.
+
+    Added with Stage 55: two further cross-source rules drop a rule-placed stem standing within
+    6.0 m of a census or an OSM tree, a radius the rules' own basis derives from the measured 5.0 m
+    census/OSM radius.  Without them the Ramble would carry a surveyed tree and a seeded stem in
+    the same place.
+    """
+    rules = _canopy_rules()
+    assert {r.keep_dataset for r in rules} == {CENSUS, OSM_DATASET}, \
+        "a seeded stem must yield to either inventory"
+    for r in rules:
+        assert r.radius_m > _rule().radius_m, \
+            "the canopy radius is the measured inventory radius plus a margin, not a smaller number"
+        assert "measured" in r.basis or "control" in r.basis, \
+            "the radius must carry the measurement it came from"
+
+    for keep in (CENSUS, OSM_DATASET):
+        r = next(x for x in rules if x.keep_dataset == keep)
+        eps = 0.01
+        cols = _tree_cols([0.0, r.radius_m - eps, -(r.radius_m + eps)], [0.0, 0.0, 0.0],
+                          [keep, CANOPY_DATASET, CANOPY_DATASET])
+        got, report = dedupe.dedupe(cols, {TREE_KIND: "tree"})
+        assert list(got) == [True, False, True], f"the stem inside {r.radius_m} m of a {keep} tree must go"
+        cross = [c for c in report["cross_source"]
+                 if c["group"] == "tree" and c.get("dropped_dataset") == CANOPY_DATASET][0]
+        assert cross["radius_m"] == r.radius_m
 
 
 @needs_osm_trees
