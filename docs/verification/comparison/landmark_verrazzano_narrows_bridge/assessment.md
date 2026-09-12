@@ -16,6 +16,8 @@
 
 **The left half is the approach roadway.** The chooser kept a photograph of the I-278 HOV lane: concrete barriers, sign gantries, a lamp standard and traffic. Nothing about the span's proportions, its tower form, its cable geometry or its deck depth can be compared, because none of it is in the reference. This is J71's family — `pick_reference_photo` tests licence, size, date, the Sun's height and a derivable heading, and nothing tests what a photograph is a picture of — and it is the reverse of the usual failure: **here the render is the better evidence of the two halves.**
 
+**And the photograph of the bridge was in the same folder.** The fetch kept three. Candidate 2, `File:Verrazano-Bridge.jpg`, is *"27 m from the standard viewpoint"* on *"the azimuth 223 deg"* against this item's recorded 222.1 deg, and it scores **13.45**. The HOV-lane photograph is *"928 m from the standard viewpoint"*, scores **13.2**, and won on one term: its `date_taken` is `2025-07-09 15:17:06` and the near one's is `2018-01-09`, ten characters, under the sixteen `pick_reference_photo` needs to call a date a clock. For every group but `drive_through` that clock ranks above the viewpoint confidence and the azimuth error, and no distance term exists at all (J60, and the pass-wide measurement in J112). So this sheet's reference is not a chooser that could not tell what a photograph shows; it is a chooser that had the right photograph, ranked it second, and took a precise sunrise over a picture of the bridge.
+
 **And the instrument found nothing.** The height probe cast 43 rays and **0 landed on built fabric**. The record says why: *"nothing built stands within 6 m of the subject's coordinate"*, so **no sightline was tested** — there is no visible fraction, no ray count and no verdict on this record. The catalogue entry sits **55.5 m** from the coordinate and carries **211.2 m**, the towers' own height, and it was not used. So a sheet whose picture is dominated by its subject publishes no measurement of it, which is the exact mirror of the Chrysler sheet, where the record measured the building with 43 of 43 rays and then declared it absent.
 
 **The subject's ground is the tidal datum.** `probe.ground_z_m` is **0.0**, because every tidal water body in this build is flattened to 0.0 m NAVD88 (J103). The Narrows is 0.0 m and the bridge's towers stand in it.
@@ -58,6 +60,8 @@
 | 211.2 m is the towers' own height | the record's own `nearest_catalogue_origin.height_m` for the `b_verrazzano_narrows` entry 55.5 m from the subject's coordinate |
 | nine tiles in the 900 m radius have no park ground built | the record's own gaps line, which names them |
 | 5 of 23 building tiles were never built and 2 were LOD-substituted | the record's `scene.buildings.missing` and `lod_substituted` lists |
+| the photograph of the bridge that was passed over | the three kept candidates in `docs/verification/reference/landmark_verrazzano_narrows_bridge/meta.json`: their `score`, their `date_taken` and the offsets their own `estimated_viewpoint.explanation` states |
+
 
 ## Cause of each gap
 
@@ -73,3 +77,4 @@
 | 10 of 13 structures tiles have no file | those tiles were not built (B13 remainder) | data — open |
 | 5 cornices drawn | 926 kit pieces in a scene whose triangles went to 18 building tiles at 541,056 | performance |
 | 202 procedural canopy stems among the tree cards | woodland canopy is placed by rule inside mapped polygons rather than surveyed, which is J86's closure and is inferred by construction | data — declared |
+| the reference is 928 m away when a candidate 27 m away was kept | `pick_reference_photo` ranks a full EXIF clock above the viewpoint confidence and the azimuth error and has no distance term outside the drive-through group (J60, measured across the pass in J112) | **verification — open** |
