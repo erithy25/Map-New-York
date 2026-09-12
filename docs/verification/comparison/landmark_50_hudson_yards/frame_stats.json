@@ -1,17 +1,19 @@
 {
  "slug": "landmark_50_hudson_yards",
- "rendered_at": "2026-09-09T03:23:43Z",
+ "rendered_at": "2026-09-12T17:26:43Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 904,
   "height": 1206,
-  "mean": 0.171,
-  "sd": 0.1253,
-  "p05": 0.0199,
-  "p95": 0.4161,
-  "chroma": 0.0473
+  "mean": 0.5566,
+  "sd": 0.2529,
+  "p05": 0.1666,
+  "p50": 0.4964,
+  "p95": 0.8715,
+  "chroma": 0.0874,
+  "exposure_offset_stops": 0.227
  },
  "reference": {
   "width": 1280,
@@ -19,12 +21,17 @@
   "mean": 0.3583,
   "sd": 0.2044,
   "p05": 0.099,
+  "p50": 0.3284,
   "p95": 0.75,
-  "chroma": 0.2821
+  "chroma": 0.2821,
+  "exposure_offset_stops": -1.031
  },
  "render_over_reference": {
-  "mean": 0.477,
-  "sd": 0.613,
-  "chroma": 0.168
+  "mean": 1.553,
+  "sd": 1.237,
+  "p50": 1.512,
+  "chroma": 0.31,
+  "exposure_offset_stops": 1.258,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
