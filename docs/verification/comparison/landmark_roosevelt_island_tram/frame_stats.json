@@ -1,17 +1,19 @@
 {
  "slug": "landmark_roosevelt_island_tram",
- "rendered_at": "2026-09-09T07:22:04Z",
+ "rendered_at": "2026-09-12T18:40:27Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 852,
   "height": 1278,
-  "mean": 0.3,
-  "sd": 0.1524,
-  "p05": 0.1729,
-  "p95": 0.5688,
-  "chroma": 0.0732
+  "mean": 0.601,
+  "sd": 0.1675,
+  "p05": 0.4536,
+  "p50": 0.4982,
+  "p95": 0.8664,
+  "chroma": 0.085,
+  "exposure_offset_stops": 0.238
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4922,
   "sd": 0.3426,
   "p05": 0.0577,
+  "p50": 0.357,
   "p95": 0.9653,
-  "chroma": 0.0472
+  "chroma": 0.0472,
+  "exposure_offset_stops": -0.782
  },
  "render_over_reference": {
-  "mean": 0.61,
-  "sd": 0.445,
-  "chroma": 1.551
+  "mean": 1.221,
+  "sd": 0.489,
+  "p50": 1.396,
+  "chroma": 1.801,
+  "exposure_offset_stops": 1.02,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
