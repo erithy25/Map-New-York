@@ -18,7 +18,7 @@
 
 **The canopy itself is the largest in the pass and it is mostly rule-placed, which the sheet says.** **14,043 trees**: 12 drawn from modelled branches within 120 m, 14,031 as six-triangle impostor cards out to 797 m, and **12,827 of those cards are procedural canopy stems** placed by rule inside mapped woodland polygons (Stage 55) — their positions, species and heights inferred, not surveyed. Nothing was capped: **14,482 props placed of 14,518 in range**, **0 dropped for budget**. So the woods in this frame are a plausible woodland rather than a surveyed one, and the record prints the rule that made them.
 
-**Two smaller things the picture shows.** The Boathouse's **red tile roof is absent** — the render's block reads white to its top edge, where the photograph's roof is the one warm mass in the frame. And **eight of thirteen sightline rays are blocked at 74.4 m by `prop_lamp_cobra_davit_157`**, a highway cobra-head lamp standing between the camera and the Boathouse on the Lullwater bank. Prospect Park's own lighting is the park post lamp, and the record shows both kinds placed here — 44 from the 30–40 m rule combined with the park post lamp, 31 from OSM combined with it, and **28 from the plain 30–40 m rule** with no park post. One of those 28 is what is in the way. Whether a cobra-head belongs at that point is not something this record can settle: Prospect Park's drives do carry roadway lighting, and the sheet cannot say whether this lamp is on a drive or on a footpath.
+**Two smaller things the picture shows.** The Boathouse's **red tile roof is absent** — the render's block reads white to its top edge, where the photograph's roof is the one warm mass in the frame. And **eight of thirteen sightline rays are blocked at 74.4 m by `prop_lamp_cobra_davit_157`**, a highway cobra-head lamp standing between the camera and the Boathouse on the Lullwater bank. Prospect Park's own lighting is the cast-iron post-top lantern, and the record shows both kinds placed here — 44 from the 30–40 m rule combined with the park post lamp, 31 from OSM combined with it, and **28 from the plain 30–40 m rule** with no park post. One of those 28 is what is in the way, and it is not an open question: **J56 measures the class** — **10,652 lamps stand on park ground and 7,520 of them are rule-placed cobra heads**, 629 of those in Central Park. So the fixture blocking eight of thirteen rays on the Lullwater bank is one instance of a counted, open fault, and the visible fraction of 0.385 is a cost of it.
 
 ## What matches
 
@@ -47,6 +47,12 @@
 * **Eleven people in Prospect Park on a May afternoon.** The density table asked 69 and 104 were simulated; **38 were dropped for standing off a walkable surface** and 9 for standing in the carriageway without crossing — the park's paths and lawns are not surfaces the crowd's test can see (J101).
 * **Beyond 400 m the park ground reads under the terrain on 0.2645 of 1,244 samples**, worst **−3.884 m**; between 150 and 400 m it is **0.2157** over 51 samples with a z-fighting fraction of **0.0392**. The redrape moved **557,263** vertices, the largest redrape on any sheet written so far, up to 0.696 m up and 0.847 m down.
 
+## Measured for this assessment
+
+| figure | how |
+|---|---|
+| 10,652 lamps on park ground, 7,520 of them rule-placed cobra heads | quoted from DEVIATIONS J56, which measured the class over the whole city; this sheet's own record shows 28 of its 103 lamps placed by the plain 30–40 m rule with no park post |
+
 ## Cause of each gap
 
 | gap | cause | class |
@@ -55,7 +61,7 @@
 | no red tile roof | the model's roof carries no distinct tile material; the facade's terracotta is what the builder addressed | geometry |
 | the woodland is inferred | only individually mapped trees exist in the sources, so woodland polygons are filled by rule (Stage 55) — named on the sheet and in the record | data — declared, and the honest form |
 | 700 substituted species, 26 out of band | the species lists do not cover this stock and the nearest modelled species is used, counted rather than hidden | data — declared, counted |
-| a visible fraction of 0.385 | one rule-placed cobra-head lamp 74.4 m out blocks eight of thirteen rays; the park also carries 75 park post lamps, so both fixtures are placed here and the record cannot say whether this one is on a drive (J56, J79) | verification + data — open, and unresolved in the record |
+| a visible fraction of 0.385 | one rule-placed cobra-head lamp 74.4 m out blocks eight of thirteen rays, and 28 of this frame's 103 lamps come from the plain 30–40 m rule with no park post; J56 measures the class at 7,520 rule-placed cobra heads on park ground out of 10,652 lamps there (J56, J79) | **data — open (J56), with a measured count** |
 | sd 0.695, chroma 0.584 | a saturated blue May sky and acid-green new leaves against a clear Nishita sky and summer green; the photograph is developed 0.131 stops below the grey convention and the render 0.227 above (J83) | reference |
 | no cloud | nothing in this build reads a historical sky | reference — no source exists |
 | the bank is a smooth lawn | the park ground is one flat-coloured grass surface and undergrowth is not a class this build models (J40) | data + geometry |
