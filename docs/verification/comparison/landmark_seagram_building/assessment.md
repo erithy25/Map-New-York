@@ -16,7 +16,7 @@
 
 **And the subject is barely in the frame.** Of thirteen rays, **5 are clear**, **2 land on the subject**, 2 go into nothing, and the rest stop at **10.5 m** on `t_-2_6_glass_curtain` — the same joined mesh the camera is standing 4.2 m from. The visible fraction is **0.154**. The published render looks steeply up a canyon: a pale blue-grey glass wall filling the right third, dark slabs beyond, a street tree, pedestrians, a black car, and **432 Park Avenue** in the distance, its grid of square windows unmistakable. The Seagram's own bronze tower is not identifiable in it.
 
-**The photograph's light comes from inside the building, and the render has none of it.** At 08:44 in November the Seagram's office floors are lit and the curtain wall glows amber through bronze glass; that warm wall is most of the reference frame's brightness and all of its colour. The render's emissive pass keeps shopfront and signal emissives on and switches street-lamp lenses off — there is no office-lighting model at all, so a tower at dawn is as dark as a tower at noon. Measured the other way round, the render still carries **1.354×** the photograph's chroma, because a clear Nishita sky and a green street tree outweigh a monochrome bronze wall.
+**The photograph's light comes from inside the building, and the render has none of it.** At 08:44 in November the Seagram's office floors are lit and the curtain wall glows amber through bronze glass; that warm wall is most of the reference frame's brightness and all of its colour. The build **does** have the pieces for it: `facade/kit_ids.py` defines a **lit twin of every window type that has an interior card**, and `facade/placements.py` records `flags` bit 0 as *lit at night*, choosing between the lit and unlit kit id at placement time. What this frame shows is no lit window at all, and the record cannot say which of two reasons that is — no window in range was baked as a lit twin, or the daylight pass draws the unlit one. Either way a tower at a quarter to nine in November comes out as dark as a tower at noon, and the sheet's own kit block reports only the category, `window`, never which twin. Measured the other way round, the render still carries **1.354×** the photograph's chroma, because a clear Nishita sky and a green street tree outweigh a monochrome bronze wall.
 
 ## What matches
 
@@ -32,7 +32,7 @@
 
 * **The subject is two rays of thirteen**, behind a joined glass-curtain tile mesh 10.5 m from the lens (J94).
 * **The bronze is absent.** Mullions, spandrels and tinted glass are the building's entire character and the render's wall is pale blue-grey.
-* **No office lighting.** The photograph's wall glows from inside; this build has no interior-lighting model for towers, so nothing in the render is lit from within.
+* **No window is lit.** The photograph's wall glows from inside at 08:44 in November; nothing in the render is lit from within, although the kit defines a lit twin for every window type with an interior card and the placements carry a *lit at night* flag.
 * **Published at the +6.00-stop clamp**, from a wanted 6.24 — the frame is far from a photographable level and the record says so (J83).
 * **The plaza's travertine is not in the picture.** The photograph's foreground is the plaza; the render's is roadway.
 * **Nearly 1.4× the photograph's colour** — chroma **1.354** — from a clear sky and a street tree against a monochrome wall.
@@ -59,7 +59,7 @@
 |---|---|---|
 | the subject is two rays of thirteen | eight rays stop 10.5 m out on one tile's glass-curtain surfaces joined into a single object, the same mesh the camera stands 4.2 m from (J94) | **geometry — open, the join is the fault** |
 | no bronze | the shells and the landmark model carry the material palette's neutral glass, and per-building facade colour has no source in this build (J66) | data — declared, and open |
-| no office lighting | the emissive pass switches street-lamp lenses off and leaves shopfront and signal emissives on; there is no interior-lighting model for towers, so a 08:44 November frame is as dark as noon | **geometry — open, and it is most of the reference's brightness** |
+| no window is lit | the kit has a lit twin per window type and the placements carry a *lit at night* flag chosen at placement time, and this frame shows none of them; the record reports the kit category only, so it cannot say whether none was baked here or the daylight pass draws the unlit twin | **verification — open, and the record cannot answer it; it is most of the reference's brightness** |
 | published at the +6.00 clamp | a 20.4° Sun into a Park Avenue canyon in November; the development is metered on the frame and clamped (J83) | verification — declared, and correct |
 | chroma 1.354 | a clear Nishita sky and a green street tree against a monochrome bronze wall | reference + geometry |
 | the frame is not comparable on proportion | the subject tops out 64° above the horizon at 74 m, and 18 mm with a 74° vertical field is the floor past which distortion would break the comparison | verification — declared on the sheet |
