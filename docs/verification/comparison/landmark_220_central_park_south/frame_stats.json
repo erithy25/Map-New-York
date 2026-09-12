@@ -1,17 +1,19 @@
 {
  "slug": "landmark_220_central_park_south",
- "rendered_at": "2026-09-09T02:55:01Z",
+ "rendered_at": "2026-09-12T17:16:47Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 784,
   "height": 1394,
-  "mean": 0.1345,
-  "sd": 0.1234,
-  "p05": 0.0387,
-  "p95": 0.4092,
-  "chroma": 0.0427
+  "mean": 0.5323,
+  "sd": 0.1803,
+  "p05": 0.2973,
+  "p50": 0.4994,
+  "p95": 0.8724,
+  "chroma": 0.0673,
+  "exposure_offset_stops": 0.246
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.435,
   "sd": 0.2779,
   "p05": 0.0594,
+  "p50": 0.5786,
   "p95": 0.8099,
-  "chroma": 0.1808
+  "chroma": 0.1808,
+  "exposure_offset_stops": 0.708
  },
  "render_over_reference": {
-  "mean": 0.309,
-  "sd": 0.444,
-  "chroma": 0.236
+  "mean": 1.224,
+  "sd": 0.649,
+  "p50": 0.863,
+  "chroma": 0.372,
+  "exposure_offset_stops": -0.462,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
