@@ -1,17 +1,19 @@
 {
  "slug": "landmark_trump_tower",
- "rendered_at": "2026-09-09T08:10:33Z",
+ "rendered_at": "2026-09-12T19:27:21Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 904,
   "height": 1206,
-  "mean": 0.2068,
-  "sd": 0.1706,
-  "p05": 0.0129,
-  "p95": 0.6024,
-  "chroma": 0.0665
+  "mean": 0.5477,
+  "sd": 0.2358,
+  "p05": 0.1008,
+  "p50": 0.498,
+  "p95": 0.942,
+  "chroma": 0.0877,
+  "exposure_offset_stops": 0.238
  },
  "reference": {
   "width": 1280,
@@ -19,12 +21,17 @@
   "mean": 0.4618,
   "sd": 0.3253,
   "p05": 0.0986,
+  "p50": 0.3424,
   "p95": 1.0,
-  "chroma": 0.0481
+  "chroma": 0.0481,
+  "exposure_offset_stops": -0.907
  },
  "render_over_reference": {
-  "mean": 0.448,
-  "sd": 0.524,
-  "chroma": 1.383
+  "mean": 1.186,
+  "sd": 0.725,
+  "p50": 1.454,
+  "chroma": 1.823,
+  "exposure_offset_stops": 1.145,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
