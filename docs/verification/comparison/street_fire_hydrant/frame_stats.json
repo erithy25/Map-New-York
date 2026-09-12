@@ -1,17 +1,19 @@
 {
  "slug": "street_fire_hydrant",
- "rendered_at": "2026-09-09T09:02:04Z",
+ "rendered_at": "2026-09-12T20:24:40Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 904,
   "height": 1206,
-  "mean": 0.2125,
-  "sd": 0.1476,
-  "p05": 0.0499,
-  "p95": 0.5686,
-  "chroma": 0.0238
+  "mean": 0.5613,
+  "sd": 0.2171,
+  "p05": 0.2466,
+  "p50": 0.4973,
+  "p95": 0.9221,
+  "chroma": 0.0361,
+  "exposure_offset_stops": 0.233
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4286,
   "sd": 0.2017,
   "p05": 0.1117,
+  "p50": 0.4073,
   "p95": 0.7967,
-  "chroma": 0.0946
+  "chroma": 0.0946,
+  "exposure_offset_stops": -0.383
  },
  "render_over_reference": {
-  "mean": 0.496,
-  "sd": 0.732,
-  "chroma": 0.252
+  "mean": 1.31,
+  "sd": 1.076,
+  "p50": 1.221,
+  "chroma": 0.382,
+  "exposure_offset_stops": 0.616,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
