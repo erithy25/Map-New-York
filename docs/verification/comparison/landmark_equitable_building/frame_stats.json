@@ -1,0 +1,37 @@
+{
+ "slug": "landmark_equitable_building",
+ "rendered_at": "2026-09-12T21:43:10Z",
+ "reference_file": "2.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.393,
+  "sd": 0.2048,
+  "p05": 0.0969,
+  "p50": 0.3946,
+  "p95": 0.828,
+  "chroma": 0.0499,
+  "exposure_offset_stops": -0.479
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.4358,
+  "sd": 0.2508,
+  "p05": 0.084,
+  "p50": 0.4198,
+  "p95": 0.9986,
+  "chroma": 0.0752,
+  "exposure_offset_stops": -0.29
+ },
+ "render_over_reference": {
+  "mean": 0.902,
+  "sd": 0.817,
+  "p50": 0.94,
+  "chroma": 0.664,
+  "exposure_offset_stops": -0.189,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
+ }
+}
