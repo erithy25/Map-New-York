@@ -33,6 +33,7 @@
   "long_side_fov_deg": 73.74,
   "pitch_deg": 0.0,
   "portrait": false,
+  "raised_surface_named": true,
   "resolution": [
    1208,
    906
@@ -69,9 +70,9 @@
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.4659,
+  "mean": 0.4375,
   "reason": null,
-  "sd": 0.2057,
+  "sd": 0.1989,
   "usable": true
  },
  "frame_retry": null,
@@ -80,6 +81,19 @@
  "lens_reason": "observation-deck panorama: the reference frames span the whole Midtown-to-Lower-Manhattan skyline, which needs 74 deg horizontal (24 mm)",
  "lighting": {
   "background_strength": 0.03421638533473015,
+  "development": {
+   "linear_p05": 0.00494,
+   "linear_p50": 0.1826,
+   "linear_p95": 0.439241,
+   "log_average_linear": 0.110316,
+   "median_linear": 0.1826,
+   "metered": true,
+   "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
+   "stops": -0.021,
+   "stops_unclamped": -0.021,
+   "target_linear": 0.18,
+   "view_transform": "Filmic"
+  },
   "direct_normal_irradiance_w_m2": 821.2,
   "emissive": {
    "cone_faces_deleted": 0,
@@ -88,7 +102,8 @@
    "night": false,
    "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
-  "exposure_stops": 0.23,
+  "exposure_stops": -0.02,
+  "physical_rule_stops": 0.23,
   "sky_azimuth_deg": 187.927,
   "sky_elevation_deg": 36.675,
   "sun_lamp": true,
@@ -112,7 +127,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/top_of_the_rock_south/render.png",
- "rendered_at": "2026-09-09T02:33:38Z",
+ "rendered_at": "2026-09-12T21:24:37Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -1311,11 +1326,12 @@
      "id": "c_hudson_yards",
      "lod": 0,
      "name": "Hudson Yards (Eastern Yard)",
+     "own_ground_m2": 20061.4,
      "own_ground_note": {
-      "above_heightmap_m": 5.34,
-      "heightmap_median_m": 2.48,
-      "reason": "the model's ground stands +5.34 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+      "above_heightmap_m": -0.0,
+      "heightmap_median_m": 8.88
      },
+     "own_ground_parts": 3,
      "triangles": 103450
     },
     {
@@ -1523,10 +1539,11 @@
     "madison_square_garden",
     "c_moynihan_train_hall",
     "b_bethesda_terrace",
+    "c_hudson_yards",
     "b_belvedere_castle",
     "b_washington_square_arch"
    ],
-   "own_ground_m2": 15252.0,
+   "own_ground_m2": 35313.4,
    "placed": 46,
    "skipped": 0,
    "skipped_detail": [],
@@ -1886,6 +1903,227 @@
    "resolution": "2K",
    "slots": 2413
   },
+  "parkground": {
+   "by_kind": {
+    "ballfield": {
+     "meshes": 1,
+     "polygons": 5,
+     "triangles": 7555
+    },
+    "court": {
+     "meshes": 5,
+     "polygons": 50,
+     "triangles": 44624
+    },
+    "park_ground": {
+     "meshes": 9,
+     "polygons": 233,
+     "triangles": 286704
+    },
+    "recreation": {
+     "meshes": 8,
+     "polygons": 48,
+     "triangles": 45232
+    },
+    "skating_rink": {
+     "meshes": 2,
+     "polygons": 2,
+     "triangles": 8666
+    },
+    "vacant": {
+     "meshes": 9,
+     "polygons": 39,
+     "triangles": 34118
+    }
+   },
+   "dressed": {},
+   "faces_cut_for_landmark_ground": 2814,
+   "flat_with_reason": {
+    "park_ballfield_ball_dirt": "analytic: the texture catalogue has no photographic set for infield clay/dirt -- its entries are walls, roofs, roadway, floors and vehicle interiors -- so the base colour the park-ground builder authored is kept rather than the nearest wrong material (J40)",
+    "park_court_sport_hard": "analytic: the texture catalogue has no photographic set for acrylic-coated asphalt court -- its entries are walls, roofs, roadway, floors and vehicle interiors -- so the base colour the park-ground builder authored is kept rather than the nearest wrong material (J40)",
+    "park_park_ground_grass": "analytic: the texture catalogue has no photographic set for mown grass -- its entries are walls, roofs, roadway, floors and vehicle interiors -- so the base colour the park-ground builder authored is kept rather than the nearest wrong material (J40)",
+    "park_recreation_grass": "analytic: the texture catalogue has no photographic set for mown grass -- its entries are walls, roofs, roadway, floors and vehicle interiors -- so the base colour the park-ground builder authored is kept rather than the nearest wrong material (J40)",
+    "park_skating_rink_ice": "analytic: the texture catalogue has no photographic set for rink ice -- its entries are walls, roofs, roadway, floors and vehicle interiors -- so the base colour the park-ground builder authored is kept rather than the nearest wrong material (J40)",
+    "park_vacant_bare": "analytic: the texture catalogue has no photographic set for bare ground -- its entries are walls, roofs, roadway, floors and vehicle interiors -- so the base colour the park-ground builder authored is kept rather than the nearest wrong material (J40)"
+   },
+   "imported": [
+    "t_-2_5",
+    "t_-2_6",
+    "t_-2_7",
+    "t_-3_5",
+    "t_-3_6",
+    "t_-3_7",
+    "t_-4_5",
+    "t_-4_6",
+    "t_-4_7"
+   ],
+   "meshes": 34,
+   "per_tile": {
+    "t_-2_5": {
+     "meshes": 5,
+     "polygons": 49,
+     "triangles": 53612
+    },
+    "t_-2_6": {
+     "meshes": 3,
+     "polygons": 25,
+     "triangles": 5925
+    },
+    "t_-2_7": {
+     "meshes": 4,
+     "polygons": 83,
+     "triangles": 100508
+    },
+    "t_-3_5": {
+     "meshes": 4,
+     "polygons": 26,
+     "triangles": 20443
+    },
+    "t_-3_6": {
+     "meshes": 2,
+     "polygons": 16,
+     "triangles": 2731
+    },
+    "t_-3_7": {
+     "meshes": 5,
+     "polygons": 96,
+     "triangles": 167750
+    },
+    "t_-4_5": {
+     "meshes": 3,
+     "polygons": 7,
+     "triangles": 4631
+    },
+    "t_-4_6": {
+     "meshes": 4,
+     "polygons": 26,
+     "triangles": 17468
+    },
+    "t_-4_7": {
+     "meshes": 4,
+     "polygons": 49,
+     "triangles": 53831
+    }
+   },
+   "placement": "tile-local X/Y plus the tile origin, Z absolute NAVD88 (the tile convention add_structures and the shells use)",
+   "radius_m": 900.0,
+   "redraped_on_scene_heightmap": {
+    "applied": true,
+    "shift_abs_p99_m_max": 2.5909,
+    "shift_max_m": 2.739,
+    "shift_median_m_weighted": 0.0002,
+    "shift_min_m": -3.331,
+    "shifted": 290073,
+    "vertices": 290073,
+    "what": "TerrainSampler (501-sample source heightmap) minus LandscapeSampler (505-sample UE grid) at each vertex; lift and skirt kept"
+   },
+   "source": "blender/parks/build_parkground.py over data/processed/parks/surfaces.parquet, tile pavement subtracted",
+   "surfaces": 377,
+   "terrain_clearance": {
+    "bands": {
+     "all_draws": {
+      "clearance_max_m": 6.269,
+      "clearance_median_m": 0.261,
+      "clearance_min_m": -12.094,
+      "clearance_p01_m": -5.932,
+      "samples": 3483,
+      "under_by_more_than_0.05m_frac": 0.2328,
+      "under_frac": 0.2575,
+      "zfight_frac": 0.0273
+     },
+     "far_gt_400m": {
+      "clearance_max_m": 6.269,
+      "clearance_median_m": 0.261,
+      "clearance_min_m": -12.094,
+      "clearance_p01_m": -5.932,
+      "samples": 3483,
+      "under_by_more_than_0.05m_frac": 0.2328,
+      "under_frac": 0.2575,
+      "zfight_frac": 0.0273
+     },
+     "mid_150_400m": {
+      "samples": 0
+     },
+     "near_le_150m": {
+      "samples": 0
+     }
+    },
+    "by_kind": {
+     "ballfield": {
+      "clearance_max_m": 0.276,
+      "clearance_median_m": 0.122,
+      "clearance_min_m": -0.569,
+      "clearance_p01_m": -0.526,
+      "samples": 117,
+      "under_by_more_than_0.05m_frac": 0.0769,
+      "under_frac": 0.1368,
+      "zfight_frac": 0.0342
+     },
+     "court": {
+      "clearance_max_m": 3.381,
+      "clearance_median_m": 0.222,
+      "clearance_min_m": -0.499,
+      "clearance_p01_m": -0.355,
+      "samples": 585,
+      "under_by_more_than_0.05m_frac": 0.0957,
+      "under_frac": 0.1299,
+      "zfight_frac": 0.0359
+     },
+     "park_ground": {
+      "clearance_max_m": 5.44,
+      "clearance_median_m": 0.309,
+      "clearance_min_m": -5.225,
+      "clearance_p01_m": -2.83,
+      "samples": 1040,
+      "under_by_more_than_0.05m_frac": 0.2029,
+      "under_frac": 0.2279,
+      "zfight_frac": 0.0337
+     },
+     "recreation": {
+      "clearance_max_m": 6.269,
+      "clearance_median_m": 0.406,
+      "clearance_min_m": -12.094,
+      "clearance_p01_m": -9.266,
+      "samples": 829,
+      "under_by_more_than_0.05m_frac": 0.2159,
+      "under_frac": 0.2304,
+      "zfight_frac": 0.0133
+     },
+     "skating_rink": {
+      "clearance_max_m": 0.465,
+      "clearance_median_m": -0.168,
+      "clearance_min_m": -1.937,
+      "clearance_p01_m": -1.776,
+      "samples": 234,
+      "under_by_more_than_0.05m_frac": 0.5897,
+      "under_frac": 0.6282,
+      "zfight_frac": 0.0342
+     },
+     "vacant": {
+      "clearance_max_m": 4.959,
+      "clearance_median_m": 0.283,
+      "clearance_min_m": -4.46,
+      "clearance_p01_m": -3.367,
+      "samples": 678,
+      "under_by_more_than_0.05m_frac": 0.3215,
+      "under_frac": 0.3392,
+      "zfight_frac": 0.0236
+     }
+    },
+    "measured": true,
+    "method": "random points on upward park faces (one draw over the whole surface, a second over the faces inside near_m), ray-cast down onto this scene's terrain mesh; park top minus terrain.  'no_terrain_under' points lie outside the terrain square; 'all_draws' is not area-uniform, read the bands",
+    "near_m": 150.0,
+    "no_terrain_under": 0,
+    "samples": 3483
+   },
+   "terrain_rule": "the pavement's convention: a ground surface is draped on the heightmap the verify terrain is sampled from (TerrainSampler, the 501-sample source grid) plus its kind's own lift, never re-fitted to the terrain mesh.  The builder draped the glb on the UE landscape grid (505 samples resampled from the same heightmap), so each vertex is shifted here by the difference between the two readings at its own X/Y -- median -0.5 mm, 99th percentile of |difference| 0.13 m in the near field, measured around Bethesda -- and keeps its lift and its skirt.  Inside near_m the terrain is the 2 m heightmap itself and the lift (0.08-0.20 m, at least the drape tolerance) clears it; beyond near_m the terrain grid coarsens to far_spacing_m and bridges hollows the surface still follows, so a share of the far surface sits under the terrain there, exactly as the pavement does (J64 refines it only to 400 m).  The fractions below are that share, measured on this scene's own terrain mesh by band.",
+   "tiles": 9,
+   "tiles_dropped_for_budget": [],
+   "tiles_missing": [],
+   "tiles_wanted": 9,
+   "triangle_budget": 1500000,
+   "triangles": 426899
+  },
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
@@ -1922,7 +2160,67 @@
    "reason": "disabled"
   },
   "radius_m": 4500.0,
-  "seconds": 102.95,
+  "seconds": 140.69,
+  "structures": {
+   "imported": [
+    "t_-1_10",
+    "t_-1_2",
+    "t_-1_3",
+    "t_-1_4",
+    "t_-1_5",
+    "t_-1_6",
+    "t_-1_7",
+    "t_-1_9",
+    "t_-2_2",
+    "t_-2_3",
+    "t_-2_4",
+    "t_-2_5",
+    "t_-2_6",
+    "t_-2_8",
+    "t_-3_10",
+    "t_-3_11",
+    "t_-3_2",
+    "t_-3_3",
+    "t_-3_4",
+    "t_-3_9",
+    "t_-4_11",
+    "t_-4_7",
+    "t_-4_8",
+    "t_-4_9",
+    "t_-5_4",
+    "t_-5_5",
+    "t_-5_6",
+    "t_-5_7",
+    "t_-6_2",
+    "t_-6_3",
+    "t_-6_4",
+    "t_-6_5",
+    "t_-6_7",
+    "t_-7_3",
+    "t_-7_7",
+    "t_0_10",
+    "t_0_3",
+    "t_0_4",
+    "t_0_5",
+    "t_0_6",
+    "t_0_7",
+    "t_0_8",
+    "t_0_9",
+    "t_1_3",
+    "t_1_4",
+    "t_1_5",
+    "t_1_6",
+    "t_1_7",
+    "t_1_8",
+    "t_1_9",
+    "t_2_5",
+    "t_2_6",
+    "t_2_7"
+   ],
+   "tiles_imported": 53,
+   "tiles_without_a_file": 30,
+   "triangles": 415308
+  },
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -1930,10 +2228,10 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 2.0,
-   "quads_cut_for_landmark_ground": 403,
+   "quads_cut_for_landmark_ground": 416,
    "samples": 381,
    "spacing_m": 2.0,
-   "triangles": 287994,
+   "triangles": 287968,
    "water_bodies": [
     {
      "kind": "basin",
@@ -2150,7 +2448,7 @@
    "z_max_m": 80.15,
    "z_min_m": -2.61
   },
-  "triangles": 4063075
+  "triangles": 4489948
  },
  "scene_request": {
   "agent_ped_radius_m": 0.0,
@@ -2160,26 +2458,34 @@
   "radius_m": 4500.0
  },
  "seconds": {
-  "render": 39.2,
-  "scene": 103.5,
-  "total": 142.7
+  "render": 116.8,
+  "scene": 141.8,
+  "total": 258.6
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 215.4 m above its ground",
-  "subject_blocked_at_m": null,
-  "subject_blocked_by": null,
-  "subject_fan_from": "the subject's own measured height (J74)",
-  "subject_fan_half_angle_deg": 9.16,
-  "subject_fan_m": 430.8,
-  "subject_lands_at_m": 1314.8,
+  "subject_blocked_at_m": 833.3,
+  "subject_blocked_by": "t_-3_5_glass_curtain",
+  "subject_clear_fraction": 0.923,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate",
+  "subject_fan_half_angle_deg": 0.73,
+  "subject_fan_m": 34.0,
+  "subject_fan_tall_m": 430.8,
+  "subject_fan_v_half_angle_deg": 9.16,
+  "subject_lands_at_m": 1314.0,
   "subject_lands_on": "lm_empire_state.16",
+  "subject_own_fabric_nearest": null,
+  "subject_own_fabric_nearest_m": null,
   "subject_range_m": 1335.2,
-  "subject_rays": 5,
-  "subject_rays_clear": 5,
-  "subject_rays_into_nothing": 2,
-  "subject_rays_on_subject": 3,
+  "subject_rays": 13,
+  "subject_rays_clear": 12,
+  "subject_rays_into_nothing": 0,
+  "subject_rays_on_own_fabric_nearer_than_recorded": 0,
+  "subject_rays_on_subject": 12,
   "subject_reach_m": 25.0,
-  "subject_visible": true
+  "subject_verdict_rule": "at least one ray lands on the subject (J78)",
+  "subject_visible": true,
+  "subject_visible_fraction": 0.923
  },
  "slug": "top_of_the_rock_south",
  "status": "rendered",
@@ -2196,12 +2502,19 @@
     "within_120_m": true
    },
    "object": "lm_empire_state.3",
-   "rays_cast": 17,
-   "rays_on_built_fabric": 17,
+   "rays_cast": 43,
+   "rays_on_built_fabric": 43,
    "z": 446.08
   },
   "name": "Empire State Building",
-  "origin_distance_m": 1334.3
+  "origin_distance_m": 1334.3,
+  "plan_extent": {
+   "is_tile_mesh": false,
+   "narrow_m": 28.5,
+   "note": "the bounding box of the object the height was measured off",
+   "object": "lm_empire_state.3",
+   "width_m": 34.0
+  }
  },
  "sun": {
   "azimuth_deg": 187.9268058156653,

@@ -1,17 +1,19 @@
 {
  "slug": "top_of_the_rock_south",
- "rendered_at": "2026-09-09T02:33:38Z",
+ "rendered_at": "2026-09-12T21:24:37Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.4662,
-  "sd": 0.2052,
-  "p05": 0.07,
-  "p95": 0.7,
-  "chroma": 0.0646
+  "mean": 0.4377,
+  "sd": 0.1983,
+  "p05": 0.0622,
+  "p50": 0.4973,
+  "p95": 0.6686,
+  "chroma": 0.0641,
+  "exposure_offset_stops": 0.233
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4629,
   "sd": 0.2502,
   "p05": 0.0768,
+  "p50": 0.4896,
   "p95": 0.8312,
-  "chroma": 0.1992
+  "chroma": 0.1992,
+  "exposure_offset_stops": 0.184
  },
  "render_over_reference": {
-  "mean": 1.007,
-  "sd": 0.82,
-  "chroma": 0.324
+  "mean": 0.946,
+  "sd": 0.793,
+  "p50": 1.016,
+  "chroma": 0.322,
+  "exposure_offset_stops": 0.049,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

@@ -1,17 +1,19 @@
 {
  "slug": "times_square_duffy_south_night",
- "rendered_at": "2026-09-09T02:31:11Z",
+ "rendered_at": "2026-09-12T21:23:49Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 904,
   "height": 1206,
-  "mean": 0.1892,
-  "sd": 0.1485,
+  "mean": 0.191,
+  "sd": 0.1491,
   "p05": 0.012,
-  "p95": 0.398,
-  "chroma": 0.0328
+  "p50": 0.1658,
+  "p95": 0.4047,
+  "chroma": 0.033,
+  "exposure_offset_stops": -2.942
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.2532,
   "sd": 0.2522,
   "p05": 0.044,
+  "p50": 0.1546,
   "p95": 0.9367,
-  "chroma": 0.0869
+  "chroma": 0.0869,
+  "exposure_offset_stops": -3.121
  },
  "render_over_reference": {
-  "mean": 0.747,
-  "sd": 0.589,
-  "chroma": 0.377
+  "mean": 0.754,
+  "sd": 0.591,
+  "p50": 1.072,
+  "chroma": 0.38,
+  "exposure_offset_stops": 0.179,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
