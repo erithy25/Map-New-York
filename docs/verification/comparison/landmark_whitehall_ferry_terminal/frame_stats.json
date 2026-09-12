@@ -1,17 +1,19 @@
 {
  "slug": "landmark_whitehall_ferry_terminal",
- "rendered_at": "2026-09-09T08:36:11Z",
+ "rendered_at": "2026-09-12T19:48:32Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.3781,
-  "sd": 0.2223,
-  "p05": 0.0277,
-  "p95": 0.7706,
-  "chroma": 0.0547
+  "mean": 0.5197,
+  "sd": 0.2467,
+  "p05": 0.1374,
+  "p50": 0.4964,
+  "p95": 0.9653,
+  "chroma": 0.0646,
+  "exposure_offset_stops": 0.227
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5657,
   "sd": 0.2753,
   "p05": 0.0983,
+  "p50": 0.5097,
   "p95": 0.9303,
-  "chroma": 0.0772
+  "chroma": 0.0772,
+  "exposure_offset_stops": 0.31
  },
  "render_over_reference": {
-  "mean": 0.668,
-  "sd": 0.807,
-  "chroma": 0.709
+  "mean": 0.919,
+  "sd": 0.896,
+  "p50": 0.974,
+  "chroma": 0.837,
+  "exposure_offset_stops": -0.083,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
