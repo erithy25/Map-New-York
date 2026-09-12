@@ -1,17 +1,19 @@
 {
  "slug": "landmark_little_island",
- "rendered_at": "2026-09-09T06:15:15Z",
+ "rendered_at": "2026-09-12T18:02:40Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 720,
-  "mean": 0.3154,
-  "sd": 0.1732,
-  "p05": 0.0168,
-  "p95": 0.5445,
-  "chroma": 0.0854
+  "mean": 0.4959,
+  "sd": 0.1946,
+  "p05": 0.1024,
+  "p50": 0.4997,
+  "p95": 0.7267,
+  "chroma": 0.1119,
+  "exposure_offset_stops": 0.248
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5006,
   "sd": 0.2391,
   "p05": 0.1101,
+  "p50": 0.6537,
   "p95": 0.7528,
-  "chroma": 0.1266
+  "chroma": 0.1266,
+  "exposure_offset_stops": 1.096
  },
  "render_over_reference": {
-  "mean": 0.63,
-  "sd": 0.724,
-  "chroma": 0.675
+  "mean": 0.991,
+  "sd": 0.814,
+  "p50": 0.764,
+  "chroma": 0.884,
+  "exposure_offset_stops": -0.848,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

@@ -1,17 +1,19 @@
 {
  "slug": "landmark_prospect_park_boathouse",
- "rendered_at": "2026-09-09T06:54:13Z",
+ "rendered_at": "2026-09-12T18:08:53Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 848,
-  "mean": 0.4365,
-  "sd": 0.1464,
-  "p05": 0.1543,
-  "p95": 0.6248,
-  "chroma": 0.1002
+  "mean": 0.4819,
+  "sd": 0.1612,
+  "p05": 0.2205,
+  "p50": 0.4963,
+  "p95": 0.7102,
+  "chroma": 0.1192,
+  "exposure_offset_stops": 0.227
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4602,
   "sd": 0.2318,
   "p05": 0.105,
+  "p50": 0.4422,
   "p95": 0.8035,
-  "chroma": 0.2041
+  "chroma": 0.2041,
+  "exposure_offset_stops": -0.131
  },
  "render_over_reference": {
-  "mean": 0.949,
-  "sd": 0.632,
-  "chroma": 0.491
+  "mean": 1.047,
+  "sd": 0.695,
+  "p50": 1.122,
+  "chroma": 0.584,
+  "exposure_offset_stops": 0.358,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

@@ -1,17 +1,19 @@
 {
  "slug": "landmark_ny_state_pavilion",
- "rendered_at": "2026-09-09T06:31:20Z",
+ "rendered_at": "2026-09-12T18:04:25Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 904,
   "height": 1206,
-  "mean": 0.4397,
-  "sd": 0.211,
-  "p05": 0.1255,
-  "p95": 0.7448,
-  "chroma": 0.047
+  "mean": 0.4769,
+  "sd": 0.2141,
+  "p05": 0.1476,
+  "p50": 0.4977,
+  "p95": 0.7773,
+  "chroma": 0.0512,
+  "exposure_offset_stops": 0.236
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4456,
   "sd": 0.2568,
   "p05": 0.0896,
+  "p50": 0.3748,
   "p95": 0.8586,
-  "chroma": 0.1981
+  "chroma": 0.1981,
+  "exposure_offset_stops": -0.636
  },
  "render_over_reference": {
-  "mean": 0.987,
-  "sd": 0.822,
-  "chroma": 0.237
+  "mean": 1.07,
+  "sd": 0.834,
+  "p50": 1.328,
+  "chroma": 0.258,
+  "exposure_offset_stops": 0.872,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

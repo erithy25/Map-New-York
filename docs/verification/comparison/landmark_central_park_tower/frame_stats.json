@@ -1,17 +1,19 @@
 {
  "slug": "landmark_central_park_tower",
- "rendered_at": "2026-09-09T04:29:26Z",
+ "rendered_at": "2026-09-12T17:50:06Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 904,
   "height": 1206,
-  "mean": 0.163,
-  "sd": 0.1039,
-  "p05": 0.0289,
-  "p95": 0.3587,
-  "chroma": 0.0557
+  "mean": 0.5087,
+  "sd": 0.214,
+  "p05": 0.1304,
+  "p50": 0.4994,
+  "p95": 0.8962,
+  "chroma": 0.0737,
+  "exposure_offset_stops": 0.246
  },
  "reference": {
   "width": 1280,
@@ -19,12 +21,17 @@
   "mean": 0.6091,
   "sd": 0.2307,
   "p05": 0.2075,
+  "p50": 0.6729,
   "p95": 0.8989,
-  "chroma": 0.0504
+  "chroma": 0.0504,
+  "exposure_offset_stops": 1.189
  },
  "render_over_reference": {
-  "mean": 0.268,
-  "sd": 0.45,
-  "chroma": 1.105
+  "mean": 0.835,
+  "sd": 0.928,
+  "p50": 0.742,
+  "chroma": 1.462,
+  "exposure_offset_stops": -0.943,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

@@ -1,17 +1,19 @@
 {
  "slug": "landmark_queens_midtown_tunnel_portal",
- "rendered_at": "2026-09-09T07:01:47Z",
+ "rendered_at": "2026-09-12T18:10:54Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 720,
-  "mean": 0.3738,
-  "sd": 0.1924,
-  "p05": 0.0148,
-  "p95": 0.5495,
-  "chroma": 0.0545
+  "mean": 0.4356,
+  "sd": 0.1811,
+  "p05": 0.1241,
+  "p50": 0.4973,
+  "p95": 0.6957,
+  "chroma": 0.0923,
+  "exposure_offset_stops": 0.233
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.293,
   "sd": 0.2048,
   "p05": 0.1434,
+  "p50": 0.1711,
   "p95": 0.7616,
-  "chroma": 0.097
+  "chroma": 0.097,
+  "exposure_offset_stops": -2.859
  },
  "render_over_reference": {
-  "mean": 1.276,
-  "sd": 0.939,
-  "chroma": 0.562
+  "mean": 1.487,
+  "sd": 0.884,
+  "p50": 2.906,
+  "chroma": 0.952,
+  "exposure_offset_stops": 3.092,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

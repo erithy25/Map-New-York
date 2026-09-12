@@ -1,30 +1,37 @@
 {
  "slug": "landmark_hudson_yards_vessel",
- "rendered_at": "2026-09-09T00:09:38Z",
- "reference_file": "2.jpg",
+ "rendered_at": "2026-09-12T17:58:18Z",
+ "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.1277,
-  "sd": 0.128,
-  "p05": 0.0008,
-  "p95": 0.3412,
-  "chroma": 0.022
+  "mean": 0.1923,
+  "sd": 0.1369,
+  "p05": 0.0149,
+  "p50": 0.1699,
+  "p95": 0.3931,
+  "chroma": 0.0419,
+  "exposure_offset_stops": -2.877
  },
  "reference": {
   "width": 1920,
   "height": 1440,
-  "mean": 0.3971,
-  "sd": 0.3045,
-  "p05": 0.0647,
-  "p95": 0.9454,
-  "chroma": 0.041
+  "mean": 0.3025,
+  "sd": 0.268,
+  "p05": 0.0359,
+  "p50": 0.1816,
+  "p95": 0.8534,
+  "chroma": 0.09,
+  "exposure_offset_stops": -2.703
  },
  "render_over_reference": {
-  "mean": 0.322,
-  "sd": 0.42,
-  "chroma": 0.537
+  "mean": 0.636,
+  "sd": 0.511,
+  "p50": 0.936,
+  "chroma": 0.466,
+  "exposure_offset_stops": -0.174,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

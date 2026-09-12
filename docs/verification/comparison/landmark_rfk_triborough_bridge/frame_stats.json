@@ -1,17 +1,19 @@
 {
  "slug": "landmark_rfk_triborough_bridge",
- "rendered_at": "2026-09-09T07:09:40Z",
+ "rendered_at": "2026-09-12T18:14:45Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 854,
-  "mean": 0.371,
-  "sd": 0.0952,
-  "p05": 0.2054,
-  "p95": 0.4987,
-  "chroma": 0.0899
+  "mean": 0.4842,
+  "sd": 0.1006,
+  "p05": 0.3026,
+  "p50": 0.4968,
+  "p95": 0.6152,
+  "chroma": 0.0993,
+  "exposure_offset_stops": 0.23
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5006,
   "sd": 0.2093,
   "p05": 0.1197,
+  "p50": 0.5937,
   "p95": 0.7504,
-  "chroma": 0.1549
+  "chroma": 0.1549,
+  "exposure_offset_stops": 0.79
  },
  "render_over_reference": {
-  "mean": 0.741,
-  "sd": 0.455,
-  "chroma": 0.58
+  "mean": 0.967,
+  "sd": 0.481,
+  "p50": 0.837,
+  "chroma": 0.641,
+  "exposure_offset_stops": -0.56,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

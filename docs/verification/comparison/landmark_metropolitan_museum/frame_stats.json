@@ -1,17 +1,19 @@
 {
  "slug": "landmark_metropolitan_museum",
- "rendered_at": "2026-09-09T06:25:17Z",
+ "rendered_at": "2026-09-12T18:03:59Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 714,
-  "mean": 0.2547,
-  "sd": 0.1649,
-  "p05": 0.044,
-  "p95": 0.5806,
-  "chroma": 0.0256
+  "mean": 0.5768,
+  "sd": 0.2155,
+  "p05": 0.1961,
+  "p50": 0.4991,
+  "p95": 0.9056,
+  "chroma": 0.0394,
+  "exposure_offset_stops": 0.244
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.547,
   "sd": 0.2045,
   "p05": 0.1862,
+  "p50": 0.5535,
   "p95": 0.8371,
-  "chroma": 0.1002
+  "chroma": 0.1002,
+  "exposure_offset_stops": 0.569
  },
  "render_over_reference": {
-  "mean": 0.466,
-  "sd": 0.806,
-  "chroma": 0.255
+  "mean": 1.054,
+  "sd": 1.054,
+  "p50": 0.902,
+  "chroma": 0.393,
+  "exposure_offset_stops": -0.325,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

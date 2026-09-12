@@ -1,17 +1,19 @@
 {
  "slug": "landmark_fort_jay",
- "rendered_at": "2026-09-09T05:03:21Z",
+ "rendered_at": "2026-09-12T17:46:09Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.3844,
-  "sd": 0.211,
-  "p05": 0.0168,
-  "p95": 0.6389,
-  "chroma": 0.053
+  "mean": 0.4455,
+  "sd": 0.1742,
+  "p05": 0.1322,
+  "p50": 0.498,
+  "p95": 0.7364,
+  "chroma": 0.0736,
+  "exposure_offset_stops": 0.238
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5015,
   "sd": 0.3185,
   "p05": 0.084,
+  "p50": 0.4147,
   "p95": 0.9378,
-  "chroma": 0.1029
+  "chroma": 0.1029,
+  "exposure_offset_stops": -0.328
  },
  "render_over_reference": {
-  "mean": 0.767,
-  "sd": 0.662,
-  "chroma": 0.515
+  "mean": 0.888,
+  "sd": 0.547,
+  "p50": 1.201,
+  "chroma": 0.715,
+  "exposure_offset_stops": 0.566,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
