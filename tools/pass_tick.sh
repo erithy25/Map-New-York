@@ -63,8 +63,11 @@ ARTEFACTS=(
     'docs/verification/comparison/*/sheet.png'
     'docs/verification/comparison/*/render.json'
     'docs/verification/comparison/*/frame_stats.json'
-    'docs/verification/sheets'
 )
+# git aborts the whole `add` on a pathspec that matches nothing -- and the first version of this
+# script listed a directory that does not exist, so for several ticks it staged nothing, committed
+# nothing, and printed that it had pushed eleven sheets.  Only existing paths are added.
+[ -d docs/verification/sheets ] && ARTEFACTS+=('docs/verification/sheets')
 CHANGED="$(git status --porcelain -- "${ARTEFACTS[@]}" 2>/dev/null | wc -l | tr -d ' ')"
 if [ "$CHANGED" != "0" ]; then
     DECODE="$(python3 tools/png_decodes.py 2>&1 | tail -1)"
@@ -76,7 +79,14 @@ if [ "$CHANGED" != "0" ]; then
     SLUGS="$(git status --porcelain -- "${ARTEFACTS[@]}" 2>/dev/null |
              sed 's|.*comparison/||; s|/.*||' | sort -u | tr '\n' ' ')"
     COUNT="$(printf '%s' "$SLUGS" | wc -w | tr -d ' ')"
-    git add -A -- "${ARTEFACTS[@]}"
+    if ! git add -A -- "${ARTEFACTS[@]}"; then
+        echo "commit: git add refused the pathspec -- nothing staged, nothing committed"
+        exit 1
+    fi
+    if git diff --cached --quiet; then
+        echo "commit: ${COUNT} sheet(s) changed but nothing staged -- look at it by hand"
+        exit 1
+    fi
     git commit -q -F - <<MSG
 verification: ${COUNT} sheet(s) from the v16 pass
 
@@ -90,12 +100,13 @@ restart costs at most the sheet being rendered.
 Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
 Claude-Session: https://claude.ai/code/session_012rCzdfEp56Z5bDvSJLVsiQ
 MSG
+    COMMITTED="$(git rev-parse --short HEAD)"
     for attempt in 1 2 3 4; do
         if git push -q -u origin "$BRANCH" 2>/dev/null; then
-            echo "commit: ${COUNT} sheet(s) pushed"
+            echo "commit: ${COUNT} sheet(s) committed as ${COMMITTED} and pushed"
             break
         fi
-        [ "$attempt" = 4 ] && echo "commit: ${COUNT} sheet(s) committed, push failed four times"
+        [ "$attempt" = 4 ] && echo "commit: ${COUNT} sheet(s) committed as ${COMMITTED}, push failed four times"
         sleep $((2 ** attempt))
     done
 else
