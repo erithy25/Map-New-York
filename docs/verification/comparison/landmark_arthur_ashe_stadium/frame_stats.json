@@ -1,17 +1,19 @@
 {
  "slug": "landmark_arthur_ashe_stadium",
- "rendered_at": "2026-09-09T03:49:51Z",
+ "rendered_at": "2026-09-12T17:30:05Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.4492,
-  "sd": 0.1513,
-  "p05": 0.1703,
-  "p95": 0.6269,
-  "chroma": 0.1092
+  "mean": 0.3888,
+  "sd": 0.224,
+  "p05": 0.0538,
+  "p50": 0.4992,
+  "p95": 0.6232,
+  "chroma": 0.0364,
+  "exposure_offset_stops": 0.245
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4231,
   "sd": 0.2465,
   "p05": 0.0765,
+  "p50": 0.3937,
   "p95": 0.8565,
-  "chroma": 0.1704
+  "chroma": 0.1704,
+  "exposure_offset_stops": -0.486
  },
  "render_over_reference": {
-  "mean": 1.062,
-  "sd": 0.614,
-  "chroma": 0.641
+  "mean": 0.919,
+  "sd": 0.909,
+  "p50": 1.268,
+  "chroma": 0.214,
+  "exposure_offset_stops": 0.731,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

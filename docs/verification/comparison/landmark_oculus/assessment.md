@@ -2,69 +2,62 @@
 
 `landmark_oculus` · sheet: [`sheet.png`](sheet.png) · render record: [`render.json`](render.json)
 
-**Reference** — File:Oculus (36813913993).jpg by Billie Grace Ward from New York, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), taken 2017-08-15 08:32, 1920x1281. [Commons page](https://commons.wikimedia.org/wiki/File:Oculus_(36813913993).jpg)
+**Reference** — File:Oculus (36813913993).jpg by Billie Grace Ward from New York, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), taken 2017-08-15 08:32, 1920x1281. [Commons page](https://commons.wikimedia.org/wiki/File:Oculus_(36813913993).jpg) — the photograph's own view direction is derived from the image at **high** confidence.
 
-**Camera** — camera 40.71145, -74.01030 (NYC_TM -5095, 1273) z 9.6 m NAVD88 | azimuth 274.2deg pitch -0.3deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x854. View direction: 274.2 deg, the bearing from this photograph's own GPS position to the Oculus; heading and position both come from the photograph.  The item's recorded azimuth is 282.4 deg, 8.2 deg away, and belongs to its nominal viewpoint. Aim: aimed at the Oculus 76 m away, at its mid-height (a nominal 10 m subject); -0.3 deg from horizontal.
+**Camera** — 40.711450, -74.010300 (NYC_TM -5095, 1273) at z 9.6 m NAVD88 | azimuth 274.2°, pitch +0.3° | 34 mm on 36 mm (56.2° horizontal) | 1280x854. The camera stands on **this photograph's own EXIF GPS**, 30.3 m from the item's recorded viewpoint, and was **not moved**. The ground under it reads 8.004 m NAVD88, the **10th percentile of 113 samples within 12 m**, range 7.91 to 8.6 m. The view azimuth is clear for 66 m; the nearest built thing in the frame is `prop_lamp_cobra_davit_17` **26.7 m** away and the nearest simulated agent is `agent_veh_camry_black_car_206.48` **11.4 m** away at 28.1° off axis.
 
-**Sun** — azimuth 94.1°, elevation 26.3° at 2017-08-15T08:32:00-04:00 (EXIF DateTimeOriginal (minutes)).
+**Sun** — azimuth 94.1°, elevation 26.3° at 2017-08-15T08:32:00−04:00, from the photograph's own **EXIF DateTimeOriginal (minutes)**; 733.9 W/m² direct normal, sky at strength 0.0373, Filmic, **+4.02 stops**, marked **under-lit**: *"the scene needed +4.02 stops to read as a picture, more than the 4 a photographer recovers hand-held."* The linear median is **0.011111**. The physical rule would have given **0.71 stops**.
 
-**In frame** — 4/4 building tiles, 12 landmark models, 1,588 pavement polygons, 617 props, 8,287 facade-kit pieces; 3,713,979 triangles; ground mesh 201² at 2.0 m near / 40.0 m far. Frame mean 0.368, sd 0.165 (0.381 / 0.157 before this pass; 46.7 % of pixels differ by more than 8/255).
+**In the scene** — 4,500,139 triangles: 4 building tiles (106,490 tris), 12 landmark models of which 1 falls inside the 56.2° frame, 21,643 pavement polygons, 1,415 props, 5,481 kit pieces, 19 park-ground meshes with **53,345 faces cut for landmark ground**, 43,576 triangles of structures, 50 vehicles and 264 people.
 
-**Verdict — re-rendered 2026-09-07 with the Oculus on its own footprint's axis. The building is now the right shape in plan and is seen the way it is seen from Church Street: end-on, its near end 57 m from the camera and its far end 142 m away, the rib cage running back and away instead of standing across the view. It is still unmistakably the Oculus, still solid where the real one encloses a glazed spine, and still standing on a blank grey plane**
+## Verdict — the best-modelled landmark in the pass, and J74 is the reason this sheet does not claim a 29 m canopy is 329 m tall
 
-## What moved in this frame, and why
+**The Oculus is unmistakable in the render.** The white steel ribs sweep across the upper half of the frame in the right curve, splayed at the right pitch, with the spine reading as a spine. Of every landmark model opened in this pass this is the one that most looks like the thing it is named after — it is not an extruded footprint with a texture, it is the shape.
 
-**The Oculus was rotated 32.4 deg onto its own footprint.** The model built the 106.7 m ribbed body on
-`PLAZA_AXIS_DEG = 160.6`; the long axis of BIN 1089309, the footprint it is centred on, measures
-**128.2 deg** (minimum rotated rectangle 110.0 × 33.3 m; the polygon's area-weighted principal axis
-gives 128.8 deg). The camera stands 93.7 m from the footprint centroid on bearing 275.6 deg, so the
-rotation is not a subtlety here — it moves both ends of the building:
+**And the height rule saved the sheet from a gross error.** The nearest landmark model origin is `b_wtc_site`, **166.7 m** away with a catalogue height of **329.2 m** — that is One World Trade Center, not the Oculus. Under the old rule, which looked for an origin within 120 m and took its catalogue height, this sheet would have been outside that radius and fallen through; had the radius been a little wider it would have reported the transit hall's canopy as **329 m tall**. Instead the probe measured the geometry: **43 rays, all 43 landing on built fabric**, **29.44 m** above a ground of 4.27 m, on an object whose plan extent is **83.3 m by 66.4 m**. That is the canopy. This is J74 doing precisely the job it was written for.
 
-| | on 160.6 deg | on 128.2 deg |
-|---|---|---|
-| near end | bearing 241.4 deg, **86.0 m** away | bearing 245.1 deg, **56.6 m** away |
-| far end | bearing 298.2 deg, 126.0 m away | bearing 287.3 deg, **141.6 m** away |
-
-The body therefore reads as running back and away from the camera rather than lying across the view,
-and the frame's near end is 29 m closer than it was. **46.7 %** of pixels differ from the shipped
-render by more than 8/255. In plan the correction takes the body from **58.0 %** of its area over its
-own footprint (IoU 0.41, both ends about 17 m outside it, 231 m² of the base prism inside 3 WTC's
-footprint) to **94.2 %** (IoU 0.90, no overlap with 3 WTC or 4 WTC at all).
-
-Not all of the change is the Oculus: the building-shell stage rebuilt its stepped massing during the
-same window, and the skyline behind the Oculus moves with it. What is attributable to this pass is
-the geometry above, which is measured from the footprint parquet and the exported glb rather than
-from pixels.
-
-The camera has not moved: it is still the photograph's own EXIF GPS, 30 m from the item's nominal
-viewpoint, at 9.60 m NAVD88, azimuth 274.2 deg, pitch −0.28 deg.
+**The brightness difference is the photograph's own decision, not the render's.** The reference is a deliberately bright frame — a white sky behind white steel — developed **2.046 stops above** the middle-grey convention, with its median at **0.8774** and its 95th percentile at **0.9684**. The render sits at the convention, **0.241** stops over, with a median of **0.4986**. The **1.805-stop** difference between those two choices is the whole of the mean ratio of **0.644** (J83). The render is not dark; the photograph is bright on purpose.
 
 ## What matches
 
-* The Oculus is recognisably itself: the row of tapering white steel ribs, their spacing, their curve away from the spine and the way they meet the ground, at the right scale for a body whose near end is 57 m from the camera and whose far end is 142 m away.
-* The camera stands on the photograph's own EXIF GPS, 30 m from the item's nominal viewpoint, and the heading (274.2 deg) is the bearing from that point to the structure; the aim rule tilted -0.3 deg.
-* The plaza's kerb line and its sweeping curve are correct, and the pale paving of the WTC plaza reads at the right width against the darker roadbed.
-* 12 landmark models are in range with their shells suppressed, including One World Trade Center and the memorial-side buildings, and the glazed tower behind the Oculus at the right height.
-* 1,588 pavement polygons, 617 props and 8,287 kit pieces are placed, with lamps at the right spacing along the plaza edge.
+* **The canopy is the canopy.** Ribs, spine and sweep, at the same place in the frame as the photograph's and in the same white.
+* **Its height is measured off its own geometry** — 29.44 m from 43 rays, all landing on fabric, with the catalogue's 329.2 m correctly refused as belonging to a different building 167 m away (J74).
+* **The view is the photograph's own.** Azimuth **274.2°** from its GPS to the Oculus; the item's recorded azimuth is 282.4°, **8.2° away**, and was not used. The lens barely moved, from 35 mm to **34 mm**, because the subject is wide rather than tall.
+* **The sightline is honest about a partial view.** 13 rays, **10 clear**, **7 on the subject**, fraction **0.538**: half the fan lands on the canopy and the rest goes past it or stops at **26.8 m** on a street lamp. Looking at the render, that is right — the canopy fills the upper left and the upper right is tower and sky.
+* **The plaza's own ground is cut into the park ground.** **53,345 faces cut for landmark ground**, the largest such count in the pass, which is what the WTC plaza is: a landmark surface standing over the terrain rather than on it.
+* **The near ground is clean.** Within 150 m the under-fraction is **0.0** over 526 samples, minimum clearance **0.049 m**, median **0.181 m**.
+* **The kerb-side furniture is dense and right for the block**: **41 subway entrances**, 44 vent grates, 182 street lamps, 22 bus-stop signs, 19 flagpoles, 66 benches.
+* **Citi Bike is a station**: 372 dock units in range (Stage 40).
+* **The crowd clock is right** — **a weekday** for 2017-08-15, which was a Tuesday — and the fleet is a Financial District weekday fleet: **30 sedans, 9 SUVs, 8 yellow taxis**, a boro taxi, a box truck and an NYPD car.
+* **Four people are at LOD0**, the only sheet so far with more than one agent at its best form.
 
 ## What does not match
 
-* The ribs are solid white where the real structure is a rib cage over a glazed spine: there is no glass between the ribs, no skylight, and the interior is closed off.
-* The body is a swept ellipse of the published 106.7 × 35.1 m on the footprint's axis, not the footprint's own outline, so **6 % of its plan still falls outside BIN 1089309**. That is the remaining approximation in the Oculus's plan; it was 42 % before this pass.
-* The reference is a near-vertical view along the ribs with One World Trade Center and 7 WTC rising behind; the render's level axis gives a ground-level three-quarter view instead, so the two are not comparable on composition — they agree on the structure and not on the framing.
-* The plaza is a bare grey plane: no paving pattern, no benches, no planting, no memorial pools, no security bollards.
-* No people at all, in front of a station used by 250,000 people a day.
-* The glass towers behind have no reflections; the reference's are all reflection.
-* The lens stayed at 35 mm because the subject height is read as a nominal 10 m from the reference metadata rather than from the model, so the framing is not the result of a measured decision about the structure's real 51.2 m canopy tips.
+* **Two figures stand in the near right of the frame at a scale that dominates it**, facing roughly across the view with red objects in their hands, where the photograph's foreground is empty sky. The record's nearest agent is a vehicle at **11.4 m** and 28.1° off axis; the clearance walk checks the view azimuth for *built* obstruction and does not weigh an agent standing beside it.
+* **The composition is not the photograph's.** The reference is a near-abstract upward view along the rib spine with two glass towers; the render is a street-level three-quarter view across a roadway. Both contain the canopy; only one is *of* it.
+* **The frame needed +4.02 stops** and is marked under-lit — more recovery than the four stops the note says a photographer gets hand-held. An 08:32 sun at **26.3° elevation and 94.1° azimuth** is almost directly behind a view pointing 274.2°, so the frame is back-lit and everything facing the lens is in its own shade.
+* **Two-thirds of the photograph's colour** — chroma **0.0399** against **0.0613** (**0.651×**). Both are nearly grey; the render is greyer.
+* **Slightly less contrast** — standard deviation **0.2114** against **0.2281** (**0.927×**) — the closest contrast agreement in the pass, on two frames of very different content.
+* **The traffic is queued nose to tail** across the near roadway, five dark sedans in a rank where the photograph has none.
+* **5,267 of 5,481 kit pieces are windows**, against 7 cornices, 8 string courses, 6 pilasters and 3 quoins. Kit was capped by a **1,039,319-triangle** budget with **16,500 pieces in range**.
+* **1,831 tree rows did not fit the props budget**, and the trees that were placed are scaled small — mean scale **0.815**, the lowest in the pass, with 3 out of band.
+* **The 9/11 memorial's own furniture is absent.** **5 artwork and 5 memorial** props were wanted in range and had no asset.
+* **The crowd is a third of the table's ask.** The density table wanted **576 vehicles and 1,936 people**; **645 and 2,265** were simulated and **2,596** dropped — 911 pedestrians outside the radius, **614 at the triangle budget**, 323 in the carriageway without crossing, 148 not on a walkable surface, 4 inside buildings, and 14 riderless bodies.
+* **1 of the 4 tiles in range has no structures file.**
+* **Far park ground sinks**: beyond 400 m the under-fraction is **0.1592** over 917 samples, minimum **−1.643 m** — the mildest far-band figure in the pass.
 
 ## Cause of each gap
 
 | gap | cause | class |
 |---|---|---|
-| solid ribs, no glazed spine | the oculus landmark model carries the ribs as solid geometry with no glazing between them | geometry |
-| ground-level three-quarter view rather than the reference's upward view | the level-axis rule; the reference is a tilted upward frame | camera |
-| bare plaza | plaza paving, furniture, planting and the memorial pools are in no dataset the scene reads | data |
-| no people | no crowd placement feeds the verification scene | data |
-| no glass reflections | the curtain-wall material is a flat base colour | material |
-| lens not sized to the subject | the reference metadata carries no subject height, so the lens rule fell back to a nominal 10 m subject | data |
-| 6 % of the body's plan outside its footprint | the body is a swept ellipse of the published dimensions on the footprint's axis, not the footprint outline | geometry |
+| two agents dominate the near frame | the clearance walk tests the view azimuth for built obstruction, not agents standing beside it; the nearest is recorded at 11.4 m and 28.1° off axis | **verification — open, same rule as the Flatiron sheet** |
+| the composition is not the photograph's | the reference is an upward abstraction along the rib spine; the aim rule points at the subject's mid-height from a street-level eye, which cannot reproduce it | verification — declared |
+| the frame needed +4.02 stops | a 26.3° sun at 94.1° behind a view along 274.2° back-lights everything facing the lens; published under-lit and marked so (J83) | reference + verification — declared |
+| mean 0.644×, p50 0.568× | the photograph is developed 2.046 stops above the grey convention and the render 0.241 above it, a 1.805-stop difference; this is the photograph's exposure choice, not the render's light (J83) | reference |
+| chroma 0.651× | two near-grey frames; the render's is greyer because its sky is a Nishita gradient rather than a blown white | reference |
+| traffic queued nose to tail | the traffic model's signal state at this instant | verification |
+| 5,267 windows against 7 cornices | shells are extruded footprints with openings cut; kit capped at 1,039,319 triangles with 16,500 in range | geometry + performance |
+| 1,831 tree rows dropped, mean tree scale 0.815 | the props triangle budget, and the scale band the placement rule applies | performance + data |
+| no memorial furniture | 5 artwork and 5 memorial props had no asset | data |
+| 264 people against a table asking 1,936 | the agent triangle budget plus the placement rules, each with its count | performance + verification |
+| 0.1592 of far park-ground samples under the terrain | surfaces draped on the 2 m heightmap against a scene edge coarsened to 40 m | verification |

@@ -1,17 +1,19 @@
 {
  "slug": "landmark_bronx_whitestone_bridge",
- "rendered_at": "2026-09-09T04:02:27Z",
+ "rendered_at": "2026-09-12T17:31:25Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.4357,
-  "sd": 0.1092,
-  "p05": 0.281,
-  "p95": 0.5796,
-  "chroma": 0.0513
+  "mean": 0.508,
+  "sd": 0.1193,
+  "p05": 0.3743,
+  "p50": 0.4981,
+  "p95": 0.6905,
+  "chroma": 0.0614,
+  "exposure_offset_stops": 0.238
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4703,
   "sd": 0.2644,
   "p05": 0.0264,
+  "p50": 0.497,
   "p95": 0.8488,
-  "chroma": 0.0741
+  "chroma": 0.0741,
+  "exposure_offset_stops": 0.231
  },
  "render_over_reference": {
-  "mean": 0.926,
-  "sd": 0.413,
-  "chroma": 0.692
+  "mean": 1.08,
+  "sd": 0.451,
+  "p50": 1.002,
+  "chroma": 0.829,
+  "exposure_offset_stops": 0.007,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
