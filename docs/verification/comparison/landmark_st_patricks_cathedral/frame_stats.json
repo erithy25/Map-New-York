@@ -1,17 +1,19 @@
 {
  "slug": "landmark_st_patricks_cathedral",
- "rendered_at": "2026-09-09T01:40:09Z",
+ "rendered_at": "2026-09-12T18:53:18Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 904,
   "height": 1206,
-  "mean": 0.1274,
-  "sd": 0.1167,
-  "p05": 0.0028,
-  "p95": 0.3929,
-  "chroma": 0.0295
+  "mean": 0.561,
+  "sd": 0.209,
+  "p05": 0.2407,
+  "p50": 0.4992,
+  "p95": 0.9338,
+  "chroma": 0.0559,
+  "exposure_offset_stops": 0.245
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.3787,
   "sd": 0.2522,
   "p05": 0.0975,
+  "p50": 0.3165,
   "p95": 0.9927,
-  "chroma": 0.0196
+  "chroma": 0.0196,
+  "exposure_offset_stops": -1.14
  },
  "render_over_reference": {
-  "mean": 0.336,
-  "sd": 0.463,
-  "chroma": 1.505
+  "mean": 1.481,
+  "sd": 0.829,
+  "p50": 1.577,
+  "chroma": 2.852,
+  "exposure_offset_stops": 1.385,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
