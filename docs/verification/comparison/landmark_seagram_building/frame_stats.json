@@ -1,17 +1,19 @@
 {
  "slug": "landmark_seagram_building",
- "rendered_at": "2026-09-09T07:30:14Z",
+ "rendered_at": "2026-09-12T18:39:01Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.1263,
-  "sd": 0.1489,
-  "p05": 0.007,
-  "p95": 0.4271,
-  "chroma": 0.0599
+  "mean": 0.4955,
+  "sd": 0.2814,
+  "p05": 0.1483,
+  "p50": 0.4632,
+  "p95": 0.9427,
+  "chroma": 0.1071,
+  "exposure_offset_stops": 0.013
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4946,
   "sd": 0.2656,
   "p05": 0.1098,
+  "p50": 0.4575,
   "p95": 0.8591,
-  "chroma": 0.0791
+  "chroma": 0.0791,
+  "exposure_offset_stops": -0.026
  },
  "render_over_reference": {
-  "mean": 0.255,
-  "sd": 0.561,
-  "chroma": 0.757
+  "mean": 1.002,
+  "sd": 1.059,
+  "p50": 1.012,
+  "chroma": 1.354,
+  "exposure_offset_stops": 0.039,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

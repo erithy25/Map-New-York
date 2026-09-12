@@ -1,17 +1,19 @@
 {
  "slug": "landmark_rose_center",
- "rendered_at": "2026-09-09T07:25:54Z",
+ "rendered_at": "2026-09-12T18:34:09Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 902,
-  "mean": 0.3203,
-  "sd": 0.2113,
-  "p05": 0.0028,
-  "p95": 0.549,
-  "chroma": 0.0528
+  "mean": 0.5761,
+  "sd": 0.2775,
+  "p05": 0.1061,
+  "p50": 0.4982,
+  "p95": 0.9345,
+  "chroma": 0.076,
+  "exposure_offset_stops": 0.239
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4069,
   "sd": 0.2545,
   "p05": 0.0644,
+  "p50": 0.3676,
   "p95": 0.9446,
-  "chroma": 0.0548
+  "chroma": 0.0548,
+  "exposure_offset_stops": -0.693
  },
  "render_over_reference": {
-  "mean": 0.787,
-  "sd": 0.83,
-  "chroma": 0.964
+  "mean": 1.416,
+  "sd": 1.09,
+  "p50": 1.355,
+  "chroma": 1.387,
+  "exposure_offset_stops": 0.932,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
