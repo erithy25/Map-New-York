@@ -1,17 +1,19 @@
 {
  "slug": "promenade_lower_manhattan",
- "rendered_at": "2026-09-09T02:16:18Z",
+ "rendered_at": "2026-09-12T20:08:47Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.416,
-  "sd": 0.1538,
-  "p05": 0.1828,
-  "p95": 0.6426,
-  "chroma": 0.0824
+  "mean": 0.456,
+  "sd": 0.1294,
+  "p05": 0.1816,
+  "p50": 0.4978,
+  "p95": 0.6166,
+  "chroma": 0.1006,
+  "exposure_offset_stops": 0.236
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5634,
   "sd": 0.2662,
   "p05": 0.1493,
+  "p50": 0.6515,
   "p95": 0.906,
-  "chroma": 0.0879
+  "chroma": 0.0879,
+  "exposure_offset_stops": 1.085
  },
  "render_over_reference": {
-  "mean": 0.738,
-  "sd": 0.578,
-  "chroma": 0.937
+  "mean": 0.809,
+  "sd": 0.486,
+  "p50": 0.764,
+  "chroma": 1.144,
+  "exposure_offset_stops": -0.849,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

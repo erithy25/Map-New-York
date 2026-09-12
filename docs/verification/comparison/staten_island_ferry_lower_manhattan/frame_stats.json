@@ -1,17 +1,19 @@
 {
  "slug": "staten_island_ferry_lower_manhattan",
- "rendered_at": "2026-09-09T02:18:50Z",
+ "rendered_at": "2026-09-12T20:09:14Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 560,
-  "mean": 0.4532,
-  "sd": 0.1185,
-  "p05": 0.224,
-  "p95": 0.601,
-  "chroma": 0.0956
+  "mean": 0.464,
+  "sd": 0.1209,
+  "p05": 0.2287,
+  "p50": 0.4977,
+  "p95": 0.613,
+  "chroma": 0.0961,
+  "exposure_offset_stops": 0.235
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.653,
   "sd": 0.1357,
   "p05": 0.3807,
+  "p50": 0.6649,
   "p95": 0.8465,
-  "chroma": 0.2249
+  "chroma": 0.2249,
+  "exposure_offset_stops": 1.151
  },
  "render_over_reference": {
-  "mean": 0.694,
-  "sd": 0.873,
-  "chroma": 0.425
+  "mean": 0.711,
+  "sd": 0.891,
+  "p50": 0.749,
+  "chroma": 0.427,
+  "exposure_offset_stops": -0.916,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
