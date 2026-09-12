@@ -1,17 +1,19 @@
 {
  "slug": "landmark_throgs_neck_bridge",
- "rendered_at": "2026-09-09T07:59:21Z",
+ "rendered_at": "2026-09-12T19:08:25Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.3404,
-  "sd": 0.1968,
-  "p05": 0.0599,
-  "p95": 0.7003,
-  "chroma": 0.0518
+  "mean": 0.5062,
+  "sd": 0.2198,
+  "p05": 0.1502,
+  "p50": 0.4995,
+  "p95": 0.8552,
+  "chroma": 0.0556,
+  "exposure_offset_stops": 0.247
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.4614,
   "sd": 0.2537,
   "p05": 0.0824,
+  "p50": 0.4587,
   "p95": 0.9278,
-  "chroma": 0.0838
+  "chroma": 0.0838,
+  "exposure_offset_stops": -0.018
  },
  "render_over_reference": {
-  "mean": 0.738,
-  "sd": 0.776,
-  "chroma": 0.618
+  "mean": 1.097,
+  "sd": 0.866,
+  "p50": 1.089,
+  "chroma": 0.663,
+  "exposure_offset_stops": 0.265,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

@@ -1,17 +1,19 @@
 {
  "slug": "landmark_the_shed",
- "rendered_at": "2026-09-09T07:51:45Z",
+ "rendered_at": "2026-09-12T19:03:46Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.1039,
-  "sd": 0.0894,
-  "p05": 0.0,
-  "p95": 0.2783,
-  "chroma": 0.0413
+  "mean": 0.0985,
+  "sd": 0.1274,
+  "p05": 0.0132,
+  "p50": 0.0669,
+  "p95": 0.2652,
+  "chroma": 0.0485,
+  "exposure_offset_stops": -4.997
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5181,
   "sd": 0.2934,
   "p05": 0.0986,
+  "p50": 0.4894,
   "p95": 1.0,
-  "chroma": 0.0723
+  "chroma": 0.0723,
+  "exposure_offset_stops": 0.183
  },
  "render_over_reference": {
-  "mean": 0.201,
-  "sd": 0.305,
-  "chroma": 0.571
+  "mean": 0.19,
+  "sd": 0.434,
+  "p50": 0.137,
+  "chroma": 0.671,
+  "exposure_offset_stops": -5.18,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

@@ -1,17 +1,19 @@
 {
  "slug": "landmark_the_dakota",
- "rendered_at": "2026-09-09T07:41:58Z",
+ "rendered_at": "2026-09-12T18:56:45Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.4113,
-  "sd": 0.1862,
-  "p05": 0.0954,
-  "p95": 0.7922,
-  "chroma": 0.0525
+  "mean": 0.5021,
+  "sd": 0.197,
+  "p05": 0.1475,
+  "p50": 0.501,
+  "p95": 0.8633,
+  "chroma": 0.0573,
+  "exposure_offset_stops": 0.256
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.3507,
   "sd": 0.1771,
   "p05": 0.0973,
+  "p50": 0.3249,
   "p95": 0.6046,
-  "chroma": 0.1467
+  "chroma": 0.1467,
+  "exposure_offset_stops": -1.062
  },
  "render_over_reference": {
-  "mean": 1.173,
-  "sd": 1.051,
-  "chroma": 0.358
+  "mean": 1.432,
+  "sd": 1.112,
+  "p50": 1.542,
+  "chroma": 0.391,
+  "exposure_offset_stops": 1.318,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

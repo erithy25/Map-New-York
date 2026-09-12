@@ -1,17 +1,19 @@
 {
  "slug": "landmark_the_plaza_hotel",
- "rendered_at": "2026-09-09T07:47:35Z",
+ "rendered_at": "2026-09-12T19:02:21Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.2443,
-  "sd": 0.1418,
-  "p05": 0.0387,
-  "p95": 0.5363,
-  "chroma": 0.0503
+  "mean": 0.4704,
+  "sd": 0.1953,
+  "p05": 0.116,
+  "p50": 0.5005,
+  "p95": 0.7976,
+  "chroma": 0.0672,
+  "exposure_offset_stops": 0.253
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.347,
   "sd": 0.2401,
   "p05": 0.067,
+  "p50": 0.3109,
   "p95": 0.8769,
-  "chroma": 0.1805
+  "chroma": 0.1805,
+  "exposure_offset_stops": -1.193
  },
  "render_over_reference": {
-  "mean": 0.704,
-  "sd": 0.591,
-  "chroma": 0.279
+  "mean": 1.356,
+  "sd": 0.813,
+  "p50": 1.61,
+  "chroma": 0.372,
+  "exposure_offset_stops": 1.446,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
