@@ -138,6 +138,7 @@
  "name": "Washington Street in DUMBO with the Manhattan Bridge",
  "night": false,
  "pitch_reason": "level optical axis (Manhattan Bridge Brooklyn tower is 221 m away and would need +12 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "record_shape": 1,
  "reference_photo": {
   "author": "David Kernan",
   "confidence": "high",
@@ -152,7 +153,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/dumbo_washington_st_manhattan_bridge/render.png",
- "rendered_at": "2026-09-13T15:52:32Z",
+ "rendered_at": "2026-09-13T21:21:54Z",
  "resolution_note": "784x1394; the reference photograph is 1920x3413 (0.56:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -197,7 +198,7 @@
    "placed_pedestrians": 376,
    "placed_vehicles": 85,
    "reason": null,
-   "seconds": 493.87,
+   "seconds": 515.73,
    "snapshot": {
     "building_footprints_tested": 1945,
     "density_lane_km": 32.566,
@@ -1159,7 +1160,7 @@
    }
   },
   "radius_m": 934.6424375215793,
-  "seconds": 621.34,
+  "seconds": 641.97,
   "structures": {
    "imported": [
     "t_-3_-1",
@@ -1252,9 +1253,9 @@
   "radius_m": 934.6424375215793
  },
  "seconds": {
-  "render": 155.7,
-  "scene": 632.2,
-  "total": 787.9
+  "render": 210.8,
+  "scene": 652.8,
+  "total": 863.6
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 53.7 m above its ground",
@@ -1305,17 +1306,17 @@
   "origin_distance_m": 220.9,
   "plan_extent": {
    "across_bearing_deg": 1.4,
-   "axis_narrow_m": 854.5,
-   "axis_width_m": 1830.1,
    "is_tile_mesh": false,
    "model": "lm_b_manhattan_bridge",
-   "narrow_m": 1816.7,
-   "note": "`part_width_m` is the box of lm_b_manhattan_bridge.214 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 247 part(s) of lm_b_manhattan_bridge, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
+   "model_axis_narrow_m": 854.5,
+   "model_axis_width_m": 1830.1,
+   "model_narrow_m": 1816.7,
+   "model_width_m": 897.4,
+   "narrow_m": 11.4,
+   "note": "`width_m` and `narrow_m` are the box of lm_b_manhattan_bridge.214 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 247 part(s) of lm_b_manhattan_bridge, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_b_manhattan_bridge.214",
-   "part_narrow_m": 11.4,
-   "part_width_m": 10.5,
    "parts": 247,
-   "width_m": 897.4
+   "width_m": 10.5
   }
  },
  "sun": {
