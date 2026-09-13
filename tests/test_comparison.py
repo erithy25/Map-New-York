@@ -1546,6 +1546,139 @@ def test_the_camera_walk_chooses_a_point_that_can_see_the_subject():
     assert "sees the subject" in got["rule"] or "how much of the subject" in got["rule"]
 
 
+def test_a_frame_short_of_its_own_minimum_view_is_searched_not_published():
+    """A viewpoint that cannot see as far as its record says it needs is a fault (J116).
+
+    ``min_view_m`` is computed per item, recorded on the sheet, and was only ever an acceptance
+    test candidate positions had to pass **once something else had triggered a move**: a ray up
+    into a roof, a view boxed in by a building ahead, or a prop on the line to a named subject.
+    With no subject named the trigger used the lenient ``BOXED_IN_M`` floor instead of the item's
+    own number, so ``street_elevated_roosevelt_ave_7`` recorded ``min_view_m`` 20.0 and ``view_m``
+    15.8 with ``moved`` false: it stood in open air seven metres from a brick flank wall and
+    published that wall.  A shortfall is now a fourth trigger.
+    """
+    bpy = _skip_without_bpy()
+    import camera as vcam
+    import nycsim_bpy as nb
+
+    nb.reset_scene()
+    # Far outside the city, so no pavement polygon exists and the radial search is what runs.
+    X0, Y0 = 910000.0, 910000.0
+    # A wall whose face stands 15 m north of the eye: past BOXED_IN_M (12 m), short of the 20 m
+    # this frame records needing.  Before J116 that combination moved nothing.
+    _cube("t_910_910_wall_ahead", X0, Y0 + 20.0, 10.0, size=200.0, size_y=10.0, size_z=20.0)
+    placement = vcam.CameraPlacement(
+        slug="synthetic_short_view", lat=0.0, lon=0.0, x=X0, y=Y0, z=1.6, azimuth_deg=0.0,
+        pitch_deg=0.0, focal_mm=35.0, sensor_mm=36.0, hfov_deg=54.4, eye_height_m=1.6,
+        eye_datum="ground", eye_source="test", terrain_z_m=0.0, resolution=(1280, 720))
+    cam_data = bpy.data.cameras.new("verify_cam_short_view")
+    cam = bpy.data.objects.new("verify_cam_short_view", cam_data)
+    bpy.context.scene.collection.objects.link(cam)
+    cam.location = (X0, Y0, 1.6)
+    bpy.context.scene.camera = cam
+    bpy.context.view_layer.update()
+
+    got = vcam._move_clear_of_geometry(placement, None, max_m=40.0, step_m=4.0, min_view_m=20.0,
+                                       has_subject=False, subject=None)
+    assert got["moved"] is True, got
+    assert "short of its own requirement" in got["reason"], got["reason"]
+    assert got["view_m"] >= 20.0, f"the move has to buy the view the frame asked for: {got}"
+    assert placement.y < Y0, "the open air is behind the eye, so that is where the search went"
+
+
+def test_a_search_for_a_longer_view_that_finds_none_leaves_the_camera_alone():
+    """The J116 trigger may not trade a measured short view for an unmeasured shorter one.
+
+    The fallback ranking accepts the best candidate it found without ever comparing it against the
+    position it started from, which is right for the three faults that were already triggers -- a
+    camera inside a shell has nothing to go back to.  It is wrong for a shortfall: that position is
+    legal open air and it is the one the reference photograph names.  So the recorded point is
+    entered as the baseline, and a search that beats nothing leaves the camera where it was and
+    records that it looked.
+    """
+    bpy = _skip_without_bpy()
+    import camera as vcam
+    import nycsim_bpy as nb
+
+    nb.reset_scene()
+    X0, Y0 = 920000.0, 920000.0
+    # A closed court: the view north ends at 15 m, and every direction the search can reach either
+    # sees less or is inside a wall.  The walls are 40 m thick so no candidate inside ``max_m``
+    # gets out of the court.
+    _cube("t_920_920_wall_n", X0, Y0 + 35.0, 10.0, size=200.0, size_y=40.0, size_z=20.0)
+    _cube("t_920_920_wall_s", X0, Y0 - 23.0, 10.0, size=200.0, size_y=40.0, size_z=20.0)
+    _cube("t_920_920_wall_e", X0 + 30.0, Y0, 10.0, size=40.0, size_y=200.0, size_z=20.0)
+    _cube("t_920_920_wall_w", X0 - 30.0, Y0, 10.0, size=40.0, size_y=200.0, size_z=20.0)
+    placement = vcam.CameraPlacement(
+        slug="synthetic_closed_court", lat=0.0, lon=0.0, x=X0, y=Y0, z=1.6, azimuth_deg=0.0,
+        pitch_deg=0.0, focal_mm=35.0, sensor_mm=36.0, hfov_deg=54.4, eye_height_m=1.6,
+        eye_datum="ground", eye_source="test", terrain_z_m=0.0, resolution=(1280, 720))
+    cam_data = bpy.data.cameras.new("verify_cam_closed_court")
+    cam = bpy.data.objects.new("verify_cam_closed_court", cam_data)
+    bpy.context.scene.collection.objects.link(cam)
+    cam.location = (X0, Y0, 1.6)
+    bpy.context.scene.camera = cam
+    bpy.context.view_layer.update()
+
+    got = vcam._move_clear_of_geometry(placement, None, max_m=40.0, step_m=4.0, min_view_m=20.0,
+                                       has_subject=False, subject=None)
+    assert got["moved"] is False, got
+    assert got["rule"] == "searched for a longer view and found none", got
+    assert "short of its own requirement" in got["reason"], got["reason"]
+    assert (placement.x, placement.y) == (X0, Y0), "nothing better was found, so nothing moved"
+    assert 12.0 < got["view_m"] < 20.0, f"the published frame is the short one, and says so: {got}"
+
+
+def test_the_sidestep_refuses_a_step_that_ends_nearer_the_prop_it_moved_for():
+    """Stepping around a lamp post has to end further from it, and show more (J111).
+
+    The rule accepted the first candidate in open air whose line was "no longer closed by a prop at
+    the lens" -- and J78 declares a subject visible on one ray of thirteen, so that test passes
+    while the pole still takes the rest of the fan.  It fired twice in the v16 pass and both times
+    ended *nearer* the lamp: the Williamsburgh Savings Bank Tower stepped 2.0 m and went from a
+    pole at 4.6 m to the same pole at 4.4 m holding 11 of 13 rays; Trinity Church went 4.1 m to
+    3.3 m.
+
+    The scene here is that shape, with the two outcomes separated.  A 0.30 m mast stands on the
+    axis 4.5 m out and takes the whole fan.  Half a metre to the right a second, thinner mast
+    stands 3.0 m out and takes part of it -- so that candidate shows *some* of the subject, which
+    is all the old test asked for, while standing 1.4 m closer to a pole.  Half a metre to the left
+    is clear.  The camera has to go left.
+    """
+    bpy = _skip_without_bpy()
+    import camera as vcam
+    import nycsim_bpy as nb
+
+    nb.reset_scene()
+    X0, Y0 = 930000.0, 930000.0
+    _cube("lm_b_tower_j111.1", X0, Y0 + 200.0, 30.0, size=40.0, size_y=40.0, size_z=60.0)
+    _cube("prop_lamp_j111_a", X0, Y0 + 4.5, 5.0, size=0.30, size_y=0.30, size_z=10.0)
+    _cube("prop_lamp_j111_b", X0 + 0.5, Y0 + 3.0, 5.0, size=0.05, size_y=0.05, size_z=10.0)
+    placement = vcam.CameraPlacement(
+        slug="synthetic_sidestep", lat=0.0, lon=0.0, x=X0, y=Y0, z=1.6, azimuth_deg=0.0,
+        pitch_deg=0.0, focal_mm=35.0, sensor_mm=36.0, hfov_deg=54.4, eye_height_m=1.6,
+        eye_datum="ground", eye_source="test", terrain_z_m=0.0, resolution=(1280, 853))
+    cam_data = bpy.data.cameras.new("verify_cam_sidestep")
+    cam = bpy.data.objects.new("verify_cam_sidestep", cam_data)
+    bpy.context.scene.collection.objects.link(cam)
+    cam.location = (X0, Y0, 1.6)
+    bpy.context.scene.camera = cam
+    bpy.context.view_layer.update()
+    subject = {"x": X0, "y": Y0 + 200.0, "z_aim": 30.0, "height_m": 60.0, "width_m": 6.0,
+               "object": "lm_b_tower_j111.1", "ground_z": 0.0}
+
+    got = vcam.sidestep_prop_at_lens(placement, subject)
+    assert got is not None and got["moved"] is True, got
+    assert got["direction"] == "to the left", (
+        "the rightward candidate shows part of the subject and stands 1.4 m nearer the pole, which "
+        f"is not stepping around it: {got}")
+    assert got["sidestep"]["rejected_nearer_the_prop"] >= 1, got["sidestep"]
+    assert got["sidestep"]["chosen_prop_at_lens_m"] is None, got["sidestep"]
+    sl = got["subject_sightline_at_choice"]
+    assert sl["subject_rays_on_subject"] > got["sidestep"]["rays_on_subject_here"], sl
+    assert placement.x < X0, "the camera has to end up where the record says it went"
+
+
 def test_a_drive_through_uses_a_photograph_of_its_own_block():
     """A drive-through sheet compares one block, so the photograph has to be of that block.
 

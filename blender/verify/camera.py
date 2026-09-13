@@ -1503,9 +1503,27 @@ def sidestep_prop_at_lens(placement: "CameraPlacement", subject: dict) -> dict |
     3.8 m; Trinity Church: at 4.1 m; docs/DEVIATIONS.md J78).  Every number in that report is true
     and the picture it describes is one no photographer takes -- they move.  So when an *unmoved*
     viewpoint's line to the subject is closed by a ``prop_*`` inside ``PROP_AT_LENS_M``, the camera
-    tries lateral offsets across the view axis, nearest first, and stands at the first one that is
-    in open air and whose line is no longer closed by a prop at the lens.  Returns the placement
-    record for the move, or ``None`` when no offset helps (the record then names the prop).
+    tries lateral offsets across the view axis and stands at the best of them.
+
+    **What "best" means was the whole of this rule's first failure** (docs/DEVIATIONS.md J111).  It
+    used to accept the first candidate in open air whose line was "no longer closed by a prop at
+    the lens" -- and that test is satisfied the moment *one* ray of thirteen reaches the subject,
+    because J78 declares a subject visible on one ray.  So it fired twice in the v16 pass and both
+    times finished **nearer** the lamp it moved for, with that lamp still the fan's blocker: the
+    Williamsburgh Savings Bank Tower stepped 2.0 m and went from a pole at 4.6 m to the same pole
+    at 4.4 m holding 11 of 13 rays, and Trinity Church stepped 1.5 m from 4.1 m to 3.3 m.  A
+    success rate of nil, on the only two sheets that used it.
+
+    So a candidate is now measured on the fan itself, and has to beat where it stood on both
+    counts: **strictly more rays on the subject** than the recorded point, and a prop at the lens
+    that is strictly **further away** than the one it left -- which is what stepping around
+    something means.  Candidates are scanned nearest first, ranked on (rays, prop clearance) so the
+    nearest of equally good ones wins, and the scan stops early on one whose fan is wholly clear.
+    Nothing is committed until the winner is known; if nothing beats the recorded point the camera
+    does not move and the record says what was tried and why each candidate was refused.
+
+    Returns the placement record for the move, or ``None`` when no prop stands at the lens to begin
+    with.  A tried-and-failed search returns ``{"moved": False, "sidestep": ...}``.
     """
     def look(nx: float, ny: float) -> dict:
         return subject_sightline(nx, ny, placement.z, float(subject["x"]), float(subject["y"]),
@@ -1520,20 +1538,48 @@ def sidestep_prop_at_lens(placement: "CameraPlacement", subject: dict) -> dict |
         return (not sl.get("subject_visible") and b.startswith("prop_")
                 and float(sl.get("subject_blocked_at_m") or 1e9) < PROP_AT_LENS_M)
 
+    def prop_at_lens_m(sl: dict) -> float:
+        """How far the prop closing this fan stands from the lens, or infinity when none does.
+
+        This is the number the step has to improve.  ``subject_blocked_at_m`` is the range of the
+        fan's own blocker, so comparing it before and against every candidate is the direct test of
+        whether the camera stepped *around* the pole or merely alongside it.
+        """
+        b = str(sl.get("subject_blocked_by") or "")
+        d = sl.get("subject_blocked_at_m")
+        if b.startswith("prop_") and d is not None and float(d) < PROP_AT_LENS_M:
+            return float(d)
+        return math.inf
+
+    def rays_on_subject(sl: dict) -> int:
+        return int(sl.get("subject_rays_on_subject") or 0)
+
     here = look(placement.x, placement.y)
     if not closed_by_prop(here):
         return None
+    here_rays = rays_on_subject(here)
+    here_prop_m = prop_at_lens_m(here)
+    all_rays = int(here.get("subject_rays") or 0)
     # Every candidate that is refused is counted, with why, so a record can say "the sidestep was
     # tried and nothing helped" instead of leaving the prop named and the camera unmoved without a
     # word (DUMBO, v16: a lamp standard 5.5 m out took all thirteen rays and the sheet did not say
     # whether anyone had tried to step round it).
     diag = {"prop": here.get("subject_blocked_by"), "at_m": here.get("subject_blocked_at_m"),
+            "rays_on_subject_here": here_rays, "rays": all_rays,
             "tried": 0, "rejected_in_geometry": 0, "rejected_still_closed": 0,
-            "rejected_in_geometry_why": [], "rejected_still_closed_by": []}
+            "rejected_no_more_of_the_subject": 0, "rejected_nearer_the_prop": 0,
+            "rejected_in_geometry_why": [], "rejected_still_closed_by": [],
+            "rejected_no_better_why": [],
+            "scored_on": ("rays of the fan that land on the subject, then how far the prop at the "
+                          "lens ends up (J111)")}
     a = math.radians(placement.azimuth_deg)
     side = (math.cos(a), -math.sin(a))          # perpendicular to the view azimuth, to the right
+    #: The winner so far: (rays, prop clearance, t, label, nx, ny, sightline).  Scanned nearest
+    #: first and replaced only on a strict improvement, so the nearest of equally good candidates
+    #: keeps the place -- a photographer takes the shortest step that works.
+    best: tuple | None = None
     t = SIDESTEP_STEP_M
-    while t <= SIDESTEP_MAX_M + 1e-9:
+    while t <= SIDESTEP_MAX_M + 1e-9 and not (best is not None and best[0] >= all_rays > 0):
         for sign, label in ((1.0, "to the right"), (-1.0, "to the left")):
             nx, ny = placement.x + side[0] * t * sign, placement.y + side[1] * t * sign
             diag["tried"] += 1
@@ -1544,41 +1590,75 @@ def sidestep_prop_at_lens(placement: "CameraPlacement", subject: dict) -> dict |
                     diag["rejected_in_geometry_why"].append(f"{t:.1f} m {label}: {why}")
                 continue
             sl = look(nx, ny)
+            cand_rays, cand_prop_m = rays_on_subject(sl), prop_at_lens_m(sl)
+            # The two tests J111 asks for, in the order that says the most about a refusal.  A
+            # candidate that still has a prop at the lens is counted under the old heading as well,
+            # so the diagnostics stay comparable with the v16 records.
             if closed_by_prop(sl):
                 diag["rejected_still_closed"] += 1
                 if len(diag["rejected_still_closed_by"]) < 3:
                     diag["rejected_still_closed_by"].append(
                         f"{t:.1f} m {label}: {sl.get('subject_blocked_by')} at {sl.get('subject_blocked_at_m')} m")
+            if cand_rays <= here_rays:
+                diag["rejected_no_more_of_the_subject"] += 1
+                if len(diag["rejected_no_better_why"]) < 3:
+                    diag["rejected_no_better_why"].append(
+                        f"{t:.1f} m {label}: {cand_rays} of {all_rays} rays on the subject against "
+                        f"{here_rays} where it stands")
                 continue
-            cam = bpy.context.scene.camera
-            cam.location = (nx, ny, placement.z)
-            bpy.context.view_layer.update()
-            placement.x, placement.y = nx, ny
-            h_half, pitches, yaws = frame_fan(placement)
-            reading = frame_clearance(nx, ny, placement.z, placement.azimuth_deg, probe_m=60.0,
-                                      half_angle_deg=h_half, pitches_deg=pitches, yaw_steps=yaws)
-            view_m = view_distance(nx, ny, placement.z, placement.azimuth_deg, probe_m=150.0)
-            return {"moved": True, "offset_m": round(t, 1), "direction": label,
-                    "reason": (f"{here['subject_blocked_by']} stands {here['subject_blocked_at_m']:.1f} m "
-                               f"from the lens on the line to the subject"),
-                    "rule": "sidestep around a prop at the lens",
-                    "view_m": round(view_m, 1), **clearance_fields(reading),
-                    "scored_on_subject_sightline": True,
-                    "subject_sightline_at_choice": {
-                        "subject_visible": sl.get("subject_visible"),
-                        "subject_visible_fraction": sl.get("subject_visible_fraction"),
-                        "subject_rays_on_subject": sl.get("subject_rays_on_subject"),
-                        "subject_rays": sl.get("subject_rays"),
-                        "subject_blocked_by": sl.get("subject_blocked_by"),
-                        "subject_blocked_at_m": sl.get("subject_blocked_at_m")},
-                    "note": (f"the recorded viewpoint has {here['subject_blocked_by']} "
-                             f"{here['subject_blocked_at_m']:.1f} m from the lens on the line to the "
-                             f"subject, which a photographer steps around; the camera was moved "
-                             f"{t:.1f} m {label}, across the view axis, to the nearest point in open air "
-                             f"where the line is not closed by a prop at the lens.  From there the view "
-                             f"azimuth is clear for {view_m:.0f} m and " + clearance_sentence(reading, with_angle=False))}
+            if not cand_prop_m > here_prop_m:
+                diag["rejected_nearer_the_prop"] += 1
+                if len(diag["rejected_no_better_why"]) < 3:
+                    diag["rejected_no_better_why"].append(
+                        f"{t:.1f} m {label}: {sl.get('subject_blocked_by')} would end "
+                        f"{cand_prop_m:.1f} m from the lens against {here_prop_m:.1f} m now, which "
+                        f"is not stepping around it")
+                continue
+            key = (cand_rays, cand_prop_m)
+            if best is None or key > (best[0], best[1]):
+                best = (cand_rays, cand_prop_m, t, label, nx, ny, sl)
         t += SIDESTEP_STEP_M
-    return {"moved": False, "sidestep": dict(diag, none_helped=True)}
+
+    if best is None:
+        return {"moved": False, "sidestep": dict(diag, none_helped=True)}
+
+    cand_rays, cand_prop_m, t, label, nx, ny, sl = best
+    cam = bpy.context.scene.camera
+    cam.location = (nx, ny, placement.z)
+    bpy.context.view_layer.update()
+    placement.x, placement.y = nx, ny
+    h_half, pitches, yaws = frame_fan(placement)
+    reading = frame_clearance(nx, ny, placement.z, placement.azimuth_deg, probe_m=60.0,
+                              half_angle_deg=h_half, pitches_deg=pitches, yaw_steps=yaws)
+    view_m = view_distance(nx, ny, placement.z, placement.azimuth_deg, probe_m=150.0)
+    gained = (f"{cand_rays} of {all_rays} rays of the fan now land on the subject against "
+              f"{here_rays} at the recorded point")
+    stepped = ("the prop is no longer at the lens" if cand_prop_m == math.inf else
+               f"the prop stands {cand_prop_m:.1f} m from the lens against "
+               f"{here_prop_m:.1f} m at the recorded point")
+    return {"moved": True, "offset_m": round(t, 1), "direction": label,
+            "reason": (f"{here['subject_blocked_by']} stands {here['subject_blocked_at_m']:.1f} m "
+                       f"from the lens on the line to the subject"),
+            "rule": "sidestep around a prop at the lens",
+            "view_m": round(view_m, 1), **clearance_fields(reading),
+            "scored_on_subject_sightline": True,
+            "sidestep": dict(diag, chosen_offset_m=round(t, 1), chosen_direction=label,
+                             chosen_rays_on_subject=cand_rays,
+                             chosen_prop_at_lens_m=(None if cand_prop_m == math.inf
+                                                    else round(cand_prop_m, 1))),
+            "subject_sightline_at_choice": {
+                "subject_visible": sl.get("subject_visible"),
+                "subject_visible_fraction": sl.get("subject_visible_fraction"),
+                "subject_rays_on_subject": sl.get("subject_rays_on_subject"),
+                "subject_rays": sl.get("subject_rays"),
+                "subject_blocked_by": sl.get("subject_blocked_by"),
+                "subject_blocked_at_m": sl.get("subject_blocked_at_m")},
+            "note": (f"the recorded viewpoint has {here['subject_blocked_by']} "
+                     f"{here['subject_blocked_at_m']:.1f} m from the lens on the line to the "
+                     f"subject, which a photographer steps around; the camera was moved "
+                     f"{t:.1f} m {label}, across the view axis, to the candidate that shows most of "
+                     f"the subject -- {gained}, and {stepped}.  From there the view azimuth is "
+                     f"clear for {view_m:.0f} m and " + clearance_sentence(reading, with_angle=False))}
 
 
 def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 80.0,
@@ -1669,6 +1749,11 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
     """
     probe_m = max(min_view_m * 1.2, 60.0)
     min_clear_m = min(8.0, min_view_m)
+    #: Set when the *only* thing wrong with the eye point is that it cannot see as far as the frame
+    #: records needing (J116).  It changes what the search is allowed to do, not only whether it
+    #: runs: the position is legal open air, so it is entered as the baseline the fallback must
+    #: beat, and a search that beats nothing leaves the camera alone.
+    view_shortfall = False
     blocked, why = _blocked(placement.x, placement.y, placement.z, placement.azimuth_deg)
     if not blocked:
         # An eye point that cannot see is as useless as one inside a wall.  Seventh Avenue at
@@ -1693,6 +1778,22 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
             blocked = True
             why = (f"boxed in: the view azimuth is closed off {v:.0f} m ahead, less than the "
                    f"{need:.0f} m this frame needs to show its subject")
+        elif v < min_view_m:
+            # A shortfall against the frame's *own* recorded requirement is a fault of its own
+            # (docs/DEVIATIONS.md J116).  With a subject named it already was one, because `need`
+            # is then `min_view_m` itself; with none named the lenient 12 m floor above stood in
+            # for the item's own number, and `min_view_m` survived only as an acceptance test that
+            # candidate positions had to pass *once one of the other three faults had triggered a
+            # move*.  So a streetscape could record that it needs 20 m, see 15.8, and never search:
+            # `street_elevated_roosevelt_ave_7` stands in open air seven metres from a brick flank
+            # wall and published that wall.  Measured over the v16 pass this is the only one of the
+            # 171 it moves -- six records end below their own minimum and the other five had
+            # already searched and failed honestly.
+            blocked = True
+            view_shortfall = True
+            why = (f"short of its own requirement: the view azimuth is closed off {v:.0f} m ahead "
+                   f"against the {min_view_m:.0f} m this frame records as the least a streetscape "
+                   f"needs to be a street rather than a light well")
     if force and not blocked:
         blocked, why = True, ("rendered as an unusable frame from this eye point, so it is treated "
                               "as blocked even though no ray test caught it")
@@ -1785,6 +1886,17 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
                 "subject_sightline_at_choice": got.get("subject_reading")}
 
     fallback = None          # (nx, ny, got, description) -- open air but a short view
+    # J116: where the only fault is the short view, the recorded position is itself a candidate --
+    # open air, just not seeing far enough -- and it is the one the reference photograph names.
+    # Entering it as the baseline is what keeps the new trigger from doing harm: the fallback
+    # ranking accepts the best of what it found without ever comparing it to where it started, so
+    # without this a known 15.8 m of street could be traded for an unknown 10 m.
+    baseline = None
+    if view_shortfall:
+        baseline = evaluate(placement.x, placement.y)
+        if baseline is not None:
+            fallback = (placement.x, placement.y, baseline, 0.0, "not moved",
+                        "the camera was left at the recorded viewpoint")
     for cand in pavement_candidates(placement.x, placement.y, max_m=max_m):
         got = evaluate(cand["x"], cand["y"])
         if got is None:
@@ -1847,6 +1959,19 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
 
     if fallback is not None:
         nx, ny, got, off, label, desc = fallback
+        if baseline is not None and got is baseline:
+            # The search ran and nothing it found saw further than the recorded viewpoint.  The
+            # published frame is the same one as before J116 made this a trigger, and still short
+            # of its requirement -- but it is now a searched answer rather than a question nobody
+            # asked, and the record says which.
+            return {"moved": False, "offset_m": 0.0, "reason": why,
+                    "rule": "searched for a longer view and found none",
+                    "view_m": round(got["view_m"], 1), **clearance_fields(got),
+                    "note": (f"the recorded viewpoint is {why}; every point within {max_m:.0f} m of "
+                             f"it was tried and none saw further along the azimuth, so the camera "
+                             f"was left where the record puts it.  The view is closed off "
+                             f"{got['view_m']:.0f} m ahead and "
+                             + clearance_sentence(got, with_angle=False))}
         commit(nx, ny, got)
         return {"moved": True, "offset_m": off, "direction": label, "reason": why,
                 "rule": ("open air only, ranked on how much of the subject it sees"
