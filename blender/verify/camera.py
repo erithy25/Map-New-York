@@ -1512,7 +1512,17 @@ def agent_clause(agent_what: str | None, agent_m: float | None, probe_m: float |
     if agent_what:
         return (f", and the nearest simulated agent is {agent_what} "
                 f"{float(agent_m or 0.0):.1f} m away")
-    return f", and no simulated agent stands within {float(probe_m or 0.0):.0f} m of it"
+    # **What was measured is the frame, not a disc, and the sentence has to say so.**  The probe is
+    # `nearest_obstruction` over `frame_fan`'s rays -- seven bearings and five elevations across
+    # this camera's own half-angles -- so a miss means "nothing on those rays", which is a much
+    # narrower statement than "nothing within 60 m".  The old wording made the wider one: over the
+    # v17 corpus 97 records read "no simulated agent stands within N m of it", and on 40 of them
+    # the record's own `placed_pedestrians`, `placed_vehicles` and placement radii put **20 or
+    # more** agents inside that radius, up to 63 at `promenade_lower_manhattan`.  The probe was
+    # right and the sentence was not (J120) -- the same defect J49 recorded in the built half's
+    # caption and rewrote there, left standing in this fallback.
+    return (f", and the probe found no simulated agent on its rays across this frame within "
+            f"{float(probe_m or 0.0):.0f} m")
 
 
 def clearance_sentence(got: dict, *, with_angle: bool = True, agent_mark: bool = False) -> str:
@@ -1527,7 +1537,9 @@ def clearance_sentence(got: dict, *, with_angle: bool = True, agent_mark: bool =
         built = (f"the nearest built thing in the frame is {got['near_what']} "
                  f"{got['near_m']:.1f} m away{where}")
     else:
-        built = f"nothing built stands within {got['near_m']:.0f} m of the lens"
+        # Same correction as the agent half below: a miss on the frame's rays is not an empty disc.
+        built = (f"nothing built stands on the probe's rays across this frame within "
+                 f"{got['near_m']:.0f} m of the lens")
     if agent_mark:
         return built + AGENT_CLAUSE_MARK
     return built + agent_clause(got.get("agent_what"), got.get("agent_m"), got.get("probe_m"))

@@ -1141,7 +1141,11 @@ def test_the_clearance_record_names_the_agent_it_used_to_be_silent_about():
     quiet = vcam.frame_clearance(0.0, 0.0, 1.6, 0.0, probe_m=30.0, half_angle_deg=1.0,
                                  pitches_deg=(0.0,), yaw_steps=1)
     assert vcam.clearance_fields(quiet)["nearest_agent"] is None
-    assert "no simulated agent stands within 30 m" in vcam.clearance_sentence(quiet)
+    # The sentence says what the probe measured -- rays across the frame -- and not that a 30 m
+    # disc is empty, which is the correction J120 made to this fallback.
+    quiet_says = vcam.clearance_sentence(quiet)
+    assert "no simulated agent on its rays across this frame within 30 m" in quiet_says, quiet_says
+    assert "stands within 30 m" not in quiet_says, quiet_says
 
 
 def test_the_record_says_whether_the_camera_can_see_its_own_subject():
@@ -1755,7 +1759,8 @@ def test_a_clearance_note_names_the_agent_its_own_fields_name():
         "frame_retry": {"clearance": {"note": "the recorded viewpoint is boxed in" + mark,
                                       "nearest_agent": None, "nearest_agent_m": None,
                                       "nearest_agent_probe_m": 60.0}},
-        "scene": {"blocks": [{"note": "nothing built stands within 60 m of the lens" + mark,
+        "scene": {"blocks": [{"note": "nothing built stands on the probe's rays across this "
+                                     "frame within 60 m of the lens" + mark,
                               "nearest_agent": "agent_veh_camry_taxi_yellow_1023",
                               "nearest_agent_m": 53.3, "nearest_agent_probe_m": 60.0}]},
     }
@@ -1763,7 +1768,8 @@ def test_a_clearance_note_names_the_agent_its_own_fields_name():
     assert filled == 3, "every block carrying a note is swept, not a hand-written list of them"
     assert "agent_ped_1152.0 36.3 m away" in record["clearance"]["note"]
     assert mark not in json.dumps(record), "no mark may survive into a sheet"
-    assert "no simulated agent stands within 60 m of it" in record["frame_retry"]["clearance"]["note"]
+    assert ("no simulated agent on its rays across this frame within 60 m"
+            in record["frame_retry"]["clearance"]["note"])
     assert "agent_veh_camry_taxi_yellow_1023 53.3 m away" in record["scene"]["blocks"][0]["note"]
     # Idempotent: a second sweep has nothing left to fill.
     assert rs._finish_agent_clauses(record) == 0
@@ -2966,3 +2972,57 @@ def test_the_pass_never_calls_a_sheet_finished_on_another_generation_of_record()
                          f"(rendered {rec.get('rendered_at')})")
     assert not wrong, (f"{len(wrong)} slug(s) the pass calls finished were written by another "
                        f"generation of the renderer:\n" + "\n".join(wrong))
+
+
+def test_no_clearance_note_claims_an_empty_disc_from_a_measurement_of_the_frame():
+    """A clearance note may say what its probe measured and no more.
+
+    The probe is `nearest_obstruction` over `frame_fan`'s rays -- seven bearings by five
+    elevations across the camera's own half-angles -- so a miss means "nothing on those rays
+    within N m".  Both of the note's fallbacks used to make the wider claim instead: *"no
+    simulated agent stands within 60 m of it"* and *"nothing built stands within 60 m of the
+    lens"*.
+
+    The wider claim is not merely imprecise, it is false on most of the sheets that made it.
+    Across the 172 records of generation 1, **97** carried the agent sentence, and on **40** of
+    those the record's own `placed_pedestrians`, `placed_vehicles` and placement radii put twenty
+    or more agents inside the stated radius -- 63 at `promenade_lower_manhattan`, 62 at
+    `landmark_roosevelt_island_tram`.  This is the defect J49 recorded in the built half's caption
+    and rewrote there ("the nearest built thing **in the frame**"), left standing in the fallback
+    that fires when the probe finds nothing.
+
+    The note is prose in a published record, so the only way to correct one is to render it again;
+    that is why this cost a `RECORD_SHAPE` bump and the re-render of every sheet finished to that
+    point (DEVIATIONS J120).
+    """
+    base = REPO_ROOT / "docs" / "verification" / "comparison"
+    if not base.is_dir():
+        pytest.skip("no comparison records in this checkout")
+    sys.path.insert(0, str(REPO_ROOT / "blender" / "verify"))
+    from render_sheets import RECORD_SHAPE
+
+    #: Phrasings that assert an empty region rather than an empty set of rays.  The subject height
+    #: probe's "nothing built stands within N m of the subject's coordinate" is **not** here: that
+    #: one really is a ring search over SUBJECT_PROBE_RINGS, so a disc is what it measured.
+    claims = ("no simulated agent stands within", "nothing built stands within")
+    wrong = []
+    for d in sorted(base.iterdir()):
+        rec_path = d / "render.json"
+        if not rec_path.is_file():
+            continue
+        try:
+            rec = json.loads(rec_path.read_text())
+        except (OSError, ValueError):
+            continue
+        # Only records of the current generation are held to it; older ones are stale by
+        # definition and the runner has them queued.
+        if rec.get("record_shape") != RECORD_SHAPE:
+            continue
+        for where, note in (("clearance", ((rec.get("clearance") or {}).get("note") or "")),
+                            ("frame_retry", (((rec.get("frame_retry") or {}).get("clearance")
+                                              or {}).get("note") or ""))):
+            for claim in claims:
+                if claim in note:
+                    wrong.append(f"{d.name}: its {where} note says \"{claim} ...\", which claims a "
+                                 f"disc is empty from a probe that measured rays across the frame")
+    assert not wrong, "\n".join(wrong)

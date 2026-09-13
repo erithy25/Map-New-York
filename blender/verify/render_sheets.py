@@ -235,7 +235,13 @@ DEFAULT_SAMPLES = 64
 #:   1 -- first stamped generation: J111-J118 all landed, the fan spans the probed object, and
 #:        ``subject.plan_extent`` publishes ``width_m``/``narrow_m`` for that object with the whole
 #:        model's box beside it under ``model_*``.
-RECORD_SHAPE = 1
+#:   2 -- the clearance note says what the clearance probe measured.  Both of its fallbacks claimed
+#:        an empty disc -- "no simulated agent stands within 60 m of it", "nothing built stands
+#:        within 60 m of the lens" -- from a measurement that is seven bearings by five elevations
+#:        across the frame.  97 records of generation 1 carried the agent claim and 40 of those had
+#:        20 or more agents inside the radius by their own counts (J120).  A prose field, so the
+#:        only way to correct a published record is to render it again.
+RECORD_SHAPE = 2
 
 #: Slug -> (scene radius m, prop radius m, kit radius m).  A skyline view needs kilometres of
 #: world and no facade detail; a street view needs the opposite.
