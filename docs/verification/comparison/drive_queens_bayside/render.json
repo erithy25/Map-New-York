@@ -117,6 +117,7 @@
  "name": "Queens residential block: Bayside",
  "night": false,
  "pitch_reason": "level optical axis (the reference names no subject to aim at)",
+ "record_shape": 1,
  "reference_photo": {
   "author": "Famartin",
   "confidence": "medium",
@@ -131,7 +132,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_queens_bayside/render.png",
- "rendered_at": "2026-09-13T14:37:30Z",
+ "rendered_at": "2026-09-13T21:05:01Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -169,7 +170,7 @@
    "placed_pedestrians": 265,
    "placed_vehicles": 73,
    "reason": null,
-   "seconds": 493.43,
+   "seconds": 553.16,
    "snapshot": {
     "building_footprints_tested": 7915,
     "density_lane_km": 28.728,
@@ -209,7 +210,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 191
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached 15030_7011_14_0_b99e22c6e0d5c6e0_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 765484,
    "vehicle_lods": {
@@ -716,7 +717,7 @@
    "unmapped_kinds": {}
   },
   "radius_m": 720.0,
-  "seconds": 620.08,
+  "seconds": 673.5,
   "structures": {
    "imported": [
     "t_14_6",
@@ -753,9 +754,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 115.6,
-  "scene": 623.3,
-  "total": 738.9
+  "render": 136.4,
+  "scene": 676.8,
+  "total": 813.2
  },
  "sightline": {
   "subject_note": "the item names no point subject",
