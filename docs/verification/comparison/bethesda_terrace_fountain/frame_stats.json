@@ -1,6 +1,6 @@
 {
  "slug": "bethesda_terrace_fountain",
- "rendered_at": "2026-09-13T13:32:39Z",
+ "rendered_at": "2026-09-13T15:42:57Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",

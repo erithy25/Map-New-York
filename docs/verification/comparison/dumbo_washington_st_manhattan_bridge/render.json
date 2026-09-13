@@ -68,7 +68,7 @@
   "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_lamp_cobra_davit_1 1.5 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 150 m",
   "offset_m": 0.0,
   "sidestep": {
-   "at_m": 1.6,
+   "at_m": 5.5,
    "none_helped": true,
    "prop": "prop_lamp_cobra_davit_1",
    "rays": 13,
@@ -84,9 +84,9 @@
    "rejected_no_more_of_the_subject": 12,
    "rejected_still_closed": 12,
    "rejected_still_closed_by": [
-    "0.5 m to the right: prop_lamp_cobra_davit_1 at 3.1 m",
-    "0.5 m to the left: prop_lamp_cobra_davit_1 at 1.5 m",
-    "1.0 m to the right: prop_lamp_cobra_davit_1 at 4.6 m"
+    "0.5 m to the right: prop_lamp_cobra_davit_1 at 5.5 m",
+    "0.5 m to the left: prop_lamp_cobra_davit_1 at 1.1 m",
+    "1.0 m to the right: prop_lamp_cobra_davit_1 at 5.5 m"
    ],
    "scored_on": "rays of the fan that land on the subject, then how far the prop at the lens ends up (J111)",
    "tried": 12
@@ -152,7 +152,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/dumbo_washington_st_manhattan_bridge/render.png",
- "rendered_at": "2026-09-13T14:52:32Z",
+ "rendered_at": "2026-09-13T15:52:32Z",
  "resolution_note": "784x1394; the reference photograph is 1920x3413 (0.56:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -197,7 +197,7 @@
    "placed_pedestrians": 376,
    "placed_vehicles": 85,
    "reason": null,
-   "seconds": 469.56,
+   "seconds": 493.87,
    "snapshot": {
     "building_footprints_tested": 1945,
     "density_lane_km": 32.566,
@@ -237,7 +237,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 953
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -3347_341_14_1_e7c93a37fe98fd7c_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 1082134,
    "vehicle_lods": {
@@ -1159,7 +1159,7 @@
    }
   },
   "radius_m": 934.6424375215793,
-  "seconds": 616.84,
+  "seconds": 621.34,
   "structures": {
    "imported": [
     "t_-3_-1",
@@ -1252,18 +1252,18 @@
   "radius_m": 934.6424375215793
  },
  "seconds": {
-  "render": 161.5,
-  "scene": 627.8,
-  "total": 789.3
+  "render": 155.7,
+  "scene": 632.2,
+  "total": 787.9
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 53.7 m above its ground",
-  "subject_blocked_at_m": 1.6,
+  "subject_blocked_at_m": 5.5,
   "subject_blocked_by": "prop_lamp_cobra_davit_1",
   "subject_clear_fraction": 0.0,
-  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the whole model standing at the coordinate, taken across this camera's bearing (J113); clipped to the frame, because a ray outside the picture tests something that is not in it",
-  "subject_fan_half_angle_deg": 19.88,
-  "subject_fan_m": 897.4,
+  "subject_fan_from": "the subject's own measured height (J74); across, the 12 m floor (the object measures 10.5 m, not the 897.4 m of the whole model around it, which is the site rather than the subject (J113))",
+  "subject_fan_half_angle_deg": 1.52,
+  "subject_fan_m": 12.0,
   "subject_fan_tall_m": 107.4,
   "subject_fan_v_half_angle_deg": 13.35,
   "subject_lands_at_m": null,
@@ -1310,8 +1310,10 @@
    "is_tile_mesh": false,
    "model": "lm_b_manhattan_bridge",
    "narrow_m": 1816.7,
-   "note": "the bounding box of all 247 part(s) of lm_b_manhattan_bridge, the model the height was measured off a part of, measured across this camera's bearing and along it (J113)",
+   "note": "`part_width_m` is the box of lm_b_manhattan_bridge.214 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 247 part(s) of lm_b_manhattan_bridge, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_b_manhattan_bridge.214",
+   "part_narrow_m": 11.4,
+   "part_width_m": 10.5,
    "parts": 247,
    "width_m": 897.4
   }

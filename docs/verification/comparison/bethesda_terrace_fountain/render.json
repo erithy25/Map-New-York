@@ -122,7 +122,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/bethesda_terrace_fountain/render.png",
- "rendered_at": "2026-09-13T13:32:39Z",
+ "rendered_at": "2026-09-13T15:42:57Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -155,7 +155,7 @@
    "placed_pedestrians": 11,
    "placed_vehicles": 0,
    "reason": null,
-   "seconds": 94.67,
+   "seconds": 97.84,
    "snapshot": {
     "building_footprints_tested": 2814,
     "car_free_park_drives_matched": 46,
@@ -196,7 +196,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 96
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -1777_8205_8_1_10e969708121647f_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 25965,
    "vehicle_lods": {},
@@ -1038,7 +1038,7 @@
    }
   },
   "radius_m": 742.6651793355627,
-  "seconds": 155.56,
+  "seconds": 144.96,
   "structures": {
    "imported": [
     "t_-2_8"
@@ -1124,18 +1124,18 @@
   "radius_m": 742.6651793355627
  },
  "seconds": {
-  "render": 61.7,
-  "scene": 158.7,
-  "total": 220.4
+  "render": 63.4,
+  "scene": 148.9,
+  "total": 212.3
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 4.3 m above its ground",
   "subject_blocked_at_m": null,
   "subject_blocked_by": null,
   "subject_clear_fraction": 1.0,
-  "subject_fan_from": "the 12 m floor: the subject measures 8.6 m, which is under it, so the fan is the floor rather than the subject; across, the measured plan extent of the whole model standing at the coordinate, taken across this camera's bearing (J113); clipped to the frame, because a ray outside the picture tests something that is not in it",
-  "subject_fan_half_angle_deg": 32.74,
-  "subject_fan_m": 104.4,
+  "subject_fan_from": "the 12 m floor: the subject measures 8.6 m, which is under it, so the fan is the floor rather than the subject; across, the 12 m floor (the object measures 1.4 m, not the 104.4 m of the whole model around it, which is the site rather than the subject (J113))",
+  "subject_fan_half_angle_deg": 6.65,
+  "subject_fan_m": 12.0,
   "subject_fan_tall_m": 12.0,
   "subject_fan_v_half_angle_deg": 6.65,
   "subject_lands_at_m": 37.1,
@@ -1147,11 +1147,11 @@
   "subject_rays_clear": 13,
   "subject_rays_into_nothing": 1,
   "subject_rays_on_own_fabric_nearer_than_recorded": 0,
-  "subject_rays_on_subject": 7,
+  "subject_rays_on_subject": 8,
   "subject_reach_m": 25.0,
   "subject_verdict_rule": "at least one ray lands on the subject (J78)",
   "subject_visible": true,
-  "subject_visible_fraction": 0.538
+  "subject_visible_fraction": 0.615
  },
  "slug": "bethesda_terrace_fountain",
  "status": "rendered",
@@ -1181,8 +1181,10 @@
    "is_tile_mesh": false,
    "model": "lm_b_bethesda_terrace",
    "narrow_m": 153.6,
-   "note": "the bounding box of all 27 part(s) of lm_b_bethesda_terrace, the model the height was measured off a part of, measured across this camera's bearing and along it (J113)",
+   "note": "`part_width_m` is the box of lm_b_bethesda_terrace.2 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 27 part(s) of lm_b_bethesda_terrace, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_b_bethesda_terrace.2",
+   "part_narrow_m": 3.2,
+   "part_width_m": 1.4,
    "parts": 27,
    "width_m": 104.4
   }
