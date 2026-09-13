@@ -66,7 +66,7 @@
    26.8
   ],
   "nearest_obstruction_m": 9.9,
-  "note": "the recorded viewpoint is short of its own requirement: the view azimuth is closed off 17 m ahead against the 20 m this frame records as the least a streetscape needs to be a street rather than a light well; the camera was moved 0 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 40 m from there, and the nearest built thing in the frame is prop_tree_honeylocust_small_2 9.9 m away at -18 deg yaw, +27 deg pitch, and no simulated agent stands within 20 m of it",
+  "note": "the recorded viewpoint is short of its own requirement: the view azimuth is closed off 17 m ahead against the 20 m this frame records as the least a streetscape needs to be a street rather than a light well; the camera was moved 0 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 40 m from there, and the nearest built thing in the frame is prop_tree_honeylocust_small_2 9.9 m away at -18 deg yaw, +27 deg pitch, and the probe found no simulated agent on its rays across this frame within 20 m",
   "offset_m": 0.2,
   "reason": "short of its own requirement: the view azimuth is closed off 17 m ahead against the 20 m this frame records as the least a streetscape needs to be a street rather than a light well",
   "rule": "pavement snap with a clear frame",
@@ -118,7 +118,7 @@
  "name": "Brooklyn brownstone block: Park Slope, Seventh Avenue / Garfield Place",
  "night": false,
  "pitch_reason": "level optical axis (the reference names no subject to aim at)",
- "record_shape": 1,
+ "record_shape": 2,
  "reference_photo": {
   "author": "Beyond My Ken",
   "confidence": "medium",
@@ -133,7 +133,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_brooklyn_park_slope_7th_ave/render.png",
- "rendered_at": "2026-09-13T20:35:50Z",
+ "rendered_at": "2026-09-13T22:14:48Z",
  "resolution_note": "1054x1036; the reference photograph is 1920x1887 (1.02:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -174,7 +174,7 @@
    "placed_pedestrians": 223,
    "placed_vehicles": 71,
    "reason": null,
-   "seconds": 936.8,
+   "seconds": 924.55,
    "snapshot": {
     "building_footprints_tested": 7692,
     "density_lane_km": 17.58,
@@ -1013,7 +1013,7 @@
    "unmapped_kinds": {}
   },
   "radius_m": 756.607777663774,
-  "seconds": 1130.97,
+  "seconds": 1125.79,
   "structures": {
    "imported": [
     "t_-4_-3",
@@ -1049,9 +1049,9 @@
   "radius_m": 756.607777663774
  },
  "seconds": {
-  "render": 213.6,
-  "scene": 1149.7,
-  "total": 1363.3
+  "render": 212.0,
+  "scene": 1143.4,
+  "total": 1355.4
  },
  "sightline": {
   "subject_note": "the item names no point subject",
