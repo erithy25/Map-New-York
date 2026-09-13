@@ -65,7 +65,7 @@
    0.0
   ],
   "nearest_obstruction_m": 17.4,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_sign_mta_bus_stop_5 17.4 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 150 m",
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_sign_mta_bus_stop_5 17.4 m away, and the probe found no simulated agent on its rays across this frame within 60 m, and the view azimuth is clear for 150 m",
   "offset_m": 0.0,
   "view_m": 150.0
  },
@@ -114,6 +114,7 @@
  "name": "Fifth Avenue at 42nd Street (NYPL), street view looking north",
  "night": false,
  "pitch_reason": "level optical axis (the reference names no subject to aim at)",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Tdorante10",
   "confidence": "medium",
@@ -128,7 +129,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/fifth_ave_42nd_north/render.png",
- "rendered_at": "2026-09-13T14:59:55Z",
+ "rendered_at": "2026-09-13T23:04:05Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -174,7 +175,7 @@
    "placed_pedestrians": 261,
    "placed_vehicles": 54,
    "reason": null,
-   "seconds": 510.14,
+   "seconds": 479.54,
    "snapshot": {
     "building_footprints_tested": 1488,
     "density_lane_km": 30.431,
@@ -214,7 +215,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 1320
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -2581_6014_8_0_ab356ee7049bd58d_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 1082919,
    "vehicle_lods": {
@@ -1158,7 +1159,7 @@
    }
   },
   "radius_m": 886.8186107381778,
-  "seconds": 620.07,
+  "seconds": 561.4,
   "structures": {
    "imported": [
     "t_-2_5",
@@ -1194,9 +1195,9 @@
   "radius_m": 886.8186107381778
  },
  "seconds": {
-  "render": 173.3,
-  "scene": 624.8,
-  "total": 798.1
+  "render": 214.5,
+  "scene": 563.9,
+  "total": 778.3
  },
  "sightline": {
   "subject_note": "the item names no point subject",
