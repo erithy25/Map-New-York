@@ -2,7 +2,7 @@
  "agent_request": {
   "dow": 2,
   "hour": 13,
-  "local_clock": "2026-06-21 13:30 EDT",
+  "local_clock": "2026-05-31 13:30 EDT",
   "seed": 20260907,
   "warmup_s": 120.0
  },
@@ -79,9 +79,9 @@
   "view_m": 45.4
  },
  "frame": {
-  "mean": 0.4481,
+  "mean": 0.4503,
   "reason": null,
-  "sd": 0.2297,
+  "sd": 0.2296,
   "usable": true
  },
  "frame_retry": null,
@@ -89,21 +89,21 @@
  "interior": false,
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
  "lighting": {
-  "background_strength": 0.03042474575340748,
+  "background_strength": 0.03047482855618,
   "development": {
-   "linear_p05": 0.004334,
-   "linear_p50": 0.073481,
-   "linear_p95": 0.360516,
-   "log_average_linear": 0.050106,
-   "median_linear": 0.073481,
+   "linear_p05": 0.004312,
+   "linear_p50": 0.072576,
+   "linear_p95": 0.356384,
+   "log_average_linear": 0.050202,
+   "median_linear": 0.072576,
    "metered": true,
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
-   "stops": 1.293,
-   "stops_unclamped": 1.293,
+   "stops": 1.31,
+   "stops_unclamped": 1.31,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
-  "direct_normal_irradiance_w_m2": 940.2,
+  "direct_normal_irradiance_w_m2": 937.7,
   "emissive": {
    "cone_faces_deleted": 8,
    "cones_hidden": 1,
@@ -111,12 +111,12 @@
    "night": false,
    "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
-  "exposure_stops": 1.29,
+  "exposure_stops": 1.31,
   "physical_rule_stops": 0.0,
-  "sky_azimuth_deg": 203.905,
-  "sky_elevation_deg": 71.293,
+  "sky_azimuth_deg": 205.118,
+  "sky_elevation_deg": 69.606,
   "sun_lamp": true,
-  "sun_strength_blender": 3.287,
+  "sun_strength_blender": 3.279,
   "view_transform": "Filmic"
  },
  "name": "Bronx drive-through: Arthur Avenue (Belmont)",
@@ -136,21 +136,28 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_bronx_arthur_ave/render.png",
- "rendered_at": "2026-09-09T15:56:39Z",
+ "rendered_at": "2026-09-13T13:48:14Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
+   "camera_clear_ped_basis": [
+    1.8,
+    38.0,
+    0.4
+   ],
+   "camera_clear_ped_m": 6.5,
+   "camera_clear_vehicle_m": 6.0,
    "caption": "Agents: 89 vehicles within 320 m and 394 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 328 vehicles and 1134 people over the whole simulated ring, of which 391 and 1399 were simulated; 1307 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "culled_after_camera_move": {
-    "pedestrian_over_the_observer": 1,
+    "pedestrian_over_the_observer": 3,
     "vehicle_over_the_observer": 0
    },
    "dropped": {
     "pedestrian_in_the_carriageway_not_crossing": 118,
     "pedestrian_not_on_walkable_surface": 34,
     "pedestrian_outside_radius": 596,
-    "pedestrian_over_the_observer": 3,
+    "pedestrian_over_the_observer": 5,
     "pedestrian_triangle_budget": 255,
     "vehicle_body_has_no_rider": 15,
     "vehicle_not_on_carriageway": 3,
@@ -163,7 +170,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 577600,
+   "pedestrian_triangles": 577598,
    "per_class": {
     "black_car": 2,
     "boro_taxi": 4,
@@ -173,10 +180,10 @@
     "taxi": 4,
     "van": 3
    },
-   "placed_pedestrians": 393,
+   "placed_pedestrians": 391,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 406.15,
+   "seconds": 675.95,
    "snapshot": {
     "building_footprints_tested": 4239,
     "density_lane_km": 25.141,
@@ -191,7 +198,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.37,
+     "load_seconds": 2.4,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -216,9 +223,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 391
    },
-   "snapshot_note": "cached 5248_17241_13_2_fb3fca3924fdb657_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1083455,
+   "triangles": 1083453,
    "vehicle_lods": {
     "LOD2": 89
    },
@@ -287,7 +294,7 @@
    17241.21
   ],
   "kit": {
-   "capped": "triangle budget 1677752",
+   "capped": "triangle budget 1677754",
    "per_category": {
     "bulkhead": 70,
     "cornice": 119,
@@ -656,6 +663,7 @@
    },
    "capped": null,
    "dropped_for_budget": 0,
+   "dropped_on_suppressed_building": 0,
    "impostor_cards_dropped": 17,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -705,7 +713,7 @@
    }
   },
   "radius_m": 735.9087944963435,
-  "seconds": 572.14,
+  "seconds": 884.29,
   "structures": {
    "imported": [
     "t_4_16",
@@ -773,7 +781,7 @@
    "z_max_m": 37.53,
    "z_min_m": 11.04
   },
-  "triangles": 4500027
+  "triangles": 4500025
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -783,9 +791,9 @@
   "radius_m": 735.9087944963435
  },
  "seconds": {
-  "render": 316.2,
-  "scene": 609.5,
-  "total": 925.7
+  "render": 211.0,
+  "scene": 944.0,
+  "total": 1155.0
  },
  "sightline": {
   "subject_note": "the item names no point subject",
@@ -798,11 +806,11 @@
   "name": null
  },
  "sun": {
-  "azimuth_deg": 203.9050554410492,
-  "elevation_deg": 71.29349070708848,
-  "local": "2026-06-21T13:30:00-04:00",
-  "time_source": "photograph year only, 21 June assumed, and 13:30 **chosen**, not measured: of the hours that put the Sun above 20 deg it is the one whose bearing (204 deg) comes closest to the view azimuth (190 deg), 14 deg off, so the Sun is behind the camera and lights what it looks at",
-  "utc": "2026-06-21T17:30:00Z"
+  "azimuth_deg": 205.11774568743087,
+  "elevation_deg": 69.6064923754216,
+  "local": "2026-05-31T13:30:00-04:00",
+  "time_source": "the photograph's own categories carries the date, and 13:30 **chosen**, not measured: of the hours that put the Sun above 20 deg it is the one whose bearing (205 deg) comes closest to the view azimuth (190 deg), 15 deg off, so the Sun is behind the camera and lights what it looks at",
+  "utc": "2026-05-31T17:30:00Z"
  },
  "viewpoint": {
   "azimuth_deg": 190.0,

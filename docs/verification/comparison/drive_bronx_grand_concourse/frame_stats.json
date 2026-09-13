@@ -1,19 +1,19 @@
 {
  "slug": "drive_bronx_grand_concourse",
- "rendered_at": "2026-09-09T15:51:44Z",
+ "rendered_at": "2026-09-13T13:50:18Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1158,
   "height": 944,
-  "mean": 0.5169,
-  "sd": 0.2039,
-  "p05": 0.192,
-  "p50": 0.4975,
-  "p95": 0.8932,
-  "chroma": 0.0733,
-  "exposure_offset_stops": 0.234
+  "mean": 0.5177,
+  "sd": 0.1915,
+  "p05": 0.217,
+  "p50": 0.4955,
+  "p95": 0.8822,
+  "chroma": 0.077,
+  "exposure_offset_stops": 0.222
  },
  "reference": {
   "width": 1920,
@@ -27,11 +27,11 @@
   "exposure_offset_stops": 1.41
  },
  "render_over_reference": {
-  "mean": 0.837,
-  "sd": 0.767,
-  "p50": 0.69,
-  "chroma": 0.542,
-  "exposure_offset_stops": -1.176,
+  "mean": 0.839,
+  "sd": 0.721,
+  "p50": 0.687,
+  "chroma": 0.57,
+  "exposure_offset_stops": -1.188,
   "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
