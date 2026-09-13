@@ -118,6 +118,7 @@
  "name": "Midtown drive-through: Sixth Avenue at 45th Street",
  "night": false,
  "pitch_reason": "level optical axis (the reference names no subject to aim at)",
+ "record_shape": 1,
  "reference_photo": {
   "author": "Tdorante10",
   "confidence": "medium",
@@ -132,7 +133,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_midtown_sixth_ave_45th/render.png",
- "rendered_at": "2026-09-13T14:27:54Z",
+ "rendered_at": "2026-09-13T20:54:25Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -179,7 +180,7 @@
    "placed_pedestrians": 242,
    "placed_vehicles": 53,
    "reason": null,
-   "seconds": 441.15,
+   "seconds": 491.8,
    "snapshot": {
     "building_footprints_tested": 3441,
     "density_lane_km": 26.727,
@@ -219,7 +220,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 1407
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -2748_6306_9_0_78f919145bb1bdee_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 1082853,
    "vehicle_lods": {
@@ -1132,7 +1133,7 @@
    }
   },
   "radius_m": 755.2684846426243,
-  "seconds": 565.49,
+  "seconds": 635.33,
   "structures": {
    "imported": [
     "t_-2_6",
@@ -1168,9 +1169,9 @@
   "radius_m": 755.2684846426243
  },
  "seconds": {
-  "render": 123.4,
-  "scene": 569.7,
-  "total": 693.1
+  "render": 161.8,
+  "scene": 639.8,
+  "total": 801.6
  },
  "sightline": {
   "subject_note": "the item names no point subject",
