@@ -14,7 +14,7 @@
 
 **The photograph is a close oblique view of one restaurant frontage from the pavement in front of it; the render is a level view down the avenue from a crosswalk at the corner.** The left half is a dark-red painted shopfront with an enclosed glazed vestibule and black lettering on a cream stucco fascia, red brick with a pale quoined corner above, a grey vinyl-sided two-storey house with a scalloped porch awning and iron railings beside it, two cones and a bin, a yellow-painted kerb, a tree crown at top right and a white overcast sky. The right half is a three-storey tan-brick block with a continuous green-fascia shopfront band, street trees down both kerbs, a cobra-head lamp, a red hydrant, a crosswalk in the foreground, a woman in a red shirt and a child on the right-hand pavement, an empty carriageway to the vanishing point and a clear blue sky. Nothing in the render is the thing in the photograph, and the record says so: the item names no subject, the photograph's direction was not derived from the image (confidence **medium**), the **190.0°** heading is the item's street heading, and the two halves are "not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition".
 
-**The camera is where the photograph was taken and then somewhere else.** It began on the photograph's own EXIF GPS, **15.9 m** from the item's recorded viewpoint, and was moved **35.7 m** onto the nearest real crosswalk polygon because the recorded azimuth was closed off **10 m** ahead, less than the **12 m** the frame needs. From the new point the azimuth is clear for **45.4 m** and nothing built stands within **20 m** of the lens (`nearest_obstruction` null; the **20 m** is the probe floor, not a measured distance to anything). This is not J60: the GPS is on this street within a block of the item. But the render stands at a corner where the photographer stood mid-block, looking along the avenue where the photographer looked across the pavement at a frontage; the corner's kerb radius fills the lower right as blank concrete for the same reason. The walk was "pavement snap with a clear frame", not scored on a subject sightline because there is no subject, so J79 does not apply. The reader must not take the tan block on the left of the render for the red-brick restaurant building in the photograph; the sheet cannot say whether it is the same block seen along its flank or a different one, and the record holds no distance to it.
+**The camera is where the photograph was taken and then somewhere else.** It began on the photograph's own EXIF GPS, **15.9 m** from the item's recorded viewpoint, and was moved **35.7 m** onto the nearest real crosswalk polygon because the recorded azimuth was closed off **10 m** ahead, less than the **12 m** the frame needs. From the new point the azimuth is clear for **45.4 m** and nothing built stands on the probe's rays across the frame within **20 m** of the lens (`nearest_obstruction` null; the **20 m** is the probe floor, not a measured distance to anything). This is not J60: the GPS is on this street within a block of the item. But the render stands at a corner where the photographer stood mid-block, looking along the avenue where the photographer looked across the pavement at a frontage; the corner's kerb radius fills the lower right as blank concrete for the same reason. The walk was "pavement snap with a clear frame", not scored on a subject sightline because there is no subject, so J79 does not apply. The reader must not take the tan block on the left of the render for the red-brick restaurant building in the photograph; the sheet cannot say whether it is the same block seen along its flank or a different one, and the record holds no distance to it.
 
 **The date is the photograph's own now, and the hour is still chosen (J80, J114, J83).** This sheet was rendered on the assumed summer solstice until the pass that made it: `photo_instant` read only the normalised `date_taken` and `year` fields, found a year and nothing else, and put the Sun at its annual highest. It now reads the photograph's own text as well, and **the date comes out of its Commons categories: 31 May 2026** — which is the J114 repair working on one of the seventeen sheets that rested on an assumed date. The hour is still chosen rather than measured: of the hours that put the Sun above 20°, 13:30 puts its bearing **15** degrees off the view azimuth, at **69.6°** elevation rather than the solstice's higher one. The photograph has no visible shadow, a white sky and flat light, so the change in Sun position is not testable against it — what the real date buys on this sheet is the season, not the shadow. The development is metered: **+1.31 stops** above the physical rule's **+0.00** placed the linear median (**0.072576**) at middle grey, far short of the level the record treats as under-lit. The photographer exposed **-0.733** stops from that convention and the render sits at **0.252**, so the halves are developed nearly a stop apart before anything in the city is compared.
 
@@ -32,7 +32,7 @@
 ## What does not match
 
 * **The frontage in the photograph is not in the render, and the kit could not make it.** Lettering on a fascia, an enclosed vestibule, dark-red painted framing, a fringed awning, a scalloped porch awning, railings, cones and a bin are what the photograph is made of. The render's shopfronts are one green fascia over dark glazing between beige piers, repeated along the block under a regular grid of identical openings.
-* **The nearest building is a different building.** Two storeys of red brick and stucco with a quoined stone corner in the photograph; three storeys of tan brick in the render, whose near end runs off the left edge of the frame. The record gives no distance to that block: `nearest_obstruction` is null and the only figure is that nothing built stands within the **20 m** probe of the lens. The **35.7 m** in the record is the distance the camera was walked, not the distance to any building.
+* **The nearest building is a different building.** Two storeys of red brick and stucco with a quoined stone corner in the photograph; three storeys of tan brick in the render, whose near end runs off the left edge of the frame. The record gives no distance to that block: `nearest_obstruction` is null and the only figure is that nothing built stands **on the probe's rays across the frame** within the **20 m** probe of the lens — which is a weaker statement than an empty 20 m disc, and the record's own sentence used to make the stronger one (**DEVIATIONS J120**). The **35.7 m** in the record is the distance the camera was walked, not the distance to any building.
 * **The carriageway is empty.** **89** vehicles were placed; none is in the frame. **83** were dropped to the triangle budget and **201** left outside the radius. The photograph shows no vehicle either, so the sheet does not measure this gap; it shows a retail avenue at half past one with no traffic on it.
 * **Sky and light**: clear blue with hard shadows under the two foreground figures and shade on the left pavement beneath the crowns, against white overcast with none. Mean **0.453** against **0.392** (**1.156**), median **0.5003** against **0.3628** (**1.379**), p95 **0.7879** against **0.875**, standard deviation **0.227** against **0.2686** (**0.845**). The p05 pair, **0.1067** against **0.0519**, is a gap of about a twentieth, the photographs' JPEG floor.
 * **Chroma 0.0705 against 0.0921 (0.765).** The photograph's colour is dark-red paint, orange cones and a yellow kerb; the render's is the green fascia and foliage. Each facade class carries one photographic family varied per building only by seed (J66), and shopfront paint is not a thing the kit has.
@@ -59,26 +59,25 @@ was rewritten, and the evidence for leaving it is stronger than a re-reading: di
 against the committed one field by field, **every measured value is identical**, and the frame it replaced is reproduced **pixel for pixel**: `render.png`'s decoded image is identical, and the only bytes that differ are the five `tEXt` chunks in which Blender records the render date and its own timings. `sheet.png` is byte-identical. What
 moved is the wall clock:
 
-`scene.agents.seconds` 675.95 -> 681.62,
-`scene.seconds` 884.29 -> 877.56,
-`seconds.render` 211.0 -> 254.7,
-`seconds.scene` 944.0 -> 939.8,
-`seconds.total` 1155.0 -> 1194.5.
-The other change is the agent snapshot's provenance: the previous render simulated the crowd and
-this one read the same snapshot back from the cache, which the diff proves rather than assumes --
-every agent count in the record is unchanged, or that note would not be the only field beside the
-clock that moved (`simulated (already built)` to
-`cached 5248_17241_13_2_fb3fca3924fdb657_1788868452.json`).
+`scene.agents.seconds` 681.62 -> 716.89,
+`scene.seconds` 877.56 -> 923.64,
+`seconds.render` 254.7 -> 268.1,
+`seconds.scene` 939.8 -> 986.6,
+`seconds.total` 1194.5 -> 1254.7.
+The other change is the wording of the clearance note, where J120 replaced two fallbacks that
+claimed an empty disc with sentences that say what the probe measured -- rays across the frame.
+Every other field of the clearance reading is unchanged, which is what makes this a rewording of
+the same measurement rather than a different one.
 
 
 ## Measured for this assessment
 
-The wall-clock figures in the table are the **previous** render's, quoted so that "every measured value is identical" is a comparison a reader can check rather than a claim. They were read from this sheet's own `render.json` at commit `f15e47a`, its last state before the pass restarted.
+The wall-clock figures in the table below are the **previous** render's, quoted so that "every measured value is identical" is a comparison a reader can check rather than a claim. They were read from this sheet's own `render.json` at commit `1460b9f`, its last state before the pass restarted.
 
 | figure | where it comes from |
 |---|---|
-| 675.95 | `scene.agents.seconds` in the previous record; the re-render took 681.62 s |
-| 884.29 | `scene.seconds` in the previous record; the re-render took 877.56 s |
-| 211.0 | `seconds.render` in the previous record; the re-render took 254.7 s |
-| 944.0 | `seconds.scene` in the previous record; the re-render took 939.8 s |
-| 1155.0 | `seconds.total` in the previous record; the re-render took 1194.5 s |
+| 681.62 | `scene.agents.seconds` in the previous record; the re-render took 716.89 s |
+| 877.56 | `scene.seconds` in the previous record; the re-render took 923.64 s |
+| 254.7 | `seconds.render` in the previous record; the re-render took 268.1 s |
+| 939.8 | `seconds.scene` in the previous record; the re-render took 986.6 s |
+| 1194.5 | `seconds.total` in the previous record; the re-render took 1254.7 s |
