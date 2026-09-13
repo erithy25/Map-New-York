@@ -54,6 +54,27 @@
 | 2 landmarks placed, 0 in frame | both stand behind or beside the camera; a scene count, not a frame count | — (not a gap) |
 | kit capped, 17 cards dropped, 1,857 trees substituted | triangle budget 1,430,555; no modelled species matched, the nearest by size and taxon used | performance / data |
 
+
+## Re-read against the re-rendered record
+
+This sheet was rendered again on the v17 pass's restart, to carry the `record_shape` stamp that
+tells a reader which generation of the renderer wrote a record (**DEVIATIONS J119**). Nothing above
+was rewritten, and the evidence for leaving it is stronger than a re-reading: diffing the new record
+against the committed one field by field, **every measured value is identical**, and the frame it replaced is reproduced **pixel for pixel**: `render.png`'s decoded image is identical, and the only bytes that differ are the five `tEXt` chunks in which Blender records the render date and its own timings. `sheet.png` is byte-identical. What
+moved is the wall clock:
+
+`scene.agents.seconds` 857.38 -> 936.8,
+`scene.seconds` 1057.89 -> 1130.97,
+`seconds.render` 164.2 -> 213.6,
+`seconds.scene` 1075.3 -> 1149.7,
+`seconds.total` 1239.5 -> 1363.3.
+The other change is the agent snapshot's provenance: the previous render simulated the crowd and
+this one read the same snapshot back from the cache, which the diff proves rather than assumes --
+every agent count in the record is unchanged, or that note would not be the only field beside the
+clock that moved (`simulated (already built)` to
+`cached -2321_-3057_8_2_70320522236da7de_1788868452.json`).
+
+
 ## Measured for this assessment
 
 One figure above is not in this render record, and cannot be: it is what the **previous** pass
@@ -64,3 +85,10 @@ commit `28b6839`, the last state of the repository before any v17 sheet landed.
 | figure | where it comes from |
 |---|---|
 | 38.7 | `clearance.view_m` in this sheet's v16 record, beside `moved` false — the camera was left where it stood because the sidewalk shed's kit was invisible to the view probe. The v17 record reads the view closed at 17 m, steps 0.2 m, and measures 39.8 m |
+| 857.38 | `scene.agents.seconds` in the previous record; the re-render took 936.8 s |
+| 1057.89 | `scene.seconds` in the previous record; the re-render took 1130.97 s |
+| 164.2 | `seconds.render` in the previous record; the re-render took 213.6 s |
+| 1075.3 | `seconds.scene` in the previous record; the re-render took 1149.7 s |
+| 1239.5 | `seconds.total` in the previous record; the re-render took 1363.3 s |
+
+The wall-clock figures in the table are the **previous** render's, quoted so that "every measured value is identical" is a comparison a reader can check rather than a claim. They were read from this sheet's own `render.json` at commit `0dc3354`, its last state before the pass restarted.
