@@ -1,37 +1,37 @@
 {
  "slug": "landmark_williamsburgh_savings_bank_tower",
- "rendered_at": "2026-09-12T19:59:21Z",
- "reference_file": "2.jpg",
+ "rendered_at": "2026-09-13T13:27:07Z",
+ "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
-  "width": 1208,
-  "height": 906,
-  "mean": 0.5366,
-  "sd": 0.2116,
-  "p05": 0.2511,
-  "p50": 0.4984,
-  "p95": 0.8773,
-  "chroma": 0.0748,
-  "exposure_offset_stops": 0.24
+  "width": 1280,
+  "height": 854,
+  "mean": 0.5022,
+  "sd": 0.2115,
+  "p05": 0.1959,
+  "p50": 0.4991,
+  "p95": 0.8546,
+  "chroma": 0.0762,
+  "exposure_offset_stops": 0.244
  },
  "reference": {
   "width": 1920,
-  "height": 1440,
-  "mean": 0.7365,
-  "sd": 0.2629,
-  "p05": 0.2723,
-  "p50": 0.8396,
-  "p95": 1.0,
-  "chroma": 0.0453,
-  "exposure_offset_stops": 1.903
+  "height": 1280,
+  "mean": 0.3608,
+  "sd": 0.2163,
+  "p05": 0.0317,
+  "p50": 0.3817,
+  "p95": 0.7303,
+  "chroma": 0.1921,
+  "exposure_offset_stops": -0.58
  },
  "render_over_reference": {
-  "mean": 0.729,
-  "sd": 0.805,
-  "p50": 0.594,
-  "chroma": 1.651,
-  "exposure_offset_stops": -1.663,
+  "mean": 1.392,
+  "sd": 0.978,
+  "p50": 1.308,
+  "chroma": 0.397,
+  "exposure_offset_stops": 0.824,
   "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
