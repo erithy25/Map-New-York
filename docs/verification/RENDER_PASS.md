@@ -67,6 +67,33 @@ python3 blender/roads/build_pavement.py --tiles $(grep '^t_' /tmp/pav.txt | past
 `tests/test_comparison.py::test_every_tile_a_published_sheet_loaded_is_still_on_disk` is the check
 that found it and stays red until the rebuild finishes.
 
+### What it costs, measured on the first sheets rather than estimated
+
+The v16 pass averaged about six minutes a sheet at two workers. **The v17 pass is slower, and the
+cost is in the agent stage rather than in any of the eight repairs.** Measured sheet against sheet,
+same triangles and same radius:
+
+| sheet | v16 scene | v17 scene | agents v16 | agents v17 |
+|---|---|---|---|---|
+| `bethesda_terrace_fountain` | 235.3 s | **158.7 s** | | |
+| `drive_bronx_grand_concourse` | 486.8 s | **837.9 s** | 393.0 s | **640.8 s** |
+| `drive_bronx_arthur_ave` | 609.5 s | **944.0 s** | | |
+| `landmark_williamsburgh_savings_bank_tower` | 512.7 s | **916.4 s** | | |
+
+The park sheet got *faster*; the dense street sheets are 55 to 80 % slower, and on the one whose
+scene report was diffed field by field the agent stage accounts for **248 of the 325 extra
+seconds**. Its `snapshot.hour` moved **8 to 9** -- J114 gave that sheet a real date and hour
+instead of the assumed one -- which asks the density table for a different crowd: 404 placed
+pedestrians against 308, at cheaper LODs for the same 578 k triangles, and four more NPC templates
+baked. So the extra time is bought by the repair rather than wasted, but it is real and it is not
+in the ray probes.
+
+At roughly seventeen minutes a sheet over two workers the pass is **about a day**, not the eight to
+nine hours the v16 rate would give. Two workers is kept rather than three: with the render lock the
+peak is one render beside two scene builds, about 13.7 GB against 16 GB of RAM, and the pass's own
+history is that three concurrent renders were killed by the kernel. A killed sheet is requeued
+once, but a pass that reaches its target slowly is worth more than one that races and loses sheets.
+
 ### Running it
 
 ```
