@@ -8,7 +8,7 @@
 
 **Sun** — azimuth 204.6°, elevation 25.7° at 2017-01-21T13:41:25-05:00 (EXIF DateTimeOriginal); 727.4 W/m² direct normal, sky at strength 0.0376, Filmic, +2.65 stops.
 
-**In the scene**, within 740.1 m of the camera and not all of it in frame — 6 building tiles (300,026 tris), 9 landmark models of which **2 can fall inside the 54.4° frame**, 28,814 pavement polygons (14,594 white, 5,267 sidewalk, 4,173 roadbed, 3,464 curb, 717 crosswalk, 269 median, 231 plaza, 88 yellow, 11 parking lot), 2472 props of the 2,574 in range, 4,629 kit pieces, 53 vehicles and 258 people; 4,500,133 triangles. Ground mesh 88,186 triangles, 0 holes. 20 city surfaces are dressed from the shared photographic catalogue.
+**In the scene**, within 740.1 m of the camera and not all of it in frame — 6 building tiles (300,026 tris), 9 landmark models of which **2 can fall inside the 54.4° frame**, 28,814 pavement polygons (14,594 white, 5,267 sidewalk, 4,173 roadbed, 3,464 curb, 717 crosswalk, 269 median, 231 plaza, 88 yellow, 11 parking lot), 2,470 props of the 2,574 in range, 4,633 kit pieces, 53 vehicles and 258 people; 4,500,238 triangles. Ground mesh 88,186 triangles, 0 holes. 20 city surfaces are dressed from the shared photographic catalogue.
 
 ## Verdict — the same crossing, photographed in the opposite direction, on a day the avenue was closed
 
@@ -32,12 +32,12 @@
 
 * **The photograph faces north and the render faces south-south-west.** The same intersection in opposite directions; no building in one half is a building in the other. The record's azimuth is the item's, not the photograph's, at confidence **medium** (I7; I12 remainder).
 * **A demonstration in one half, a carriageway in the other.** The photograph's lower two thirds are heads, hats and placards; the render's are asphalt, a crossing and five figures; **168** simulated pedestrians in the carriageway were removed by rule.
-* **Clear sky against overcast.** The render is lit by **727.4 W/m²** of direct Sun with the disc just out of frame; the photograph has no shadow at all. The render's sky is blown out — p95 **0.9086** against **0.8681** — and the facade tops facing the lens are veiled by it.
-* **Exposure and colour.** Mean **0.4701** against **0.434** (**1.083×**), median **0.4993** against **0.416** (**1.2×**): the render's offset is **0.245** stops, the photographer's **-0.318** — about half a stop apart, the way a crowd of dark coats pushes a meter. Chroma **0.0613** against **0.086** (**0.713×**): the photograph's colour is pink hats, painted placards and flags, none of which the render has, with J66's one family per facade class as the remainder on the walls. The 5th-percentile gap (**0.1047** against **0.0566**) sits at the photographs' JPEG floor and is not evidence.
+* **Clear sky against overcast.** The render is lit by **727.4 W/m²** of direct Sun with the disc just out of frame; the photograph has no shadow at all. The render's sky is blown out — p95 **0.9083** against **0.8681** — and the facade tops facing the lens are veiled by it.
+* **Exposure and colour.** Mean **0.4700** against **0.434** (**1.083×**), median **0.4992** against **0.416** (**1.2×**): the render's offset is **0.245** stops, the photographer's **-0.318** — about half a stop apart, the way a crowd of dark coats pushes a meter. Chroma **0.0612** against **0.086** (**0.712×**): the photograph's colour is pink hats, painted placards and flags, none of which the render has, with J66's one family per facade class as the remainder on the walls. The 5th-percentile gap (**0.1047** against **0.0566**) sits at the photographs' JPEG floor and is not evidence.
 * **The lamp posts are the wrong fixture.** The photograph's kerbs carry Fifth Avenue's ornate twin-globe posts; the render's nearest obstruction is a cobra-head davit.
-* **The facades are extrusions with openings.** **4,468** of **4,629** kit pieces are windows; **5** cornices, **8** pilasters, **5** string courses and **1** quoin serve the whole scene, so pre-war fronts read as flat walls with a window grid.
+* **The facades are extrusions with openings.** **4,472** of **4,633** kit pieces are windows; **5** cornices, **8** pilasters, **5** string courses and **1** quoin serve the whole scene, so pre-war fronts read as flat walls with a window grid.
 * **A figure mid-carriageway in a bent, unnatural pose** stands in front of the grey SUV at the crossing.
-* **806** of the **1,573** trees are species-substituted; 7 artworks, 6 memorials and 9 vending machines among the props have no asset; the kit was capped at triangle budget **972,559**.
+* **806** of the **1,573** trees are species-substituted; 7 artworks, 6 memorials and 9 vending machines among the props have no asset; the kit was capped at triangle budget **973,446**.
 
 ## Cause of each gap
 
@@ -47,9 +47,9 @@
 | a march in the photograph, an open carriageway in the render | no source of scheduled events or street closures exists in the build; the crowd model draws a day type's pedestrians and the carriageway rule removed the **168** that stood where the march stands | data |
 | clear-sky Sun against an overcast photograph | the Sun is the EXIF instant; the record carries no sky-state term and the reference metadata no weather | data |
 | mean 1.083×, median 1.2×, offsets 0.245 against -0.318 | metered development at middle grey (**DEVIATIONS J83**) against a photographer's exposure of a crowd of dark coats; a convention difference | — (not a gap) |
-| chroma 0.713× | placards, hats and flags absent from the scene; on the walls, one material family per facade class (**DEVIATIONS J66**) | reference + material |
-| p95 0.9086 against 0.8681, blown sky | the Sun sits just above the top of a level frame aimed within a few degrees of it | stated choice (level axis, item azimuth) |
+| chroma 0.712× | placards, hats and flags absent from the scene; on the walls, one material family per facade class (**DEVIATIONS J66**) | reference + material |
+| p95 0.9083 against 0.8681, blown sky | the Sun sits just above the top of a level frame aimed within a few degrees of it | stated choice (level axis, item azimuth) |
 | cobra-head davit where the avenue has twin-globe posts | the placed fixture is the mapped lamp's asset; the Fifth Avenue ornamental post is not among them | geometry |
 | flat window-grid facades | shells are extruded from footprints; the kit's mouldings are generic profiles placed sparsely | geometry |
 | a figure in an unnatural bent pose at the crossing | animation blend on an LOD body; placement correct, pose not | verification |
-| 806 trees species-substituted, props unmapped, kit capped | nearest species by size and taxon; unmapped prop kinds stay unplaced rather than become the wrong object; triangle budget 972,559 | data / performance |
+| 806 trees species-substituted, props unmapped, kit capped | nearest species by size and taxon; unmapped prop kinds stay unplaced rather than become the wrong object; triangle budget 973,446 | data / performance |
