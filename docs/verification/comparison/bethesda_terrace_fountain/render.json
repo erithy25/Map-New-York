@@ -108,6 +108,7 @@
  "name": "Bethesda Terrace and Fountain",
  "night": false,
  "pitch_reason": "aimed at Bethesda Fountain (Angel of the Waters) 51 m away, at its mid-height (the top of lm_b_bethesda_terrace.2, the built thing standing at the subject's coordinate, 9 m above the ground there); +2.4 deg from horizontal",
+ "record_shape": 1,
  "reference_photo": {
   "author": "Christian David",
   "confidence": "high",
@@ -122,7 +123,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/bethesda_terrace_fountain/render.png",
- "rendered_at": "2026-09-13T15:42:57Z",
+ "rendered_at": "2026-09-13T19:53:44Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -155,7 +156,7 @@
    "placed_pedestrians": 11,
    "placed_vehicles": 0,
    "reason": null,
-   "seconds": 97.84,
+   "seconds": 93.81,
    "snapshot": {
     "building_footprints_tested": 2814,
     "car_free_park_drives_matched": 46,
@@ -1038,7 +1039,7 @@
    }
   },
   "radius_m": 742.6651793355627,
-  "seconds": 144.96,
+  "seconds": 139.25,
   "structures": {
    "imported": [
     "t_-2_8"
@@ -1124,9 +1125,9 @@
   "radius_m": 742.6651793355627
  },
  "seconds": {
-  "render": 63.4,
-  "scene": 148.9,
-  "total": 212.3
+  "render": 62.2,
+  "scene": 142.8,
+  "total": 205.0
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 4.3 m above its ground",
@@ -1176,17 +1177,17 @@
   "origin_distance_m": 51.4,
   "plan_extent": {
    "across_bearing_deg": 20.4,
-   "axis_narrow_m": 102.5,
-   "axis_width_m": 131.4,
    "is_tile_mesh": false,
    "model": "lm_b_bethesda_terrace",
-   "narrow_m": 153.6,
-   "note": "`part_width_m` is the box of lm_b_bethesda_terrace.2 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 27 part(s) of lm_b_bethesda_terrace, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
+   "model_axis_narrow_m": 102.5,
+   "model_axis_width_m": 131.4,
+   "model_narrow_m": 153.6,
+   "model_width_m": 104.4,
+   "narrow_m": 3.2,
+   "note": "`width_m` and `narrow_m` are the box of lm_b_bethesda_terrace.2 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 27 part(s) of lm_b_bethesda_terrace, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_b_bethesda_terrace.2",
-   "part_narrow_m": 3.2,
-   "part_width_m": 1.4,
    "parts": 27,
-   "width_m": 104.4
+   "width_m": 1.4
   }
  },
  "sun": {
