@@ -4,7 +4,7 @@
 
 **Reference** — File:Bethesda Fountain and the Lake, Central Park, Manhattan, New York.jpg by Christian David, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), taken 2026-04-18 08:04:45, 1920x1280. [Commons page](https://commons.wikimedia.org/wiki/File:Bethesda_Fountain_and_the_Lake,_Central_Park,_Manhattan,_New_York.jpg) — the photograph's own view direction is derived from the image at **high** confidence.
 
-**Camera** — 40.773882, -73.971046 (NYC_TM -1777, 8205) at z 22.8 m NAVD88 | azimuth 20.4°, pitch +2.4° | 28 mm on 36 mm (65.5° horizontal) | 1280x854. The camera stands on **this photograph's own EXIF GPS**, 42.7 m from the item's recorded viewpoint, and was **not moved**. It was, however, **raised onto the terrace's upper deck**: the eye point first sat **1.83 m under** `verify_pavement`, the paved upper level the viewpoint note names at 21.19 m NAVD88, so it was lifted to stand on the surface actually drawn under it at **22.79 m NAVD88**. The view azimuth is clear for 50 m, the nearest built thing in the frame is `lm_b_bethesda_terrace.16` 25.3 m away, and no simulated agent stands within 60 m.
+**Camera** — 40.773882, -73.971046 (NYC_TM -1777, 8205) at z 22.8 m NAVD88 | azimuth 20.4°, pitch +2.4° | 28 mm on 36 mm (65.5° horizontal) | 1280x854. The camera stands on **this photograph's own EXIF GPS**, 42.7 m from the item's recorded viewpoint, and was **not moved**. It was, however, **raised onto the terrace's upper deck**: the eye point first sat **1.83 m under** `verify_pavement`, the paved upper level the viewpoint note names at 21.19 m NAVD88, so it was lifted to stand on the surface actually drawn under it at **22.79 m NAVD88**. The view azimuth is clear for 50 m, the nearest built thing in the frame is `lm_b_bethesda_terrace.16` 25.3 m away, and the probe found **no simulated agent on its rays across the frame** within 60 m. That is not the same as an empty 60 m disc, and this assessment said it was: the probe is seven bearings by five elevations across the frame's own half-angles, the scene places **11** pedestrians over a 200 m radius, and a crowd that thin goes through the gaps between 35 rays. The record's own sentence used to make the wider claim too, and no longer does (**DEVIATIONS J120**).
 
 **Sun** — azimuth 92.9°, elevation 20.3° at 2026-04-18T08:04:45−04:00, from the photograph's own **EXIF DateTimeOriginal**; 657.2 W/m² direct normal, sky at strength 0.0404, Filmic, **+0.83 stops** — and those stops are **measured**, not assumed: the linear frame's median luminance of 0.10121 placed at middle grey (J83). The physical rule would have given 1.1 stops. Both the instant and the position are the photograph's own.
 
@@ -69,24 +69,25 @@ was rewritten, and the evidence for leaving it is stronger than a re-reading: di
 against the committed one field by field, **every measured value is identical**, and the frame it replaced is reproduced **pixel for pixel**: `render.png`'s decoded image is identical, and the only bytes that differ are the five `tEXt` chunks in which Blender records the render date and its own timings. `sheet.png` is byte-identical. What
 moved is the wall clock:
 
-`scene.agents.seconds` 97.84 -> 93.81,
-`scene.seconds` 144.96 -> 139.25,
-`seconds.render` 63.4 -> 62.2,
-`seconds.scene` 148.9 -> 142.8,
-`seconds.total` 212.3 -> 205.0.
-The other change is the plan-extent field names, where the object's box moved from
-`part_width_m`/`part_narrow_m` to `width_m`/`narrow_m` and the model's from `width_m`/`narrow_m` to
-`model_*` (no figure quoted above is a field name).
+`scene.agents.seconds` 93.81 -> 94.58,
+`scene.seconds` 139.25 -> 140.31,
+`seconds.render` 62.2 -> 80.3,
+`seconds.scene` 142.8 -> 143.8,
+`seconds.total` 205.0 -> 224.1.
+The other change is the wording of the clearance note, where J120 replaced two fallbacks that
+claimed an empty disc with sentences that say what the probe measured -- rays across the frame.
+Every other field of the clearance reading is unchanged, which is what makes this a rewording of
+the same measurement rather than a different one.
 
 
 ## Measured for this assessment
 
-The wall-clock figures in the table are the **previous** render's, quoted so that "every measured value is identical" is a comparison a reader can check rather than a claim. They were read from this sheet's own `render.json` at commit `ca6033d`, its last state before the pass restarted.
+The wall-clock figures in the table below are the **previous** render's, quoted so that "every measured value is identical" is a comparison a reader can check rather than a claim. They were read from this sheet's own `render.json` at commit `33da07d`, its last state before the pass restarted.
 
 | figure | where it comes from |
 |---|---|
-| 97.84 | `scene.agents.seconds` in the previous record; the re-render took 93.81 s |
-| 144.96 | `scene.seconds` in the previous record; the re-render took 139.25 s |
-| 63.4 | `seconds.render` in the previous record; the re-render took 62.2 s |
-| 148.9 | `seconds.scene` in the previous record; the re-render took 142.8 s |
-| 212.3 | `seconds.total` in the previous record; the re-render took 205.0 s |
+| 93.81 | `scene.agents.seconds` in the previous record; the re-render took 94.58 s |
+| 139.25 | `scene.seconds` in the previous record; the re-render took 140.31 s |
+| 62.2 | `seconds.render` in the previous record; the re-render took 80.3 s |
+| 142.8 | `seconds.scene` in the previous record; the re-render took 143.8 s |
+| 205.0 | `seconds.total` in the previous record; the re-render took 224.1 s |
