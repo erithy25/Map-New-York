@@ -56,3 +56,35 @@
 | 1,174 trees species-substituted, 15 impostor cards dropped | no modelled species matched; the nearest by size and taxon stands in | data |
 | the flag is the kit's flag | one flagpole; the asset is chosen by rule because no source says what flies there | data, **DEVIATIONS J58** |
 | every agent at LOD2 | the LOD selector keys off distance and nothing in frame is near enough for LOD0 | performance |
+
+## Re-read against the re-rendered record
+
+This sheet was rendered again on the v17 pass's restart, to carry the `record_shape` stamp that
+tells a reader which generation of the renderer wrote a record (**DEVIATIONS J119**). Nothing above
+was rewritten, and the evidence for leaving it is stronger than a re-reading: diffing the new record
+against the committed one field by field, **every measured value is identical**, and the frame it replaced is reproduced **pixel for pixel**: `render.png`'s decoded image is identical, and the only bytes that differ are the five `tEXt` chunks in which Blender records the render date and its own timings. `sheet.png` is byte-identical. What
+moved is the wall clock:
+
+`scene.agents.seconds` 493.43 -> 553.16,
+`scene.seconds` 620.08 -> 673.5,
+`seconds.render` 115.6 -> 136.4,
+`seconds.scene` 623.3 -> 676.8,
+`seconds.total` 738.9 -> 813.2.
+The other change is the agent snapshot's provenance: the previous render simulated the crowd and
+this one read the same snapshot back from the cache, which the diff proves rather than assumes --
+every agent count in the record is unchanged, or that note would not be the only field beside the
+clock that moved (`simulated (already built)` to
+`cached 15030_7011_14_0_b99e22c6e0d5c6e0_1788868452.json`).
+
+
+## Measured for this assessment
+
+The wall-clock figures in the table below are the **previous** render's, quoted so that "every measured value is identical" is a comparison a reader can check rather than a claim. They were read from this sheet's own `render.json` at commit `c05c169`, its last state before the pass restarted.
+
+| figure | where it comes from |
+|---|---|
+| 493.43 | `scene.agents.seconds` in the previous record; the re-render took 553.16 s |
+| 620.08 | `scene.seconds` in the previous record; the re-render took 673.5 s |
+| 115.6 | `seconds.render` in the previous record; the re-render took 136.4 s |
+| 623.3 | `seconds.scene` in the previous record; the re-render took 676.8 s |
+| 738.9 | `seconds.total` in the previous record; the re-render took 813.2 s |
