@@ -118,6 +118,7 @@
  "name": "Lower Manhattan drive-through: Stone Street",
  "night": false,
  "pitch_reason": "level optical axis (the reference names no subject to aim at)",
+ "record_shape": 1,
  "reference_photo": {
   "author": "Kidfly182",
   "confidence": "medium",
@@ -132,7 +133,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_lower_manhattan_stone_st/render.png",
- "rendered_at": "2026-09-13T14:25:07Z",
+ "rendered_at": "2026-09-13T20:51:24Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -183,7 +184,7 @@
    "placed_pedestrians": 380,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 485.89,
+   "seconds": 543.68,
    "snapshot": {
     "building_footprints_tested": 430,
     "density_lane_km": 28.886,
@@ -223,7 +224,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 692
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -5130_457_13_0_7a9f5509044aac37_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 1083922,
    "vehicle_lods": {
@@ -1192,7 +1193,7 @@
    }
   },
   "radius_m": 740.2236867562106,
-  "seconds": 637.99,
+  "seconds": 680.61,
   "structures": {
    "imported": [
     "t_-5_-1",
@@ -1267,9 +1268,9 @@
   "radius_m": 740.2236867562106
  },
  "seconds": {
-  "render": 173.9,
-  "scene": 665.1,
-  "total": 839.0
+  "render": 222.4,
+  "scene": 706.2,
+  "total": 928.6
  },
  "sightline": {
   "subject_note": "the item names no point subject",
