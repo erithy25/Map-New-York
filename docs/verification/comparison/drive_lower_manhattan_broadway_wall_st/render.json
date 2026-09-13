@@ -74,9 +74,9 @@
   "view_m": 59.3
  },
  "frame": {
-  "mean": 0.4624,
+  "mean": 0.4622,
   "reason": null,
-  "sd": 0.1447,
+  "sd": 0.1446,
   "usable": true
  },
  "frame_retry": null,
@@ -86,15 +86,15 @@
  "lighting": {
   "background_strength": 0.030480163171887398,
   "development": {
-   "linear_p05": 0.005622,
-   "linear_p50": 0.071176,
-   "linear_p95": 0.17735,
-   "log_average_linear": 0.053874,
-   "median_linear": 0.071176,
+   "linear_p05": 0.005615,
+   "linear_p50": 0.071195,
+   "linear_p95": 0.177361,
+   "log_average_linear": 0.053876,
+   "median_linear": 0.071195,
    "metered": true,
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
-   "stops": 1.339,
-   "stops_unclamped": 1.339,
+   "stops": 1.338,
+   "stops_unclamped": 1.338,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
@@ -131,11 +131,18 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_lower_manhattan_broadway_wall_st/render.png",
- "rendered_at": "2026-09-09T16:11:24Z",
+ "rendered_at": "2026-09-13T14:16:16Z",
  "resolution_note": "1112x980; the reference photograph is 1920x1693 (1.13:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
+   "camera_clear_ped_basis": [
+    1.8,
+    38.0,
+    0.4
+   ],
+   "camera_clear_ped_m": 6.5,
+   "camera_clear_vehicle_m": 6.0,
    "caption": "Agents: 89 vehicles within 320 m and 242 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 493 vehicles and 5659 people over the whole simulated ring, of which 563 and 2999 were simulated; 3231 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "dropped": {
     "pedestrian_in_the_carriageway_not_crossing": 242,
@@ -155,7 +162,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 579360,
+   "pedestrian_triangles": 579344,
    "per_class": {
     "black_car": 3,
     "boro_taxi": 10,
@@ -169,7 +176,7 @@
    "placed_pedestrians": 242,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 254.67,
+   "seconds": 476.69,
    "snapshot": {
     "building_footprints_tested": 1416,
     "density_lane_km": 30.259,
@@ -209,9 +216,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 563
    },
-   "snapshot_note": "cached -5210_871_13_2_455f589c260ce148_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1084715,
+   "triangles": 1084699,
    "vehicle_lods": {
     "LOD2": 89
    },
@@ -280,7 +287,7 @@
    871.11
   ],
   "kit": {
-   "capped": "triangle budget 949929",
+   "capped": "triangle budget 949947",
    "per_category": {
     "bulkhead": 7,
     "cornice": 12,
@@ -1083,21 +1090,22 @@
   },
   "props": {
    "canopy": {
-    "billboards": 138,
+    "billboards": 152,
     "card_missing_drawn_lod0": 0,
-    "dropped_for_budget": 4277,
+    "dropped_for_budget": 4263,
     "lod0": 36,
     "near_radius_m": 120.0,
     "procedural_dataset_id": "rule:woodland_canopy",
     "procedural_stems": 0,
     "radius_m": 776.1765816782907,
     "rows_beyond_prop_radius": 4108,
-    "triangles": 828,
-    "yaw_by_rule": 174,
+    "triangles": 912,
+    "yaw_by_rule": 188,
     "yaw_rule": "a tree's yaw is not in any source: it is drawn from a hash of the stem's own position (SplitMix64 over the metre-rounded x, y), uniform over 360 deg, so the same tree is drawn the same way in every render and no two neighbours share a silhouette; a rule, not a measurement"
    },
    "capped": "triangle budget 1095576",
-   "dropped_for_budget": 4934,
+   "dropped_for_budget": 4913,
+   "dropped_on_suppressed_building": 14,
    "impostor_cards_dropped": 5,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -1106,40 +1114,40 @@
    "leaf_off": false,
    "per_dataset": {
     "bus_stop_shelters": 1,
-    "citibike_gbfs_station_status": 87,
-    "citibike_gbfs_stations": 216,
+    "citibike_gbfs_station_status": 88,
+    "citibike_gbfs_stations": 217,
     "gtfs_bus": 14,
     "hydrants": 61,
     "newsstands": 4,
-    "osm_newyork_pbf": 350,
-    "plan_cooling_towers": 82,
+    "osm_newyork_pbf": 362,
+    "plan_cooling_towers": 71,
     "plan_railroad_structure": 68,
     "rule:lamp_30_40m_alt": 5,
     "rule:manhole_40m": 89,
     "rule:steam_vent_400m_manhattan_below_96": 3,
-    "street_trees_2015": 11,
+    "street_trees_2015": 15,
     "subway_entrances": 27
    },
    "per_kind": {
-    "bench": 56,
+    "bench": 57,
     "bike_rack": 14,
     "bus_shelter": 1,
     "bus_stop_sign": 14,
-    "citibike_dock": 303,
-    "cooling_tower": 82,
+    "citibike_dock": 305,
+    "cooling_tower": 71,
     "flagpole": 4,
     "hydrant": 61,
     "manhole": 89,
     "newsstand": 4,
     "steam_vent": 3,
-    "street_lamp": 99,
+    "street_lamp": 100,
     "subway_emergency_exit": 1,
     "subway_entrance": 27,
     "subway_vent_grate": 67,
-    "tree": 174,
+    "tree": 188,
     "waste_basket": 19
    },
-   "placed": 1018,
+   "placed": 1025,
    "radius_m": 306.17658167829075,
    "rows_in_range": 6174,
    "tiles_missing": [],
@@ -1149,11 +1157,11 @@
     "t_-6_0",
     "t_-6_1"
    ],
-   "tree_instances_scaled": 173,
-   "tree_mean_scale": 0.964,
+   "tree_instances_scaled": 187,
+   "tree_mean_scale": 0.954,
    "tree_scale_out_of_band": 1,
-   "tree_species_substituted": 163,
-   "triangles": 1095574,
+   "tree_species_substituted": 173,
+   "triangles": 1095572,
    "unmapped_kinds": {
     "artwork": 11,
     "drinking_fountain": 4,
@@ -1162,7 +1170,7 @@
    }
   },
   "radius_m": 776.1765816782907,
-  "seconds": 314.21,
+  "seconds": 586.64,
   "structures": {
    "imported": [
     "t_-5_0",
@@ -1225,7 +1233,7 @@
    "z_max_m": 13.51,
    "z_min_m": -4.11
   },
-  "triangles": 4500137
+  "triangles": 4500119
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1235,9 +1243,9 @@
   "radius_m": 776.1765816782907
  },
  "seconds": {
-  "render": 126.0,
-  "scene": 315.9,
-  "total": 442.0
+  "render": 132.6,
+  "scene": 590.7,
+  "total": 723.3
  },
  "sightline": {
   "subject_note": "the item names no point subject",

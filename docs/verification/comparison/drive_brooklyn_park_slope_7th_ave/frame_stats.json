@@ -1,19 +1,19 @@
 {
  "slug": "drive_brooklyn_park_slope_7th_ave",
- "rendered_at": "2026-09-09T16:14:10Z",
+ "rendered_at": "2026-09-13T14:11:03Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1054,
   "height": 1036,
-  "mean": 0.6079,
-  "sd": 0.2347,
-  "p05": 0.2725,
-  "p50": 0.4981,
-  "p95": 0.9444,
-  "chroma": 0.0717,
-  "exposure_offset_stops": 0.238
+  "mean": 0.6038,
+  "sd": 0.2309,
+  "p05": 0.2516,
+  "p50": 0.4983,
+  "p95": 0.9523,
+  "chroma": 0.074,
+  "exposure_offset_stops": 0.239
  },
  "reference": {
   "width": 1920,
@@ -27,11 +27,11 @@
   "exposure_offset_stops": 0.099
  },
  "render_over_reference": {
-  "mean": 1.267,
-  "sd": 0.802,
+  "mean": 1.258,
+  "sd": 0.789,
   "p50": 1.046,
-  "chroma": 0.485,
-  "exposure_offset_stops": 0.139,
+  "chroma": 0.501,
+  "exposure_offset_stops": 0.14,
   "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

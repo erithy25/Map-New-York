@@ -61,13 +61,13 @@
   "nearest_agent_m": null,
   "nearest_agent_measured": "after the cull over the observer",
   "nearest_agent_probe_m": 20.0,
-  "nearest_obstruction": "t_-6_0_red_brick",
+  "nearest_obstruction": "kit_1604_563",
   "nearest_obstruction_at_deg": [
-   -27.2,
+   -18.1,
    0.0
   ],
-  "nearest_obstruction_m": 11.2,
-  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 11 m ahead, less than the 12 m this frame needs to show its subject; the camera was moved 7 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there, and the nearest built thing in the frame is t_-6_0_red_brick 11.2 m away at -27 deg yaw, +0 deg pitch, and no simulated agent stands within 20 m of it",
+  "nearest_obstruction_m": 10.5,
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 11 m ahead, less than the 12 m this frame needs to show its subject; the camera was moved 7 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there, and the nearest built thing in the frame is kit_1604_563 10.5 m away at -18 deg yaw, +0 deg pitch, and no simulated agent stands within 20 m of it",
   "offset_m": 7.2,
   "reason": "boxed in: the view azimuth is closed off 11 m ahead, less than the 12 m this frame needs to show its subject",
   "rule": "pavement snap with a clear frame",
@@ -75,9 +75,9 @@
   "view_m": 60.0
  },
  "frame": {
-  "mean": 0.437,
+  "mean": 0.4368,
   "reason": null,
-  "sd": 0.1642,
+  "sd": 0.1641,
   "usable": true
  },
  "frame_retry": null,
@@ -87,15 +87,15 @@
  "lighting": {
   "background_strength": 0.03113112598657608,
   "development": {
-   "linear_p05": 0.001258,
-   "linear_p50": 0.014763,
-   "linear_p95": 0.027511,
-   "log_average_linear": 0.009695,
-   "median_linear": 0.014763,
+   "linear_p05": 0.001259,
+   "linear_p50": 0.014769,
+   "linear_p95": 0.027489,
+   "log_average_linear": 0.009692,
+   "median_linear": 0.014769,
    "metered": true,
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
-   "stops": 3.608,
-   "stops_unclamped": 3.608,
+   "stops": 3.607,
+   "stops_unclamped": 3.607,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
@@ -132,11 +132,18 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_lower_manhattan_stone_st/render.png",
- "rendered_at": "2026-09-09T16:20:50Z",
+ "rendered_at": "2026-09-13T14:25:07Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
+   "camera_clear_ped_basis": [
+    1.8,
+    38.0,
+    0.4
+   ],
+   "camera_clear_ped_m": 6.5,
+   "camera_clear_vehicle_m": 6.0,
    "caption": "Agents: 89 vehicles within 320 m and 381 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 644 vehicles and 4472 people over the whole simulated ring, of which 692 and 2999 were simulated; 3221 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "culled_after_camera_move": {
     "pedestrian_over_the_observer": 1,
@@ -161,7 +168,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 578117,
+   "pedestrian_triangles": 578072,
    "per_class": {
     "black_car": 4,
     "boro_taxi": 6,
@@ -176,7 +183,7 @@
    "placed_pedestrians": 380,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 302.64,
+   "seconds": 485.89,
    "snapshot": {
     "building_footprints_tested": 430,
     "density_lane_km": 28.886,
@@ -191,7 +198,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.25,
+     "load_seconds": 2.2,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -216,9 +223,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 692
    },
-   "snapshot_note": "cached -5130_457_13_0_7a9f5509044aac37_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1083967,
+   "triangles": 1083922,
    "vehicle_lods": {
     "LOD2": 89
    },
@@ -305,7 +312,7 @@
    457.07
   ],
   "kit": {
-   "capped": "triangle budget 1004073",
+   "capped": "triangle budget 1004118",
    "per_category": {
     "billboard": 1,
     "bulkhead": 20,
@@ -320,10 +327,10 @@
     "string_course": 8,
     "vegetation": 5,
     "water_tower": 3,
-    "window": 4786,
+    "window": 4787,
     "window_accessory": 93
    },
-   "placed": 5343,
+   "placed": 5344,
    "radius_m": 140.2236867562105,
    "records_in_range": 22332,
    "stale_registry_ids": {},
@@ -333,7 +340,7 @@
     "t_-5_0",
     "t_-6_0"
    ],
-   "triangles": 1004091,
+   "triangles": 1004363,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -1118,6 +1125,7 @@
    },
    "capped": "triangle budget 1124326",
    "dropped_for_budget": 2857,
+   "dropped_on_suppressed_building": 0,
    "impostor_cards_dropped": 3,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -1184,7 +1192,7 @@
    }
   },
   "radius_m": 740.2236867562106,
-  "seconds": 408.11,
+  "seconds": 637.99,
   "structures": {
    "imported": [
     "t_-5_-1",
@@ -1249,7 +1257,7 @@
    "z_max_m": 12.91,
    "z_min_m": -4.3
   },
-  "triangles": 4500018
+  "triangles": 4500245
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1259,9 +1267,9 @@
   "radius_m": 740.2236867562106
  },
  "seconds": {
-  "render": 142.0,
-  "scene": 419.0,
-  "total": 561.0
+  "render": 173.9,
+  "scene": 665.1,
+  "total": 839.0
  },
  "sightline": {
   "subject_note": "the item names no point subject",

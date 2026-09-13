@@ -1,19 +1,19 @@
 {
  "slug": "drive_midtown_sixth_ave_45th",
- "rendered_at": "2026-09-09T16:22:52Z",
+ "rendered_at": "2026-09-13T14:27:54Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 854,
-  "mean": 0.5053,
-  "sd": 0.271,
-  "p05": 0.1253,
-  "p50": 0.4837,
-  "p95": 0.9846,
-  "chroma": 0.0876,
-  "exposure_offset_stops": 0.147
+  "mean": 0.5238,
+  "sd": 0.2785,
+  "p05": 0.1396,
+  "p50": 0.4985,
+  "p95": 0.9602,
+  "chroma": 0.0594,
+  "exposure_offset_stops": 0.24
  },
  "reference": {
   "width": 1920,
@@ -27,11 +27,11 @@
   "exposure_offset_stops": -0.189
  },
  "render_over_reference": {
-  "mean": 1.118,
-  "sd": 1.187,
-  "p50": 1.115,
-  "chroma": 1.613,
-  "exposure_offset_stops": 0.336,
+  "mean": 1.159,
+  "sd": 1.22,
+  "p50": 1.149,
+  "chroma": 1.094,
+  "exposure_offset_stops": 0.429,
   "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

@@ -1,18 +1,18 @@
 {
  "slug": "drive_lower_manhattan_broadway_wall_st",
- "rendered_at": "2026-09-09T16:11:24Z",
+ "rendered_at": "2026-09-13T14:16:16Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1112,
   "height": 980,
-  "mean": 0.4624,
+  "mean": 0.4622,
   "sd": 0.1442,
-  "p05": 0.1313,
+  "p05": 0.1308,
   "p50": 0.5008,
   "p95": 0.6735,
-  "chroma": 0.0457,
+  "chroma": 0.0458,
   "exposure_offset_stops": 0.255
  },
  "reference": {
@@ -30,7 +30,7 @@
   "mean": 0.944,
   "sd": 0.528,
   "p50": 1.009,
-  "chroma": 0.408,
+  "chroma": 0.409,
   "exposure_offset_stops": 0.03,
   "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
