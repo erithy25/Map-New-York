@@ -72,3 +72,33 @@
 | most props and part of the kit unplaced; 10 cards dropped; 16 props with no asset; 185 of 276 trees substituted | triangle budgets 1,079,588 and 922,816; no asset for 16 kinds, left unplaced; nearest species by size and taxon | performance + data |
 | agents dropped in their hundreds | placement rules, each declared in the record | performance + stated choice |
 | the sidewalk shed on the other side | permit data at the render's date against the photograph's November 2024 | data |
+
+## Re-read against the re-rendered record
+
+This sheet was rendered again on the v17 pass's restart, to carry the `record_shape` stamp that
+tells a reader which generation of the renderer wrote a record (**DEVIATIONS J119**). Nothing above
+was rewritten, and the evidence for leaving it is stronger than a re-reading: diffing the new record
+against the committed one field by field, **every measured value is identical**, and the frame it replaced is reproduced **pixel for pixel**: `render.png`'s decoded image is identical, and the only bytes that differ are the five `tEXt` chunks in which Blender records the render date and its own timings. `sheet.png` is byte-identical. What
+moved is the wall clock:
+
+`scene.agents.seconds` 493.87 -> 515.73,
+`scene.seconds` 621.34 -> 641.97,
+`seconds.render` 155.7 -> 210.8,
+`seconds.scene` 632.2 -> 652.8,
+`seconds.total` 787.9 -> 863.6.
+The other change is the plan-extent field names, where the object's box moved from
+`part_width_m`/`part_narrow_m` to `width_m`/`narrow_m` and the model's from `width_m`/`narrow_m` to
+`model_*` (no figure quoted above is a field name).
+
+
+## Measured for this assessment
+
+The wall-clock figures in the table below are the **previous** render's, quoted so that "every measured value is identical" is a comparison a reader can check rather than a claim. They were read from this sheet's own `render.json` at commit `ca6033d`, its last state before the pass restarted.
+
+| figure | where it comes from |
+|---|---|
+| 493.87 | `scene.agents.seconds` in the previous record; the re-render took 515.73 s |
+| 621.34 | `scene.seconds` in the previous record; the re-render took 641.97 s |
+| 155.7 | `seconds.render` in the previous record; the re-render took 210.8 s |
+| 632.2 | `seconds.scene` in the previous record; the re-render took 652.8 s |
+| 787.9 | `seconds.total` in the previous record; the re-render took 863.6 s |
