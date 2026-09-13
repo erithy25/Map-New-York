@@ -1,6 +1,6 @@
 {
  "slug": "drive_bronx_grand_concourse",
- "rendered_at": "2026-09-13T13:50:18Z",
+ "rendered_at": "2026-09-13T20:13:02Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
