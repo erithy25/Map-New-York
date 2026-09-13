@@ -12,7 +12,7 @@
 
 **Put the two halves side by side and they are the same architecture.** Red-brown brick slabs of a dozen-odd storeys, punched windows in unbroken vertical strips, a flat parapet, no cornice, no string course, no ornament of any kind, standing apart from each other across open ground with bare trees between them and parking at their feet. That is what a tower-in-the-park campus is, and the render draws it without having to be told: the towers are ordinary tiled building shells from the same 10 building tiles as everything else, and the reason they read correctly is that NYCHA's architecture is the one kind this build's massing-plus-window-grid can represent exactly. **This is the closest agreement on fabric of any streetscape sheet read this round.**
 
-**The one difference on the elevation is the air-conditioners.** A third of the photograph's windows carry a through-window unit, and there is no window air-conditioner anywhere in this build's kit — its `hvac` category is rooftop plant, of which 15 pieces are placed here. On a NYCHA elevation that is not a detail; it is the pattern that makes the facade look inhabited.
+**The air-conditioners are modelled, placed, and two pixels wide.** A third of the photograph's windows carry a through-window unit, and this build has five of them: `acc_ac_window_small`, `_medium` and `_large`, `acc_ac_bracket` and `acc_through_wall_ac_unit`, all in the kit's `window_accessory` category. They are placed in bulk on this tile — **6,490 of its 6,519 window accessories are air-conditioners** — and this scene drew **417** of them. What defeats them here is range: the subject stands 355 m from the lens and `acc_ac_window_medium` is 0.568 m across, so it subtends **0.092°**, which on a 904-pixel frame of 42.163° is **two pixels**. The pattern that makes the photograph's elevation look inhabited is in the model and below this sheet's resolution.
 
 **The height probe measured a lawn, and it was right to.** `subject.height_probe.object` is **`t_-5_1_park_recreation_grass`** and the record says what follows: *"the highest built thing at the subject's coordinate is `t_-5_1_park_recreation_grass`, 0.5 m above the ground there -- below the 2 m at which a subject has a height worth aiming or framing by, so the lens was not widened to contain it"*, and *"no sightline"* was tested. Only **21 of 43** probe rays found built fabric at all. The coordinate of a tower-in-the-park campus **is** the park: the point that names the Alfred E. Smith Houses falls on the recreation grass between its slabs, which is a true statement about the place and leaves the sheet with no height, no fan and no visible fraction for fifteen-storey buildings that fill its frame. This is the Unisphere's fault in a new costume — there the probe found the fountain pool, here the campus lawn — and on this sheet it is arguably the correct answer to the wrong question.
 
@@ -40,10 +40,10 @@
 * **Structures substantial and named**: 111,608 triangles over 7 tiles.
 * **Nothing under the terrain within 150 m**: 0 of 123 samples, tightest clearance +0.113 m.
 * **6 antennas** on the roofs, which is where NYCHA puts them.
+* **417 window air-conditioners placed**, from a catalogue of five, though at 355 m each is two pixels wide.
 
 ## What does not match
 
-* **No window air-conditioners**, which is a third of the reference's window openings and most of its facade texture.
 * **The subject probe found a lawn** 0.5 m tall, so this sheet publishes no height, no fan and no visible fraction for the buildings that fill it.
 * **Chroma 1.536 and contrast 0.735**: a clear sky and a 27.8° Sun against a clipped-white January overcast.
 * **0.544 stops brighter** with a p50 ratio of 1.192.
@@ -58,7 +58,8 @@
 
 | figure | where it comes from |
 |---|---|
-| there is no window air-conditioner in the kit catalogue | the categories of `data/processed/kit_catalog.json`, whose `hvac` entries are rooftop plant |
+| the kit has five window air-conditioner assets and 6,490 of this tile's 6,519 window accessories are one of them | the `window_accessory` entries of `data/processed/kit_catalog.json`, counted against the `kit_id` column of `data/processed/tiles/t_-5_1/kit_placements.bin` |
+| `acc_ac_window_medium` is 0.568 m across and subtends 0.092 deg at 355 m, two pixels on a 904-pixel frame of 42.163 deg | accessor bounds of `blender_out/kit/facade/acc_ac_window_medium.glb` against the record's own subject distance and frame |
 | 3,101 kit pieces | the sum of the record's `scene.kit.per_category`, whose `total` is null |
 | 264 of 277 trees substituted is 95 per cent, against a pass-wide 39.19 per cent | the record's `props.tree_species_substituted` and its tree count, with the pass-wide figure from DEVIATIONS J108 |
 | 88 per cent of props dropped is among the largest fractions in the pass | the `props.placed` and `dropped_for_budget` of every record in the pass, ranked |
@@ -69,7 +70,6 @@
 
 | gap | cause | class |
 |---|---|---|
-| no window air-conditioners | the kit's `hvac` category is rooftop plant only; no window unit exists in the catalogue | **content — open, and the cheapest visible improvement to any residential elevation in this build** |
 | the probe measured a lawn | a campus's subject coordinate falls on the open space its towers stand in, and the probe takes whatever is highest at that point; below 2 m it declines to frame, aim or test a sightline | **verification — open, and the correct answer to the wrong question** |
 | chroma 1.536, contrast 0.735 | a clear procedural sky against a clipped-white overcast; nothing in this build reads a historical sky | reference — no source exists |
 | 88 per cent of props dropped | a 920,051-triangle prop cap against a campus whose open ground carries 4,641 tree rows | performance — declared |

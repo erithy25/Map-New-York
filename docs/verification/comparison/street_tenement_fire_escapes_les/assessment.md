@@ -16,7 +16,7 @@
 
 **The water tower is modelled and there are eleven of them.** The photograph's most memorable object is the rooftop tank on its frame; the kit places `water_tower` eleven times on this block, so the type is there even where this particular frame does not put one against the sky.
 
-**The window air-conditioner is not.** The kit's `hvac` category is rooftop plant, 17 pieces here, and there is no window unit anywhere in the catalogue — on a street where they are in every third window.
+**And the window air-conditioner is modelled too.** The kit carries five of them in its `window_accessory` category — three sizes of sash unit, a bracket and a through-wall sleeve — and **17,858 of this tile's 17,891 window accessories are one of them**. This scene drew **352**. At the 19.8 m the nearest building stands from the lens, `acc_ac_window_medium` is 0.568 m across and subtends **1.644°**, or **37 pixels**, so where they fall in frame they are plainly visible.
 
 **Tone agrees almost exactly and colour does not.** The exposure gap is **-0.061 stops** and the medians are within two per cent (p50 **0.981**), which for a frame developed 2.396 stops is a good result. Contrast is **0.878** and chroma **1.305**: the render carries a third more colour than the photograph, and the reason is in both pictures — the reference is one tan wall against a white sky, and the render has green awnings, red brick, a bare tree, and an apple-green car.
 
@@ -37,6 +37,7 @@
 * **Tone agrees to 0.061 stops** with medians within two per cent.
 * **The building type is right**: four- and five-storey brick tenements with retail at grade, cornices, quoins and string courses over 4 complete building tiles.
 * **The water tower type is modelled**, eleven times on this block.
+* **352 window air-conditioners placed**, 37 pixels wide at the nearest building.
 * **The trees are bare**, correct for 24 March.
 * **The pavement is complete**: 33,780 polygons, none dropped, with a full continental crosswalk.
 * **Three of 157 near park-ground samples sit under the terrain**, an under-fraction of 0.0191.
@@ -47,7 +48,6 @@
 * **The reference has no fire escape in it**, on the sheet named for them.
 * **No cartouches, no moulded window heads, no bracketed enrichment**: the kit has a cornice and a string course and no ornament between them.
 * **Nothing is old.** No peeling paint, no patched brick, no soot, no repair — the reference's subject is largely its own age.
-* **No window air-conditioners**: the `hvac` kit is rooftop plant and no window unit exists in the catalogue.
 * **Chroma 1.305**: the render carries a third more colour than a photograph of one tan wall.
 * **Two boro taxis below 96th Street** (J105), and the greener of them is the brightest object in the frame.
 * **No truck, no van, no bus and no cyclist** among 69 vehicles.
@@ -62,7 +62,8 @@
 | the green car is a boro taxi and its substitution is recorded | the `boro_taxi` entry of the class table in `blender/verify/agents.py`, whose note reads "the fleet table names a RAV4 for the green Street Hail Livery and the only green SHL body exported is a Camry" |
 | 4,266 kit pieces placed of 13,729 in range leaves 9,463 dropped | the sum of the record's `scene.kit.per_category`, whose `total` is null, against `records_in_range` |
 | 1,156 props placed against 2,000 dropped is two thirds of what the scene had in range | the record's `props.placed` and `props.dropped_for_budget` |
-| there is no window air-conditioner in the kit catalogue | the categories of `data/processed/kit_catalog.json`, whose `hvac` entries are rooftop plant |
+| the kit has five window air-conditioner assets and 17,858 of this tile's 17,891 window accessories are one of them | the `window_accessory` entries of `data/processed/kit_catalog.json`, counted against the `kit_id` column of `data/processed/tiles/t_-4_2/kit_placements.bin` |
+| `acc_ac_window_medium` is 0.568 m across and subtends 1.644 deg at 19.8 m, 37 pixels on a 1208-pixel frame of 54.432 deg | accessor bounds of `blender_out/kit/facade/acc_ac_window_medium.glb` against the record's own clearance distance and frame |
 | 24 March is inside the leaf-off window | the `leaf_off` rule in `blender/verify/render_sheets.py` (J97) |
 
 ## Cause of each gap
@@ -72,7 +73,6 @@
 | the reference has no fire escape | nothing tests what a photograph is a picture of, and this item names no subject (J71); the render happens to answer the brief better than its own reference | **verification — open, and harmless here** |
 | no cartouches or moulded heads | the kit is assembled from facade classes and carries a cornice, a string course, a quoin and a window accessory; there is no ornament vocabulary below that | content — declared, and the limit of the kit |
 | nothing is weathered | no wear, patina, soot or repair layer exists anywhere in this build | content — open, no source |
-| no window air-conditioners | the kit's `hvac` category is rooftop plant only | **content — open, and a cheap addition** |
 | chroma 1.305 | one tan wall under a white sky against a street with awnings, brick and a green cab | reference — the pairing, not the render |
 | two boro taxis below 96th Street | `TrafficSim::sampleClass` splits the taxi share 70/30 with no geography (J105) | **runtime — open** |
 | no truck, van, bus or cyclist among 69 vehicles | the class sampler's non-taxi remainder is 55 per cent sedan and 30 per cent SUV, so a 69-vehicle draw is mostly those two; cyclists are exported without a rider and dropped | **runtime — open** |
