@@ -74,7 +74,7 @@
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.4704,
+  "mean": 0.4702,
   "reason": null,
   "sd": 0.2201,
   "usable": true
@@ -86,15 +86,15 @@
  "lighting": {
   "background_strength": 0.03762444481253624,
   "development": {
-   "linear_p05": 0.001662,
-   "linear_p50": 0.028658,
-   "linear_p95": 0.394867,
-   "log_average_linear": 0.023425,
-   "median_linear": 0.028658,
+   "linear_p05": 0.001665,
+   "linear_p50": 0.028673,
+   "linear_p95": 0.394738,
+   "log_average_linear": 0.023415,
+   "median_linear": 0.028673,
    "metered": true,
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
-   "stops": 2.651,
-   "stops_unclamped": 2.651,
+   "stops": 2.65,
+   "stops_unclamped": 2.65,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
@@ -131,7 +131,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/fifth_ave_42nd_south/render.png",
- "rendered_at": "2026-09-09T16:52:12Z",
+ "rendered_at": "2026-09-13T15:10:47Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -162,7 +162,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 580308,
+   "pedestrian_triangles": 580309,
    "per_class": {
     "black_car": 9,
     "boro_taxi": 13,
@@ -175,7 +175,7 @@
    "placed_pedestrians": 258,
    "placed_vehicles": 53,
    "reason": null,
-   "seconds": 481.24,
+   "seconds": 775.16,
    "snapshot": {
     "building_footprints_tested": 1488,
     "density_lane_km": 29.352,
@@ -190,7 +190,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.07,
+     "load_seconds": 2.15,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -215,9 +215,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 1208
    },
-   "snapshot_note": "cached -2607_5942_13_1_9a9914bbb27b5989_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1083492,
+   "triangles": 1083493,
    "vehicle_lods": {
     "LOD1": 9,
     "LOD2": 44
@@ -305,7 +305,7 @@
    5942.12
   ],
   "kit": {
-   "capped": "triangle budget 972559",
+   "capped": "triangle budget 973446",
    "per_category": {
     "antenna": 2,
     "bulkhead": 7,
@@ -319,9 +319,9 @@
     "storefront_interior": 13,
     "string_course": 5,
     "water_tower": 2,
-    "window": 4468
+    "window": 4472
    },
-   "placed": 4629,
+   "placed": 4633,
    "radius_m": 180.10713884604135,
    "records_in_range": 34105,
    "stale_registry_ids": {},
@@ -331,7 +331,7 @@
     "t_-3_5",
     "t_-3_6"
    ],
-   "triangles": 972692,
+   "triangles": 973684,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -1036,6 +1036,7 @@
    },
    "capped": null,
    "dropped_for_budget": 0,
+   "dropped_on_suppressed_building": 3,
    "impostor_cards_dropped": 6,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -1051,7 +1052,7 @@
     "linknyc": 4,
     "newsstands": 6,
     "osm_newyork_pbf": 719,
-    "plan_cooling_towers": 170,
+    "plan_cooling_towers": 168,
     "plan_railroad_structure": 10,
     "rule:lamp_30_40m_alt": 92,
     "rule:manhole_40m": 110,
@@ -1065,7 +1066,7 @@
     "bus_shelter": 10,
     "bus_stop_sign": 27,
     "citibike_dock": 293,
-    "cooling_tower": 170,
+    "cooling_tower": 168,
     "flagpole": 17,
     "hydrant": 69,
     "linknyc": 4,
@@ -1079,7 +1080,7 @@
     "tree": 1573,
     "waste_basket": 12
    },
-   "placed": 2472,
+   "placed": 2470,
    "radius_m": 290.1071388460414,
    "rows_in_range": 2574,
    "tiles_missing": [],
@@ -1095,19 +1096,19 @@
    "tree_mean_scale": 0.927,
    "tree_scale_out_of_band": 2,
    "tree_species_substituted": 806,
-   "triangles": 999668,
+   "triangles": 998780,
    "unmapped_kinds": {
     "artwork": 7,
     "drinking_fountain": 2,
     "memorial": 6,
-    "parks_building": 4,
+    "parks_building": 3,
     "parks_comfort_station": 1,
     "rtpi_sign": 1,
     "vending_machine": 9
    }
   },
   "radius_m": 740.1071388460414,
-  "seconds": 559.04,
+  "seconds": 909.65,
   "structures": {
    "imported": [
     "t_-2_5",
@@ -1133,7 +1134,7 @@
    "z_max_m": 25.74,
    "z_min_m": 3.06
   },
-  "triangles": 4500133
+  "triangles": 4500238
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1143,9 +1144,9 @@
   "radius_m": 740.1071388460414
  },
  "seconds": {
-  "render": 169.9,
-  "scene": 562.0,
-  "total": 731.9
+  "render": 173.9,
+  "scene": 916.3,
+  "total": 1090.2
  },
  "sightline": {
   "subject_note": "the item names no point subject",

@@ -1,18 +1,18 @@
 {
  "slug": "fifth_ave_42nd_south",
- "rendered_at": "2026-09-09T16:52:12Z",
+ "rendered_at": "2026-09-13T15:10:47Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.4701,
-  "sd": 0.2199,
+  "mean": 0.47,
+  "sd": 0.22,
   "p05": 0.1047,
-  "p50": 0.4993,
-  "p95": 0.9086,
-  "chroma": 0.0613,
+  "p50": 0.4992,
+  "p95": 0.9083,
+  "chroma": 0.0612,
   "exposure_offset_stops": 0.245
  },
  "reference": {
@@ -28,9 +28,9 @@
  },
  "render_over_reference": {
   "mean": 1.083,
-  "sd": 0.85,
+  "sd": 0.851,
   "p50": 1.2,
-  "chroma": 0.713,
+  "chroma": 0.712,
   "exposure_offset_stops": 0.563,
   "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
