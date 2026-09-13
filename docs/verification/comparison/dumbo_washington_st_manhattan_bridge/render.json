@@ -65,7 +65,7 @@
    0.0
   ],
   "nearest_obstruction_m": 1.5,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_lamp_cobra_davit_1 1.5 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 150 m",
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_lamp_cobra_davit_1 1.5 m away, and the probe found no simulated agent on its rays across this frame within 60 m, and the view azimuth is clear for 150 m",
   "offset_m": 0.0,
   "sidestep": {
    "at_m": 5.5,
@@ -138,7 +138,7 @@
  "name": "Washington Street in DUMBO with the Manhattan Bridge",
  "night": false,
  "pitch_reason": "level optical axis (Manhattan Bridge Brooklyn tower is 221 m away and would need +12 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
- "record_shape": 1,
+ "record_shape": 2,
  "reference_photo": {
   "author": "David Kernan",
   "confidence": "high",
@@ -153,7 +153,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/dumbo_washington_st_manhattan_bridge/render.png",
- "rendered_at": "2026-09-13T21:21:54Z",
+ "rendered_at": "2026-09-13T22:57:08Z",
  "resolution_note": "784x1394; the reference photograph is 1920x3413 (0.56:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -198,7 +198,7 @@
    "placed_pedestrians": 376,
    "placed_vehicles": 85,
    "reason": null,
-   "seconds": 515.73,
+   "seconds": 420.31,
    "snapshot": {
     "building_footprints_tested": 1945,
     "density_lane_km": 32.566,
@@ -1160,7 +1160,7 @@
    }
   },
   "radius_m": 934.6424375215793,
-  "seconds": 641.97,
+  "seconds": 529.32,
   "structures": {
    "imported": [
     "t_-3_-1",
@@ -1253,9 +1253,9 @@
   "radius_m": 934.6424375215793
  },
  "seconds": {
-  "render": 210.8,
-  "scene": 652.8,
-  "total": 863.6
+  "render": 193.1,
+  "scene": 534.4,
+  "total": 727.5
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 53.7 m above its ground",
