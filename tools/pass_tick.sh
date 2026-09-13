@@ -114,8 +114,12 @@ else
 fi
 
 # --- 3. Put the runner back, and only ever one. ---------------------------------------------------
-if [ "$DONE" -ge 172 ]; then
-    echo "runner: not started -- all 172 sheets are rendered"
+# A declined subject is finished work, not outstanding work: the Grand Central concourse is an
+# interior and this build models none, so the runner refuses it before a scene is built and will
+# refuse it again on every tick.  Counting only `done` left the pass one short of its own target
+# for ever, so every tick after the last render started a runner that had nothing to do.
+if [ "$((DONE + DECLINED))" -ge 172 ]; then
+    echo "runner: not started -- the pass is complete: ${DONE} rendered, ${DECLINED} declined"
     exit 0
 fi
 if [ -n "$PID" ]; then
