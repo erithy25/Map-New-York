@@ -1745,12 +1745,14 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
         subject_for_walk = {"x": wsx, "y": wsy, "z_aim": 0.5 * (wbase + wtop),
                             "height_m": wtop - wbase, "ground_z": wbase,
                             "object": height_probe.get("object"),
+                            # The fan's width is the probed object's own extent across this
+                            # bearing.  The whole model's is carried beside it and published, not
+                            # used: on three of the first four landmark sheets of the v17 pass it
+                            # was the site around the subject rather than the subject (J113).
                             "width_m": (None if not extent or extent["is_tile_mesh"]
-                                        else float(extent["width_m"])),
-                            # The probed part on its own, which the fan falls back to when the
-                            # model turns out to be the site around the subject (J113).
-                            "object_width_m": (None if not extent or extent["is_tile_mesh"]
-                                               else float(extent["part_width_m"]))}
+                                        else float(extent["part_width_m"])),
+                            "model_width_m": (None if not extent or extent["is_tile_mesh"]
+                                              else float(extent["width_m"]))}
         record.setdefault("subject", {})["plan_extent"] = (
             None if not extent else {"width_m": round(extent["width_m"], 1),
                                      "narrow_m": round(extent["narrow_m"], 1),
@@ -1766,10 +1768,14 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
                                      "note": ("a tile mesh is every building of one material in the "
                                               "tile, so its extent is not the subject's and is not used"
                                               if extent["is_tile_mesh"] else
-                                              f"the bounding box of all {extent['parts']} part(s) of "
-                                              f"{extent['model']}, the model the height was measured "
-                                              f"off a part of, measured across this camera's bearing "
-                                              f"and along it (J113)")})
+                                              f"`part_width_m` is the box of "
+                                              f"{height_probe.get('object')} alone across this "
+                                              f"camera's bearing, and it is what the sightline fan "
+                                              f"spans; `width_m` is the box of all {extent['parts']} "
+                                              f"part(s) of {extent['model']}, published beside it and "
+                                              f"not used -- on four landmark sheets of this pass the "
+                                              f"model was the site around the subject rather than the "
+                                              f"subject (J113)")})
     # How much open air the corrected viewpoint has to have along the view azimuth before it is
     # accepted.  A frame whose subject is 170 m away is worthless from a spot with a wall (or a
     # street tree) ten metres in front of the lens, so the requirement scales with the subject
@@ -1883,7 +1889,7 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
             sight = vcam.subject_sightline(placement.x, placement.y, placement.z, ssx, ssy, float(sz),
                                            subject_height_m=(float(stop) - base) if stop else None,
                                            subject_width_m=(subject_for_walk or {}).get("width_m"),
-                                           subject_object_width_m=(subject_for_walk or {}).get("object_width_m"),
+                                           subject_model_width_m=(subject_for_walk or {}).get("model_width_m"),
                                            subject_object=height_probe.get("object"),
                                            subject_ground_z=base,
                                            frame_half_angles_deg=vcam.frame_half_angles(placement))

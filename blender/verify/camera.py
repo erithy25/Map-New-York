@@ -1212,7 +1212,7 @@ def frame_half_angles(placement: "CameraPlacement") -> tuple[float, float]:
 def subject_sightline(x: float, y: float, z: float, sx: float, sy: float, sz: float, *,
                       spread_m: float = 12.0, subject_height_m: float | None = None,
                       subject_width_m: float | None = None,
-                      subject_object_width_m: float | None = None,
+                      subject_model_width_m: float | None = None,
                       subject_object: str | None = None,
                       subject_ground_z: float | None = None,
                       frame_half_angles_deg: tuple[float, float] | None = None,
@@ -1317,42 +1317,53 @@ def subject_sightline(x: float, y: float, z: float, sx: float, sy: float, sz: fl
     # Horizontal extent: the measured width of the thing at the coordinate, or the floor -- never
     # the height (J78).
     #
-    # **And never an extent so wide that the fan stops being about the subject.**  J113 widened this
-    # from the probed *part* to the whole model, which is right for a tower whose model is the tower
-    # and wrong for a subject standing inside a model that carries its own site: the Manhattan
-    # Bridge's model is 247 parts and **897 m** across this bearing, the Bethesda Terrace's is 27
-    # parts and 104 m, and at those ranges both subtend more than the picture.  A fan clipped to the
-    # frame has stopped measuring the subject and started measuring the frame -- and every ray that
-    # lands further than ``reach_m`` from the coordinate is a ray that *cannot* count as being on the
-    # subject, so the wide fan's own outer rays can only ever be blocked or clear.  The DUMBO sheet
-    # is what that costs: 13 rays, 0 clear, 0 on the subject, `subject_visible: false` published for
-    # a bridge that fills both halves of the sheet.
+    # The across-extent is the **probed object's own**, and the whole model's is published beside it
+    # rather than used.  That is the third answer this line has had, and the reason for it is
+    # measured rather than argued (docs/DEVIATIONS.md J113).
     #
-    # So the model's extent is used only while it fits the picture.  When it does not, the probed
-    # object's own extent is used instead -- the answer before J113 -- and the record says the model
-    # was rejected and why.  The test is done here rather than after clipping because by then the
-    # angle has already been cut to the frame's and the two cases look identical.
-    over_frame_m = None
-    if subject_width_m and frame_half_angles_deg is not None:
-        fits = 2.0 * span * math.tan(math.radians(max(float(frame_half_angles_deg[0]), 0.5)))
-        if float(subject_width_m) > fits:
-            over_frame_m = fits
-    if subject_width_m and over_frame_m is not None:
-        part = float(subject_object_width_m or 0.0)
-        wide_m = part if part > floor_m else floor_m
-        fan_from += (f"; across, {'the probed object' if part > floor_m else f'the {floor_m:.0f} m floor'}"
-                     f" ({wide_m:.1f} m): the whole model at the coordinate measures "
-                     f"{float(subject_width_m):.1f} m across this bearing, wider than the "
-                     f"{over_frame_m:.0f} m the picture holds at this range, so it is the site "
-                     f"around the subject rather than the subject (J113)")
-    elif subject_width_m and subject_width_m > floor_m:
+    # J113 recorded the first fault: the object at a subject's coordinate can be the smallest piece
+    # of it, and the Williamsburgh Savings Bank Tower's was the gilded dome -- 14.4 m for a 156 m
+    # tower, which is how one lamp post came to take 11 of 13 rays.  The repair was to take the
+    # whole model's extent instead, and on that sheet it worked: 54.1 m across the bearing, and the
+    # fraction went from 0.154 to 0.692.
+    #
+    # The pass then measured it on every other landmark sheet and it is wrong wherever a landmark
+    # model carries more than the subject:
+    #
+    #   sheet                              parts   model      part   range   half-angle   fraction
+    #   williamsburgh savings bank tower      18    54.1 m       --   222 m      6.96 deg     0.692
+    #   bethesda terrace fountain             27   104.4 m    3.3 m    51 m     32.74 deg     0.538
+    #   15 hudson yards                       54   383.2 m   83.6 m   328 m     30.29 deg     0.154
+    #   manhattan bridge from dumbo          247   897.4 m   11.1 m   226 m     19.88 deg     0.000
+    #
+    # A fan that wide cannot report what the field claims.  ``on_subject`` counts a ray whose hit
+    # lies within ``reach_m`` of the subject in **depth**, or on the subject's own fabric continuous
+    # in plan; an outer ray of a 383 m fan at 328 m lands 191 m off the coordinate, on a different
+    # building of the same complex or on nothing, and cannot count however clear the subject is.
+    # The published fraction becomes a property of the model's bounding box rather than of the
+    # picture: the DUMBO sheet reported 13 rays, 0 clear, 0 on the subject and
+    # ``subject_visible: false`` for a bridge that fills both halves of the sheet.
+    #
+    # Nothing in the data separates the two cases.  Part count does not (18 against 54), nor does
+    # the ratio of model to part (3.8 at the tower against 4.6 at Hudson Yards), and the landmark
+    # catalogue is no help because its entry for a complex *is* the complex.  What would settle it
+    # is a footprint per subject, which this build does not hold -- so the fan goes back to the
+    # probed object, the fault J113 records stays open with its measurement, and both extents are in
+    # the record so a reader can see which one the fan used and what the other would have been.
+    model_m = float(subject_model_width_m) if subject_model_width_m else None
+    aside = ""
+    if model_m and subject_width_m and model_m > float(subject_width_m) * 1.05:
+        aside = (f", not the {model_m:.1f} m of the whole model around it, which is the site "
+                 f"rather than the subject (J113)")
+    if subject_width_m and float(subject_width_m) > floor_m:
         wide_m = float(subject_width_m)
-        fan_from += ("; across, the measured plan extent of the whole model standing at the "
-                     "coordinate, taken across this camera's bearing (J113)")
+        fan_from += ("; across, the measured plan extent of the object standing at the coordinate"
+                     + aside)
     else:
         wide_m = floor_m
         if subject_width_m:
-            fan_from += f"; across, the {floor_m:.0f} m floor (the object measures {float(subject_width_m):.1f} m)"
+            fan_from += (f"; across, the {floor_m:.0f} m floor (the object measures "
+                         f"{float(subject_width_m):.1f} m{aside})")
         else:
             fan_from += f"; across, the {floor_m:.0f} m floor (no plan extent was measured)"
     # The fan's only angular ceiling is the frame: a subject wider than the picture is tested across
@@ -1652,7 +1663,7 @@ def sidestep_prop_at_lens(placement: "CameraPlacement", subject: dict) -> dict |
         return subject_sightline(nx, ny, placement.z, float(subject["x"]), float(subject["y"]),
                                  float(subject["z_aim"]), subject_height_m=subject.get("height_m"),
                                  subject_width_m=subject.get("width_m"),
-                                 subject_object_width_m=subject.get("object_width_m"),
+                                 subject_model_width_m=subject.get("model_width_m"),
                                  subject_object=subject.get("object"),
                                  subject_ground_z=subject.get("ground_z"),
                                  frame_half_angles_deg=frame_half_angles(placement))
@@ -1978,7 +1989,7 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
                                    float(subject["z_aim"]),
                                    subject_height_m=subject.get("height_m"),
                                    subject_width_m=subject.get("width_m"),
-                                   subject_object_width_m=subject.get("object_width_m"),
+                                   subject_model_width_m=subject.get("model_width_m"),
                                    subject_object=subject.get("object"),
                                    subject_ground_z=subject.get("ground_z"),
                                    frame_half_angles_deg=frame_half_angles(placement))

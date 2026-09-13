@@ -1848,19 +1848,22 @@ def test_every_tile_a_published_sheet_loaded_is_still_on_disk():
                     f"(docs/DEVIATIONS.md J118):\n" + "\n".join(lines[:20]))
 
 
-def test_the_fan_refuses_a_model_extent_wider_than_the_picture():
-    """A fan clipped to the frame has stopped measuring the subject (J113, amended).
+def test_the_fan_is_the_probed_object_and_the_model_is_published_beside_it():
+    """The across-extent is the object at the coordinate; the model's is evidence, not the fan (J113).
 
-    J113 widened the fan's across-extent from the probed *part* to the whole model, which is right
-    for a tower whose model is the tower and wrong for a subject standing inside a model that
-    carries its own site.  The Manhattan Bridge's model is 247 parts and **897.4 m** across the
-    DUMBO camera's bearing; at 226 m that subtends far more than the picture, the fan was clipped
-    to the frame, and every ray outside ``reach_m`` of the coordinate *cannot* count as being on
-    the subject however clear it is.  The published verdict was 13 rays, 0 clear, 0 on the subject,
-    ``subject_visible: false`` -- for a bridge that fills both halves of the sheet.
+    Three answers, and the pass chose between them by measurement.  The object at a subject's
+    coordinate can be the smallest piece of it -- the Williamsburgh Savings Bank Tower's is the
+    gilded dome, 14.4 m for a 156 m tower -- which is the fault J113 records.  Taking the whole
+    model instead fixed that sheet (0.154 to 0.692) and broke every sheet whose landmark model
+    carries more than the subject: 104.4 m for a 3.3 m fountain inside Bethesda Terrace, 383.2 m
+    for one tower of Hudson Yards, **897.4 m** for the Manhattan Bridge, whose sheet then published
+    13 rays, 0 clear, 0 on the subject and ``subject_visible: false`` for a bridge filling both
+    halves of the picture.  An outer ray of a fan that wide lands hundreds of metres off the
+    coordinate and cannot count as being on the subject however clear it is.
 
-    So the model's extent is used only while it fits the picture at that range, and otherwise the
-    probed object's own extent is, which is the answer before J113.  The record says which.
+    Nothing in the data separates a model that is its subject from one that is a site -- part count
+    does not, nor does the model-to-part ratio -- so the fan is the object's own extent, the
+    model's is in the record beside it, and J113 stays open with its measurement.
     """
     _skip_without_bpy()
     import camera as vcam
@@ -1868,7 +1871,7 @@ def test_the_fan_refuses_a_model_extent_wider_than_the_picture():
 
     nb.reset_scene()
     X0, Y0 = 950000.0, 950000.0
-    # A 200 m subject 226 m north, standing in a model 900 m wide -- a bridge's shape.
+    # One 40 m tower 226 m north, in a model 900 m wide -- a bridge's or a complex's shape.
     _cube("lm_b_span_j113.9", X0, Y0 + 226.0, 30.0, size=40.0, size_y=40.0, size_z=60.0)
     _cube("lm_b_span_j113.1", X0 - 430.0, Y0 + 226.0, 30.0, size=40.0, size_y=40.0, size_z=60.0)
     _cube("lm_b_span_j113.2", X0 + 430.0, Y0 + 226.0, 30.0, size=40.0, size_y=40.0, size_z=60.0)
@@ -1877,26 +1880,23 @@ def test_the_fan_refuses_a_model_extent_wider_than_the_picture():
     assert whole["width_m"] == pytest.approx(900.0, abs=0.1), whole
     assert whole["part_width_m"] == pytest.approx(40.0, abs=0.1), whole
 
-    # A 35 mm frame holds about 2 x 226 x tan(27.2 deg) = 232 m at that range, so 900 m does not fit
-    # and the fan must fall back to the part's 40 m.
-    narrow = vcam.subject_sightline(
+    got = vcam.subject_sightline(
         X0, Y0, 1.6, X0, Y0 + 226.0, 30.0, subject_height_m=60.0,
-        subject_width_m=whole["width_m"], subject_object_width_m=whole["part_width_m"],
+        subject_width_m=whole["part_width_m"], subject_model_width_m=whole["width_m"],
         subject_object="lm_b_span_j113.9", subject_ground_z=0.0,
         frame_half_angles_deg=(27.2, 18.5))
-    assert "wider than the" in narrow["subject_fan_from"], narrow["subject_fan_from"]
-    assert narrow["subject_fan_m"] == pytest.approx(40.0, abs=0.1), narrow
-    assert narrow["subject_visible"] is True, narrow
-    assert narrow["subject_rays_on_subject"] > 0, narrow
+    assert got["subject_fan_m"] == pytest.approx(40.0, abs=0.1), got
+    assert "not the 900.0 m of the whole model" in got["subject_fan_from"], got["subject_fan_from"]
+    assert got["subject_visible"] is True and got["subject_rays_on_subject"] > 0, got
 
-    # And a model that does fit keeps its own extent, which is J113's repair holding.
-    wide = vcam.subject_sightline(
+    # An object under the 12 m floor still gets the floor, and the record says the object's size.
+    small = vcam.subject_sightline(
         X0, Y0, 1.6, X0, Y0 + 226.0, 30.0, subject_height_m=60.0,
-        subject_width_m=100.0, subject_object_width_m=whole["part_width_m"],
+        subject_width_m=3.3, subject_model_width_m=whole["width_m"],
         subject_object="lm_b_span_j113.9", subject_ground_z=0.0,
         frame_half_angles_deg=(27.2, 18.5))
-    assert wide["subject_fan_m"] == pytest.approx(100.0, abs=0.1), wide
-    assert "the whole model standing at the coordinate" in wide["subject_fan_from"], wide
+    assert small["subject_fan_m"] == pytest.approx(12.0, abs=0.1), small
+    assert "the object measures 3.3 m" in small["subject_fan_from"], small["subject_fan_from"]
 
 
 def test_a_drive_through_uses_a_photograph_of_its_own_block():
