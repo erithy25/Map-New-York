@@ -1807,6 +1807,47 @@ def test_no_render_record_contradicts_itself_about_the_nearest_agent():
     assert not bad, "\n".join(bad)
 
 
+def test_every_tile_a_published_sheet_loaded_is_still_on_disk():
+    """A published sheet must stay reproducible from the build it was rendered from (J118).
+
+    When the v16 pass ran the container's disk out at sheet 59, 259 `tile_pavement.glb` files were
+    deleted under the rule that they lie further than 3 km from every viewpoint *still to be
+    rendered*.  That is the right test for finishing the pass and the wrong one for the repository:
+    the 113 sheets already rendered keep their evidence, and a re-render of any of them now builds a
+    scene whose roadway is absent.  113 of the 289 pavement tiles a viewpoint's loader can reach are
+    missing, and 71 of them are named in a record's own `tiles_read`.
+
+    The check is the cheap one nobody had: every tile a published record says it read is still
+    there.  It is red until the rebuild runs, and the rebuild list is
+    `docs/verification/pavement_rebuild_needed.txt`.
+    """
+    base = REPO_ROOT / "docs" / "verification" / "comparison"
+    tiles = REPO_ROOT / "blender_out" / "tiles"
+    if not base.is_dir() or not tiles.is_dir():
+        pytest.skip("no comparison records or no built tiles in this checkout")
+    #: Which per-tile artefact each ``scene`` block's ``tiles_read`` list refers to.
+    artefacts = {"pavement": "tile_pavement.glb", "buildings": "tile_buildings.glb",
+                 "structures": "tile_structures.glb", "parkground": "tile_parkground.glb"}
+    gone = {}
+    for d in sorted(base.iterdir()):
+        rec_path = d / "render.json"
+        if not rec_path.is_file():
+            continue
+        try:
+            rec = json.loads(rec_path.read_text())
+        except (OSError, ValueError):
+            continue
+        scene = rec.get("scene") or {}
+        for block, artefact in artefacts.items():
+            for tile in ((scene.get(block) or {}).get("tiles_read") or []):
+                if not (tiles / str(tile) / artefact).is_file():
+                    gone.setdefault(f"{block}/{tile}", []).append(d.name)
+    if gone:
+        lines = [f"{k} -- read by {len(v)} sheet(s), e.g. {v[0]}" for k, v in sorted(gone.items())]
+        pytest.fail(f"{len(gone)} tile artefact(s) a published sheet loaded are no longer on disk "
+                    f"(docs/DEVIATIONS.md J118):\n" + "\n".join(lines[:20]))
+
+
 def test_a_drive_through_uses_a_photograph_of_its_own_block():
     """A drive-through sheet compares one block, so the photograph has to be of that block.
 
