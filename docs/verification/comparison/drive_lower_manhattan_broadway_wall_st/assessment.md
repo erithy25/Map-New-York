@@ -57,26 +57,22 @@ was rewritten, and the evidence for leaving it is stronger than a re-reading: di
 against the committed one field by field, **every measured value is identical**, and the frame it replaced is reproduced **pixel for pixel**: `render.png`'s decoded image is identical, and the only bytes that differ are the five `tEXt` chunks in which Blender records the render date and its own timings. `sheet.png` is byte-identical. What
 moved is the wall clock:
 
-`scene.agents.seconds` 476.69 -> 551.98,
-`scene.seconds` 586.64 -> 648.72,
-`seconds.render` 132.6 -> 174.1,
-`seconds.scene` 590.7 -> 652.6,
-`seconds.total` 723.3 -> 826.7.
-The other change is the agent snapshot's provenance: the previous render simulated the crowd and
-this one read the same snapshot back from the cache, which the diff proves rather than assumes --
-every agent count in the record is unchanged, or that note would not be the only field beside the
-clock that moved (`simulated (already built)` to
-`cached -5210_871_13_2_455f589c260ce148_1788868452.json`).
+`scene.agents.seconds` 551.98 -> 558.17,
+`scene.seconds` 648.72 -> 653.43,
+`seconds.render` 174.1 -> 168.9,
+`seconds.scene` 652.6 -> 657.6,
+`seconds.total` 826.7 -> 826.5.
+
 
 
 ## Measured for this assessment
 
-The wall-clock figures in the table below are the **previous** render's, quoted so that "every measured value is identical" is a comparison a reader can check rather than a claim. They were read from this sheet's own `render.json` at commit `0dc3354`, its last state before the pass restarted.
+The wall-clock figures in the table below are the **previous** render's, quoted so that "every measured value is identical" is a comparison a reader can check rather than a claim. They were read from this sheet's own `render.json` at commit `3019323`, its last state before the pass restarted.
 
 | figure | where it comes from |
 |---|---|
-| 476.69 | `scene.agents.seconds` in the previous record; the re-render took 551.98 s |
-| 586.64 | `scene.seconds` in the previous record; the re-render took 648.72 s |
-| 132.6 | `seconds.render` in the previous record; the re-render took 174.1 s |
-| 590.7 | `seconds.scene` in the previous record; the re-render took 652.6 s |
-| 723.3 | `seconds.total` in the previous record; the re-render took 826.7 s |
+| 551.98 | `scene.agents.seconds` in the previous record; the re-render took 558.17 s |
+| 648.72 | `scene.seconds` in the previous record; the re-render took 653.43 s |
+| 174.1 | `seconds.render` in the previous record; the re-render took 168.9 s |
+| 652.6 | `seconds.scene` in the previous record; the re-render took 657.6 s |
+| 826.7 | `seconds.total` in the previous record; the re-render took 826.5 s |
