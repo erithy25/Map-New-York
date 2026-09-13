@@ -14,14 +14,14 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 18.0,
   "ground_detail": {
-   "below_point_excluded": 14,
-   "chosen_m": 14.43,
-   "max_m": 15.33,
-   "median_m": 15.14,
-   "min_m": 13.43,
+   "below_point_excluded": 0,
+   "chosen_m": 15.18,
+   "max_m": 15.54,
+   "median_m": 15.27,
+   "min_m": 15.11,
    "mode": "street",
    "percentile": 10.0,
-   "point_m": 15.21,
+   "point_m": 15.3,
    "radius_m": 12.0,
    "samples": 113
   },
@@ -40,12 +40,12 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_50_hudson_yards",
-  "terrain_z_m": 14.432,
-  "x": -4000.397,
-  "y": 6007.45,
-  "z": 16.032
+  "terrain_z_m": 15.178,
+  "x": -4021.245,
+  "y": 5998.675,
+  "z": 16.778
  },
- "camera_caption": "camera 40.75434, -73.99763 (NYC_TM -4000, 6007) z 16.0 m NAVD88 | azimuth 270.0deg pitch +16.2deg | 18 mm on 36 mm (73.7deg horizontal, 90.0deg vertical, portrait) | 904x1206",
+ "camera_caption": "camera 40.75434, -73.99763 (NYC_TM -4021, 5999) z 16.8 m NAVD88 | azimuth 270.0deg pitch +16.2deg | 18 mm on 36 mm (73.7deg horizontal, 90.0deg vertical, portrait) | 904x1206",
  "camera_origin": {
   "from_photograph_gps": false,
   "lat": 40.754339,
@@ -54,38 +54,38 @@
   "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 298 m away, past the 250 m at which it could still be the same view, so the camera was not stood on it.  That is a statement about this pairing and not about the photograph: a fix this far out is usually correct and simply of somewhere else"
  },
  "clearance": {
-  "direction": "onto the nearest sidewalk",
+  "direction": "onto the nearest roadbed",
   "min_view_m": 80.0,
   "moved": true,
   "nearest_agent": null,
   "nearest_agent_m": null,
   "nearest_agent_measured": "after the cull over the observer",
   "nearest_agent_probe_m": 20.0,
-  "nearest_obstruction": "prop_lamp_cobra_davit_14",
+  "nearest_obstruction": "prop_lamp_cobra_davit_4",
   "nearest_obstruction_at_deg": [
-   -36.9,
+   24.6,
    0.0
   ],
-  "nearest_obstruction_m": 16.6,
-  "note": "the recorded viewpoint is inside t_-5_6_roof_membrane (a ray straight up from the eye point hits its roof); the camera was moved 34 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 96 m from there, and the nearest built thing in the frame is prop_lamp_cobra_davit_14 16.6 m away at -37 deg yaw, +0 deg pitch, and no simulated agent stands within 20 m of it",
-  "offset_m": 34.4,
+  "nearest_obstruction_m": 9.6,
+  "note": "the recorded viewpoint is inside t_-5_6_roof_membrane (a ray straight up from the eye point hits its roof); the camera was moved 35 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 95 m from there, and the nearest built thing in the frame is prop_lamp_cobra_davit_4 9.6 m away at +25 deg yaw, +0 deg pitch, and no simulated agent stands within 20 m of it",
+  "offset_m": 35.4,
   "reason": "inside t_-5_6_roof_membrane (a ray straight up from the eye point hits its roof)",
   "rule": "pavement snap with a clear frame that sees the subject",
   "scored_on_subject_sightline": true,
   "subject_sightline_at_choice": {
-   "subject_blocked_at_m": 25.5,
-   "subject_blocked_by": "t_-5_6_red_brick",
+   "subject_blocked_at_m": 10.2,
+   "subject_blocked_by": "prop_lamp_cobra_davit_4",
    "subject_rays": 13,
-   "subject_rays_on_subject": 1,
+   "subject_rays_on_subject": 2,
    "subject_visible": true,
-   "subject_visible_fraction": 0.077
+   "subject_visible_fraction": 0.154
   },
-  "view_m": 96.0
+  "view_m": 95.4
  },
  "frame": {
-  "mean": 0.5558,
+  "mean": 0.5779,
   "reason": null,
-  "sd": 0.2545,
+  "sd": 0.2016,
   "usable": true
  },
  "frame_retry": null,
@@ -95,16 +95,16 @@
  "lighting": {
   "background_strength": 0.03410802409052849,
   "development": {
-   "linear_p05": 0.000679,
-   "linear_p50": 0.00564,
-   "linear_p95": 0.054524,
-   "log_average_linear": 0.006847,
-   "median_linear": 0.00564,
+   "linear_p05": 0.001486,
+   "linear_p50": 0.005321,
+   "linear_p95": 0.072255,
+   "log_average_linear": 0.008549,
+   "median_linear": 0.005321,
    "metered": true,
-   "note": "under-lit: the scene needed +5.00 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
+   "note": "under-lit: the scene needed +5.08 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
-   "stops": 4.996,
-   "stops_unclamped": 4.996,
+   "stops": 5.08,
+   "stops_unclamped": 5.08,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
@@ -116,7 +116,7 @@
    "night": false,
    "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
-  "exposure_stops": 5.0,
+  "exposure_stops": 5.08,
   "physical_rule_stops": 0.21,
   "sky_azimuth_deg": 190.025,
   "sky_elevation_deg": 37.183,
@@ -141,7 +141,7 @@
   "width": 1280
  },
  "render_png": "docs/verification/comparison/landmark_50_hudson_yards/render.png",
- "rendered_at": "2026-09-12T17:26:43Z",
+ "rendered_at": "2026-09-13T17:22:16Z",
  "resolution_note": "904x1206; the reference photograph is 1280x1707 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -155,7 +155,7 @@
    "camera_clear_vehicle_m": 6.0,
    "caption": "Agents: 69 vehicles within 320 m and 398 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 829 vehicles and 3312 people over the whole simulated ring, of which 974 and 3000 were simulated; 3507 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "culled_after_camera_move": {
-    "pedestrian_over_the_observer": 1,
+    "pedestrian_over_the_observer": 7,
     "vehicle_over_the_observer": 0
    },
    "dropped": {
@@ -163,7 +163,7 @@
     "pedestrian_inside_building": 4,
     "pedestrian_not_on_walkable_surface": 323,
     "pedestrian_outside_radius": 779,
-    "pedestrian_over_the_observer": 1,
+    "pedestrian_over_the_observer": 7,
     "pedestrian_triangle_budget": 767,
     "vehicle_body_has_no_rider": 18,
     "vehicle_not_on_carriageway": 19,
@@ -176,7 +176,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 579154,
+   "pedestrian_triangles": 579144,
    "per_class": {
     "black_car": 5,
     "boro_taxi": 13,
@@ -186,10 +186,10 @@
     "taxi": 10,
     "van": 1
    },
-   "placed_pedestrians": 397,
+   "placed_pedestrians": 391,
    "placed_vehicles": 69,
    "reason": null,
-   "seconds": 339.77,
+   "seconds": 721.81,
    "snapshot": {
     "building_footprints_tested": 2663,
     "density_lane_km": 42.998,
@@ -204,7 +204,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.65,
+     "load_seconds": 2.55,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -229,9 +229,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 974
    },
-   "snapshot_note": "cached -4022_6035_12_1_0c6eef003b6baada_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1083558,
+   "triangles": 1083548,
    "vehicle_lods": {
     "LOD1": 5,
     "LOD2": 64
@@ -301,7 +301,7 @@
    6035.36
   ],
   "kit": {
-   "capped": "triangle budget 1338391",
+   "capped": "triangle budget 1338401",
    "per_category": {
     "bulkhead": 16,
     "cornice": 35,
@@ -1060,7 +1060,7 @@
    }
   },
   "radius_m": 720.7627627018703,
-  "seconds": 422.17,
+  "seconds": 898.19,
   "structures": {
    "imported": [
     "t_-5_5",
@@ -1097,7 +1097,7 @@
    "z_max_m": 16.05,
    "z_min_m": -1.93
   },
-  "triangles": 4500093
+  "triangles": 4500083
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1107,40 +1107,40 @@
   "radius_m": 720.7627627018703
  },
  "seconds": {
-  "render": 90.4,
-  "scene": 447.7,
-  "total": 538.1
+  "render": 106.4,
+  "scene": 962.3,
+  "total": 1068.7
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 150.0 m above its ground",
-  "subject_blocked_at_m": 25.5,
-  "subject_blocked_by": "t_-5_6_red_brick",
-  "subject_clear_fraction": 0.231,
-  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate",
-  "subject_fan_half_angle_deg": 10.83,
-  "subject_fan_m": 101.8,
+  "subject_blocked_at_m": 10.2,
+  "subject_blocked_by": "prop_lamp_cobra_davit_4",
+  "subject_clear_fraction": 0.308,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate, not the 362.7 m of the whole model around it, which is the site rather than the subject (J113)",
+  "subject_fan_half_angle_deg": 9.48,
+  "subject_fan_m": 83.4,
   "subject_fan_tall_m": 300.0,
-  "subject_fan_v_half_angle_deg": 29.4,
-  "subject_lands_at_m": 259.7,
-  "subject_lands_on": "lm_c_hudson_yards.36",
+  "subject_fan_v_half_angle_deg": 30.98,
+  "subject_lands_at_m": 241.7,
+  "subject_lands_on": "lm_c_hudson_yards.37",
   "subject_own_fabric_nearest": null,
   "subject_own_fabric_nearest_m": null,
-  "subject_range_m": 266.2,
+  "subject_range_m": 249.8,
   "subject_rays": 13,
-  "subject_rays_clear": 3,
+  "subject_rays_clear": 4,
   "subject_rays_into_nothing": 1,
   "subject_rays_on_own_fabric_nearer_than_recorded": 0,
-  "subject_rays_on_subject": 1,
+  "subject_rays_on_subject": 2,
   "subject_reach_m": 25.0,
   "subject_verdict_rule": "at least one ray lands on the subject (J78)",
   "subject_visible": true,
-  "subject_visible_fraction": 0.077
+  "subject_visible_fraction": 0.154
  },
  "slug": "landmark_50_hudson_yards",
  "status": "rendered",
  "subject": {
   "distance_from": "the placed camera, after the clearance walk",
-  "distance_m": 223.8,
+  "distance_m": 204.5,
   "height_probe": {
    "ground_z_m": 9.33,
    "height_above_ground_m": 300.9,
@@ -1158,11 +1158,18 @@
   "name": "50 Hudson Yards",
   "origin_distance_m": 200.5,
   "plan_extent": {
+   "across_bearing_deg": 270.0,
+   "axis_narrow_m": 338.4,
+   "axis_width_m": 362.7,
    "is_tile_mesh": false,
-   "narrow_m": 83.4,
-   "note": "the bounding box of the object the height was measured off",
+   "model": "lm_c_hudson_yards",
+   "narrow_m": 338.4,
+   "note": "`part_width_m` is the box of lm_c_hudson_yards.35 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 54 part(s) of lm_c_hudson_yards, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_hudson_yards.35",
-   "width_m": 101.8
+   "part_narrow_m": 101.8,
+   "part_width_m": 83.4,
+   "parts": 54,
+   "width_m": 362.7
   }
  },
  "sun": {

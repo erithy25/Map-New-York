@@ -1,19 +1,19 @@
 {
  "slug": "landmark_7_world_trade_center",
- "rendered_at": "2026-09-09T17:26:23Z",
+ "rendered_at": "2026-09-13T17:38:35Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 904,
   "height": 1206,
-  "mean": 0.4958,
+  "mean": 0.4959,
   "sd": 0.1675,
   "p05": 0.196,
-  "p50": 0.4956,
-  "p95": 0.7797,
+  "p50": 0.4957,
+  "p95": 0.7799,
   "chroma": 0.1312,
-  "exposure_offset_stops": 0.222
+  "exposure_offset_stops": 0.223
  },
  "reference": {
   "width": 1920,
@@ -31,7 +31,7 @@
   "sd": 0.966,
   "p50": 1.387,
   "chroma": 0.42,
-  "exposure_offset_stops": 1.001,
+  "exposure_offset_stops": 1.002,
   "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

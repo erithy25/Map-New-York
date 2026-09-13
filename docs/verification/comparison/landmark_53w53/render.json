@@ -76,7 +76,7 @@
  "frame": {
   "mean": 0.3949,
   "reason": null,
-  "sd": 0.3039,
+  "sd": 0.304,
   "usable": true
  },
  "frame_retry": null,
@@ -86,16 +86,16 @@
  "lighting": {
   "background_strength": 0.03379365801811218,
   "development": {
-   "linear_p05": 4.1e-05,
-   "linear_p50": 0.000974,
-   "linear_p95": 0.044531,
+   "linear_p05": 4.2e-05,
+   "linear_p50": 0.000971,
+   "linear_p95": 0.044537,
    "log_average_linear": 0.0012,
-   "median_linear": 0.000974,
+   "median_linear": 0.000971,
    "metered": true,
    "note": "the frame wanted +7.53 stops and was held at +6.00: a scene this far from a photographable level is not developed into a picture of one",
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
    "stops": 6.0,
-   "stops_unclamped": 7.53,
+   "stops_unclamped": 7.534,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
@@ -132,7 +132,7 @@
   "width": 1280
  },
  "render_png": "docs/verification/comparison/landmark_53w53/render.png",
- "rendered_at": "2026-09-09T17:22:00Z",
+ "rendered_at": "2026-09-13T17:18:14Z",
  "resolution_note": "904x1206; the reference photograph is 1280x1707 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -164,7 +164,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 578948,
+   "pedestrian_triangles": 578947,
    "per_class": {
     "black_car": 7,
     "boro_taxi": 10,
@@ -178,7 +178,7 @@
    "placed_pedestrians": 347,
    "placed_vehicles": 73,
    "reason": null,
-   "seconds": 246.03,
+   "seconds": 441.02,
    "snapshot": {
     "building_footprints_tested": 888,
     "density_lane_km": 26.066,
@@ -193,7 +193,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.71,
+     "load_seconds": 2.23,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -218,9 +218,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 1593
    },
-   "snapshot_note": "cached -2363_6798_12_0_2af5c18e406682c7_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1083915,
+   "triangles": 1083914,
    "vehicle_lods": {
     "LOD1": 4,
     "LOD2": 69
@@ -290,7 +290,7 @@
    6798.11
   ],
   "kit": {
-   "capped": "triangle budget 921216",
+   "capped": "triangle budget 921217",
    "per_category": {
     "bulkhead": 6,
     "door_entry": 11,
@@ -1004,7 +1004,8 @@
     "yaw_rule": "a tree's yaw is not in any source: it is drawn from a hash of the stem's own position (SplitMix64 over the metre-rounded x, y), uniform over 360 deg, so the same tree is drawn the same way in every render and no two neighbours share a silhouette; a rule, not a measurement"
    },
    "capped": "triangle budget 1079685",
-   "dropped_for_budget": 1149,
+   "dropped_for_budget": 1146,
+   "dropped_on_suppressed_building": 3,
    "impostor_cards_dropped": 7,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -1072,7 +1073,7 @@
    }
   },
   "radius_m": 597.2359457718361,
-  "seconds": 315.48,
+  "seconds": 541.42,
   "structures": {
    "imported": [
     "t_-2_6"
@@ -1103,7 +1104,7 @@
    "z_max_m": 26.0,
    "z_min_m": 7.92
   },
-  "triangles": 4500120
+  "triangles": 4500119
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1113,18 +1114,18 @@
   "radius_m": 597.2359457718361
  },
  "seconds": {
-  "render": 102.3,
-  "scene": 318.1,
-  "total": 420.4
+  "render": 97.8,
+  "scene": 547.4,
+  "total": 645.3
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 159.1 m above its ground",
   "subject_blocked_at_m": 8.0,
   "subject_blocked_by": "t_-3_6_red_brick",
   "subject_clear_fraction": 0.692,
-  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate",
-  "subject_fan_half_angle_deg": 6.46,
-  "subject_fan_m": 38.0,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate, not the 550.8 m of the whole model around it, which is the site rather than the subject (J113)",
+  "subject_fan_half_angle_deg": 7.87,
+  "subject_fan_m": 46.3,
   "subject_fan_tall_m": 318.2,
   "subject_fan_v_half_angle_deg": 43.5,
   "subject_lands_at_m": 52.1,
@@ -1164,11 +1165,18 @@
   "name": "53W53 (MoMA Tower)",
   "origin_distance_m": 58.4,
   "plan_extent": {
+   "across_bearing_deg": 329.4,
+   "axis_narrow_m": 682.1,
+   "axis_width_m": 875.3,
    "is_tile_mesh": false,
-   "narrow_m": 31.4,
-   "note": "the bounding box of the object the height was measured off",
+   "model": "lm_c_billionaires_row",
+   "narrow_m": 1007.0,
+   "note": "`part_width_m` is the box of lm_c_billionaires_row.33 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 74 part(s) of lm_c_billionaires_row, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_billionaires_row.33",
-   "width_m": 38.0
+   "part_narrow_m": 48.7,
+   "part_width_m": 46.3,
+   "parts": 74,
+   "width_m": 550.8
   }
  },
  "sun": {

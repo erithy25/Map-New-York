@@ -71,7 +71,7 @@
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.4412,
+  "mean": 0.4411,
   "reason": null,
   "sd": 0.187,
   "usable": true
@@ -83,16 +83,16 @@
  "lighting": {
   "background_strength": 0.03866290673613548,
   "development": {
-   "linear_p05": 0.000891,
-   "linear_p50": 0.00949,
-   "linear_p95": 0.035269,
-   "log_average_linear": 0.006546,
-   "median_linear": 0.00949,
+   "linear_p05": 0.000889,
+   "linear_p50": 0.009483,
+   "linear_p95": 0.035271,
+   "log_average_linear": 0.006539,
+   "median_linear": 0.009483,
    "metered": true,
    "note": "under-lit: the scene needed +4.25 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
-   "stops": 4.245,
-   "stops_unclamped": 4.245,
+   "stops": 4.246,
+   "stops_unclamped": 4.246,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
@@ -129,7 +129,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_911_memorial_pools/render.png",
- "rendered_at": "2026-09-09T17:28:06Z",
+ "rendered_at": "2026-09-13T17:36:18Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -159,7 +159,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 579198,
+   "pedestrian_triangles": 579183,
    "per_class": {
     "black_car": 3,
     "boro_taxi": 7,
@@ -171,7 +171,7 @@
    "placed_pedestrians": 438,
    "placed_vehicles": 88,
    "reason": null,
-   "seconds": 169.59,
+   "seconds": 258.63,
    "snapshot": {
     "building_footprints_tested": 1416,
     "density_lane_km": 24.809,
@@ -186,7 +186,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.08,
+     "load_seconds": 2.16,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -211,9 +211,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 683
    },
-   "snapshot_note": "cached -5293_1241_17_0_78a93ee4d10b9e61_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1082229,
+   "triangles": 1082214,
    "vehicle_lods": {
     "LOD2": 88
    },
@@ -1024,21 +1024,22 @@
   },
   "props": {
    "canopy": {
-    "billboards": 8,
+    "billboards": 23,
     "card_missing_drawn_lod0": 0,
-    "dropped_for_budget": 2524,
-    "lod0": 274,
+    "dropped_for_budget": 2508,
+    "lod0": 275,
     "near_radius_m": 120.0,
     "procedural_dataset_id": "rule:woodland_canopy",
     "procedural_stems": 0,
     "radius_m": 600.7229376618243,
     "rows_beyond_prop_radius": 1842,
-    "triangles": 48,
-    "yaw_by_rule": 282,
+    "triangles": 138,
+    "yaw_by_rule": 298,
     "yaw_rule": "a tree's yaw is not in any source: it is drawn from a hash of the stem's own position (SplitMix64 over the metre-rounded x, y), uniform over 360 deg, so the same tree is drawn the same way in every render and no two neighbours share a silhouette; a rule, not a measurement"
    },
    "capped": "triangle budget 1220946",
-   "dropped_for_budget": 3687,
+   "dropped_for_budget": 3668,
+   "dropped_on_suppressed_building": 10,
    "impostor_cards_dropped": 4,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -1047,22 +1048,21 @@
    "leaf_off": false,
    "per_dataset": {
     "hydrants": 3,
-    "osm_newyork_pbf": 374,
-    "plan_cooling_towers": 5,
+    "osm_newyork_pbf": 387,
     "rule:manhole_40m": 10,
+    "street_trees_2015": 1,
     "subway_entrances": 6
    },
    "per_kind": {
     "bench": 54,
-    "cooling_tower": 5,
     "flagpole": 1,
     "hydrant": 3,
     "manhole": 10,
-    "street_lamp": 37,
+    "street_lamp": 35,
     "subway_entrance": 6,
-    "tree": 282
+    "tree": 298
    },
-   "placed": 398,
+   "placed": 407,
    "radius_m": 286.91391579394417,
    "rows_in_range": 4244,
    "tiles_missing": [],
@@ -1072,11 +1072,11 @@
     "t_-6_0",
     "t_-6_1"
    ],
-   "tree_instances_scaled": 279,
-   "tree_mean_scale": 0.706,
+   "tree_instances_scaled": 295,
+   "tree_mean_scale": 0.703,
    "tree_scale_out_of_band": 3,
-   "tree_species_substituted": 281,
-   "triangles": 1220944,
+   "tree_species_substituted": 296,
+   "triangles": 1220946,
    "unmapped_kinds": {
     "artwork": 6,
     "memorial": 4,
@@ -1084,7 +1084,7 @@
    }
   },
   "radius_m": 600.7229376618243,
-  "seconds": 246.06,
+  "seconds": 361.06,
   "structures": {
    "imported": [
     "t_-5_0",
@@ -1137,7 +1137,7 @@
    "z_max_m": 13.89,
    "z_min_m": -2.04
   },
-  "triangles": 3657949
+  "triangles": 3657936
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1147,9 +1147,9 @@
   "radius_m": 600.7229376618243
  },
  "seconds": {
-  "render": 112.3,
-  "scene": 249.7,
-  "total": 362.0
+  "render": 104.2,
+  "scene": 365.0,
+  "total": 469.1
  },
  "sightline": {
   "subject_note": "the highest built thing at the subject's coordinate is lm_b_wtc_site.232, 0.1 m above the ground there -- below the 2 m at which a subject has a height worth aiming or framing by; no sightline was tested",
