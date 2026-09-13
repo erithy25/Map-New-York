@@ -12,6 +12,17 @@
 
 ## Verdict — the item's subject coordinate sits 11.1 m off the fabric it names, so no height was measured, no sightline was tested, and this sheet carries no visible-fraction verdict at all
 
+**Re-rendered under the eight repairs of the v17 pass, and not one field of its record moved.** The
+diff against the same sheet's v16 record is empty. Each repair had nothing to act on here, and the
+record says why in every case: the reference carries its own EXIF `DateTimeOriginal`, so J112 and
+J114 had no date or photograph to change; the camera was already in open air with its view clear, so
+J115 and J116 had nothing to trigger; nothing off a facade stands at the lens, so J117a names the
+same cobra-head lamp it named before; and **no sightline was tested at all**, because *"nothing built
+stands within 6 m of the subject's coordinate; the nearest built thing is `lm_c_hudson_yards.3`,
+11 m away at bearing 292 deg"* — so J111 and J113, which both act on the fan, had no fan to act on.
+A sheet the repairs leave untouched is the repairs being targeted rather than global, and this one
+is untouched for six separate reasons.
+
 **The chain stopped before it started.** The height probe cast 43 rays and **0** landed on built fabric. The record states the reason in its own words: *nothing built stands within 6 m of the subject's coordinate; the nearest built thing is `lm_c_hudson_yards.3`, 11 m away at bearing 292 deg, so the coordinate the item records is that far off the fabric it names*. Because there was no measured subject height, the lens was not widened and the axis was not tilted, and because there was no subject object, **no sightline was tested** — this is the one sheet in the queue with no `subject_visible_fraction` of any value, not even 0.000.
 
 **So the render is a street, and the tower in it is incidental.** The frame looks west-north-west down West 30th Street: a tan brick warehouse block filling the left, a pale slab on the right, a slim blue-glass tower in the middle distance, and **the bottom two fifths of the frame is unmarked grey roadbed** with a single dashed lane line and a soft grey mound in the corner where the terrain grid meets the road surface. The photograph is 10 Hudson Yards alone, filling a 1920x4134 portrait frame against a deep blue July sky, its faceted glass crown cut at a diagonal.

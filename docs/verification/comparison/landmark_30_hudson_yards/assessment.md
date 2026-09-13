@@ -8,17 +8,17 @@
 
 **Sun** — azimuth 213.2°, elevation 18.3° at 2025-12-23T14:13:12−05:00, from the photograph's own **EXIF DateTimeOriginal**; 625.7 W/m² direct normal, sky at strength 0.0424, Filmic, **+6.00 stops, clamped**. The linear frame's median is **0.000314** against a middle-grey target of 0.18, so the meter asked for **+9.16 stops** and the development held at the ceiling of 6 — *a scene this far from a photographable level is not developed into a picture of one*. The physical rule would have given **+1.25 stops**.
 
-**In the scene** — 4,500,142 triangles: 10 building tiles (321,814 tris, none missing, none LOD-substituted), 8 landmark models of which 3 fall inside the 32.3° frame, 36,928 pavement polygons with **0 dropped**, 1,134 props, 5,785 kit pieces, 22 park-ground meshes over 220 surfaces, 4 structures tiles (65,356 tris), 69 vehicles and 248 people, terrain 105,044 tris at 2.0 m near / 40.0 m far with no holes.
+**In the scene** — 4,500,126 triangles: 10 building tiles (321,814 tris, none missing, none LOD-substituted), 8 landmark models of which 3 fall inside the 32.3° frame, 36,928 pavement polygons with **0 dropped**, 1,134 props, 5,785 kit pieces, 22 park-ground meshes over 220 surfaces, 4 structures tiles (65,356 tris), 69 vehicles and 248 people, terrain 105,044 tris at 2.0 m near / 40.0 m far with no holes.
 
 ## Verdict — the worst frame in this queue: the camera ended up inside a torn park surface, the record knew the frame was closed 96 m ahead before it rendered, and the runner passed it as usable anyway
 
 **The render is not a view of anything.** The lower half is filled by pale green and white planes folded into sharp wedges, seen from a few metres and edge-on; above them sit dark unlit masses and a sliver of brick. The record names the object: `t_-5_5_park_recreation_grass`, **3.4 m** from the lens, 27.2° below the axis. The pale green is the flat colour the park-ground builder authors for mown grass, kept because the texture catalogue has no photographic set for it (J40) — so the wedges filling this frame are recognisably a park lawn, torn into spikes and pushed through the camera.
 
-**Everything downstream agrees that there is nothing to see, and the sheet was still published.** The walk reported that no point within 80 m satisfied its own rule. The sightline cast 13 rays: **0 clear, 0 on the subject**, all stopped at **86.6 m** on `t_-5_5_red_brick`, visible fraction **0.000**. The meter asked for nine stops and was clamped at six. The frame verdict from the runner is **mean 0.285, sd 0.2528, usable: true** — because the usability test reads frame statistics and has no access to any of the three failures above. That is the finding: **the decline mechanism exists and is wired to the wrong signal** (J92's other half).
+**Everything downstream agrees that there is nothing to see, and the sheet was still published.** The walk reported that no point within 80 m satisfied its own rule. The sightline cast 13 rays: **0 clear, 0 on the subject**, all stopped at **86.6 m** on `t_-5_5_red_brick`, visible fraction **0.000**. The meter asked for nine stops and was clamped at six. The frame verdict from the runner is **mean 0.285, sd 0.2525, usable: true** — because the usability test reads frame statistics and has no access to any of the three failures above. That is the finding: **the decline mechanism exists and is wired to the wrong signal** (J92's other half).
 
-**The exposure gap is the widest in the pass.** The render's development offset from the grey convention is **−3.038 stops** and the photograph's is **+1.265** — **4.303 stops** apart. Median **0.1597** against **0.6891**, a ratio of **0.232**. Nothing about that is a judgement on the build's lighting; it is the distance between an overcast December afternoon photographed at eye level and a camera buried in a lawn.
+**The exposure gap is the widest in the pass.** The render's development offset from the grey convention is **−3.038 stops** and the photograph's is **+1.265** — **4.303 stops** apart. Median **0.1598** against **0.6891**, a ratio of **0.232**. Nothing about that is a judgement on the build's lighting; it is the distance between an overcast December afternoon photographed at eye level and a camera buried in a lawn.
 
-**And the probe measured the shed, not the tower.** `lm_c_hudson_yards.44`, **33.94 m** above a ground of 8.94 m, extent **191.4 m by 175.9 m** — a 191-metre-wide, 34-metre-tall object is the Eastern Yard's podium, while the catalogue entry 64.6 m away carries **387.1 m**. The aim then went to that object's mid-height, **16.7 m**, which is inside the podium. This is J94: the probe takes the member standing at the coordinate.
+**And the probe measured the shed, not the tower.** `lm_c_hudson_yards.44`, **33.94 m** above a ground of 8.94 m, presenting **256.0 m** across this camera's bearing of 302.6° by **251.4 m** along it — a quarter-kilometre-wide, 34-metre-tall object is the Eastern Yard's podium, while the catalogue entry 64.6 m away carries **387.1 m**. The aim then went to that object's mid-height, **16.7 m**, which is inside the podium. This is J94: the probe takes the member standing at the coordinate. The fan is that podium's own extent and not the **370.3 m** the whole of `lm_c_hudson_yards` presents over **54 parts**, which the record prints beside it — on this sheet the two are only a hundred metres apart, because the podium *is* most of the site (J113).
 
 ## What matches
 
@@ -39,7 +39,7 @@
 * **The probe measured a 33.94 m podium for a 387.1 m tower** and aimed the frame at 16.7 m (J94).
 * **Six of 10 structures tiles in range have no structures file.**
 * **Mid-field ground is under the terrain on 0.2967 of 273 samples**, minimum −1.153 m; near-field on 0.0748 of 548, minimum **−1.995 m** (J85).
-* **34,255 kit records were in range and 5,785 were drawn**, capped at a 943,930-triangle budget.
+* **34,255 kit records were in range and 5,785 were drawn**, capped at a 943,946-triangle budget.
 * **3,493 tree rows did not fit** the props budget of 1,092,832 triangles, **0** of the 169 impostor cards are procedural canopy stems, and 4 cards were dropped.
 * **Thirty-eight props across seven kinds were wanted in range and have no asset**: 21 misc structure, 6 artwork, 4 drinking fountain, 3 memorial, 2 vending machine, 1 billboard, 1 passenger-information sign.
 * **Seven park-ground surface kinds fall back to the builder's flat colour** (J40) — and on this sheet that flat colour is most of the image.
@@ -54,10 +54,10 @@
 | the frame was passed as usable | the usability test reads the frame's mean and standard deviation and never reads the walk's own refusal, the 96 m closure or the 0.000 visible fraction | **verification — open, J92's other half** |
 | visible fraction 0.000 | there is no line from any reachable point to this subject at eye level from the photograph's position; the walk says so | verification — open, J87 family |
 | clamped at +6.00 against +9.16 asked, 4.303 stops from the photograph | a camera inside geometry reads almost no light; the clamp is declared (J83) | verification — declared clamp, open cause |
-| probe 33.94 m for a 387.1 m subject, aim at 16.7 m | the probe takes the member standing at the coordinate — here the Eastern Yard podium, 191.4 m wide (J94) | **verification — open, J94** |
+| probe 33.94 m for a 387.1 m subject, aim at 16.7 m | the probe takes the member standing at the coordinate — here the Eastern Yard podium, 256.0 m across this bearing (J94) | **verification — open, J94** |
 | 6 of 10 structures tiles without a file | no structures file was built for those tiles | **data — open, six tiles unbuilt** |
 | 0.2967 of mid-field ground under the terrain | the 2013 bare-earth DEM under the Hudson Yards platform (J85) | geometry — open, measured |
-| 34,255 kit records in range, 5,785 drawn | the kit triangle budget at 943,930 | performance |
+| 34,255 kit records in range, 5,785 drawn | the kit triangle budget at 943,946 | performance |
 | 3,493 tree rows dropped, 0 canopy stems | the props triangle budget at 1,092,832 triangles | performance + declared rule |
 | 38 props across seven kinds unmapped | no asset exists for those kinds | data |
 | seven park surface kinds flat-coloured | the texture catalogue has no photographic set for any of them (J40) | **declared decision** |
