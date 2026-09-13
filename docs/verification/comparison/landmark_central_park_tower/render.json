@@ -82,9 +82,9 @@
   "view_m": 18.0
  },
  "frame": {
-  "mean": 0.509,
+  "mean": 0.5089,
   "reason": null,
-  "sd": 0.2142,
+  "sd": 0.2141,
   "usable": true
  },
  "frame_retry": null,
@@ -94,16 +94,16 @@
  "lighting": {
   "background_strength": 0.03347126021981239,
   "development": {
-   "linear_p05": 0.000326,
-   "linear_p50": 0.004002,
-   "linear_p95": 0.048183,
-   "log_average_linear": 0.003756,
-   "median_linear": 0.004002,
+   "linear_p05": 0.000327,
+   "linear_p50": 0.004007,
+   "linear_p95": 0.048184,
+   "log_average_linear": 0.003761,
+   "median_linear": 0.004007,
    "metered": true,
    "note": "under-lit: the scene needed +5.49 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
-   "stops": 5.491,
-   "stops_unclamped": 5.491,
+   "stops": 5.489,
+   "stops_unclamped": 5.489,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
@@ -140,7 +140,7 @@
   "width": 1280
  },
  "render_png": "docs/verification/comparison/landmark_central_park_tower/render.png",
- "rendered_at": "2026-09-12T17:50:06Z",
+ "rendered_at": "2026-09-13T19:28:02Z",
  "resolution_note": "904x1206; the reference photograph is 1280x1707 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -172,7 +172,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 577854,
+   "pedestrian_triangles": 577856,
    "per_class": {
     "black_car": 11,
     "boro_taxi": 7,
@@ -185,7 +185,7 @@
    "placed_pedestrians": 243,
    "placed_vehicles": 52,
    "reason": null,
-   "seconds": 244.84,
+   "seconds": 501.1,
    "snapshot": {
     "building_footprints_tested": 2742,
     "car_free_park_drives_matched": 0,
@@ -201,7 +201,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.63,
+     "load_seconds": 2.29,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -226,9 +226,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 905
    },
-   "snapshot_note": "cached -2718_7288_12_1_964ca57aece87a0d_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1083015,
+   "triangles": 1083017,
    "vehicle_lods": {
     "LOD0": 1,
     "LOD1": 8,
@@ -299,7 +299,7 @@
    7288.41
   ],
   "kit": {
-   "capped": "triangle budget 982470",
+   "capped": "triangle budget 982468",
    "per_category": {
     "bulkhead": 7,
     "cornice": 7,
@@ -1084,7 +1084,7 @@
    }
   },
   "radius_m": 699.6168198892102,
-  "seconds": 337.58,
+  "seconds": 646.68,
   "structures": {
    "imported": [
     "t_-4_7"
@@ -1115,7 +1115,7 @@
    "z_max_m": 28.57,
    "z_min_m": 4.77
   },
-  "triangles": 4500092
+  "triangles": 4500094
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1125,18 +1125,18 @@
   "radius_m": 699.6168198892102
  },
  "seconds": {
-  "render": 70.3,
-  "scene": 481.0,
-  "total": 551.3
+  "render": 103.9,
+  "scene": 1055.4,
+  "total": 1159.4
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 237.8 m above its ground",
   "subject_blocked_at_m": 106.7,
   "subject_blocked_by": "t_-3_7_glass_curtain",
   "subject_clear_fraction": 0.923,
-  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate; clipped to the frame, because a ray outside the picture tests something that is not in it",
-  "subject_fan_half_angle_deg": 12.27,
-  "subject_fan_m": 101.3,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate, not the 1046.8 m of the whole model around it, which is the site rather than the subject (J113); clipped to the frame, because a ray outside the picture tests something that is not in it",
+  "subject_fan_half_angle_deg": 15.92,
+  "subject_fan_m": 132.9,
   "subject_fan_tall_m": 475.6,
   "subject_fan_v_half_angle_deg": 45.0,
   "subject_lands_at_m": 22.5,
@@ -1177,11 +1177,18 @@
   "name": "Central Park Tower",
   "origin_distance_m": 138.3,
   "plan_extent": {
+   "across_bearing_deg": 51.7,
    "is_tile_mesh": false,
-   "narrow_m": 89.4,
-   "note": "the bounding box of the object the height was measured off",
+   "model": "lm_c_billionaires_row",
+   "model_axis_narrow_m": 682.1,
+   "model_axis_width_m": 875.3,
+   "model_narrow_m": 509.4,
+   "model_width_m": 1046.8,
+   "narrow_m": 134.9,
+   "note": "`width_m` and `narrow_m` are the box of lm_c_billionaires_row.43 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 74 part(s) of lm_c_billionaires_row, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_billionaires_row.43",
-   "width_m": 101.3
+   "parts": 74,
+   "width_m": 132.9
   }
  },
  "sun": {

@@ -82,11 +82,11 @@
  "lighting": {
   "background_strength": 0.036147166043519974,
   "development": {
-   "linear_p05": 0.002115,
-   "linear_p50": 0.018925,
-   "linear_p95": 0.095733,
-   "log_average_linear": 0.015282,
-   "median_linear": 0.018925,
+   "linear_p05": 0.002114,
+   "linear_p50": 0.018926,
+   "linear_p95": 0.09565,
+   "log_average_linear": 0.015281,
+   "median_linear": 0.018926,
    "metered": true,
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
    "stops": 3.25,
@@ -127,7 +127,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_central_park_wall_gates/render.png",
- "rendered_at": "2026-09-09T18:26:17Z",
+ "rendered_at": "2026-09-13T19:38:13Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -156,7 +156,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 579325,
+   "pedestrian_triangles": 579332,
    "per_class": {
     "black_car": 10,
     "boro_taxi": 12,
@@ -169,7 +169,7 @@
    "placed_pedestrians": 441,
    "placed_vehicles": 88,
    "reason": null,
-   "seconds": 186.37,
+   "seconds": 301.08,
    "snapshot": {
     "building_footprints_tested": 3013,
     "car_free_park_drives_matched": 5,
@@ -185,7 +185,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.61,
+     "load_seconds": 2.36,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -210,9 +210,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 1077
    },
-   "snapshot_note": "cached -1885_7328_17_0_1d5216294f409b9b_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1080889,
+   "triangles": 1080896,
    "vehicle_lods": {
     "LOD2": 88
    },
@@ -308,7 +308,7 @@
    7327.68
   ],
   "kit": {
-   "capped": "triangle budget 484867",
+   "capped": "triangle budget 484860",
    "per_category": {
     "billboard": 1,
     "bulkhead": 4,
@@ -1153,7 +1153,8 @@
     "yaw_rule": "a tree's yaw is not in any source: it is drawn from a hash of the stem's own position (SplitMix64 over the metre-rounded x, y), uniform over 360 deg, so the same tree is drawn the same way in every render and no two neighbours share a silhouette; a rule, not a measurement"
    },
    "capped": "triangle budget 843097",
-   "dropped_for_budget": 4787,
+   "dropped_for_budget": 4770,
+   "dropped_on_suppressed_building": 17,
    "impostor_cards_dropped": 9,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -1217,7 +1218,7 @@
    }
   },
   "radius_m": 887.0563326830529,
-  "seconds": 261.46,
+  "seconds": 426.8,
   "structures": {
    "imported": [
     "t_-1_7",
@@ -1285,7 +1286,7 @@
    "z_max_m": 30.72,
    "z_min_m": 2.03
   },
-  "triangles": 4500213
+  "triangles": 4500220
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1295,9 +1296,9 @@
   "radius_m": 887.0563326830529
  },
  "seconds": {
-  "render": 178.3,
-  "scene": 263.9,
-  "total": 442.2
+  "render": 167.7,
+  "scene": 431.8,
+  "total": 599.5
  },
  "sightline": {
   "subject_note": "nothing built stands within 6 m of the subject's coordinate; the nearest built thing is lm_c_the_plaza.6, 30 m away at bearing 270 deg, so the coordinate the item records is that far off the fabric it names; no sightline was tested",
