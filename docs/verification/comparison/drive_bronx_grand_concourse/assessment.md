@@ -53,3 +53,35 @@
 | chroma 0.570 of the photograph's | one material family per facade class; the photograph's brick varies building by building | material — **DEVIATIONS J66** |
 | shadow floor p05 0.217 against 0.144 | a metered frame lit from behind the camera against a November photograph with a shaded return; the Sun is a chosen instant | stated choice — **DEVIATIONS J80** |
 | exposure offset -1.188 stops between the two halves | the render is metered at middle grey and the photographer exposed 1.41 stops above that convention | — (not a gap) |
+
+## Re-read against the re-rendered record
+
+This sheet was rendered again on the v17 pass's restart, to carry the `record_shape` stamp that
+tells a reader which generation of the renderer wrote a record (**DEVIATIONS J119**). Nothing above
+was rewritten, and the evidence for leaving it is stronger than a re-reading: diffing the new record
+against the committed one field by field, **every measured value is identical**, and the frame it replaced is reproduced **pixel for pixel**: `render.png`'s decoded image is identical, and the only bytes that differ are the five `tEXt` chunks in which Blender records the render date and its own timings. `sheet.png` is byte-identical. What
+moved is the wall clock:
+
+`scene.agents.seconds` 640.79 -> 644.44,
+`scene.seconds` 801.42 -> 787.95,
+`seconds.render` 218.0 -> 324.0,
+`seconds.scene` 837.9 -> 831.9,
+`seconds.total` 1055.9 -> 1155.9.
+The other change is the agent snapshot's provenance: the previous render simulated the crowd and
+this one read the same snapshot back from the cache, which the diff proves rather than assumes --
+every agent count in the record is unchanged, or that note would not be the only field beside the
+clock that moved (`simulated (already built)` to
+`cached 2649_14659_9_0_9eb5722d51a6d31d_1788868452.json`).
+
+
+## Measured for this assessment
+
+The wall-clock figures in the table are the **previous** render's, quoted so that "every measured value is identical" is a comparison a reader can check rather than a claim. They were read from this sheet's own `render.json` at commit `f15e47a`, its last state before the pass restarted.
+
+| figure | where it comes from |
+|---|---|
+| 640.79 | `scene.agents.seconds` in the previous record; the re-render took 644.44 s |
+| 801.42 | `scene.seconds` in the previous record; the re-render took 787.95 s |
+| 218.0 | `seconds.render` in the previous record; the re-render took 324.0 s |
+| 837.9 | `seconds.scene` in the previous record; the re-render took 831.9 s |
+| 1055.9 | `seconds.total` in the previous record; the re-render took 1155.9 s |

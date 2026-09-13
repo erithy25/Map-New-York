@@ -192,6 +192,29 @@ names into 24 published records, which is provably equivalent from the diff and 
 renderer output; or keeping a corpus with a generation boundary inside it that 170 assessments would
 quote. Neither is worth two hours.
 
+### The re-renders come back bit-for-bit, and that is the finding worth keeping
+
+The first three sheets off the restart were diffed against the records and frames they replaced,
+field by field and pixel by pixel:
+
+| what was compared | result |
+|---|---|
+| every field of `render.json` | identical, apart from five wall-clock figures and the plan-extent renaming |
+| `render.png`, decoded | **identical, pixel for pixel** |
+| `render.png`, as bytes | differs in exactly five `tEXt` chunks: `Date`, `RenderTime`, and Cycles' three per-layer times |
+| `sheet.png` | **byte-identical** |
+| `scene.agents.snapshot_note` | the previous render simulated the crowd, this one read the same snapshot from cache — same hash, and every agent count unchanged |
+
+So **Cycles reproduces these frames exactly**, 64 samples and all, and a re-render changes no
+evidence. Two things follow. The 1.9 hours spent re-rendering the 16 sheets that were already right
+buys a uniform corpus and costs nothing in fidelity — no sheet's picture or figure moves under it.
+And more usefully: **this pass is reproducible.** A reader who doubts a sheet can rebuild it and get
+the same picture, which is a stronger claim than a verification corpus usually gets to make, and it
+is the reason an assessment whose record came back unchanged is *re-read with the diff as evidence*
+rather than rewritten. Those re-reads carry the comparison in a `## Re-read against the re-rendered
+record` section, with the previous render's timings declared so a reader can check the claim instead
+of taking it.
+
 ## v16 — every sheet, once more, under the probes and the development that the v15 pass measured
 
 The v15 pass rendered all 172 items (166 sheets, 6 refused) and the measurements over that finished

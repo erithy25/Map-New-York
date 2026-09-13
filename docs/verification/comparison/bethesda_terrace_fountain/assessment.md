@@ -66,26 +66,27 @@ The cause is in the record two lines further down: among the props the scene wan
 This sheet was rendered again on the v17 pass's restart, to carry the `record_shape` stamp that
 tells a reader which generation of the renderer wrote a record (**DEVIATIONS J119**). Nothing above
 was rewritten, and the evidence for leaving it is stronger than a re-reading: diffing the new record
-against the committed one field by field, **every measured value is identical** — the only changes
-are the three wall-clock timings (`seconds.scene` 148.9 → 142.8, `seconds.render` 63.4 → 62.2,
-`seconds.total` 212.3 → 205.0) and the plan-extent field names, where the object's box moved from
-`part_width_m`/`part_narrow_m` to `width_m`/`narrow_m` and the model's from `width_m`/`narrow_m` to
-`model_*`. No figure quoted above is a field name, and `assessment_check.py` finds every figure in
-the prose in the new record.
+against the committed one field by field, **every measured value is identical**, and the frame it replaced is reproduced **pixel for pixel**: `render.png`'s decoded image is identical, and the only bytes that differ are the five `tEXt` chunks in which Blender records the render date and its own timings. `sheet.png` is byte-identical. What
+moved is the wall clock:
 
-That the two renders agree to the last decimal is itself a finding worth stating: **this pass is
-reproducible**, so a sheet's evidence can be re-derived from the repository rather than only
-believed.
+`scene.agents.seconds` 97.84 -> 93.81,
+`scene.seconds` 144.96 -> 139.25,
+`seconds.render` 63.4 -> 62.2,
+`seconds.scene` 148.9 -> 142.8,
+`seconds.total` 212.3 -> 205.0.
+The other change is the plan-extent field names, where the object's box moved from
+`part_width_m`/`part_narrow_m` to `width_m`/`narrow_m` and the model's from `width_m`/`narrow_m` to
+`model_*` (no figure quoted above is a field name).
+
 
 ## Measured for this assessment
 
-Three figures above are not in this render record and cannot be: they are the **previous** render's
-wall-clock timings, quoted so that "every measured value is identical" is a comparison a reader can
-check rather than a claim. They were read from this sheet's own `render.json` as it stood at commit
-`aebe5fe`, the last state of the repository before the pass restarted.
+The wall-clock figures in the table are the **previous** render's, quoted so that "every measured value is identical" is a comparison a reader can check rather than a claim. They were read from this sheet's own `render.json` at commit `ca6033d`, its last state before the pass restarted.
 
 | figure | where it comes from |
 |---|---|
-| 148.9 | `seconds.scene` in the previous record; the re-render took 142.8 s to build the same scene |
+| 97.84 | `scene.agents.seconds` in the previous record; the re-render took 93.81 s |
+| 144.96 | `scene.seconds` in the previous record; the re-render took 139.25 s |
 | 63.4 | `seconds.render` in the previous record; the re-render took 62.2 s |
+| 148.9 | `seconds.scene` in the previous record; the re-render took 142.8 s |
 | 212.3 | `seconds.total` in the previous record; the re-render took 205.0 s |

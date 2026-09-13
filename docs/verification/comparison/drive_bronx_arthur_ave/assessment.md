@@ -56,8 +56,8 @@
 This sheet was rendered again on the v17 pass's restart, to carry the `record_shape` stamp that
 tells a reader which generation of the renderer wrote a record (**DEVIATIONS J119**). Nothing above
 was rewritten, and the evidence for leaving it is stronger than a re-reading: diffing the new record
-against the committed one field by field, **every measured value is identical**. What moved is the
-wall clock:
+against the committed one field by field, **every measured value is identical**, and the frame it replaced is reproduced **pixel for pixel**: `render.png`'s decoded image is identical, and the only bytes that differ are the five `tEXt` chunks in which Blender records the render date and its own timings. `sheet.png` is byte-identical. What
+moved is the wall clock:
 
 `scene.agents.seconds` 675.95 -> 681.62,
 `scene.seconds` 884.29 -> 877.56,
