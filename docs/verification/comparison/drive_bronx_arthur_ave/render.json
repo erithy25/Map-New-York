@@ -122,6 +122,7 @@
  "name": "Bronx drive-through: Arthur Avenue (Belmont)",
  "night": false,
  "pitch_reason": "level optical axis (the reference names no subject to aim at)",
+ "record_shape": 1,
  "reference_photo": {
   "author": "Joe Mabel",
   "confidence": "medium",
@@ -136,7 +137,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_bronx_arthur_ave/render.png",
- "rendered_at": "2026-09-13T13:48:14Z",
+ "rendered_at": "2026-09-13T20:10:13Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -183,7 +184,7 @@
    "placed_pedestrians": 391,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 675.95,
+   "seconds": 681.62,
    "snapshot": {
     "building_footprints_tested": 4239,
     "density_lane_km": 25.141,
@@ -223,7 +224,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 391
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached 5248_17241_13_2_fb3fca3924fdb657_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 1083453,
    "vehicle_lods": {
@@ -713,7 +714,7 @@
    }
   },
   "radius_m": 735.9087944963435,
-  "seconds": 884.29,
+  "seconds": 877.56,
   "structures": {
    "imported": [
     "t_4_16",
@@ -791,9 +792,9 @@
   "radius_m": 735.9087944963435
  },
  "seconds": {
-  "render": 211.0,
-  "scene": 944.0,
-  "total": 1155.0
+  "render": 254.7,
+  "scene": 939.8,
+  "total": 1194.5
  },
  "sightline": {
   "subject_note": "the item names no point subject",
