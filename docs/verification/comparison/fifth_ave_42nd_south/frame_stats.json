@@ -1,6 +1,6 @@
 {
  "slug": "fifth_ave_42nd_south",
- "rendered_at": "2026-09-13T15:10:47Z",
+ "rendered_at": "2026-09-13T23:14:46Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",

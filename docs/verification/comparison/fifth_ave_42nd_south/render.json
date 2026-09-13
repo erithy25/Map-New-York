@@ -117,6 +117,7 @@
  "name": "Fifth Avenue at 42nd Street (NYPL), street view looking south",
  "night": false,
  "pitch_reason": "level optical axis (the reference names no subject to aim at)",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Rhododendrites",
   "confidence": "medium",
@@ -131,7 +132,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/fifth_ave_42nd_south/render.png",
- "rendered_at": "2026-09-13T15:10:47Z",
+ "rendered_at": "2026-09-13T23:14:46Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -175,7 +176,7 @@
    "placed_pedestrians": 258,
    "placed_vehicles": 53,
    "reason": null,
-   "seconds": 775.16,
+   "seconds": 735.2,
    "snapshot": {
     "building_footprints_tested": 1488,
     "density_lane_km": 29.352,
@@ -215,7 +216,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 1208
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -2607_5942_13_1_9a9914bbb27b5989_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 1083493,
    "vehicle_lods": {
@@ -1108,7 +1109,7 @@
    }
   },
   "radius_m": 740.1071388460414,
-  "seconds": 909.65,
+  "seconds": 841.74,
   "structures": {
    "imported": [
     "t_-2_5",
@@ -1144,9 +1145,9 @@
   "radius_m": 740.1071388460414
  },
  "seconds": {
-  "render": 173.9,
-  "scene": 916.3,
-  "total": 1090.2
+  "render": 207.7,
+  "scene": 845.6,
+  "total": 1053.3
  },
  "sightline": {
   "subject_note": "the item names no point subject",
