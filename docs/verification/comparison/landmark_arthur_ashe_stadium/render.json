@@ -78,11 +78,11 @@
  "lighting": {
   "background_strength": 0.03119036927819252,
   "development": {
-   "linear_p05": 0.002126,
-   "linear_p50": 0.092731,
-   "linear_p95": 0.175078,
-   "log_average_linear": 0.037606,
-   "median_linear": 0.092731,
+   "linear_p05": 0.002125,
+   "linear_p50": 0.092721,
+   "linear_p95": 0.175069,
+   "log_average_linear": 0.037605,
+   "median_linear": 0.092721,
    "metered": true,
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
    "stops": 0.957,
@@ -123,7 +123,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_arthur_ashe_stadium/render.png",
- "rendered_at": "2026-09-12T17:30:05Z",
+ "rendered_at": "2026-09-13T18:05:13Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -149,7 +149,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 46071,
+   "pedestrian_triangles": 46070,
    "per_class": {
     "black_car": 1,
     "boro_taxi": 1,
@@ -160,7 +160,7 @@
    "placed_pedestrians": 35,
    "placed_vehicles": 87,
    "reason": null,
-   "seconds": 77.95,
+   "seconds": 149.61,
    "snapshot": {
     "building_footprints_tested": 1074,
     "density_lane_km": 20.764,
@@ -175,7 +175,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.64,
+     "load_seconds": 2.11,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -200,9 +200,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 232
    },
-   "snapshot_note": "cached 8676_5533_12_0_fe18b4cda2e4aef3_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 543882,
+   "triangles": 543881,
    "vehicle_lods": {
     "LOD2": 87
    },
@@ -1029,7 +1029,7 @@
    }
   },
   "radius_m": 739.4585867616913,
-  "seconds": 141.64,
+  "seconds": 230.03,
   "structures": {
    "imported": [
     "t_7_5",
@@ -1100,7 +1100,7 @@
    "z_max_m": 18.15,
    "z_min_m": 0.0
   },
-  "triangles": 3215884
+  "triangles": 3215883
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1110,18 +1110,18 @@
   "radius_m": 739.4585867616913
  },
  "seconds": {
-  "render": 54.2,
-  "scene": 143.1,
-  "total": 197.3
+  "render": 72.2,
+  "scene": 234.1,
+  "total": 306.3
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 3.0 m above its ground",
   "subject_blocked_at_m": null,
   "subject_blocked_by": null,
   "subject_clear_fraction": 1.0,
-  "subject_fan_from": "the 12 m floor: the subject measures 6.0 m, which is under it, so the fan is the floor rather than the subject; across, the measured plan extent of the object standing at the coordinate; clipped to the frame, because a ray outside the picture tests something that is not in it",
+  "subject_fan_from": "the 12 m floor: the subject measures 6.0 m, which is under it, so the fan is the floor rather than the subject; across, the measured plan extent of the object standing at the coordinate, not the 224.1 m of the whole model around it, which is the site rather than the subject (J113); clipped to the frame, because a ray outside the picture tests something that is not in it",
   "subject_fan_half_angle_deg": 27.22,
-  "subject_fan_m": 154.2,
+  "subject_fan_m": 210.6,
   "subject_fan_tall_m": 12.0,
   "subject_fan_v_half_angle_deg": 13.99,
   "subject_lands_at_m": 4.0,
@@ -1161,11 +1161,18 @@
   "name": "Arthur Ashe Stadium",
   "origin_distance_m": 23.6,
   "plan_extent": {
+   "across_bearing_deg": 59.8,
+   "axis_narrow_m": 163.9,
+   "axis_width_m": 163.9,
    "is_tile_mesh": false,
-   "narrow_m": 153.6,
-   "note": "the bounding box of the object the height was measured off",
+   "model": "lm_c_usta_arthur_ashe",
+   "narrow_m": 224.1,
+   "note": "`part_width_m` is the box of lm_c_usta_arthur_ashe.0 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 5 part(s) of lm_c_usta_arthur_ashe, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_usta_arthur_ashe.0",
-   "width_m": 154.2
+   "part_narrow_m": 210.4,
+   "part_width_m": 210.6,
+   "parts": 5,
+   "width_m": 224.1
   }
  },
  "sun": {

@@ -70,7 +70,7 @@
   "view_m": 20.9
  },
  "frame": {
-  "mean": 0.5349,
+  "mean": 0.5348,
   "reason": null,
   "sd": 0.2157,
   "usable": true
@@ -82,13 +82,13 @@
  "lighting": {
   "background_strength": 0.03428821265697479,
   "development": {
-   "linear_p05": 0.00038,
-   "linear_p50": 0.006484,
-   "linear_p95": 0.051624,
-   "log_average_linear": 0.00717,
-   "median_linear": 0.006484,
+   "linear_p05": 0.000379,
+   "linear_p50": 0.006485,
+   "linear_p95": 0.051647,
+   "log_average_linear": 0.007169,
+   "median_linear": 0.006485,
    "metered": true,
-   "note": "under-lit: the scene needed +4.80 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
+   "note": "under-lit: the scene needed +4.79 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
    "stops": 4.795,
    "stops_unclamped": 4.795,
@@ -128,7 +128,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_apollo_theater/render.png",
- "rendered_at": "2026-09-09T17:42:33Z",
+ "rendered_at": "2026-09-13T18:00:02Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -159,7 +159,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 576338,
+   "pedestrian_triangles": 576331,
    "per_class": {
     "black_car": 5,
     "boro_taxi": 6,
@@ -173,7 +173,7 @@
    "placed_pedestrians": 371,
    "placed_vehicles": 85,
    "reason": null,
-   "seconds": 254.92,
+   "seconds": 482.79,
    "snapshot": {
     "building_footprints_tested": 4616,
     "density_lane_km": 28.962,
@@ -188,7 +188,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.56,
+     "load_seconds": 2.11,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -213,9 +213,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 430
    },
-   "snapshot_note": "cached -21_12186_16_2_293f33b9950676d7_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1082215,
+   "triangles": 1082208,
    "vehicle_lods": {
     "LOD1": 1,
     "LOD2": 84
@@ -952,6 +952,7 @@
    },
    "capped": null,
    "dropped_for_budget": 0,
+   "dropped_on_suppressed_building": 8,
    "impostor_cards_dropped": 11,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -967,7 +968,7 @@
     "linknyc": 13,
     "newsstands": 4,
     "osm_newyork_pbf": 46,
-    "plan_cooling_towers": 200,
+    "plan_cooling_towers": 192,
     "plan_railroad_structure": 9,
     "rule:lamp_30_40m_alt": 119,
     "rule:manhole_40m": 97,
@@ -980,7 +981,7 @@
     "bus_shelter": 10,
     "bus_stop_sign": 17,
     "citibike_dock": 203,
-    "cooling_tower": 200,
+    "cooling_tower": 192,
     "hydrant": 64,
     "linknyc": 13,
     "mailbox": 2,
@@ -991,7 +992,7 @@
     "subway_vent_grate": 9,
     "tree": 1317
    },
-   "placed": 2065,
+   "placed": 2057,
    "radius_m": 255.58822673620884,
    "rows_in_range": 2188,
    "tiles_missing": [],
@@ -1005,13 +1006,13 @@
    "tree_mean_scale": 0.866,
    "tree_scale_out_of_band": 6,
    "tree_species_substituted": 387,
-   "triangles": 1040630,
+   "triangles": 1037078,
    "unmapped_kinds": {
     "artwork": 1
    }
   },
   "radius_m": 505.5882267362088,
-  "seconds": 380.61,
+  "seconds": 637.35,
   "structures": {
    "imported": [
     "t_-1_12",
@@ -1037,7 +1038,7 @@
    "z_max_m": 31.52,
    "z_min_m": 3.39
   },
-  "triangles": 4077848
+  "triangles": 4074289
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1047,22 +1048,22 @@
   "radius_m": 505.5882267362088
  },
  "seconds": {
-  "render": 120.8,
-  "scene": 383.3,
-  "total": 504.1
+  "render": 113.8,
+  "scene": 643.8,
+  "total": 757.6
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 8.8 m above its ground",
   "subject_blocked_at_m": null,
   "subject_blocked_by": null,
   "subject_clear_fraction": 1.0,
-  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate",
-  "subject_fan_half_angle_deg": 26.61,
-  "subject_fan_m": 37.3,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate, not the 82.9 m of the whole model around it, which is the site rather than the subject (J113)",
+  "subject_fan_half_angle_deg": 31.5,
+  "subject_fan_m": 45.6,
   "subject_fan_tall_m": 17.7,
   "subject_fan_v_half_angle_deg": 13.37,
-  "subject_lands_at_m": 20.9,
-  "subject_lands_on": "lm_c_apollo_theater.6",
+  "subject_lands_at_m": 16.8,
+  "subject_lands_on": "prop_tree_honeylocust_small_4",
   "subject_own_fabric_nearest": null,
   "subject_own_fabric_nearest_m": null,
   "subject_range_m": 37.2,
@@ -1098,11 +1099,18 @@
   "name": "Apollo Theater marquee",
   "origin_distance_m": 36.4,
   "plan_extent": {
+   "across_bearing_deg": 35.4,
+   "axis_narrow_m": 61.1,
+   "axis_width_m": 62.1,
    "is_tile_mesh": false,
-   "narrow_m": 29.4,
-   "note": "the bounding box of the object the height was measured off",
+   "model": "lm_c_apollo_theater",
+   "narrow_m": 86.0,
+   "note": "`part_width_m` is the box of lm_c_apollo_theater.8 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 9 part(s) of lm_c_apollo_theater, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_apollo_theater.8",
-   "width_m": 37.3
+   "part_narrow_m": 47.5,
+   "part_width_m": 45.6,
+   "parts": 9,
+   "width_m": 82.9
   }
  },
  "sun": {

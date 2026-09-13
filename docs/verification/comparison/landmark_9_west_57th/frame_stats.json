@@ -1,37 +1,37 @@
 {
  "slug": "landmark_9_west_57th",
- "rendered_at": "2026-09-09T17:34:05Z",
- "reference_file": "1.jpg",
+ "rendered_at": "2026-09-13T17:47:20Z",
+ "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
-  "width": 904,
-  "height": 1206,
-  "mean": 0.4942,
-  "sd": 0.2004,
-  "p05": 0.2139,
-  "p50": 0.4968,
-  "p95": 0.773,
-  "chroma": 0.0843,
-  "exposure_offset_stops": 0.23
+  "width": 1208,
+  "height": 906,
+  "mean": 0.4976,
+  "sd": 0.1879,
+  "p05": 0.2748,
+  "p50": 0.4991,
+  "p95": 0.9021,
+  "chroma": 0.062,
+  "exposure_offset_stops": 0.244
  },
  "reference": {
   "width": 1920,
-  "height": 2560,
-  "mean": 0.5188,
-  "sd": 0.2707,
-  "p05": 0.0849,
-  "p50": 0.5284,
-  "p95": 1.0,
-  "chroma": 0.0701,
-  "exposure_offset_stops": 0.423
+  "height": 1440,
+  "mean": 0.4893,
+  "sd": 0.2009,
+  "p05": 0.084,
+  "p50": 0.5029,
+  "p95": 0.7456,
+  "chroma": 0.1235,
+  "exposure_offset_stops": 0.268
  },
  "render_over_reference": {
-  "mean": 0.953,
-  "sd": 0.74,
-  "p50": 0.94,
-  "chroma": 1.203,
-  "exposure_offset_stops": -0.193,
+  "mean": 1.017,
+  "sd": 0.935,
+  "p50": 0.992,
+  "chroma": 0.502,
+  "exposure_offset_stops": -0.024,
   "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

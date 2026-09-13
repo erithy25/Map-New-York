@@ -83,9 +83,9 @@
   "view_m": 26.2
  },
  "frame": {
-  "mean": 0.5489,
+  "mean": 0.5488,
   "reason": null,
-  "sd": 0.1499,
+  "sd": 0.1498,
   "usable": true
  },
  "frame_retry": null,
@@ -96,15 +96,15 @@
   "background_strength": 0.037611715495586395,
   "development": {
    "linear_p05": 0.002186,
-   "linear_p50": 0.006858,
-   "linear_p95": 0.0255,
-   "log_average_linear": 0.008775,
-   "median_linear": 0.006858,
+   "linear_p50": 0.006861,
+   "linear_p95": 0.025501,
+   "log_average_linear": 0.008776,
+   "median_linear": 0.006861,
    "metered": true,
    "note": "under-lit: the scene needed +4.71 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
-   "stops": 4.714,
-   "stops_unclamped": 4.714,
+   "stops": 4.713,
+   "stops_unclamped": 4.713,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
@@ -141,7 +141,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_amnh/render.png",
- "rendered_at": "2026-09-09T17:40:21Z",
+ "rendered_at": "2026-09-13T18:02:03Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -176,7 +176,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 271398,
+   "pedestrian_triangles": 271390,
    "per_class": {
     "black_car": 7,
     "boro_taxi": 11,
@@ -191,7 +191,7 @@
    "placed_pedestrians": 181,
    "placed_vehicles": 84,
    "reason": null,
-   "seconds": 399.78,
+   "seconds": 663.41,
    "snapshot": {
     "building_footprints_tested": 3128,
     "car_free_park_drives_matched": 11,
@@ -207,7 +207,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.74,
+     "load_seconds": 2.21,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -232,9 +232,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 278
    },
-   "snapshot_note": "cached -1928_8959_11_0_d0f3bacc189057dc_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 773079,
+   "triangles": 773071,
    "vehicle_lods": {
     "LOD1": 1,
     "LOD2": 83
@@ -948,6 +948,7 @@
    },
    "capped": null,
    "dropped_for_budget": 0,
+   "dropped_on_suppressed_building": 1,
    "impostor_cards_dropped": 9,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -1008,12 +1009,12 @@
     "artwork": 1,
     "drinking_fountain": 6,
     "memorial": 2,
-    "parks_building": 3,
+    "parks_building": 2,
     "vending_machine": 2
    }
   },
   "radius_m": 619.6454724822814,
-  "seconds": 430.47,
+  "seconds": 719.17,
   "structures": {
    "imported": [
     "t_-2_8",
@@ -1055,7 +1056,7 @@
    "z_max_m": 43.09,
    "z_min_m": 15.09
   },
-  "triangles": 2938020
+  "triangles": 2938012
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1065,18 +1066,18 @@
   "radius_m": 619.6454724822814
  },
  "seconds": {
-  "render": 85.4,
-  "scene": 645.4,
-  "total": 730.8
+  "render": 83.0,
+  "scene": 1318.8,
+  "total": 1401.8
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 15.9 m above its ground",
   "subject_blocked_at_m": null,
   "subject_blocked_by": null,
   "subject_clear_fraction": 1.0,
-  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate; clipped to the frame, because a ray outside the picture tests something that is not in it",
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate, not the 350.0 m of the whole model around it, which is the site rather than the subject (J113); clipped to the frame, because a ray outside the picture tests something that is not in it",
   "subject_fan_half_angle_deg": 21.08,
-  "subject_fan_m": 264.7,
+  "subject_fan_m": 313.2,
   "subject_fan_tall_m": 31.9,
   "subject_fan_v_half_angle_deg": 7.62,
   "subject_lands_at_m": 26.2,
@@ -1116,11 +1117,18 @@
   "name": "American Museum of Natural History (Central Park West entrance)",
   "origin_distance_m": 113.3,
   "plan_extent": {
+   "across_bearing_deg": 308.0,
+   "axis_narrow_m": 237.4,
+   "axis_width_m": 290.1,
    "is_tile_mesh": false,
-   "narrow_m": 190.7,
-   "note": "the bounding box of the object the height was measured off",
+   "model": "lm_c_american_museum_natural_history",
+   "narrow_m": 346.6,
+   "note": "`part_width_m` is the box of lm_c_american_museum_natural_history.3 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 14 part(s) of lm_c_american_museum_natural_history, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_american_museum_natural_history.3",
-   "width_m": 264.7
+   "part_narrow_m": 325.9,
+   "part_width_m": 313.2,
+   "parts": 14,
+   "width_m": 350.0
   }
  },
  "sun": {
