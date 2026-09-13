@@ -215,6 +215,28 @@ NIGHT_EXPOSURE_STOPS = -1.25
 RENDER_WIDTH = 1280
 DEFAULT_SAMPLES = 64
 
+#: What generation of renderer wrote a ``render.json``, and therefore what its fields mean.
+#:
+#: **Bump this whenever a published field changes what it measures, or a measured value changes
+#: rule.**  Not for a comment, a log line or a new field nothing quotes -- for a change that makes
+#: an existing record's figures no longer comparable with a new one's.
+#:
+#: This exists because a pass can outlive the code that started it.  Over one afternoon the
+#: sightline fan was widened to the whole model (J113), measured, reverted, and then the plan-extent
+#: fields were renamed -- three rules in seven hours, with a renderer running throughout.  Each
+#: change left records behind that *looked* finished: the runner had them in its ``done`` list and
+#: the sheets were on disk.  32 of 48 records carried a rule the finished pass would not carry, and
+#: nothing in the corpus said so; the only way to tell was to read each record's key names against
+#: the commit log and reason about which source change could have touched it.  A declared
+#: generation makes that a lookup: a record whose ``record_shape`` is not the current one is stale,
+#: whatever its timestamp, and ``render_all_sheets.py`` puts it back on the queue at startup.
+#:
+#: History, so a reader can date a record they find:
+#:   1 -- first stamped generation: J111-J118 all landed, the fan spans the probed object, and
+#:        ``subject.plan_extent`` publishes ``width_m``/``narrow_m`` for that object with the whole
+#:        model's box beside it under ``model_*``.
+RECORD_SHAPE = 1
+
 #: Slug -> (scene radius m, prop radius m, kit radius m).  A skyline view needs kilometres of
 #: world and no facade detail; a street view needs the opposite.
 RADIUS_OVERRIDES: dict[str, tuple[float, float, float]] = {
@@ -1503,6 +1525,7 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
         for name in ("render.png", "sheet.png", "frame_stats.json", "render_error.txt"):
             (outdir / name).unlink(missing_ok=True)
         rec = {"slug": slug, "name": meta.get("name"), "group": meta.get("group"),
+               "record_shape": RECORD_SHAPE,
                "interior": True, "night": bool(meta.get("night")),
                "status": "not_renderable_interior", "reason": reason,
                "viewpoint": {"lat": vp["lat"], "lon": vp["lon"], "azimuth_deg": vp["azimuth_deg"],
@@ -1602,6 +1625,10 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
 
     record = {
         "slug": slug, "name": meta.get("name"), "group": meta.get("group"),
+        # Which generation of this renderer wrote the record, so a reader -- and the runner that
+        # decides what still needs rendering -- can tell a record of this pass from one of the pass
+        # before it without dating it against the commit log.
+        "record_shape": RECORD_SHAPE,
         "night": bool(meta.get("night")), "interior": bool(meta.get("interior")),
         "viewpoint": {"lat": vp["lat"], "lon": vp["lon"], "azimuth_deg": vp["azimuth_deg"],
                       "note": vp.get("note")},

@@ -28,22 +28,45 @@ runner_pid() { pgrep -f "$RUNNER_PATTERN" 2>/dev/null | head -1; }
 
 state_counts() {
     python3 - <<'PY'
-import json, pathlib
+import json, pathlib, sys
 p = pathlib.Path("blender_out/render_all_state.json")
 if not p.exists():
-    print("0 0 0"); raise SystemExit
+    print("0 0 0 0"); raise SystemExit
 d = json.loads(p.read_text())
 n = lambda k: len(d.get(k) or []) if isinstance(d.get(k), list) else int(d.get(k) or 0)
-print(n("done"), n("failed"), n("declined"))
+# How many finished slugs carry a record of another generation than the renderer now writes.  This
+# is normally 0 -- the runner drops them at startup -- and is printed because when it is not 0 the
+# pass is counting sheets finished under a rule the finished pass will not carry (DEVIATIONS J119),
+# which is invisible in the done count and cannot be put right while the runner is alive.
+sys.path.insert(0, "blender/verify")
+stale = 0
+try:
+    from render_sheets import RECORD_SHAPE
+    base = pathlib.Path("docs/verification/comparison")
+    for slug in (d.get("done") or []) + (d.get("declined") or []):
+        try:
+            rec = json.loads((base / slug / "render.json").read_text())
+        except (OSError, ValueError):
+            stale += 1
+            continue
+        if rec.get("record_shape") != RECORD_SHAPE:
+            stale += 1
+except Exception:
+    stale = -1
+print(n("done"), n("failed"), n("declined"), stale)
 PY
 }
 
 free_mb() { df -m "$REPO" | tail -1 | awk '{print $4}'; }
 
-read -r DONE FAILED DECLINED <<<"$(state_counts)"
+read -r DONE FAILED DECLINED STALE <<<"$(state_counts)"
 PID="$(runner_pid)"
 echo "pass: ${DONE} of 172 rendered, ${FAILED} failed, ${DECLINED} declined; $(free_mb) MB free"
 echo "runner: ${PID:-none}"
+if [ "${STALE:-0}" != "0" ]; then
+    echo "shape: ${STALE} finished sheet(s) carry a record of another renderer generation --"
+    echo "shape: a runner restart requeues them; editing the state file now would be a no-op (J119)"
+fi
 
 if [ "$STATUS_ONLY" = 1 ]; then
     exit 0

@@ -58,8 +58,33 @@ FLOOR_BYTES = 300 * 1024 * 1024
 TIMEOUT_S = 3600
 
 
+sys.path.insert(0, str(REPO / "blender" / "verify"))
+#: The generation of record this renderer writes.  Imported rather than restated so the runner's
+#: idea of what counts as finished cannot drift from what the renderer actually stamps; the module
+#: imports without Blender because its `bpy` imports are all inside functions.
+from render_sheets import RECORD_SHAPE  # noqa: E402
+
+
 def free_bytes() -> int:
     return shutil.disk_usage("/home/user").free
+
+
+def _now() -> str:
+    import datetime as dt
+    return dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+
+
+def _record_shape(slug: str) -> int:
+    """What generation wrote this slug's record, or -1 if there is no readable record.
+
+    An unstamped record is generation 0 -- every record written before the stamp existed, which is
+    every record of the passes this one supersedes.
+    """
+    try:
+        rec = json.loads((COMPARISON / slug / "render.json").read_text())
+    except (OSError, ValueError):
+        return -1
+    return int(rec.get("record_shape", 0))
 
 
 def _decline_interior(slug: str) -> bool:
@@ -80,6 +105,7 @@ def _decline_interior(slug: str) -> bool:
     photos = [p for p in meta.get("photos", []) if (REFERENCE / slug / (p.get("file") or "")).is_file()]
     photo = photos[0] if photos else None
     rec = {"slug": slug, "name": meta.get("name"), "group": meta.get("group"),
+           "record_shape": RECORD_SHAPE,
            "interior": True, "night": bool(meta.get("night")),
            "status": "not_renderable_interior",
            "reason": ("interior view: this build models no building interiors, so there is nothing to "
@@ -140,13 +166,68 @@ def main(argv=None) -> int:
     todo = [s for s in todo if s not in deferred] + deferred
     state = json.loads(LOG.read_text()) if LOG.is_file() else {"done": [], "failed": [], "skipped": []}
     state.setdefault("declined", [])
+    # A pass can outlive the code that started it.  Over one afternoon of this pass the sightline
+    # fan was widened to the whole model, measured, reverted, and then the plan-extent fields were
+    # renamed -- and the runner went on treating every slug in `done` as finished, because `done` is
+    # a list of names and says nothing about what wrote the records.  32 of 48 finished sheets
+    # carried a rule the finished pass would not carry.  Editing this file by hand to put them back
+    # on the queue did nothing twice over: `pending` below is computed once from the state as it was
+    # at startup, and `save()` used to write the in-memory dict straight over the file, so the edit
+    # was first ignored and then erased by the next finished sheet.
+    #
+    # So the queue is decided by the records rather than by the list: a slug whose `render.json` is
+    # missing, unreadable or stamped with a different `record_shape` than this renderer writes is
+    # dropped from `done` here, at startup, where dropping it actually re-queues it.
+    dropped = {s_ for s_ in state["done"] + state["declined"] + state["failed"]
+               if _record_shape(s_) != RECORD_SHAPE}
+    if dropped:
+        for key in ("done", "failed", "declined"):
+            state[key] = [s_ for s_ in state[key] if s_ not in dropped]
+        print(f"{len(dropped)} slug(s) requeued: their record is missing or was written by another "
+              f"generation of the renderer than shape {RECORD_SHAPE}", flush=True)
+        for s_ in sorted(dropped):
+            print(f"    requeued {s_} (shape {_record_shape(s_)})", flush=True)
+    state["started_at"] = _now()
+    state["record_shape"] = RECORD_SHAPE
     lock = threading.Lock()
-    print(f"{len(todo)} slugs, {len(state['done'])} already done this run; "
-          f"{free_bytes() / 1e9:.2f} GB free; {max(1, a.workers)} worker(s)", flush=True)
     stop = threading.Event()
+    #: Every transition this process has made, applied over whatever is on disk at save time.  The
+    #: file is not this process's private memory: a tick script reads it, and a person may edit it
+    #: between container lives.  Writing the in-memory dict over it discards anything they did.
+    mine: dict[str, str] = {}
 
     def save() -> None:
-        LOG.write_text(json.dumps(state, indent=1))
+        on_disk = json.loads(LOG.read_text()) if LOG.is_file() else {}
+        for key in ("done", "failed", "declined", "skipped"):
+            on_disk.setdefault(key, [])
+        # The startup requeue has to reach the file, not just this process's memory: a container
+        # that dies before the first sheet finishes would otherwise hand the next run the same
+        # stale `done` list to drop again.  A dropped slug that this process has since finished is
+        # in `mine` and goes back in below.
+        for key in ("done", "failed", "declined"):
+            on_disk[key] = [s_ for s_ in on_disk[key] if s_ not in dropped]
+        for slug_, where in mine.items():
+            for key in ("done", "failed", "declined"):
+                if slug_ in on_disk[key] and key != where:
+                    on_disk[key].remove(slug_)
+            if slug_ not in on_disk[where]:
+                on_disk[where].append(slug_)
+        on_disk["started_at"] = state.get("started_at")
+        on_disk["record_shape"] = RECORD_SHAPE
+        if "note" in state:
+            on_disk["note"] = state["note"]
+        on_disk["skipped"] = state.get("skipped", on_disk["skipped"])
+        # `done` on disk is the authority for slugs this process never touched, so a requeue made
+        # between container lives survives; `state` keeps a live copy for the pending count.
+        for key in ("done", "failed", "declined", "skipped"):
+            state[key] = on_disk[key]
+        LOG.write_text(json.dumps(on_disk, indent=1))
+
+    # The requeue above is written before a single sheet starts, so a container that dies in the
+    # first minute hands the next run a state file that already reflects it.
+    save()
+    print(f"{len(todo)} slugs, {len(state['done'])} already done this run; "
+          f"{free_bytes() / 1e9:.2f} GB free; {max(1, a.workers)} worker(s)", flush=True)
 
     def one(i: int, slug: str) -> None:
         if stop.is_set():
@@ -164,7 +245,7 @@ def main(argv=None) -> int:
         # backstop for anyone who runs it directly.
         if _decline_interior(slug):
             with lock:
-                state["declined"].append(slug)
+                mine[slug] = "declined"
                 save()
                 print(f"[{i}/{len(todo)}] decl {slug} 0.0 min -- interior view, no interiors are modelled",
                       flush=True)
@@ -172,7 +253,13 @@ def main(argv=None) -> int:
         r = subprocess.run([sys.executable, "blender/verify/render_sheets.py", "--slugs", slug],
                            cwd=str(REPO), capture_output=True, text=True, timeout=TIMEOUT_S)
         dt = time.time() - t0
-        ok = r.returncode == 0 and (COMPARISON / slug / "render.png").is_file()
+        # A sheet counts as finished only if the record it left is of *this* generation.  A worker
+        # started before a source change holds the module it imported, so a sheet that finishes
+        # after the change can still have been built before it -- that is how a record stamped with
+        # the previous generation reached `done` and stayed there.  The finish time is not evidence
+        # about which code wrote the record; the stamp in the record is.
+        ok = (r.returncode == 0 and (COMPARISON / slug / "render.png").is_file()
+              and _record_shape(slug) == RECORD_SHAPE)
         # An interior item is declined before a scene is built and leaves a record saying so; it is
         # neither done nor failed, and it must not be retried as if it had crashed.
         status = None
@@ -192,12 +279,12 @@ def main(argv=None) -> int:
             return
         with lock:
             if not ok and status == "not_renderable_interior":
-                state["declined"].append(slug)
+                mine[slug] = "declined"
                 save()
                 print(f"[{i}/{len(todo)}] decl {slug} {dt / 60:.1f} min -- interior view, no interiors "
                       f"are modelled", flush=True)
                 return
-            (state["done"] if ok else state["failed"]).append(slug)
+            mine[slug] = "done" if ok else "failed"
             save()
             tail = (r.stderr or r.stdout).strip().splitlines()[-1:] or [""]
             print(f"[{i}/{len(todo)}] {'ok  ' if ok else 'FAIL'} {slug} {dt / 60:.1f} min "

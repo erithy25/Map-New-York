@@ -136,6 +136,62 @@ record whose `plan_extent` was written under the other naming is rendered again 
 including the tile-mesh case, where the extent is unused but the record's shape still has to be one
 shape.
 
+**That requeue did not happen, and finding out why cost the pass its first 49 sheets.** The section
+below is the account.
+
+### The pass outlived its own rule, and the state file said nothing — 49 sheets requeued (J119)
+
+Three rules in seven hours, with a renderer running throughout: the fan was widened to the whole
+model, measured across four sheets, reverted, and then the plan-extent fields were renamed. At the
+end of that afternoon `render_all_state.json` read **48 done, 0 failed** — and **32 of those 48
+sheets carried a rule the finished pass would not carry**:
+
+| what the record was | how many | how it got into `done` |
+|---|---|---|
+| the **previous** pass's record, 9–12 September | 8 | reverted in the working tree by hand rather than committed, because they carried naming just declared wrong — on the belief they had been requeued |
+| this pass's own output under the renamed-away field names | 24 | rendered between the revert and the rename |
+| measured under the final rule | 16 | rendered after it |
+
+Two mechanisms, and the second is why the first went unnoticed. `done` is a list of slug names and
+says nothing about what wrote the records, so a rule change marks nothing stale. And the requeue was
+a **no-op twice over**: `render_all_sheets.py` computes its pending list once at startup and never
+re-reads the state file, so removing a slug from `done` mid-run cannot add work; and `save()` wrote
+the in-memory dict straight over the file, so the edit was *erased* by the next finished sheet.
+Editing that file while a runner is alive is not a slow requeue, it is a silent one.
+
+Underneath both: **a worker holds the module it imported**. Of two sheets that landed five minutes
+apart, `landmark_central_park_tower` at 19:28 carried the new field names and
+`landmark_central_park_sheep_meadow` at 19:33 carried the old ones — the second worker had started
+before the rename. A finish time is not evidence about which code wrote a record. The field names
+in the record are, and now so is a stamp.
+
+`render_sheets.py` carries `RECORD_SHAPE` (1) and writes it into every record, a declined interior's
+included; its docstring says what bumping it means — *a published field changing what it measures, or
+a measured value changing rule*, not a comment and not a new field nothing quotes.
+`render_all_sheets.py` imports that one definition and does three things with it:
+
+* **At startup** it drops from `done`, `failed` and `declined` every slug whose record is missing,
+  unreadable or of another generation, and **writes the drop to the file before a single sheet
+  starts**, so a container that dies in the first minute hands the next run a state that already
+  reflects it. This is the only place a requeue can happen, because it is the only place the pending
+  list is still open.
+* **`save()`** re-reads the file and applies only this process's own transitions over it, so an edit
+  made between container lives survives instead of being overwritten.
+* **A sheet counts as done** only if the record it left is of this generation — the check the
+  two-sheets-five-minutes-apart case defeats otherwise.
+
+Measured on the restart: **49 requeued** (every record in the repository was unstamped, generation
+0), 172 to render, `done` 0 on disk, and
+`test_the_pass_never_calls_a_sheet_finished_on_another_generation_of_record` red on all 49 before it
+and green after. `tools/pass_tick.sh` now prints a `shape:` line whenever a finished sheet carries
+another generation, because that is invisible in the done count.
+
+**The cost, plainly:** 16 of the 49 were measured under the final rule and are being rendered again
+for a stamp — about 1.9 hours of a roughly 21-hour pass. The alternative was hand-editing six key
+names into 24 published records, which is provably equivalent from the diff and is still forging
+renderer output; or keeping a corpus with a generation boundary inside it that 170 assessments would
+quote. Neither is worth two hours.
+
 ## v16 — every sheet, once more, under the probes and the development that the v15 pass measured
 
 The v15 pass rendered all 172 items (166 sheets, 6 refused) and the measurements over that finished

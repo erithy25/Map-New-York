@@ -2909,3 +2909,60 @@ def test_a_far_tree_and_a_procedural_stem_are_cards_and_a_near_surveyed_tree_is_
     assert rep2["canopy"]["lod0"] == 0 and rep2["canopy"]["dropped_for_budget"] == 1
     assert rep2["capped"].startswith("triangle budget")
     assert sum(rep2["per_dataset"].values()) == rep2["placed"]
+
+
+def test_the_pass_never_calls_a_sheet_finished_on_another_generation_of_record():
+    """Every slug the pass has in ``done`` carries a record of the generation the renderer writes.
+
+    This is the guard that was missing when a pass outlived the code that started it.  Over one
+    afternoon the sightline fan was widened to the whole model, measured, reverted, and then the
+    plan-extent fields were renamed -- three rules in seven hours with a renderer running
+    throughout -- and the runner went on treating every slug in ``done`` as finished, because
+    ``done`` is a list of names and says nothing about what wrote the records.  **32 of 48 finished
+    sheets carried a rule the finished pass would not carry**: eight were records of the previous
+    pass, reverted in the working tree by hand and never re-rendered, and twenty-four carried the
+    field names that had just been declared wrong.
+
+    Putting them back on the queue by editing the state file did nothing, twice over: the runner
+    computes its pending list once at startup and never re-reads the file, and its ``save()`` wrote
+    the in-memory dict straight over the file, so the edit was first ignored and then erased by the
+    next finished sheet.  Nothing anywhere said a word about it -- ``render_all_state.json`` read
+    ``48 done, 0 failed`` and the plan's own completion check is *171 done, 0 failed, 1 declined*,
+    which those 32 records would have satisfied.
+
+    ``render_all_sheets.py`` now drops a stale-shape slug from ``done`` at startup, where dropping
+    it actually re-queues it, and refuses to record a sheet as done unless the record it left is of
+    this generation.  This test holds the invariant those two produce.
+    """
+    import os
+
+    state_path = Path(os.environ.get("NYCSIM_PASS_STATE")
+                      or (REPO_ROOT / "blender_out" / "render_all_state.json"))
+    if not state_path.is_file():
+        pytest.skip("no pass state in this checkout")
+    try:
+        state = json.loads(state_path.read_text())
+    except (OSError, ValueError) as exc:
+        pytest.skip(f"pass state unreadable: {exc}")
+    sys.path.insert(0, str(REPO_ROOT / "blender" / "verify"))
+    from render_sheets import RECORD_SHAPE
+
+    base = REPO_ROOT / "docs" / "verification" / "comparison"
+    wrong = []
+    for slug in sorted(set(state.get("done", [])) | set(state.get("declined", []))):
+        rec_path = base / slug / "render.json"
+        if not rec_path.is_file():
+            wrong.append(f"{slug}: in the pass's done/declined list with no render.json at all")
+            continue
+        try:
+            rec = json.loads(rec_path.read_text())
+        except (OSError, ValueError) as exc:
+            wrong.append(f"{slug}: record unreadable ({exc})")
+            continue
+        shape = rec.get("record_shape")
+        if shape != RECORD_SHAPE:
+            wrong.append(f"{slug}: counted finished on a record of generation "
+                         f"{shape if shape is not None else 'unstamped'}, not {RECORD_SHAPE} "
+                         f"(rendered {rec.get('rendered_at')})")
+    assert not wrong, (f"{len(wrong)} slug(s) the pass calls finished were written by another "
+                       f"generation of the renderer:\n" + "\n".join(wrong))
