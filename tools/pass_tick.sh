@@ -67,6 +67,16 @@ if [ "${STALE:-0}" != "0" ]; then
     echo "shape: ${STALE} finished sheet(s) carry a record of another renderer generation --"
     echo "shape: a runner restart requeues them; editing the state file now would be a no-op (J119)"
 fi
+# Disk is the pass's hard constraint, and the remedy is not obvious from a number.  Each committed
+# sheet adds about 4 MB of loose git objects, so a full pass from here costs roughly 700 MB; the
+# runner stops itself at FLOOR_BYTES = 300 MB.  Loose objects are the slack: `git count-objects -vH`
+# reported 5,987 of them at 3.98 GiB against 3.40 GiB packed while this pass ran, and packing is the
+# only large gain that throws nothing away.  Do it with no render running -- gc on a 4-core box
+# already at load 3.5 takes cycles the renders need.
+if [ "$(free_mb)" -lt 800 ]; then
+    echo "disk: $(free_mb) MB free -- pack the loose objects before this gets to the 300 MB floor:"
+    echo "disk:   stop the runner, then 'git gc --prune=now', then 'bash tools/pass_tick.sh'"
+fi
 
 if [ "$STATUS_ONLY" = 1 ]; then
     exit 0
