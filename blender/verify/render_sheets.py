@@ -1753,13 +1753,21 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
                                         else float(extent["part_width_m"])),
                             "model_width_m": (None if not extent or extent["is_tile_mesh"]
                                               else float(extent["width_m"]))}
+        # `width_m` and `narrow_m` keep the meaning they have always had -- the plan extent of the
+        # **object standing at the coordinate**, which is what the sightline fan spans -- because a
+        # published field that quietly changes what it measures invalidates every assessment that
+        # quoted it and every tool that reads it.  The first version of this block gave those two
+        # names to the whole model's box instead, and within the hour it had put "30.3 m by 602.4 m"
+        # into a needle tower's assessment, past a check that can ask whether a number is in the
+        # record but not whether it still means the same thing.  The model's box is published under
+        # its own names.
         record.setdefault("subject", {})["plan_extent"] = (
-            None if not extent else {"width_m": round(extent["width_m"], 1),
-                                     "narrow_m": round(extent["narrow_m"], 1),
-                                     "axis_width_m": round(extent["axis_width_m"], 1),
-                                     "axis_narrow_m": round(extent["axis_narrow_m"], 1),
-                                     "part_width_m": round(extent["part_width_m"], 1),
-                                     "part_narrow_m": round(extent["part_narrow_m"], 1),
+            None if not extent else {"width_m": round(extent["part_width_m"], 1),
+                                     "narrow_m": round(extent["part_narrow_m"], 1),
+                                     "model_width_m": round(extent["width_m"], 1),
+                                     "model_narrow_m": round(extent["narrow_m"], 1),
+                                     "model_axis_width_m": round(extent["axis_width_m"], 1),
+                                     "model_axis_narrow_m": round(extent["axis_narrow_m"], 1),
                                      "object": height_probe.get("object"),
                                      "model": extent["model"],
                                      "parts": extent["parts"],
@@ -1768,14 +1776,14 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
                                      "note": ("a tile mesh is every building of one material in the "
                                               "tile, so its extent is not the subject's and is not used"
                                               if extent["is_tile_mesh"] else
-                                              f"`part_width_m` is the box of "
-                                              f"{height_probe.get('object')} alone across this "
-                                              f"camera's bearing, and it is what the sightline fan "
-                                              f"spans; `width_m` is the box of all {extent['parts']} "
-                                              f"part(s) of {extent['model']}, published beside it and "
-                                              f"not used -- on four landmark sheets of this pass the "
-                                              f"model was the site around the subject rather than the "
-                                              f"subject (J113)")})
+                                              f"`width_m` and `narrow_m` are the box of "
+                                              f"{height_probe.get('object')} alone, across this "
+                                              f"camera's bearing and along it, and are what the "
+                                              f"sightline fan spans; `model_*` is the box of all "
+                                              f"{extent['parts']} part(s) of {extent['model']}, "
+                                              f"published as evidence and not used -- on four "
+                                              f"landmark sheets of this pass the model was the site "
+                                              f"around the subject rather than the subject (J113)")})
     # How much open air the corrected viewpoint has to have along the view azimuth before it is
     # accepted.  A frame whose subject is 170 m away is worthless from a spot with a wall (or a
     # street tree) ten metres in front of the lens, so the requirement scales with the subject
