@@ -118,6 +118,7 @@
  "name": "Brooklyn brownstone block: Park Slope, Seventh Avenue / Garfield Place",
  "night": false,
  "pitch_reason": "level optical axis (the reference names no subject to aim at)",
+ "record_shape": 1,
  "reference_photo": {
   "author": "Beyond My Ken",
   "confidence": "medium",
@@ -132,7 +133,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_brooklyn_park_slope_7th_ave/render.png",
- "rendered_at": "2026-09-13T14:11:03Z",
+ "rendered_at": "2026-09-13T20:35:50Z",
  "resolution_note": "1054x1036; the reference photograph is 1920x1887 (1.02:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -173,7 +174,7 @@
    "placed_pedestrians": 223,
    "placed_vehicles": 71,
    "reason": null,
-   "seconds": 857.38,
+   "seconds": 936.8,
    "snapshot": {
     "building_footprints_tested": 7692,
     "density_lane_km": 17.58,
@@ -213,7 +214,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 151
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -2321_-3057_8_2_70320522236da7de_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 742455,
    "vehicle_lods": {
@@ -1012,7 +1013,7 @@
    "unmapped_kinds": {}
   },
   "radius_m": 756.607777663774,
-  "seconds": 1057.89,
+  "seconds": 1130.97,
   "structures": {
    "imported": [
     "t_-4_-3",
@@ -1048,9 +1049,9 @@
   "radius_m": 756.607777663774
  },
  "seconds": {
-  "render": 164.2,
-  "scene": 1075.3,
-  "total": 1239.5
+  "render": 213.6,
+  "scene": 1149.7,
+  "total": 1363.3
  },
  "sightline": {
   "subject_note": "the item names no point subject",
