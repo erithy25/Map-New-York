@@ -66,7 +66,7 @@
    12.1
   ],
   "nearest_obstruction_m": 12.0,
-  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 60 m ahead, less than the 80 m this frame needs to show its subject; the camera was moved 95 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 96 m from there, and the nearest built thing in the frame is t_-5_5_glass_curtain 12.0 m away at +45 deg yaw, +12 deg pitch, and no simulated agent stands within 20 m of it",
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 60 m ahead, less than the 80 m this frame needs to show its subject; the camera was moved 95 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 96 m from there, and the nearest built thing in the frame is t_-5_5_glass_curtain 12.0 m away at +45 deg yaw, +12 deg pitch, and the probe found no simulated agent on its rays across this frame within 20 m",
   "offset_m": 95.4,
   "reason": "boxed in: the view azimuth is closed off 60 m ahead, less than the 80 m this frame needs to show its subject",
   "rule": "pavement snap with a clear frame that sees the subject",
@@ -127,6 +127,7 @@
  "name": "15 Hudson Yards",
  "night": false,
  "pitch_reason": "tilted +27.5 deg to contain the subject: the top of lm_c_hudson_yards.9, the built thing standing at the subject's coordinate, 281 m above the ground there tops out 281 m above the lens 246 m away, 49 deg above the horizon, and the frame is only 48 deg tall at 18 mm. **The verticals converge, so this frame is not comparable with the photograph on proportion** -- it is here to show the subject at all",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Kidfly182",
   "confidence": "medium",
@@ -141,7 +142,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_15_hudson_yards/render.png",
- "rendered_at": "2026-09-13T16:11:53Z",
+ "rendered_at": "2026-09-13T23:36:05Z",
  "resolution_note": "1280x576; the reference photograph is 1920x863 (2.22:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -188,7 +189,7 @@
    "placed_pedestrians": 250,
    "placed_vehicles": 77,
    "reason": null,
-   "seconds": 786.5,
+   "seconds": 721.12,
    "snapshot": {
     "building_footprints_tested": 2663,
     "density_lane_km": 29.584,
@@ -1128,7 +1129,7 @@
    }
   },
   "radius_m": 793.1440768097516,
-  "seconds": 977.18,
+  "seconds": 899.06,
   "structures": {
    "imported": [
     "t_-5_4",
@@ -1177,9 +1178,9 @@
   "radius_m": 793.1440768097516
  },
  "seconds": {
-  "render": 51.0,
-  "scene": 1104.3,
-  "total": 1155.3
+  "render": 63.8,
+  "scene": 1040.1,
+  "total": 1103.9
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 140.2 m above its ground",
@@ -1230,17 +1231,17 @@
   "origin_distance_m": 245.7,
   "plan_extent": {
    "across_bearing_deg": 310.4,
-   "axis_narrow_m": 338.4,
-   "axis_width_m": 362.7,
    "is_tile_mesh": false,
    "model": "lm_c_hudson_yards",
-   "narrow_m": 365.6,
-   "note": "`part_width_m` is the box of lm_c_hudson_yards.9 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 54 part(s) of lm_c_hudson_yards, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
+   "model_axis_narrow_m": 338.4,
+   "model_axis_width_m": 362.7,
+   "model_narrow_m": 365.6,
+   "model_width_m": 383.2,
+   "narrow_m": 86.5,
+   "note": "`width_m` and `narrow_m` are the box of lm_c_hudson_yards.9 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 54 part(s) of lm_c_hudson_yards, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_hudson_yards.9",
-   "part_narrow_m": 86.5,
-   "part_width_m": 83.6,
    "parts": 54,
-   "width_m": 383.2
+   "width_m": 83.6
   }
  },
  "sun": {
