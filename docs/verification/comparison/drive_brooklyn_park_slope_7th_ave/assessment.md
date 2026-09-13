@@ -85,10 +85,13 @@ commit `28b6839`, the last state of the repository before any v17 sheet landed.
 | figure | where it comes from |
 |---|---|
 | 38.7 | `clearance.view_m` in this sheet's v16 record, beside `moved` false — the camera was left where it stood because the sidewalk shed's kit was invisible to the view probe. The v17 record reads the view closed at 17 m, steps 0.2 m, and measures 39.8 m |
+
+The wall-clock figures in the table below are the **previous** render's, quoted so that "every measured value is identical" is a comparison a reader can check rather than a claim. They were read from this sheet's own `render.json` at commit `0dc3354`, its last state before the pass restarted.
+
+| figure | where it comes from |
+|---|---|
 | 857.38 | `scene.agents.seconds` in the previous record; the re-render took 936.8 s |
 | 1057.89 | `scene.seconds` in the previous record; the re-render took 1130.97 s |
 | 164.2 | `seconds.render` in the previous record; the re-render took 213.6 s |
 | 1075.3 | `seconds.scene` in the previous record; the re-render took 1149.7 s |
 | 1239.5 | `seconds.total` in the previous record; the re-render took 1363.3 s |
-
-The wall-clock figures in the table are the **previous** render's, quoted so that "every measured value is identical" is a comparison a reader can check rather than a claim. They were read from this sheet's own `render.json` at commit `0dc3354`, its last state before the pass restarted.
