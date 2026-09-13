@@ -82,9 +82,9 @@
   "view_m": 96.0
  },
  "frame": {
-  "mean": 0.285,
+  "mean": 0.2846,
   "reason": null,
-  "sd": 0.2528,
+  "sd": 0.2525,
   "usable": true
  },
  "frame_retry": null,
@@ -96,8 +96,8 @@
   "development": {
    "linear_p05": 1.5e-05,
    "linear_p50": 0.000314,
-   "linear_p95": 0.006639,
-   "log_average_linear": 0.000434,
+   "linear_p95": 0.006631,
+   "log_average_linear": 0.000433,
    "median_linear": 0.000314,
    "metered": true,
    "note": "the frame wanted +9.16 stops and was held at +6.00: a scene this far from a photographable level is not developed into a picture of one",
@@ -140,7 +140,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_30_hudson_yards/render.png",
- "rendered_at": "2026-09-12T17:17:41Z",
+ "rendered_at": "2026-09-13T16:30:12Z",
  "resolution_note": "784x1394; the reference photograph is 1920x3412 (0.56:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -173,7 +173,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 580018,
+   "pedestrian_triangles": 580002,
    "per_class": {
     "black_car": 8,
     "boro_taxi": 5,
@@ -186,7 +186,7 @@
    "placed_pedestrians": 248,
    "placed_vehicles": 69,
    "reason": null,
-   "seconds": 272.71,
+   "seconds": 505.38,
    "snapshot": {
     "building_footprints_tested": 2663,
     "density_lane_km": 31.81,
@@ -201,7 +201,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.79,
+     "load_seconds": 2.31,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -228,7 +228,7 @@
    },
    "snapshot_note": "cached -3974_5806_14_0_c190969830838d9b_1788868452.json",
    "triangle_budget": 1125000,
-   "triangles": 1085621,
+   "triangles": 1085605,
    "vehicle_lods": {
     "LOD1": 5,
     "LOD2": 64
@@ -354,7 +354,7 @@
    5806.46
   ],
   "kit": {
-   "capped": "triangle budget 943930",
+   "capped": "triangle budget 943946",
    "per_category": {
     "bulkhead": 4,
     "cornice": 7,
@@ -1186,7 +1186,7 @@
    }
   },
   "radius_m": 1126.4426287230413,
-  "seconds": 435.06,
+  "seconds": 634.89,
   "structures": {
    "imported": [
     "t_-5_4",
@@ -1230,7 +1230,7 @@
    "z_max_m": 23.6,
    "z_min_m": -1.91
   },
-  "triangles": 4500142
+  "triangles": 4500126
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1240,18 +1240,18 @@
   "radius_m": 1126.4426287230413
  },
  "seconds": {
-  "render": 118.7,
-  "scene": 561.7,
-  "total": 680.4
+  "render": 72.1,
+  "scene": 1024.1,
+  "total": 1096.2
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 16.7 m above its ground",
   "subject_blocked_at_m": 86.6,
   "subject_blocked_by": "t_-5_5_red_brick",
   "subject_clear_fraction": 0.0,
-  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate",
-  "subject_fan_half_angle_deg": 15.54,
-  "subject_fan_m": 191.4,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate, not the 370.3 m of the whole model around it, which is the site rather than the subject (J113); clipped to the frame, because a ray outside the picture tests something that is not in it",
+  "subject_fan_half_angle_deg": 16.13,
+  "subject_fan_m": 256.0,
   "subject_fan_tall_m": 33.4,
   "subject_fan_v_half_angle_deg": 2.78,
   "subject_lands_at_m": null,
@@ -1291,11 +1291,18 @@
   "name": "30 Hudson Yards",
   "origin_distance_m": 375.4,
   "plan_extent": {
+   "across_bearing_deg": 302.6,
+   "axis_narrow_m": 338.4,
+   "axis_width_m": 362.7,
    "is_tile_mesh": false,
-   "narrow_m": 175.9,
-   "note": "the bounding box of the object the height was measured off",
+   "model": "lm_c_hudson_yards",
+   "narrow_m": 346.6,
+   "note": "`part_width_m` is the box of lm_c_hudson_yards.44 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 54 part(s) of lm_c_hudson_yards, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_hudson_yards.44",
-   "width_m": 191.4
+   "part_narrow_m": 251.4,
+   "part_width_m": 256.0,
+   "parts": 54,
+   "width_m": 370.3
   }
  },
  "sun": {

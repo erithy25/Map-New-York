@@ -1,8 +1,8 @@
 {
  "agent_request": {
-  "dow": 1,
-  "hour": 12,
-  "local_clock": "2026-02-28 12:29 EST",
+  "dow": 2,
+  "hour": 13,
+  "local_clock": "2024-03-03 13:30 EST",
   "seed": 20260907,
   "warmup_s": 120.0
  },
@@ -35,8 +35,8 @@
   "portrait": false,
   "raised_surface_named": false,
   "resolution": [
-   1208,
-   906
+   1280,
+   854
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_111_west_57th",
@@ -45,13 +45,13 @@
   "y": 7623.042,
   "z": 19.852
  },
- "camera_caption": "camera 40.76830, -73.97480 (NYC_TM -2160, 7623) z 19.9 m NAVD88 | azimuth 210.1deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_caption": "camera 40.76830, -73.97480 (NYC_TM -2160, 7623) z 19.9 m NAVD88 | azimuth 210.1deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x854",
  "camera_origin": {
   "from_photograph_gps": false,
   "lat": 40.7683,
   "lon": -73.9748,
-  "offset_from_recorded_m": 483.8,
-  "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 484 m away, past the 250 m at which it could still be the same view, so the camera was not stood on it.  That is a statement about this pairing and not about the photograph: a fix this far out is usually correct and simply of somewhere else"
+  "offset_from_recorded_m": 272.4,
+  "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 272 m away, past the 250 m at which it could still be the same view, so the camera was not stood on it.  That is a statement about this pairing and not about the photograph: a fix this far out is usually correct and simply of somewhere else"
  },
  "clearance": {
   "direction": "to the right",
@@ -59,6 +59,7 @@
   "moved": true,
   "nearest_agent": null,
   "nearest_agent_m": null,
+  "nearest_agent_measured": "after the cull over the observer",
   "nearest_agent_probe_m": 20.0,
   "nearest_obstruction": null,
   "nearest_obstruction_at_deg": [
@@ -82,9 +83,9 @@
   "view_m": 96.0
  },
  "frame": {
-  "mean": 0.4413,
+  "mean": 0.4348,
   "reason": null,
-  "sd": 0.1649,
+  "sd": 0.1624,
   "usable": true
  },
  "frame_retry": null,
@@ -92,21 +93,21 @@
  "interior": false,
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
  "lighting": {
-  "background_strength": 0.03326733410358429,
+  "background_strength": 0.03368905559182167,
   "development": {
-   "linear_p05": 0.012557,
-   "linear_p50": 0.165584,
-   "linear_p95": 0.414344,
-   "log_average_linear": 0.111717,
-   "median_linear": 0.165584,
+   "linear_p05": 0.028582,
+   "linear_p50": 0.178167,
+   "linear_p95": 0.443357,
+   "log_average_linear": 0.11759,
+   "median_linear": 0.178167,
    "metered": true,
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
-   "stops": 0.12,
-   "stops_unclamped": 0.12,
+   "stops": 0.015,
+   "stops_unclamped": 0.015,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
-  "direct_normal_irradiance_w_m2": 848.3,
+  "direct_normal_irradiance_w_m2": 836.7,
   "emissive": {
    "cone_faces_deleted": 24,
    "cones_hidden": 2,
@@ -114,33 +115,33 @@
    "night": false,
    "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
-  "exposure_stops": 0.12,
-  "physical_rule_stops": 0.07,
-  "sky_azimuth_deg": 186.986,
-  "sky_elevation_deg": 41.236,
+  "exposure_stops": 0.01,
+  "physical_rule_stops": 0.14,
+  "sky_azimuth_deg": 206.794,
+  "sky_elevation_deg": 39.177,
   "sun_lamp": true,
-  "sun_strength_blender": 2.966,
+  "sun_strength_blender": 2.926,
   "view_transform": "Filmic"
  },
  "name": "111 West 57th Street (Steinway Tower, Billionaires' Row)",
  "night": false,
  "pitch_reason": "level optical axis (the subject is 437 m away; anything that far is photographed with a level camera)",
  "reference_photo": {
-  "author": "Epicgenius",
+  "author": "Photograph by Mike Peel ( www.mikepeel.net ).",
   "confidence": "high",
-  "date_taken": "2026-02-28 12:29:32",
-  "estimated_azimuth_deg": 55.1,
-  "file": "1.jpg",
-  "height": 1440,
+  "date_taken": "2024-03-03",
+  "estimated_azimuth_deg": 219.9,
+  "file": "2.jpg",
+  "height": 1280,
   "licence": "CC BY-SA 4.0",
   "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
-  "page_url": "https://commons.wikimedia.org/wiki/File:111_West_57th_Street_Feb_2026_36.jpg",
-  "title": "File:111 West 57th Street Feb 2026 36.jpg",
+  "page_url": "https://commons.wikimedia.org/wiki/File:At_New_York_City_2024_505.jpg",
+  "title": "File:At New York City 2024 505.jpg",
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_111_west_57th/render.png",
- "rendered_at": "2026-09-09T16:59:13Z",
- "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "rendered_at": "2026-09-13T16:08:45Z",
+ "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
@@ -151,48 +152,53 @@
    ],
    "camera_clear_ped_m": 6.5,
    "camera_clear_vehicle_m": 6.0,
-   "caption": "Agents: 15 vehicles within 320 m and 124 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 337 vehicles and 146 people over the whole simulated ring, of which 441 and 359 were simulated; 661 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "caption": "Agents: 17 vehicles within 320 m and 151 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 338 vehicles and 176 people over the whole simulated ring, of which 441 and 434 were simulated; 707 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "culled_after_camera_move": {
+    "pedestrian_over_the_observer": 1,
+    "vehicle_over_the_observer": 0
+   },
    "dropped": {
-    "pedestrian_in_the_carriageway_not_crossing": 54,
-    "pedestrian_not_on_walkable_surface": 48,
-    "pedestrian_outside_radius": 133,
-    "vehicle_body_has_no_rider": 8,
-    "vehicle_not_on_carriageway": 3,
-    "vehicle_on_a_car_free_park_drive": 47,
-    "vehicle_outside_radius": 368
+    "pedestrian_in_the_carriageway_not_crossing": 65,
+    "pedestrian_not_on_walkable_surface": 61,
+    "pedestrian_outside_radius": 157,
+    "pedestrian_over_the_observer": 1,
+    "vehicle_body_has_no_rider": 5,
+    "vehicle_not_on_carriageway": 2,
+    "vehicle_on_a_car_free_park_drive": 52,
+    "vehicle_outside_radius": 365
    },
    "ped_lods": {
-    "LOD2": 124
+    "LOD2": 151
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 167110,
+   "pedestrian_triangles": 202000,
    "per_class": {
-    "black_car": 3,
-    "sedan": 5,
-    "suv": 2,
-    "taxi": 5
+    "boro_taxi": 2,
+    "sedan": 8,
+    "suv": 3,
+    "taxi": 4
    },
-   "placed_pedestrians": 124,
-   "placed_vehicles": 15,
+   "placed_pedestrians": 150,
+   "placed_vehicles": 17,
    "reason": null,
-   "seconds": 467.36,
+   "seconds": 745.41,
    "snapshot": {
     "building_footprints_tested": 1411,
-    "car_free_park_drives_matched": 47,
+    "car_free_park_drives_matched": 52,
     "density_lane_km": 15.03,
     "density_sidewalk_m2": 7900,
-    "density_target_pedestrians": 146.5,
-    "density_target_vehicles": 337.2,
-    "dow": 1,
-    "hour": 12,
+    "density_target_pedestrians": 176.5,
+    "density_target_vehicles": 338.1,
+    "dow": 2,
+    "hour": 13,
     "lanes_considered": 122,
     "lanes_with_nta": 122,
     "min_leader_gap_m": 0.05,
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.68,
+     "load_seconds": 2.56,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -200,11 +206,11 @@
      "signal_plans": 19814
     },
     "npc_archetypes_available": 36,
-    "npc_bodies_imported": 35,
-    "npc_templates_baked": 77,
+    "npc_bodies_imported": 36,
+    "npc_templates_baked": 89,
     "pavement_polygons_tested": 2162,
     "ped_spawn_radius_m": 220.0,
-    "peds_in_snapshot": 359,
+    "peds_in_snapshot": 434,
     "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
     "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
     "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
@@ -217,15 +223,15 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 441
    },
-   "snapshot_note": "cached -2094_7585_12_1_0fc54d42f88b5a0c_1788868452.json",
+   "snapshot_note": "cached -2094_7585_13_2_3294fc09efcbf407_1788868452.json",
    "triangle_budget": 1125000,
-   "triangles": 252935,
+   "triangles": 299268,
    "vehicle_lods": {
-    "LOD2": 15
+    "LOD2": 17
    },
    "vehicle_radius_m": 320.0,
    "vehicle_triangle_budget": 506250,
-   "vehicle_triangles": 85825
+   "vehicle_triangles": 97268
   },
   "buildings": {
    "dropped_for_budget": [],
@@ -1161,6 +1167,7 @@
    },
    "capped": null,
    "dropped_for_budget": 0,
+   "dropped_on_suppressed_building": 0,
    "impostor_cards_dropped": 3,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {},
@@ -1211,7 +1218,7 @@
    }
   },
   "radius_m": 1098.7938313782856,
-  "seconds": 508.92,
+  "seconds": 805.95,
   "structures": {
    "imported": [
     "t_-1_7",
@@ -1286,7 +1293,7 @@
    "z_max_m": 36.17,
    "z_min_m": 5.15
   },
-  "triangles": 2812861
+  "triangles": 2859194
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1296,18 +1303,18 @@
   "radius_m": 1098.7938313782856
  },
  "seconds": {
-  "render": 158.9,
-  "scene": 716.5,
-  "total": 875.4
+  "render": 166.7,
+  "scene": 1378.5,
+  "total": 1545.2
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 30.4 m above its ground",
   "subject_blocked_at_m": 143.4,
   "subject_blocked_by": "t_-3_7_park_park_ground_grass",
   "subject_clear_fraction": 0.0,
-  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate",
-  "subject_fan_half_angle_deg": 2.53,
-  "subject_fan_m": 39.2,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate, not the 1077.1 m of the whole model around it, which is the site rather than the subject (J113)",
+  "subject_fan_half_angle_deg": 3.4,
+  "subject_fan_m": 52.7,
   "subject_fan_tall_m": 60.8,
   "subject_fan_v_half_angle_deg": 3.92,
   "subject_lands_at_m": null,
@@ -1347,19 +1354,26 @@
   "name": "111 West 57th Street",
   "origin_distance_m": 436.7,
   "plan_extent": {
+   "across_bearing_deg": 210.1,
+   "axis_narrow_m": 682.1,
+   "axis_width_m": 875.3,
    "is_tile_mesh": false,
-   "narrow_m": 37.4,
-   "note": "the bounding box of the object the height was measured off",
+   "model": "lm_c_billionaires_row",
+   "narrow_m": 483.3,
+   "note": "`part_width_m` is the box of lm_c_billionaires_row.57 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 74 part(s) of lm_c_billionaires_row, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_billionaires_row.57",
-   "width_m": 39.2
+   "part_narrow_m": 52.1,
+   "part_width_m": 52.7,
+   "parts": 74,
+   "width_m": 1077.1
   }
  },
  "sun": {
-  "azimuth_deg": 186.9863821079284,
-  "elevation_deg": 41.2358920646464,
-  "local": "2026-02-28T12:29:32-05:00",
-  "time_source": "EXIF DateTimeOriginal",
-  "utc": "2026-02-28T17:29:32Z"
+  "azimuth_deg": 206.79377002346902,
+  "elevation_deg": 39.17727553264541,
+  "local": "2024-03-03T13:30:00-05:00",
+  "time_source": "photograph date, no time, and 13:30 **chosen**, not measured: of the hours that put the Sun above 20 deg it is the one whose bearing (207 deg) comes closest to the view azimuth (210 deg), 3 deg off, so the Sun is behind the camera and lights what it looks at",
+  "utc": "2024-03-03T18:30:00Z"
  },
  "viewpoint": {
   "azimuth_deg": 210.1,

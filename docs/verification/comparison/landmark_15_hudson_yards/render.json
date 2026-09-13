@@ -73,8 +73,8 @@
   "scored_on_subject_sightline": true,
   "stood_on_deck": "the eye point sat 2.65 m under lm_c_high_line.10, the landmark model's own level deck at 9.14 m NAVD88, which stands above the heightmap the eye height was measured from; the camera was raised onto it, so it stands on the surface that is actually drawn under it at 10.74 m NAVD88",
   "subject_sightline_at_choice": {
-   "subject_blocked_at_m": 25.9,
-   "subject_blocked_by": "t_-5_5_glass_curtain",
+   "subject_blocked_at_m": 44.1,
+   "subject_blocked_by": "prop_lamp_cobra_davit_85",
    "subject_rays": 13,
    "subject_rays_on_subject": 2,
    "subject_visible": true,
@@ -141,7 +141,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_15_hudson_yards/render.png",
- "rendered_at": "2026-09-13T15:32:49Z",
+ "rendered_at": "2026-09-13T16:11:53Z",
  "resolution_note": "1280x576; the reference photograph is 1920x863 (2.22:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -188,7 +188,7 @@
    "placed_pedestrians": 250,
    "placed_vehicles": 77,
    "reason": null,
-   "seconds": 792.81,
+   "seconds": 786.5,
    "snapshot": {
     "building_footprints_tested": 2663,
     "density_lane_km": 29.584,
@@ -1128,7 +1128,7 @@
    }
   },
   "radius_m": 793.1440768097516,
-  "seconds": 945.59,
+  "seconds": 977.18,
   "structures": {
    "imported": [
     "t_-5_4",
@@ -1177,18 +1177,18 @@
   "radius_m": 793.1440768097516
  },
  "seconds": {
-  "render": 54.3,
-  "scene": 1066.7,
-  "total": 1121.0
+  "render": 51.0,
+  "scene": 1104.3,
+  "total": 1155.3
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 140.2 m above its ground",
-  "subject_blocked_at_m": 25.9,
-  "subject_blocked_by": "t_-5_5_glass_curtain",
+  "subject_blocked_at_m": 44.1,
+  "subject_blocked_by": "prop_lamp_cobra_davit_85",
   "subject_clear_fraction": 0.154,
-  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the whole model standing at the coordinate, taken across this camera's bearing (J113)",
-  "subject_fan_half_angle_deg": 30.29,
-  "subject_fan_m": 383.2,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate, not the 383.2 m of the whole model around it, which is the site rather than the subject (J113)",
+  "subject_fan_half_angle_deg": 7.26,
+  "subject_fan_m": 83.6,
   "subject_fan_tall_m": 280.5,
   "subject_fan_v_half_angle_deg": 23.15,
   "subject_lands_at_m": 298.9,
@@ -1235,7 +1235,7 @@
    "is_tile_mesh": false,
    "model": "lm_c_hudson_yards",
    "narrow_m": 365.6,
-   "note": "the bounding box of all 54 part(s) of lm_c_hudson_yards, the model the height was measured off a part of, measured across this camera's bearing and along it (J113)",
+   "note": "`part_width_m` is the box of lm_c_hudson_yards.9 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 54 part(s) of lm_c_hudson_yards, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_hudson_yards.9",
    "part_narrow_m": 86.5,
    "part_width_m": 83.6,

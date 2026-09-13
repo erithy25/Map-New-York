@@ -87,7 +87,7 @@
   "view_m": 96.0
  },
  "frame": {
-  "mean": 0.5319,
+  "mean": 0.5321,
   "reason": null,
   "sd": 0.1807,
   "usable": true
@@ -100,15 +100,15 @@
   "background_strength": 0.04122813418507576,
   "development": {
    "linear_p05": 0.001616,
-   "linear_p50": 0.00498,
+   "linear_p50": 0.004973,
    "linear_p95": 0.047682,
-   "log_average_linear": 0.006046,
-   "median_linear": 0.00498,
+   "log_average_linear": 0.006045,
+   "median_linear": 0.004973,
    "metered": true,
    "note": "under-lit: the scene needed +5.18 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
-   "stops": 5.176,
-   "stops_unclamped": 5.176,
+   "stops": 5.178,
+   "stops_unclamped": 5.178,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
@@ -145,7 +145,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_220_central_park_south/render.png",
- "rendered_at": "2026-09-12T17:16:47Z",
+ "rendered_at": "2026-09-13T16:26:48Z",
  "resolution_note": "784x1394; the reference photograph is 1920x3413 (0.56:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -182,7 +182,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 577209,
+   "pedestrian_triangles": 577206,
    "per_class": {
     "black_car": 13,
     "boro_taxi": 9,
@@ -194,7 +194,7 @@
    "placed_pedestrians": 331,
    "placed_vehicles": 76,
    "reason": null,
-   "seconds": 368.69,
+   "seconds": 786.67,
    "snapshot": {
     "building_footprints_tested": 888,
     "car_free_park_drives_matched": 0,
@@ -210,7 +210,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.67,
+     "load_seconds": 2.19,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -237,7 +237,7 @@
    },
    "snapshot_note": "cached -2638_7238_17_2_2cb0572d9540f9da_1788868452.json",
    "triangle_budget": 1125000,
-   "triangles": 1079436,
+   "triangles": 1079433,
    "vehicle_lods": {
     "LOD1": 3,
     "LOD2": 73
@@ -325,7 +325,7 @@
    7237.85
   ],
   "kit": {
-   "capped": "triangle budget 1030689",
+   "capped": "triangle budget 1030692",
    "per_category": {
     "bulkhead": 3,
     "door_entry": 6,
@@ -1142,7 +1142,7 @@
    }
   },
   "radius_m": 719.5539147336433,
-  "seconds": 514.25,
+  "seconds": 881.63,
   "structures": {
    "imported": [
     "t_-2_6",
@@ -1179,7 +1179,7 @@
    "z_max_m": 28.61,
    "z_min_m": 8.86
   },
-  "triangles": 4500031
+  "triangles": 4500028
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1189,18 +1189,18 @@
   "radius_m": 719.5539147336433
  },
  "seconds": {
-  "render": 80.4,
-  "scene": 546.5,
-  "total": 626.9
+  "render": 114.3,
+  "scene": 965.2,
+  "total": 1079.6
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 143.9 m above its ground",
   "subject_blocked_at_m": 31.8,
   "subject_blocked_by": "t_-3_7_terracotta",
   "subject_clear_fraction": 0.077,
-  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate",
-  "subject_fan_half_angle_deg": 3.26,
-  "subject_fan_m": 26.4,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate, not the 972.7 m of the whole model around it, which is the site rather than the subject (J113)",
+  "subject_fan_half_angle_deg": 3.74,
+  "subject_fan_m": 30.3,
   "subject_fan_tall_m": 287.8,
   "subject_fan_v_half_angle_deg": 31.83,
   "subject_lands_at_m": 236.1,
@@ -1241,11 +1241,18 @@
   "name": "220 Central Park South",
   "origin_distance_m": 199.7,
   "plan_extent": {
+   "across_bearing_deg": 10.0,
+   "axis_narrow_m": 682.1,
+   "axis_width_m": 875.3,
    "is_tile_mesh": false,
-   "narrow_m": 24.8,
-   "note": "the bounding box of the object the height was measured off",
+   "model": "lm_c_billionaires_row",
+   "narrow_m": 602.4,
+   "note": "`part_width_m` is the box of lm_c_billionaires_row.23 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 74 part(s) of lm_c_billionaires_row, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_billionaires_row.23",
-   "width_m": 26.4
+   "part_narrow_m": 29.0,
+   "part_width_m": 30.3,
+   "parts": 74,
+   "width_m": 972.7
   }
  },
  "sun": {
