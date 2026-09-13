@@ -829,12 +829,12 @@ def _walk_to_parapet(placement: "CameraPlacement", max_m: float = 250.0,
                          f"photograph's own EXIF GPS rather than a nominal viewpoint standing for a "
                          f"whole deck, so there is nothing to walk to and the camera was not moved.  "
                          f"The view azimuth is clear for {view_m:.0f} m and "
-                         + clearance_sentence(reading, with_angle=False))}
+                         + clearance_sentence(reading, with_angle=False, agent_mark=True))}
     if ob is None:
         return {"moved": False, "offset_m": 0.0,
                 "view_m": round(view_m, 1), **clearance_fields(reading),
                 "note": ("the viewpoint is in open air on the ground and the camera was not moved; "
-                         + clearance_sentence(reading, with_angle=False)
+                         + clearance_sentence(reading, with_angle=False, agent_mark=True)
                          + f", and the view azimuth is clear for {view_m:.0f} m")}
     a = math.radians(placement.azimuth_deg)
     dx, dy = math.sin(a), math.cos(a)
@@ -858,13 +858,13 @@ def _walk_to_parapet(placement: "CameraPlacement", max_m: float = 250.0,
                          f"along the view azimuth, so it is a ground-level deck rather than a roof "
                          f"with an edge to walk to; the camera was not moved.  The view azimuth is "
                          f"clear for {view_m:.0f} m and "
-                         + clearance_sentence(reading, with_angle=False))}
+                         + clearance_sentence(reading, with_angle=False, agent_mark=True))}
     if last_good < step_m:
         return {"moved": False, "offset_m": 0.0, "standing_on": ob.name,
                 "view_m": round(view_m, 1), **clearance_fields(reading),
                 "note": (f"the eye point stands on {ob.name} and is already at its {placement.azimuth_deg:.0f} deg "
                          f"edge; the camera was not moved.  "
-                         + clearance_sentence(reading, with_angle=False))}
+                         + clearance_sentence(reading, with_angle=False, agent_mark=True))}
     nx, ny = placement.x + dx * last_good, placement.y + dy * last_good
     cam = bpy.context.scene.camera
     cam.location = (nx, ny, placement.z)
@@ -885,7 +885,7 @@ def _walk_to_parapet(placement: "CameraPlacement", max_m: float = 250.0,
                      f"{last_good:.0f} m along the view azimuth to the parapet, the last point the "
                      f"roof still supports, which is where the reference photographs are taken.  "
                      f"From there the view azimuth is clear for {walked_view:.0f} m and "
-                     + clearance_sentence(walked, with_angle=False))}
+                     + clearance_sentence(walked, with_angle=False, agent_mark=True))}
 
 
 PAVEMENT_DIR = REPO_ROOT / "data" / "processed" / "roads" / "pavement"
@@ -898,13 +898,32 @@ STANDABLE_PAVEMENT = {1: "sidewalk", 0: "roadbed", 3: "plaza", 5: "crosswalk", 2
 def _opaque(ob) -> bool:
     """Does this object stop a photographer seeing past it?
 
-    Building shells (``t_<tx>_<ty>_<material>``), landmark models (``lm_*``) and props (``prop_*``)
-    all do.  A street tree is not a wall, but a 7 m bare zelkova five metres in front of the lens
-    fills the frame exactly as a wall does, and nobody photographs a bridge through one.  Terrain
-    and pavement do not: the ray is horizontal at eye height and grazes them.
+    Building shells (``t_<tx>_<ty>_<material>``), landmark models (``lm_*``), props (``prop_*``)
+    and **kit** (``kit_<id>_<n>``) all do.  A street tree is not a wall, but a 7 m bare zelkova
+    five metres in front of the lens fills the frame exactly as a wall does, and nobody
+    photographs a bridge through one.  Terrain and pavement do not: the ray is horizontal at eye
+    height and grazes them.
+
+    **Kit was missing from this list for the whole of the v16 pass** (docs/DEVIATIONS.md J117a).
+    Across all 171 records ``clearance.nearest_obstruction`` named a prop 68 times, a tile shell
+    43 and a landmark 32, and a kit piece not once, in scenes that place thousands of kit objects
+    each: the test predates the kit stage and kit is placed from the facade tables rather than
+    from the props catalogue, so it passed through none of the collections this sampled.
+    ``street_soho_cast_iron`` is what that cost -- its note reads "the nearest built thing in the
+    frame is `t_-5_2_stone_rubble` 11.2 m away ... and the view azimuth is clear for 150 m", and
+    the frame is filled by 27 bays of ``scaffold_pipe_bay``, 2.28 by 1.06 m in plan and 7.01 m
+    tall, two metres from the lens.
+
+    Kit in the facade plane -- a storefront, a window, a cornice, a string course -- stands at the
+    range the tile shell already reports, so naming it makes the record more specific without
+    moving anything.  What changes is the kit that stands *off* the facade and into the street --
+    a sidewalk shed, a fire escape, an awning -- and there moving is the point: a photographer does
+    not stand under a shed to photograph the wall behind it.  One omission is left and named rather than folded in: impostor cards (``card_*``) stand
+    for distant trees beyond the model radius, so no card is ever inside the 60 m probe.
     """
     return ob is not None and bool(_TILE_MESH.match(ob.name) or ob.name.startswith("lm_")
-                                   or ob.name.startswith("prop_"))
+                                   or ob.name.startswith("prop_")
+                                   or ob.name.startswith("kit_"))
 
 
 def _is_agent(ob) -> bool:
@@ -1041,14 +1060,30 @@ def frame_clearance(x: float, y: float, z: float, azimuth_deg: float, *, probe_m
             "probe_m": float(probe_m)}
 
 
-def object_extent_xy(name: str | None) -> dict | None:
-    """The world-space plan extent of one scene object, from its bounding box.
+def object_extent_xy(name: str | None, azimuth_deg: float | None = None) -> dict | None:
+    """The world-space plan extent of the **built thing** standing at a coordinate.
 
     Used to size the sightline fan to the subject's *width* rather than to its height: a 107 m
     bridge tower is about 40 m across, and a fan 107 m wide at the tower is a fan that spends its
-    rays on the warehouses either side of the street (docs/DEVIATIONS.md J78).  A tile mesh --
+    rays on the warehouses either side of the street (docs/DEVIATIONS.md J78).
+
+    Two things it deliberately does not take for the subject.  A **tile mesh** --
     ``t_<tx>_<ty>_<material>`` -- is every building of one material in a 1 km tile, so its box is
-    the tile and says nothing about the building; the caller is told so and uses the floor.
+    the tile and says nothing about the building; the caller is told so and uses the floor (J94).
+    And **one part of a landmark model is not the landmark** (J113): the object standing at the
+    Williamsburgh Savings Bank Tower's coordinate is ``lm_c_williamsburgh_savings_bank_tower.8``,
+    the gilded dome, 14.4 m across, and a fan sized to it was a quarter as wide as the 156 m tower
+    it was testing -- which is how a single 0.216 m lamp post came to take 11 of 13 rays.  So the
+    extent is measured over **every part that shares the model's identity** (:func:`_fabric_identity`
+    -- ``lm_flatiron.2`` and ``lm_flatiron.9`` are both the Flatiron), from the geometry the render
+    actually places.  The landmark catalogue's own ``bounds_local_m`` was the other candidate and is
+    worse for this: 34 of the 93 entries do not carry it, and it is in the model's local frame
+    rather than the world's, whereas the placed parts are always there and already rotated.
+
+    With ``azimuth_deg`` given, ``width_m`` is the extent **across that bearing** -- what the
+    subject presents to this camera -- and ``narrow_m`` the extent along it.  Without it they are
+    the larger and smaller of the axis-aligned extents, as before.  The axis-aligned pair is
+    reported either way, so a record can show both.
     """
     if not name:
         return None
@@ -1056,12 +1091,37 @@ def object_extent_xy(name: str | None) -> dict | None:
     ob = bpy.data.objects.get(name)
     if ob is None:
         return None
-    pts = [ob.matrix_world @ Vector(c) for c in ob.bound_box]
+    is_tile = bool(_TILE_MESH.match(ob.name))
+    ident = _fabric_identity(ob.name)
+    # Only a landmark model has parts to gather.  ``_fabric_identity`` says the same: a prop, a
+    # kit piece and a tile mesh are each one object and their identity is the whole name.  The base
+    # object of an instanced model can be named ``lm_<id>`` with no suffix, so the test is the
+    # prefix and not whether the name already carries a dot.
+    if is_tile or not ob.name.startswith("lm_"):
+        members = [ob]
+    else:
+        prefix = ident + "."
+        members = [o for o in bpy.data.objects
+                   if o.type == "MESH" and (o.name == ident or o.name.startswith(prefix))]
+        if not members:
+            members = [ob]
+    pts = [o.matrix_world @ Vector(c) for o in members for c in o.bound_box]
     xs, ys, zs = [p.x for p in pts], [p.y for p in pts], [p.z for p in pts]
     dx, dy = max(xs) - min(xs), max(ys) - min(ys)
-    return {"min_x": min(xs), "max_x": max(xs), "min_y": min(ys), "max_y": max(ys),
-            "top_z": max(zs), "width_m": max(dx, dy), "narrow_m": min(dx, dy),
-            "is_tile_mesh": bool(_TILE_MESH.match(ob.name))}
+    out = {"min_x": min(xs), "max_x": max(xs), "min_y": min(ys), "max_y": max(ys),
+           "top_z": max(zs), "width_m": max(dx, dy), "narrow_m": min(dx, dy),
+           "axis_width_m": max(dx, dy), "axis_narrow_m": min(dx, dy),
+           "model": ident, "parts": len(members), "is_tile_mesh": is_tile}
+    if azimuth_deg is not None:
+        a = math.radians(float(azimuth_deg))
+        fwd = (math.sin(a), math.cos(a))
+        side = (math.cos(a), -math.sin(a))
+        across = [p.x * side[0] + p.y * side[1] for p in pts]
+        along = [p.x * fwd[0] + p.y * fwd[1] for p in pts]
+        out["width_m"] = max(across) - min(across)
+        out["narrow_m"] = max(along) - min(along)
+        out["measured_across_bearing_deg"] = round(float(azimuth_deg), 1)
+    return out
 
 
 def _fabric_identity(name: str) -> str:
@@ -1246,7 +1306,8 @@ def subject_sightline(x: float, y: float, z: float, sx: float, sy: float, sz: fl
     # the height (J78).
     if subject_width_m and subject_width_m > floor_m:
         wide_m = float(subject_width_m)
-        fan_from += "; across, the measured plan extent of the object standing at the coordinate"
+        fan_from += ("; across, the measured plan extent of the whole model standing at the "
+                     "coordinate, taken across this camera's bearing (J113)")
     else:
         wide_m = floor_m
         if subject_width_m:
@@ -1382,8 +1443,32 @@ def clearance_fields(got: dict) -> dict:
     return out
 
 
-def clearance_sentence(got: dict, *, with_angle: bool = True) -> str:
-    """Both halves of the clearance reading, or neither claimed."""
+#: Where the agent half of a clearance sentence goes until the record is finished.
+#:
+#: The note is written while the scene still holds every agent the placement was decided against,
+#: and ``render_sheets`` then culls the ones standing on the lens and re-reads the agent fields --
+#: which left nine v16 records contradicting themselves, the SoHo sheet naming ``agent_ped_1912.0``
+#: at 1.2 m in its prose and ``agent_ped_1152.0`` at 36.3 m in its fields, and the prose is the
+#: half that reaches the sheet (docs/DEVIATIONS.md J117b).  So the clause is left as this mark and
+#: filled in from the record's own published fields once they are final, which is the only
+#: arrangement in which the two cannot drift apart.
+AGENT_CLAUSE_MARK = "{agent_clause}"
+
+
+def agent_clause(agent_what: str | None, agent_m: float | None, probe_m: float | None) -> str:
+    """The agent half of a clearance sentence, from the three fields a record publishes."""
+    if agent_what:
+        return (f", and the nearest simulated agent is {agent_what} "
+                f"{float(agent_m or 0.0):.1f} m away")
+    return f", and no simulated agent stands within {float(probe_m or 0.0):.0f} m of it"
+
+
+def clearance_sentence(got: dict, *, with_angle: bool = True, agent_mark: bool = False) -> str:
+    """Both halves of the clearance reading, or neither claimed.
+
+    ``agent_mark`` leaves :data:`AGENT_CLAUSE_MARK` in place of the agent half, for a sentence that
+    is composed before the crowd is final (J117b).
+    """
     if got["near_what"]:
         where = (f" at {got['near_at'][0]:+.0f} deg yaw, {got['near_at'][1]:+.0f} deg pitch"
                  if with_angle else "")
@@ -1391,12 +1476,9 @@ def clearance_sentence(got: dict, *, with_angle: bool = True) -> str:
                  f"{got['near_m']:.1f} m away{where}")
     else:
         built = f"nothing built stands within {got['near_m']:.0f} m of the lens"
-    if got.get("agent_what"):
-        agent = (f", and the nearest simulated agent is {got['agent_what']} "
-                 f"{got['agent_m']:.1f} m away")
-    else:
-        agent = f", and no simulated agent stands within {got['probe_m']:.0f} m of it"
-    return built + agent
+    if agent_mark:
+        return built + AGENT_CLAUSE_MARK
+    return built + agent_clause(got.get("agent_what"), got.get("agent_m"), got.get("probe_m"))
 
 
 def frame_fan(placement: "CameraPlacement", *, yaw_steps: int = 7,
@@ -1658,7 +1740,7 @@ def sidestep_prop_at_lens(placement: "CameraPlacement", subject: dict) -> dict |
                      f"subject, which a photographer steps around; the camera was moved "
                      f"{t:.1f} m {label}, across the view axis, to the candidate that shows most of "
                      f"the subject -- {gained}, and {stepped}.  From there the view azimuth is "
-                     f"clear for {view_m:.0f} m and " + clearance_sentence(reading, with_angle=False))}
+                     f"clear for {view_m:.0f} m and " + clearance_sentence(reading, with_angle=False, agent_mark=True))}
 
 
 def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 80.0,
@@ -1913,7 +1995,7 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
                     "view_m": round(got["view_m"], 1), **clearance_fields(got), **scored(got),
                     "note": (f"the recorded viewpoint is {why}; {desc}.  The view azimuth is clear "
                              f"for {got['view_m']:.0f} m from there, and "
-                             + clearance_sentence(got))}
+                             + clearance_sentence(got, agent_mark=True))}
         # Rank the fallback on how much of the *frame* is open, then on the axis. Ranking on the
         # axis alone is what let a camera hard against a block face win: it could see 60 m up the
         # street past the corner of the building filling the rest of its picture.
@@ -1950,7 +2032,7 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
                         "view_m": round(got["view_m"], 1), **clearance_fields(got), **scored(got),
                         "note": (f"the recorded viewpoint is {why}; {desc}.  The view azimuth is "
                                  f"clear for {got['view_m']:.0f} m from there, and "
-                                 + clearance_sentence(got, with_angle=False))}
+                                 + clearance_sentence(got, with_angle=False, agent_mark=True))}
             key = (got.get("subject_frac") or 0.0, got["near_m"], got["view_m"])
             if fallback is None or key > (fallback[2].get("subject_frac") or 0.0,
                                           fallback[2]["near_m"], fallback[2]["view_m"]):
@@ -1971,7 +2053,7 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
                              f"it was tried and none saw further along the azimuth, so the camera "
                              f"was left where the record puts it.  The view is closed off "
                              f"{got['view_m']:.0f} m ahead and "
-                             + clearance_sentence(got, with_angle=False))}
+                             + clearance_sentence(got, with_angle=False, agent_mark=True))}
         commit(nx, ny, got)
         return {"moved": True, "offset_m": off, "direction": label, "reason": why,
                 "rule": ("open air only, ranked on how much of the subject it sees"
@@ -1981,7 +2063,7 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
                          f"had {min_view_m:.0f} m of open air along the view azimuth with nothing "
                          f"built inside {min_clear_m:.0f} m of the lens, so the frame is closed off "
                          f"{got['view_m']:.0f} m ahead and "
-                         + clearance_sentence(got, with_angle=False))}
+                         + clearance_sentence(got, with_angle=False, agent_mark=True))}
     return {"moved": False, "offset_m": 0.0, "reason": why, "rule": "no clear point found",
             "note": (f"the recorded viewpoint is {why} and no clear point was found within "
                      f"{max_m:.0f} m, so the frame is rendered from inside the shell and is dark")}

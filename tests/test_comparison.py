@@ -1679,6 +1679,134 @@ def test_the_sidestep_refuses_a_step_that_ends_nearer_the_prop_it_moved_for():
     assert placement.x < X0, "the camera has to end up where the record says it went"
 
 
+def test_the_fan_spans_the_whole_landmark_and_not_the_part_at_its_coordinate():
+    """A fan sized to one part of a landmark is not a fan across the landmark (J113).
+
+    The object standing at the Williamsburgh Savings Bank Tower's coordinate is
+    ``lm_c_williamsburgh_savings_bank_tower.8`` -- the gilded dome, 14.38 m across -- so the record
+    published ``subject_fan_m`` 14.4 and a half-angle of 1.93 deg for a tower presenting 54.0 m at
+    that bearing.  The fan was a quarter as wide as its subject, which is how one 0.216 m lamp post
+    came to account for 11 of 13 rays (J111).  Five records measured a fan 25 m or narrower on a
+    subject 100 m or taller.
+
+    The extent is now measured over every part sharing the model's identity, and across the
+    camera's own bearing rather than as the larger axis-aligned span.
+    """
+    _skip_without_bpy()
+    import camera as vcam
+    import nycsim_bpy as nb
+
+    nb.reset_scene()
+    X0, Y0 = 940000.0, 940000.0
+    # A tower 60 m across east-west and 20 m deep north-south, with a 6 m dome on top at the same
+    # coordinate.  The dome is what a height probe aimed at the centre finds.
+    _cube("lm_c_tower_j113.0", X0, Y0, 40.0, size=60.0, size_y=20.0, size_z=80.0)
+    _cube("lm_c_tower_j113.8", X0, Y0, 83.0, size=6.0, size_y=6.0, size_z=6.0)
+
+    part = vcam.object_extent_xy("lm_c_tower_j113.8")
+    assert part["model"] == "lm_c_tower_j113", part
+    assert part["parts"] == 2, "both parts of the model are measured, not the one that was probed"
+    assert part["axis_width_m"] == pytest.approx(60.0, abs=0.01), part
+    assert part["axis_narrow_m"] == pytest.approx(20.0, abs=0.01), part
+
+    # Looking north, the tower presents its 60 m face; looking east, its 20 m flank.
+    facing_north = vcam.object_extent_xy("lm_c_tower_j113.8", azimuth_deg=0.0)
+    facing_east = vcam.object_extent_xy("lm_c_tower_j113.8", azimuth_deg=90.0)
+    assert facing_north["width_m"] == pytest.approx(60.0, abs=0.01), facing_north
+    assert facing_north["narrow_m"] == pytest.approx(20.0, abs=0.01), facing_north
+    assert facing_east["width_m"] == pytest.approx(20.0, abs=0.01), facing_east
+    assert facing_east["narrow_m"] == pytest.approx(60.0, abs=0.01), facing_east
+
+    # A tile mesh is still refused: its box is the tile, not the building (J94).
+    _cube("t_940_940_brick_red", X0 + 300.0, Y0, 10.0, size=900.0, size_y=900.0, size_z=20.0)
+    tile = vcam.object_extent_xy("t_940_940_brick_red", azimuth_deg=0.0)
+    assert tile["is_tile_mesh"] is True and tile["parts"] == 1, tile
+
+    # And a prop is one object, whatever its name looks like.
+    _cube("prop_lamp_j113", X0 + 4.0, Y0 + 4.0, 5.0, size=0.3, size_y=0.3, size_z=10.0)
+    prop = vcam.object_extent_xy("prop_lamp_j113", azimuth_deg=0.0)
+    assert prop["parts"] == 1 and prop["model"] == "prop_lamp_j113", prop
+
+
+def test_a_clearance_note_names_the_agent_its_own_fields_name():
+    """The prose and the fields in one clearance block cannot disagree (J117b).
+
+    ``nearest_agent`` is re-read after the cull over the observer, because the agents the placement
+    was decided against include the ones now standing on the lens, which the render drops.  For the
+    whole v16 pass the re-read touched the fields and not the prose, so records named one agent at
+    one distance in their note and a different one -- or none at all -- in their fields: the SoHo
+    sheet said ``agent_ped_1912.0`` 1.2 m away in its note and ``agent_ped_1152.0`` 36.3 m away in
+    its field, and the note is the half that reaches the sheet.
+
+    The note now leaves its agent half as a mark, filled from the record's own published fields
+    once they are final.
+    """
+    # The real bpy first, so the stub ``_skip_without_render_sheets`` would install is a no-op and
+    # ``camera`` -- which needs Blender's ``mathutils`` at import -- is reachable from the sweep.
+    _skip_without_bpy()
+    rs = _skip_without_render_sheets()
+    import camera as vcam
+
+    mark = vcam.AGENT_CLAUSE_MARK
+    record = {
+        "clearance": {"note": "the viewpoint is in open air on the ground" + mark,
+                      "nearest_agent": "agent_ped_1152.0", "nearest_agent_m": 36.3,
+                      "nearest_agent_probe_m": 60.0},
+        "frame_retry": {"clearance": {"note": "the recorded viewpoint is boxed in" + mark,
+                                      "nearest_agent": None, "nearest_agent_m": None,
+                                      "nearest_agent_probe_m": 60.0}},
+        "scene": {"blocks": [{"note": "nothing built stands within 60 m of the lens" + mark,
+                              "nearest_agent": "agent_veh_camry_taxi_yellow_1023",
+                              "nearest_agent_m": 53.3, "nearest_agent_probe_m": 60.0}]},
+    }
+    filled = rs._finish_agent_clauses(record)
+    assert filled == 3, "every block carrying a note is swept, not a hand-written list of them"
+    assert "agent_ped_1152.0 36.3 m away" in record["clearance"]["note"]
+    assert mark not in json.dumps(record), "no mark may survive into a sheet"
+    assert "no simulated agent stands within 60 m of it" in record["frame_retry"]["clearance"]["note"]
+    assert "agent_veh_camry_taxi_yellow_1023 53.3 m away" in record["scene"]["blocks"][0]["note"]
+    # Idempotent: a second sweep has nothing left to fill.
+    assert rs._finish_agent_clauses(record) == 0
+
+
+def test_no_render_record_contradicts_itself_about_the_nearest_agent():
+    """Every note that names an agent names the one its own fields name (J117b).
+
+    This is the check J117b was written from, and it found **19** of the 171 v16 records
+    contradicting themselves -- more than the nine the first reading counted, because eleven of
+    them name an agent in the prose whose field is ``null``: the cull removed the agent entirely
+    and the sentence kept it.  It stays red against the v16 records on purpose and goes green with
+    the pass that re-renders them.
+    """
+    base = REPO_ROOT / "docs" / "verification" / "comparison"
+    if not base.is_dir():
+        pytest.skip("no comparison records in this checkout")
+    bad = []
+    for d in sorted(base.iterdir()):
+        rec_path = d / "render.json"
+        if not rec_path.is_file():
+            continue
+        try:
+            rec = json.loads(rec_path.read_text())
+        except (OSError, ValueError):
+            continue
+        for where, block in (("clearance", rec.get("clearance")),
+                             ("frame_retry.clearance", (rec.get("frame_retry") or {}).get("clearance"))):
+            if not isinstance(block, dict):
+                continue
+            note = block.get("note")
+            named = block.get("nearest_agent")
+            if not isinstance(note, str):
+                continue
+            for m in re.finditer(r"nearest simulated agent is (\S+) ([0-9.]+) m away", note):
+                if m.group(1) != named:
+                    bad.append(f"{d.name} {where}: note names {m.group(1)}, field names {named}")
+                elif abs(float(m.group(2)) - float(block.get("nearest_agent_m") or -1.0)) > 0.05:
+                    bad.append(f"{d.name} {where}: note says {m.group(2)} m, "
+                               f"field says {block.get('nearest_agent_m')} m")
+    assert not bad, "\n".join(bad)
+
+
 def test_a_drive_through_uses_a_photograph_of_its_own_block():
     """A drive-through sheet compares one block, so the photograph has to be of that block.
 

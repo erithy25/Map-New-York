@@ -1440,6 +1440,42 @@ def frame_metrics(path: Path) -> dict:
     return {"mean": round(mean, 4), "sd": round(sd, 4), "usable": reason is None, "reason": reason}
 
 
+def _finish_agent_clauses(node) -> int:
+    """Fill every ``AGENT_CLAUSE_MARK`` in a record from that block's own published fields (J117b).
+
+    A clearance note is written where the camera is placed, while the scene still holds every agent
+    the placement was decided against.  ``_cull_and_reread`` then drops the ones standing on the
+    lens and re-reads ``nearest_agent`` -- and for the whole v16 pass it re-read the *fields* and
+    left the *prose* alone, so nine records named one agent at one distance in their note and a
+    different one at a different distance in their fields.  The SoHo sheet said
+    ``agent_ped_1912.0`` 1.2 m away in its note and ``agent_ped_1152.0`` 36.3 m away in its field,
+    and the note is the half that reaches the sheet.
+
+    So a note leaves its agent half as a mark and it is filled in here, from the same three fields
+    the record publishes, after every cull and re-read has run.  Walking the whole record rather
+    than a list of known blocks is deliberate: a block that grows a clearance note later cannot be
+    forgotten, and the sweep returns how many marks it filled so a test can insist none survives
+    into a sheet.
+    """
+    import camera as vcam
+
+    filled = 0
+    if isinstance(node, dict):
+        note = node.get("note")
+        if isinstance(note, str) and vcam.AGENT_CLAUSE_MARK in note:
+            node["note"] = note.replace(
+                vcam.AGENT_CLAUSE_MARK,
+                vcam.agent_clause(node.get("nearest_agent"), node.get("nearest_agent_m"),
+                                  node.get("nearest_agent_probe_m")))
+            filled += 1
+        for v in node.values():
+            filled += _finish_agent_clauses(v)
+    elif isinstance(node, (list, tuple)):
+        for v in node:
+            filled += _finish_agent_clauses(v)
+    return filled
+
+
 def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | None = None,
                    width: int = RENDER_WIDTH, dry_run: bool = False,
                    with_agents: bool = True) -> dict:
@@ -1701,7 +1737,11 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
             and height_probe.get("ground_z_m") is not None):
         wsx, wsy = (float(v) for v in lonlat_to_tm(subject["lon"], subject["lat"]))
         wbase, wtop = float(height_probe["ground_z_m"]), float(top[1])
-        extent = vcam.object_extent_xy(height_probe.get("object"))
+        # The extent is the whole model's, taken across this camera's bearing (J113).  The height
+        # probe names one *part* -- at the Williamsburgh Savings Bank Tower it names the gilded
+        # dome -- and a fan sized to one part of a landmark is not a fan across the landmark.
+        extent = vcam.object_extent_xy(height_probe.get("object"),
+                                       azimuth_deg=placement.azimuth_deg)
         subject_for_walk = {"x": wsx, "y": wsy, "z_aim": 0.5 * (wbase + wtop),
                             "height_m": wtop - wbase, "ground_z": wbase,
                             "object": height_probe.get("object"),
@@ -1710,12 +1750,20 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
         record.setdefault("subject", {})["plan_extent"] = (
             None if not extent else {"width_m": round(extent["width_m"], 1),
                                      "narrow_m": round(extent["narrow_m"], 1),
+                                     "axis_width_m": round(extent["axis_width_m"], 1),
+                                     "axis_narrow_m": round(extent["axis_narrow_m"], 1),
                                      "object": height_probe.get("object"),
+                                     "model": extent["model"],
+                                     "parts": extent["parts"],
+                                     "across_bearing_deg": extent.get("measured_across_bearing_deg"),
                                      "is_tile_mesh": extent["is_tile_mesh"],
                                      "note": ("a tile mesh is every building of one material in the "
                                               "tile, so its extent is not the subject's and is not used"
                                               if extent["is_tile_mesh"] else
-                                              "the bounding box of the object the height was measured off")})
+                                              f"the bounding box of all {extent['parts']} part(s) of "
+                                              f"{extent['model']}, the model the height was measured "
+                                              f"off a part of, measured across this camera's bearing "
+                                              f"and along it (J113)")})
     # How much open air the corrected viewpoint has to have along the view azimuth before it is
     # accepted.  A frame whose subject is 170 m away is worthless from a spot with a wall (or a
     # street tree) ten metres in front of the lens, so the requirement scales with the subject
@@ -1910,6 +1958,7 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
         "seconds": {"scene": round(t1 - t0, 1), "render": round(t2 - t1, 1), "total": round(t2 - t0, 1)},
         "rendered_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
     })
+    _finish_agent_clauses(record)
     (outdir / "render.json").write_text(json.dumps(record, indent=1, sort_keys=True))
     err = outdir / "render_error.txt"
     if frame["usable"]:
