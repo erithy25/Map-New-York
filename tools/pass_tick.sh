@@ -126,8 +126,11 @@ if [ -n "$PID" ]; then
     echo "runner: left alone (pid ${PID})"
     exit 0
 fi
-if [ "$(free_mb)" -lt 800 ]; then
-    echo "runner: not started -- $(free_mb) MB free, the runner needs room above its 700 MB floor"
+# Kept a little above the runner's own FLOOR_BYTES (300 MB, measured against the 13 MB of EXR
+# scratch two workers actually hold) so the tick refuses first and the runner never starts a sheet
+# it cannot finish.
+if [ "$(free_mb)" -lt 350 ]; then
+    echo "runner: not started -- $(free_mb) MB free, the runner needs room above its 300 MB floor"
     exit 1
 fi
 

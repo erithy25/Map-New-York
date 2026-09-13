@@ -41,7 +41,19 @@ LOG = Path(os.environ.get("NYCSIM_PASS_STATE") or (REPO / "blender_out" / "rende
 
 #: Stop before the disk is gone. A sheet is about 5 MB, a scene build needs room for its temporaries,
 #: and a container with no free bytes cannot even be tidied up.
-FLOOR_BYTES = 700 * 1024 * 1024   # the pavement rebuild is running beside this; leave it room
+#:
+#: **Measured, and lowered from 700 MB.** The 700 was sized for a pavement rebuild running beside
+#: this pass; that job is long finished. What a render actually needs above the sheet it overwrites
+#: is one linear EXR for the metering pass (`develop_and_meter` writes it, reads it back and
+#: unlinks it in a `finally`): the largest frame in the catalogue is 1208x906, so half-float RGB is
+#: 6.3 MB uncompressed and less under ZIP, and two workers hold at most one each. Peak scratch is
+#: therefore about 13 MB, and a re-render overwrites its sheet in place rather than growing. 300 MB
+#: is a 23x margin on that and still refuses to start a pass that would fill the disk.
+#:
+#: It is a margin against an abort mid-write, not a correctness check: `tools/pass_tick.sh` runs
+#: `tools/png_decodes.py` over every changed sheet and refuses to commit one that does not decode,
+#: which is what actually catches a truncated PNG.
+FLOOR_BYTES = 300 * 1024 * 1024
 #: A sheet takes about twelve minutes; three times the p90 is a hang, not a slow frame.
 TIMEOUT_S = 3600
 
