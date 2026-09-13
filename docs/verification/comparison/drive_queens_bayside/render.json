@@ -66,7 +66,7 @@
    21.1
   ],
   "nearest_obstruction_m": 19.4,
-  "note": "the recorded viewpoint is hard against t_15_7_struct_station_house (0.1 m ahead along the view azimuth); the camera was moved 32 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there, and the nearest built thing in the frame is prop_tree_honeylocust_large_22 19.4 m away at -27 deg yaw, +21 deg pitch, and no simulated agent stands within 20 m of it",
+  "note": "the recorded viewpoint is hard against t_15_7_struct_station_house (0.1 m ahead along the view azimuth); the camera was moved 32 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there, and the nearest built thing in the frame is prop_tree_honeylocust_large_22 19.4 m away at -27 deg yaw, +21 deg pitch, and the probe found no simulated agent on its rays across this frame within 20 m",
   "offset_m": 32.2,
   "reason": "hard against t_15_7_struct_station_house (0.1 m ahead along the view azimuth)",
   "rule": "pavement snap with a clear frame",
@@ -117,7 +117,7 @@
  "name": "Queens residential block: Bayside",
  "night": false,
  "pitch_reason": "level optical axis (the reference names no subject to aim at)",
- "record_shape": 1,
+ "record_shape": 2,
  "reference_photo": {
   "author": "Famartin",
   "confidence": "medium",
@@ -132,7 +132,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_queens_bayside/render.png",
- "rendered_at": "2026-09-13T21:05:01Z",
+ "rendered_at": "2026-09-13T22:42:44Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -170,7 +170,7 @@
    "placed_pedestrians": 265,
    "placed_vehicles": 73,
    "reason": null,
-   "seconds": 553.16,
+   "seconds": 508.41,
    "snapshot": {
     "building_footprints_tested": 7915,
     "density_lane_km": 28.728,
@@ -717,7 +717,7 @@
    "unmapped_kinds": {}
   },
   "radius_m": 720.0,
-  "seconds": 673.5,
+  "seconds": 608.52,
   "structures": {
    "imported": [
     "t_14_6",
@@ -754,9 +754,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 136.4,
-  "scene": 676.8,
-  "total": 813.2
+  "render": 132.8,
+  "scene": 610.9,
+  "total": 743.8
  },
  "sightline": {
   "subject_note": "the item names no point subject",
