@@ -74,3 +74,38 @@ is untouched for six separate reasons.
 | seven park surface kinds flat-coloured | the texture catalogue has no photographic set for any of them (J40) | **declared decision** |
 | 304 people where the table asked 986 | the agent triangle budget plus the placement rules, each with its count | performance + verification |
 | no cloud | nothing in this build reads a historical sky | reference — no source exists |
+
+## Re-read against the re-rendered record
+
+This sheet was rendered again on the v17 pass's restart, to carry the `record_shape` stamp that
+tells a reader which generation of the renderer wrote a record (**DEVIATIONS J119**). Nothing above
+was rewritten, and the evidence for leaving it is stronger than a re-reading: diffing the new record
+against the committed one field by field, **every measured value is identical**, and the frame it replaced is reproduced **pixel for pixel**: `render.png`'s decoded image is identical, and the only bytes that differ are the five `tEXt` chunks in which Blender records the render date and its own timings. `sheet.png` is byte-identical. What
+moved is the wall clock:
+
+`scene.agents.seconds` 523.0 -> 451.6,
+`scene.seconds` 702.42 -> 636.21,
+`seconds.render` 130.8 -> 164.6,
+`seconds.scene` 711.0 -> 642.8,
+`seconds.total` 841.8 -> 807.4.
+The other changes are the wording of the clearance note, where J120 replaced two fallbacks that
+claimed an empty disc with sentences that say what the probe measured -- rays across the frame.
+Every other field of the clearance reading is unchanged, which is what makes this a rewording of
+the same measurement rather than a different one, and the agent snapshot's provenance: the previous render simulated the crowd and
+this one read the same snapshot back from the cache, which the diff proves rather than assumes --
+every agent count in the record is unchanged, or that note would not be the only field beside the
+clock that moved (`simulated (already built)` to
+`cached -4011_5723_9_2_a92e516376e6569d_1788868452.json`).
+
+
+## Measured for this assessment
+
+The wall-clock figures in the table below are the **previous** render's, quoted so that "every measured value is identical" is a comparison a reader can check rather than a claim. They were read from this sheet's own `render.json` at commit `3b4c954`, its last state before the pass restarted.
+
+| figure | where it comes from |
+|---|---|
+| 523.0 | `scene.agents.seconds` in the previous record; the re-render took 451.6 s |
+| 702.42 | `scene.seconds` in the previous record; the re-render took 636.21 s |
+| 130.8 | `seconds.render` in the previous record; the re-render took 164.6 s |
+| 711.0 | `seconds.scene` in the previous record; the re-render took 642.8 s |
+| 841.8 | `seconds.total` in the previous record; the re-render took 807.4 s |
