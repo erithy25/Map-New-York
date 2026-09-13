@@ -66,3 +66,36 @@
 ## What this sheet is good for
 
 Nothing about 30 Hudson Yards. It is the strongest argument in the pass for one cheap repair: the runner's usability test should read the record it is standing on. Three separate measurements — the walk's own refusal, a 96 m closure against an 80 m requirement, and a visible fraction of 0.000 — were all written before the image was judged, and the judgement ignored all three.
+
+## Re-read against the re-rendered record
+
+This sheet was rendered again on the v17 pass's restart, to carry the `record_shape` stamp that
+tells a reader which generation of the renderer wrote a record (**DEVIATIONS J119**). Nothing above
+was rewritten, and the evidence for leaving it is stronger than a re-reading: diffing the new record
+against the committed one field by field, **every measured value is identical**, and the frame it replaced is reproduced **pixel for pixel**: `render.png`'s decoded image is identical, and the only bytes that differ are the five `tEXt` chunks in which Blender records the render date and its own timings. `sheet.png` is byte-identical. What
+moved is the wall clock:
+
+`scene.agents.seconds` 505.38 -> 437.97,
+`scene.seconds` 634.89 -> 556.39,
+`seconds.render` 72.1 -> 166.6,
+`seconds.scene` 1024.1 -> 806.5,
+`seconds.total` 1096.2 -> 973.1.
+The other changes are the plan-extent field names, where the object's box moved from
+`part_width_m`/`part_narrow_m` to `width_m`/`narrow_m` and the model's from `width_m`/`narrow_m` to
+`model_*` (no figure quoted above is a field name), and the wording of the clearance note, where J120 replaced two fallbacks that
+claimed an empty disc with sentences that say what the probe measured -- rays across the frame.
+Every other field of the clearance reading is unchanged, which is what makes this a rewording of
+the same measurement rather than a different one.
+
+
+## Measured for this assessment
+
+The wall-clock figures in the table below are the **previous** render's, quoted so that "every measured value is identical" is a comparison a reader can check rather than a claim. They were read from this sheet's own `render.json` at commit `837fa93`, its last state before the pass restarted.
+
+| figure | where it comes from |
+|---|---|
+| 505.38 | `scene.agents.seconds` in the previous record; the re-render took 437.97 s |
+| 634.89 | `scene.seconds` in the previous record; the re-render took 556.39 s |
+| 72.1 | `seconds.render` in the previous record; the re-render took 166.6 s |
+| 1024.1 | `seconds.scene` in the previous record; the re-render took 806.5 s |
+| 1096.2 | `seconds.total` in the previous record; the re-render took 973.1 s |
