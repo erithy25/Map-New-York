@@ -71,3 +71,36 @@ From there the view is clear for **96.0 m**, the nearest built thing is `t_-5_5_
 | a −8.436 m far-field tail | the park builder drapes on its own heightmap and the scene's coarsens at the edge; the redrape closes the near field (J71) | geometry — open, bounded |
 | 250 people of 2,312 asked | the agent triangle budget plus the placement rules, each with its own count | performance + verification |
 | no cloud | nothing in this build reads a historical sky | reference — no source exists |
+
+## Re-read against the re-rendered record
+
+This sheet was rendered again on the v17 pass's restart, to carry the `record_shape` stamp that
+tells a reader which generation of the renderer wrote a record (**DEVIATIONS J119**). Nothing above
+was rewritten, and the evidence for leaving it is stronger than a re-reading: diffing the new record
+against the committed one field by field, **every measured value is identical**, and the frame it replaced is reproduced **pixel for pixel**: `render.png`'s decoded image is identical, and the only bytes that differ are the five `tEXt` chunks in which Blender records the render date and its own timings. `sheet.png` is byte-identical. What
+moved is the wall clock:
+
+`scene.agents.seconds` 786.5 -> 721.12,
+`scene.seconds` 977.18 -> 899.06,
+`seconds.render` 51.0 -> 63.8,
+`seconds.scene` 1104.3 -> 1040.1,
+`seconds.total` 1155.3 -> 1103.9.
+The other changes are the plan-extent field names, where the object's box moved from
+`part_width_m`/`part_narrow_m` to `width_m`/`narrow_m` and the model's from `width_m`/`narrow_m` to
+`model_*` (no figure quoted above is a field name), and the wording of the clearance note, where J120 replaced two fallbacks that
+claimed an empty disc with sentences that say what the probe measured -- rays across the frame.
+Every other field of the clearance reading is unchanged, which is what makes this a rewording of
+the same measurement rather than a different one.
+
+
+## Measured for this assessment
+
+The wall-clock figures in the table below are the **previous** render's, quoted so that "every measured value is identical" is a comparison a reader can check rather than a claim. They were read from this sheet's own `render.json` at commit `837fa93`, its last state before the pass restarted.
+
+| figure | where it comes from |
+|---|---|
+| 786.5 | `scene.agents.seconds` in the previous record; the re-render took 721.12 s |
+| 977.18 | `scene.seconds` in the previous record; the re-render took 899.06 s |
+| 51.0 | `seconds.render` in the previous record; the re-render took 63.8 s |
+| 1104.3 | `seconds.scene` in the previous record; the re-render took 1040.1 s |
+| 1155.3 | `seconds.total` in the previous record; the re-render took 1103.9 s |
