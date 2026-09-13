@@ -123,7 +123,7 @@
  "name": "Bronx drive-through: Grand Concourse Art Deco apartments",
  "night": false,
  "pitch_reason": "level optical axis (the reference names no subject to aim at)",
- "record_shape": 1,
+ "record_shape": 2,
  "reference_photo": {
   "author": "Jim.henderson",
   "confidence": "medium",
@@ -138,7 +138,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_bronx_grand_concourse/render.png",
- "rendered_at": "2026-09-13T20:13:02Z",
+ "rendered_at": "2026-09-13T21:52:08Z",
  "resolution_note": "1158x944; the reference photograph is 1920x1564 (1.23:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -187,7 +187,7 @@
    "placed_pedestrians": 404,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 644.44,
+   "seconds": 641.66,
    "snapshot": {
     "building_footprints_tested": 1467,
     "density_lane_km": 28.245,
@@ -1038,7 +1038,7 @@
    }
   },
   "radius_m": 720.0,
-  "seconds": 787.95,
+  "seconds": 773.74,
   "structures": {
    "imported": [
     "t_1_14",
@@ -1076,9 +1076,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 324.0,
-  "scene": 831.9,
-  "total": 1155.9
+  "render": 369.8,
+  "scene": 827.0,
+  "total": 1196.8
  },
  "sightline": {
   "subject_note": "the item names no point subject",
