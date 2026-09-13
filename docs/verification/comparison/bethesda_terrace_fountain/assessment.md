@@ -60,3 +60,32 @@ The cause is in the record two lines further down: among the props the scene wan
 | no balusters, no cast-iron lamp standard, no cart, no dogs | none is a class this build models; the 60 lamps in range are the generic fixtures | geometry |
 | tree positions, species and heights inferred | no survey exists for the Ramble's canopy; declared procedural (§12, Stage 55) | data — declared |
 | 0.2852 of far park-ground samples under the terrain | the 40 m coarsened grid at the scene edge against surfaces draped on the 2 m heightmap | verification |
+
+## Re-read against the re-rendered record
+
+This sheet was rendered again on the v17 pass's restart, to carry the `record_shape` stamp that
+tells a reader which generation of the renderer wrote a record (**DEVIATIONS J119**). Nothing above
+was rewritten, and the evidence for leaving it is stronger than a re-reading: diffing the new record
+against the committed one field by field, **every measured value is identical** — the only changes
+are the three wall-clock timings (`seconds.scene` 148.9 → 142.8, `seconds.render` 63.4 → 62.2,
+`seconds.total` 212.3 → 205.0) and the plan-extent field names, where the object's box moved from
+`part_width_m`/`part_narrow_m` to `width_m`/`narrow_m` and the model's from `width_m`/`narrow_m` to
+`model_*`. No figure quoted above is a field name, and `assessment_check.py` finds every figure in
+the prose in the new record.
+
+That the two renders agree to the last decimal is itself a finding worth stating: **this pass is
+reproducible**, so a sheet's evidence can be re-derived from the repository rather than only
+believed.
+
+## Measured for this assessment
+
+Three figures above are not in this render record and cannot be: they are the **previous** render's
+wall-clock timings, quoted so that "every measured value is identical" is a comparison a reader can
+check rather than a claim. They were read from this sheet's own `render.json` as it stood at commit
+`aebe5fe`, the last state of the repository before the pass restarted.
+
+| figure | where it comes from |
+|---|---|
+| 148.9 | `seconds.scene` in the previous record; the re-render took 142.8 s to build the same scene |
+| 63.4 | `seconds.render` in the previous record; the re-render took 62.2 s |
+| 212.3 | `seconds.total` in the previous record; the re-render took 205.0 s |
