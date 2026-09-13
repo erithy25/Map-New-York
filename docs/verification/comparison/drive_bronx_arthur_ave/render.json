@@ -71,7 +71,7 @@
    0.0
   ],
   "nearest_obstruction_m": 20.0,
-  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 10 m ahead, less than the 12 m this frame needs to show its subject; the camera was moved 36 m onto the nearest real crosswalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 45 m from there, and nothing built stands within 20 m of the lens, and the nearest simulated agent is agent_ped_362.2 8.4 m away",
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 10 m ahead, less than the 12 m this frame needs to show its subject; the camera was moved 36 m onto the nearest real crosswalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 45 m from there, and nothing built stands on the probe's rays across this frame within 20 m of the lens, and the nearest simulated agent is agent_ped_362.2 8.4 m away",
   "offset_m": 35.7,
   "reason": "boxed in: the view azimuth is closed off 10 m ahead, less than the 12 m this frame needs to show its subject",
   "rule": "pavement snap with a clear frame",
@@ -122,7 +122,7 @@
  "name": "Bronx drive-through: Arthur Avenue (Belmont)",
  "night": false,
  "pitch_reason": "level optical axis (the reference names no subject to aim at)",
- "record_shape": 1,
+ "record_shape": 2,
  "reference_photo": {
   "author": "Joe Mabel",
   "confidence": "medium",
@@ -137,7 +137,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_bronx_arthur_ave/render.png",
- "rendered_at": "2026-09-13T20:10:13Z",
+ "rendered_at": "2026-09-13T21:49:19Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -184,7 +184,7 @@
    "placed_pedestrians": 391,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 681.62,
+   "seconds": 716.89,
    "snapshot": {
     "building_footprints_tested": 4239,
     "density_lane_km": 25.141,
@@ -714,7 +714,7 @@
    }
   },
   "radius_m": 735.9087944963435,
-  "seconds": 877.56,
+  "seconds": 923.64,
   "structures": {
    "imported": [
     "t_4_16",
@@ -792,9 +792,9 @@
   "radius_m": 735.9087944963435
  },
  "seconds": {
-  "render": 254.7,
-  "scene": 939.8,
-  "total": 1194.5
+  "render": 268.1,
+  "scene": 986.6,
+  "total": 1254.7
  },
  "sightline": {
   "subject_note": "the item names no point subject",
