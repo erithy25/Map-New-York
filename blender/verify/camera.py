@@ -1106,11 +1106,17 @@ def object_extent_xy(name: str | None, azimuth_deg: float | None = None) -> dict
         if not members:
             members = [ob]
     pts = [o.matrix_world @ Vector(c) for o in members for c in o.bound_box]
+    own = [ob.matrix_world @ Vector(c) for c in ob.bound_box]
     xs, ys, zs = [p.x for p in pts], [p.y for p in pts], [p.z for p in pts]
     dx, dy = max(xs) - min(xs), max(ys) - min(ys)
+    oxs, oys = [p.x for p in own], [p.y for p in own]
+    odx, ody = max(oxs) - min(oxs), max(oys) - min(oys)
     out = {"min_x": min(xs), "max_x": max(xs), "min_y": min(ys), "max_y": max(ys),
            "top_z": max(zs), "width_m": max(dx, dy), "narrow_m": min(dx, dy),
            "axis_width_m": max(dx, dy), "axis_narrow_m": min(dx, dy),
+           # The probed object on its own, which is what the fan falls back to when the model turns
+           # out to be the site around the subject rather than the subject (J113).
+           "part_width_m": max(odx, ody), "part_narrow_m": min(odx, ody),
            "model": ident, "parts": len(members), "is_tile_mesh": is_tile}
     if azimuth_deg is not None:
         a = math.radians(float(azimuth_deg))
@@ -1120,6 +1126,10 @@ def object_extent_xy(name: str | None, azimuth_deg: float | None = None) -> dict
         along = [p.x * fwd[0] + p.y * fwd[1] for p in pts]
         out["width_m"] = max(across) - min(across)
         out["narrow_m"] = max(along) - min(along)
+        p_across = [p.x * side[0] + p.y * side[1] for p in own]
+        p_along = [p.x * fwd[0] + p.y * fwd[1] for p in own]
+        out["part_width_m"] = max(p_across) - min(p_across)
+        out["part_narrow_m"] = max(p_along) - min(p_along)
         out["measured_across_bearing_deg"] = round(float(azimuth_deg), 1)
     return out
 
@@ -1201,7 +1211,9 @@ def frame_half_angles(placement: "CameraPlacement") -> tuple[float, float]:
 
 def subject_sightline(x: float, y: float, z: float, sx: float, sy: float, sz: float, *,
                       spread_m: float = 12.0, subject_height_m: float | None = None,
-                      subject_width_m: float | None = None, subject_object: str | None = None,
+                      subject_width_m: float | None = None,
+                      subject_object_width_m: float | None = None,
+                      subject_object: str | None = None,
                       subject_ground_z: float | None = None,
                       frame_half_angles_deg: tuple[float, float] | None = None,
                       rays: int = 13, reach_m: float = 25.0,
@@ -1304,7 +1316,36 @@ def subject_sightline(x: float, y: float, z: float, sx: float, sy: float, sz: fl
                     f"so the fan is not sized to it")
     # Horizontal extent: the measured width of the thing at the coordinate, or the floor -- never
     # the height (J78).
-    if subject_width_m and subject_width_m > floor_m:
+    #
+    # **And never an extent so wide that the fan stops being about the subject.**  J113 widened this
+    # from the probed *part* to the whole model, which is right for a tower whose model is the tower
+    # and wrong for a subject standing inside a model that carries its own site: the Manhattan
+    # Bridge's model is 247 parts and **897 m** across this bearing, the Bethesda Terrace's is 27
+    # parts and 104 m, and at those ranges both subtend more than the picture.  A fan clipped to the
+    # frame has stopped measuring the subject and started measuring the frame -- and every ray that
+    # lands further than ``reach_m`` from the coordinate is a ray that *cannot* count as being on the
+    # subject, so the wide fan's own outer rays can only ever be blocked or clear.  The DUMBO sheet
+    # is what that costs: 13 rays, 0 clear, 0 on the subject, `subject_visible: false` published for
+    # a bridge that fills both halves of the sheet.
+    #
+    # So the model's extent is used only while it fits the picture.  When it does not, the probed
+    # object's own extent is used instead -- the answer before J113 -- and the record says the model
+    # was rejected and why.  The test is done here rather than after clipping because by then the
+    # angle has already been cut to the frame's and the two cases look identical.
+    over_frame_m = None
+    if subject_width_m and frame_half_angles_deg is not None:
+        fits = 2.0 * span * math.tan(math.radians(max(float(frame_half_angles_deg[0]), 0.5)))
+        if float(subject_width_m) > fits:
+            over_frame_m = fits
+    if subject_width_m and over_frame_m is not None:
+        part = float(subject_object_width_m or 0.0)
+        wide_m = part if part > floor_m else floor_m
+        fan_from += (f"; across, {'the probed object' if part > floor_m else f'the {floor_m:.0f} m floor'}"
+                     f" ({wide_m:.1f} m): the whole model at the coordinate measures "
+                     f"{float(subject_width_m):.1f} m across this bearing, wider than the "
+                     f"{over_frame_m:.0f} m the picture holds at this range, so it is the site "
+                     f"around the subject rather than the subject (J113)")
+    elif subject_width_m and subject_width_m > floor_m:
         wide_m = float(subject_width_m)
         fan_from += ("; across, the measured plan extent of the whole model standing at the "
                      "coordinate, taken across this camera's bearing (J113)")
@@ -1611,6 +1652,7 @@ def sidestep_prop_at_lens(placement: "CameraPlacement", subject: dict) -> dict |
         return subject_sightline(nx, ny, placement.z, float(subject["x"]), float(subject["y"]),
                                  float(subject["z_aim"]), subject_height_m=subject.get("height_m"),
                                  subject_width_m=subject.get("width_m"),
+                                 subject_object_width_m=subject.get("object_width_m"),
                                  subject_object=subject.get("object"),
                                  subject_ground_z=subject.get("ground_z"),
                                  frame_half_angles_deg=frame_half_angles(placement))
@@ -1936,6 +1978,7 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
                                    float(subject["z_aim"]),
                                    subject_height_m=subject.get("height_m"),
                                    subject_width_m=subject.get("width_m"),
+                                   subject_object_width_m=subject.get("object_width_m"),
                                    subject_object=subject.get("object"),
                                    subject_ground_z=subject.get("ground_z"),
                                    frame_half_angles_deg=frame_half_angles(placement))

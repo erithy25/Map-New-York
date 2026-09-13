@@ -1746,12 +1746,18 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
                             "height_m": wtop - wbase, "ground_z": wbase,
                             "object": height_probe.get("object"),
                             "width_m": (None if not extent or extent["is_tile_mesh"]
-                                        else float(extent["width_m"]))}
+                                        else float(extent["width_m"])),
+                            # The probed part on its own, which the fan falls back to when the
+                            # model turns out to be the site around the subject (J113).
+                            "object_width_m": (None if not extent or extent["is_tile_mesh"]
+                                               else float(extent["part_width_m"]))}
         record.setdefault("subject", {})["plan_extent"] = (
             None if not extent else {"width_m": round(extent["width_m"], 1),
                                      "narrow_m": round(extent["narrow_m"], 1),
                                      "axis_width_m": round(extent["axis_width_m"], 1),
                                      "axis_narrow_m": round(extent["axis_narrow_m"], 1),
+                                     "part_width_m": round(extent["part_width_m"], 1),
+                                     "part_narrow_m": round(extent["part_narrow_m"], 1),
                                      "object": height_probe.get("object"),
                                      "model": extent["model"],
                                      "parts": extent["parts"],
@@ -1877,6 +1883,7 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
             sight = vcam.subject_sightline(placement.x, placement.y, placement.z, ssx, ssy, float(sz),
                                            subject_height_m=(float(stop) - base) if stop else None,
                                            subject_width_m=(subject_for_walk or {}).get("width_m"),
+                                           subject_object_width_m=(subject_for_walk or {}).get("object_width_m"),
                                            subject_object=height_probe.get("object"),
                                            subject_ground_z=base,
                                            frame_half_angles_deg=vcam.frame_half_angles(placement))
