@@ -106,11 +106,35 @@ and pushes the sheets that finished, refuses to start a second runner, refuses t
 below 350 MB, and counts the declined interior so the pass can reach its own target. Run it on
 every container start until it says the pass is complete.
 
-Two tests are red between the code changes and the finished pass, both by design:
-`test_no_comparison_scene_silently_changed_which_photograph_it_shows` (J112 changed 27 picks) and
-`test_no_render_record_contradicts_itself_about_the_nearest_agent` (J117b, 19 records). A third,
-`test_every_tile_a_published_sheet_loaded_is_still_on_disk`, is red until the pavement rebuild
-lands.
+Three tests are red between the code changes and the finished pass, all by design:
+
+* `test_no_comparison_scene_silently_changed_which_photograph_it_shows` — J112 changed 27 picks.
+* `test_no_render_record_contradicts_itself_about_the_nearest_agent` — J117b, 19 records.
+* `test_the_plan_extent_block_means_one_thing_in_every_record` — added after `plan_extent.width_m`
+  was briefly given the whole model's box instead of the probed object's. Until the pass finishes,
+  three key shapes exist in the repository at once: the previous pass's records, which carry
+  neither `model_*` nor `part_*`; the ones written while `width_m` held the model's box, which
+  carry `part_*`; and the ones written since, which carry `model_*`. Its failure output is a
+  serviceable progress report on which is which.
+
+A fourth, `test_every_tile_a_published_sheet_loaded_is_still_on_disk`, was red until the pavement
+rebuild landed and is green now.
+
+### One field, one meaning — and 30 sheets re-rendered for it
+
+`subject.plan_extent.width_m` and `narrow_m` have always meant the plan extent of the object
+standing at the subject's coordinate. When J113's repair landed those names were given to the whole
+model's box instead, with the object's under `part_width_m` — a published field changing what it
+measures under a name 170 assessments had already quoted. It took under an hour to bite: a figure
+substitution keyed on the printed number put *"extent 30.3 m by 602.4 m — a slender tower, correctly
+measured"* into 220 Central Park South's assessment, and `assessment_check.py` passed it, because it
+can ask whether a number is in the record and not whether the number still means the same thing.
+
+The names are back to the object's box; the model's is `model_width_m`, `model_narrow_m`,
+`model_axis_width_m`, `model_axis_narrow_m`, published as evidence and not used by the fan. Every
+record whose `plan_extent` was written under the other naming is rendered again — 30 of them,
+including the tile-mesh case, where the extent is unused but the record's shape still has to be one
+shape.
 
 ## v16 — every sheet, once more, under the probes and the development that the v15 pass measured
 

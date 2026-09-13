@@ -1899,6 +1899,75 @@ def test_the_fan_is_the_probed_object_and_the_model_is_published_beside_it():
     assert "the object measures 3.3 m" in small["subject_fan_from"], small["subject_fan_from"]
 
 
+def test_the_plan_extent_block_means_one_thing_in_every_record():
+    """`width_m` is the probed object's box and `model_width_m` the model's, in every record.
+
+    This is the check that was missing when `subject.plan_extent.width_m` was given to the whole
+    model's box for a few hours.  A field that changes what it measures under a name a hundred and
+    seventy assessments have quoted is a silent fault: `assessment_check.py` can ask whether a
+    number is in the record and not whether it still means the same thing, and it duly passed
+    "extent 30.3 m by 602.4 m -- a slender tower, correctly measured" into a needle tower's
+    assessment.
+
+    Three things are asserted, each of which would have caught that on its own: every
+    non-tile-mesh block carries the same key set; the object's box is never larger than the model
+    it is part of; and the sightline fan spans the object's box or the floor, never the model's.
+
+    It is **red until the v17 pass finishes**, and what it reports meanwhile is a useful reading of
+    where the pass stands: three key shapes exist in the repository at once -- the records the
+    previous pass left, which carry neither `model_*` nor `part_*`; the ones written while
+    `width_m` held the model's box, which carry `part_*`; and the ones written since the names were
+    fixed, which carry `model_*`. It goes green when only the last remains.
+    """
+    base = REPO_ROOT / "docs" / "verification" / "comparison"
+    if not base.is_dir():
+        pytest.skip("no comparison records in this checkout")
+    #: The fan's floor, from `subject_sightline`'s `spread_m` default.
+    floor_m = 12.0
+    wrong, shapes = [], {}
+    for d in sorted(base.iterdir()):
+        rec_path = d / "render.json"
+        if not rec_path.is_file():
+            continue
+        try:
+            rec = json.loads(rec_path.read_text())
+        except (OSError, ValueError):
+            continue
+        ext = (rec.get("subject") or {}).get("plan_extent")
+        if not isinstance(ext, dict):
+            continue
+        shapes.setdefault(tuple(sorted(ext)), []).append(d.name)
+        w, mw = ext.get("width_m"), ext.get("model_width_m")
+        n, mn = ext.get("narrow_m"), ext.get("model_narrow_m")
+        if w is None or mw is None:
+            wrong.append(f"{d.name}: plan_extent lacks width_m or model_width_m")
+            continue
+        # A part cannot be wider than the model it belongs to.  Rounding to a tenth can make the
+        # two equal on a single-part model, so the test is "not larger".
+        if float(w) > float(mw) + 0.05:
+            wrong.append(f"{d.name}: width_m {w} exceeds model_width_m {mw} -- width_m is being "
+                         f"given the model's box again")
+        if n is not None and mn is not None and float(n) > float(mn) + 0.05:
+            wrong.append(f"{d.name}: narrow_m {n} exceeds model_narrow_m {mn}")
+        fan = (rec.get("sightline") or {}).get("subject_fan_m")
+        if fan is None or ext.get("is_tile_mesh"):
+            continue
+        # The fan spans the object's box, or the floor when the object is under it.  It must never
+        # be the model's, which is the fault this test exists for.
+        want = float(w) if float(w) > floor_m else floor_m
+        if abs(float(fan) - want) > 0.15:
+            wrong.append(f"{d.name}: subject_fan_m {fan} is neither width_m {w} nor the "
+                         f"{floor_m:.0f} m floor")
+    if len(shapes) > 1:
+        biggest = max(shapes, key=lambda k: len(shapes[k]))
+        for keys, slugs in shapes.items():
+            if keys == biggest:
+                continue
+            wrong.append(f"{len(slugs)} record(s) carry a different plan_extent key set, e.g. "
+                         f"{slugs[0]}: {sorted(set(biggest) ^ set(keys))}")
+    assert not wrong, "\n".join(wrong)
+
+
 def test_a_drive_through_uses_a_photograph_of_its_own_block():
     """A drive-through sheet compares one block, so the photograph has to be of that block.
 
