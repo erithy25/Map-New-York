@@ -81,24 +81,25 @@ was rewritten, and the evidence for leaving it is stronger than a re-reading: di
 against the committed one field by field, **every measured value is identical**, and the frame it replaced is reproduced **pixel for pixel**: `render.png`'s decoded image is identical, and the only bytes that differ are the five `tEXt` chunks in which Blender records the render date and its own timings. `sheet.png` is byte-identical. What
 moved is the wall clock:
 
-`scene.agents.seconds` 493.87 -> 515.73,
-`scene.seconds` 621.34 -> 641.97,
-`seconds.render` 155.7 -> 210.8,
-`seconds.scene` 632.2 -> 652.8,
-`seconds.total` 787.9 -> 863.6.
-The other change is the plan-extent field names, where the object's box moved from
-`part_width_m`/`part_narrow_m` to `width_m`/`narrow_m` and the model's from `width_m`/`narrow_m` to
-`model_*` (no figure quoted above is a field name).
+`scene.agents.seconds` 515.73 -> 420.31,
+`scene.seconds` 641.97 -> 529.32,
+`seconds.render` 210.8 -> 193.1,
+`seconds.scene` 652.8 -> 534.4,
+`seconds.total` 863.6 -> 727.5.
+The other change is the wording of the clearance note, where J120 replaced two fallbacks that
+claimed an empty disc with sentences that say what the probe measured -- rays across the frame.
+Every other field of the clearance reading is unchanged, which is what makes this a rewording of
+the same measurement rather than a different one.
 
 
 ## Measured for this assessment
 
-The wall-clock figures in the table below are the **previous** render's, quoted so that "every measured value is identical" is a comparison a reader can check rather than a claim. They were read from this sheet's own `render.json` at commit `ca6033d`, its last state before the pass restarted.
+The wall-clock figures in the table below are the **previous** render's, quoted so that "every measured value is identical" is a comparison a reader can check rather than a claim. They were read from this sheet's own `render.json` at commit `6d383fb`, its last state before the pass restarted.
 
 | figure | where it comes from |
 |---|---|
-| 493.87 | `scene.agents.seconds` in the previous record; the re-render took 515.73 s |
-| 621.34 | `scene.seconds` in the previous record; the re-render took 641.97 s |
-| 155.7 | `seconds.render` in the previous record; the re-render took 210.8 s |
-| 632.2 | `seconds.scene` in the previous record; the re-render took 652.8 s |
-| 787.9 | `seconds.total` in the previous record; the re-render took 863.6 s |
+| 515.73 | `scene.agents.seconds` in the previous record; the re-render took 420.31 s |
+| 641.97 | `scene.seconds` in the previous record; the re-render took 529.32 s |
+| 210.8 | `seconds.render` in the previous record; the re-render took 193.1 s |
+| 652.8 | `seconds.scene` in the previous record; the re-render took 534.4 s |
+| 863.6 | `seconds.total` in the previous record; the re-render took 727.5 s |
