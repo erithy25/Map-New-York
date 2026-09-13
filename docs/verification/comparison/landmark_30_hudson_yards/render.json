@@ -66,7 +66,7 @@
    -27.2
   ],
   "nearest_obstruction_m": 3.4,
-  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 40 m ahead, less than the 80 m this frame needs to show its subject; the camera was moved 32 m along the view azimuth -- the nearest point in open air -- keeping the same eye height above the heightmap.  No point within 80 m had 80 m of open air along the view azimuth with nothing built inside 8 m of the lens, so the frame is closed off 96 m ahead and the nearest built thing in the frame is t_-5_5_park_recreation_grass 3.4 m away, and no simulated agent stands within 20 m of it",
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 40 m ahead, less than the 80 m this frame needs to show its subject; the camera was moved 32 m along the view azimuth -- the nearest point in open air -- keeping the same eye height above the heightmap.  No point within 80 m had 80 m of open air along the view azimuth with nothing built inside 8 m of the lens, so the frame is closed off 96 m ahead and the nearest built thing in the frame is t_-5_5_park_recreation_grass 3.4 m away, and the probe found no simulated agent on its rays across this frame within 20 m",
   "offset_m": 32.0,
   "reason": "boxed in: the view azimuth is closed off 40 m ahead, less than the 80 m this frame needs to show its subject",
   "rule": "open air only, ranked on how much of the subject it sees",
@@ -126,6 +126,7 @@
  "name": "30 Hudson Yards",
  "night": false,
  "pitch_reason": "level optical axis (the subject is 375 m away; anything that far is photographed with a level camera)",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Kidfly182",
   "confidence": "high",
@@ -140,7 +141,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_30_hudson_yards/render.png",
- "rendered_at": "2026-09-13T16:30:12Z",
+ "rendered_at": "2026-09-13T23:52:22Z",
  "resolution_note": "784x1394; the reference photograph is 1920x3412 (0.56:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -186,7 +187,7 @@
    "placed_pedestrians": 248,
    "placed_vehicles": 69,
    "reason": null,
-   "seconds": 505.38,
+   "seconds": 437.97,
    "snapshot": {
     "building_footprints_tested": 2663,
     "density_lane_km": 31.81,
@@ -1186,7 +1187,7 @@
    }
   },
   "radius_m": 1126.4426287230413,
-  "seconds": 634.89,
+  "seconds": 556.39,
   "structures": {
    "imported": [
     "t_-5_4",
@@ -1240,9 +1241,9 @@
   "radius_m": 1126.4426287230413
  },
  "seconds": {
-  "render": 72.1,
-  "scene": 1024.1,
-  "total": 1096.2
+  "render": 166.6,
+  "scene": 806.5,
+  "total": 973.1
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 16.7 m above its ground",
@@ -1292,17 +1293,17 @@
   "origin_distance_m": 375.4,
   "plan_extent": {
    "across_bearing_deg": 302.6,
-   "axis_narrow_m": 338.4,
-   "axis_width_m": 362.7,
    "is_tile_mesh": false,
    "model": "lm_c_hudson_yards",
-   "narrow_m": 346.6,
-   "note": "`part_width_m` is the box of lm_c_hudson_yards.44 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 54 part(s) of lm_c_hudson_yards, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
+   "model_axis_narrow_m": 338.4,
+   "model_axis_width_m": 362.7,
+   "model_narrow_m": 346.6,
+   "model_width_m": 370.3,
+   "narrow_m": 251.4,
+   "note": "`width_m` and `narrow_m` are the box of lm_c_hudson_yards.44 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 54 part(s) of lm_c_hudson_yards, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_hudson_yards.44",
-   "part_narrow_m": 251.4,
-   "part_width_m": 256.0,
    "parts": 54,
-   "width_m": 370.3
+   "width_m": 256.0
   }
  },
  "sun": {
