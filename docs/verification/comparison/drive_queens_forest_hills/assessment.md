@@ -56,3 +56,35 @@
 | 225 of 512 trees species-substituted | no modelled species matched the census row; the nearest by size and taxon is used at the measured height | data |
 | roof_membrane at the albedo cap, residual 2.852 | Rubber004 is black rubber where a membrane roof runs from black EPDM to white TPO; recorded as open | material — **DEVIATIONS J66** |
 | unplaced vending machines, structures, pools, payphones, artwork, memorial | datasets with no modelled asset; artworks and memorials deliberately not stood in for by a generic mesh | geometry — **DEVIATIONS J23** |
+
+## Re-read against the re-rendered record
+
+This sheet was rendered again on the v17 pass's restart, to carry the `record_shape` stamp that
+tells a reader which generation of the renderer wrote a record (**DEVIATIONS J119**). Nothing above
+was rewritten, and the evidence for leaving it is stronger than a re-reading: diffing the new record
+against the committed one field by field, **every measured value is identical**, and the frame it replaced is reproduced **pixel for pixel**: `render.png`'s decoded image is identical, and the only bytes that differ are the five `tEXt` chunks in which Blender records the render date and its own timings. `sheet.png` is byte-identical. What
+moved is the wall clock:
+
+`scene.agents.seconds` 364.7 -> 375.27,
+`scene.seconds` 520.48 -> 501.35,
+`seconds.render` 153.2 -> 266.9,
+`seconds.scene` 527.3 -> 510.8,
+`seconds.total` 680.4 -> 777.8.
+The other change is the agent snapshot's provenance: the previous render simulated the crowd and
+this one read the same snapshot back from the cache, which the diff proves rather than assumes --
+every agent count in the record is unchanged, or that note would not be the only field beside the
+clock that moved (`simulated (already built)` to
+`cached 8882_1961_16_0_c64e9cd484088abe_1788868452.json`).
+
+
+## Measured for this assessment
+
+The wall-clock figures in the table below are the **previous** render's, quoted so that "every measured value is identical" is a comparison a reader can check rather than a claim. They were read from this sheet's own `render.json` at commit `c05c169`, its last state before the pass restarted.
+
+| figure | where it comes from |
+|---|---|
+| 364.7 | `scene.agents.seconds` in the previous record; the re-render took 375.27 s |
+| 520.48 | `scene.seconds` in the previous record; the re-render took 501.35 s |
+| 153.2 | `seconds.render` in the previous record; the re-render took 266.9 s |
+| 527.3 | `seconds.scene` in the previous record; the re-render took 510.8 s |
+| 680.4 | `seconds.total` in the previous record; the re-render took 777.8 s |
