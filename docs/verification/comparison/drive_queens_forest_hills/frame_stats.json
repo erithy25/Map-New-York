@@ -1,6 +1,6 @@
 {
  "slug": "drive_queens_forest_hills",
- "rendered_at": "2026-09-09T16:31:11Z",
+ "rendered_at": "2026-09-13T14:39:19Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
@@ -13,7 +13,7 @@
   "p50": 0.5007,
   "p95": 0.7017,
   "chroma": 0.0337,
-  "exposure_offset_stops": 0.254
+  "exposure_offset_stops": 0.255
  },
  "reference": {
   "width": 1920,
@@ -31,7 +31,7 @@
   "sd": 0.847,
   "p50": 1.561,
   "chroma": 0.283,
-  "exposure_offset_stops": 1.355,
+  "exposure_offset_stops": 1.356,
   "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

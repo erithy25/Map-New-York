@@ -1,6 +1,6 @@
 {
  "slug": "drive_queens_bayside",
- "rendered_at": "2026-09-09T16:29:19Z",
+ "rendered_at": "2026-09-13T14:37:30Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
@@ -9,9 +9,9 @@
   "height": 906,
   "mean": 0.4221,
   "sd": 0.1706,
-  "p05": 0.1145,
+  "p05": 0.1143,
   "p50": 0.4988,
-  "p95": 0.6482,
+  "p95": 0.6483,
   "chroma": 0.0646,
   "exposure_offset_stops": 0.242
  },

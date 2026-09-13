@@ -86,11 +86,11 @@
  "lighting": {
   "background_strength": 0.03092513419687748,
   "development": {
-   "linear_p05": 0.005193,
-   "linear_p50": 0.077836,
-   "linear_p95": 0.183813,
-   "log_average_linear": 0.045709,
-   "median_linear": 0.077836,
+   "linear_p05": 0.005189,
+   "linear_p50": 0.077839,
+   "linear_p95": 0.183837,
+   "log_average_linear": 0.045704,
+   "median_linear": 0.077839,
    "metered": true,
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
    "stops": 1.209,
@@ -131,11 +131,18 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_queens_bayside/render.png",
- "rendered_at": "2026-09-09T16:29:19Z",
+ "rendered_at": "2026-09-13T14:37:30Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
+   "camera_clear_ped_basis": [
+    1.8,
+    38.0,
+    0.4
+   ],
+   "camera_clear_ped_m": 6.5,
+   "camera_clear_vehicle_m": 6.0,
    "caption": "Agents: 73 vehicles within 320 m and 265 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 173 vehicles and 405 people over the whole simulated ring, of which 191 and 594 were simulated; 447 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "dropped": {
     "pedestrian_in_the_carriageway_not_crossing": 58,
@@ -149,7 +156,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 350218,
+   "pedestrian_triangles": 350207,
    "per_class": {
     "box_truck": 2,
     "dsny_truck": 2,
@@ -162,7 +169,7 @@
    "placed_pedestrians": 265,
    "placed_vehicles": 73,
    "reason": null,
-   "seconds": 311.84,
+   "seconds": 493.43,
    "snapshot": {
     "building_footprints_tested": 7915,
     "density_lane_km": 28.728,
@@ -177,7 +184,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.58,
+     "load_seconds": 2.3,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -202,9 +209,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 191
    },
-   "snapshot_note": "cached 15030_7011_14_0_b99e22c6e0d5c6e0_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 765495,
+   "triangles": 765484,
    "vehicle_lods": {
     "LOD2": 73
    },
@@ -661,6 +668,7 @@
    },
    "capped": null,
    "dropped_for_budget": 0,
+   "dropped_on_suppressed_building": 0,
    "impostor_cards_dropped": 15,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -708,7 +716,7 @@
    "unmapped_kinds": {}
   },
   "radius_m": 720.0,
-  "seconds": 397.11,
+  "seconds": 620.08,
   "structures": {
    "imported": [
     "t_14_6",
@@ -735,7 +743,7 @@
    "z_max_m": 29.57,
    "z_min_m": 11.66
   },
-  "triangles": 2585734
+  "triangles": 2585723
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -745,9 +753,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 105.5,
-  "scene": 398.7,
-  "total": 504.1
+  "render": 115.6,
+  "scene": 623.3,
+  "total": 738.9
  },
  "sightline": {
   "subject_note": "the item names no point subject",

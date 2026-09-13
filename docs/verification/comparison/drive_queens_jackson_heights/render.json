@@ -76,7 +76,7 @@
  "frame": {
   "mean": 0.5057,
   "reason": null,
-  "sd": 0.142,
+  "sd": 0.1419,
   "usable": true
  },
  "frame_retry": null,
@@ -86,16 +86,16 @@
  "lighting": {
   "background_strength": 0.06547359377145767,
   "development": {
-   "linear_p05": 0.000914,
-   "linear_p50": 0.00519,
-   "linear_p95": 0.016046,
-   "log_average_linear": 0.005186,
-   "median_linear": 0.00519,
+   "linear_p05": 0.000913,
+   "linear_p50": 0.005192,
+   "linear_p95": 0.016058,
+   "log_average_linear": 0.005188,
+   "median_linear": 0.005192,
    "metered": true,
    "note": "under-lit: the scene needed +5.12 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
-   "stops": 5.116,
-   "stops_unclamped": 5.116,
+   "stops": 5.115,
+   "stops_unclamped": 5.115,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
@@ -132,30 +132,37 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_queens_jackson_heights/render.png",
- "rendered_at": "2026-09-09T16:35:16Z",
+ "rendered_at": "2026-09-13T14:46:33Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
-   "caption": "Agents: 69 vehicles within 320 m and 361 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 203 vehicles and 1597 people over the whole simulated ring, of which 243 and 2262 were simulated; 2075 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "camera_clear_ped_basis": [
+    1.8,
+    38.0,
+    0.4
+   ],
+   "camera_clear_ped_m": 6.5,
+   "camera_clear_vehicle_m": 6.0,
+   "caption": "Agents: 69 vehicles within 320 m and 375 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 203 vehicles and 1597 people over the whole simulated ring, of which 243 and 2262 were simulated; 2061 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "dropped": {
     "pedestrian_in_the_carriageway_not_crossing": 100,
     "pedestrian_not_on_walkable_surface": 422,
     "pedestrian_outside_radius": 1205,
-    "pedestrian_triangle_budget": 174,
+    "pedestrian_over_the_observer": 1,
+    "pedestrian_triangle_budget": 159,
     "vehicle_body_has_no_rider": 7,
     "vehicle_not_on_carriageway": 9,
     "vehicle_outside_radius": 135,
     "vehicle_triangle_budget": 23
    },
    "ped_lods": {
-    "LOD0": 1,
     "LOD1": 22,
-    "LOD2": 338
+    "LOD2": 353
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 576786,
+   "pedestrian_triangles": 577005,
    "per_class": {
     "black_car": 3,
     "boro_taxi": 8,
@@ -166,10 +173,10 @@
     "taxi": 9,
     "van": 1
    },
-   "placed_pedestrians": 361,
+   "placed_pedestrians": 375,
    "placed_vehicles": 69,
    "reason": null,
-   "seconds": 193.9,
+   "seconds": 324.46,
    "snapshot": {
     "building_footprints_tested": 11361,
     "density_lane_km": 25.799,
@@ -184,7 +191,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.14,
+     "load_seconds": 2.9,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -193,7 +200,7 @@
     },
     "npc_archetypes_available": 36,
     "npc_bodies_imported": 36,
-    "npc_templates_baked": 168,
+    "npc_templates_baked": 169,
     "pavement_polygons_tested": 4996,
     "ped_spawn_radius_m": 220.0,
     "peds_in_snapshot": 2262,
@@ -209,9 +216,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 243
    },
-   "snapshot_note": "cached 5865_5809_19_2_223071baa26ff7ef_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1080484,
+   "triangles": 1080703,
    "vehicle_lods": {
     "LOD1": 5,
     "LOD2": 64
@@ -317,7 +324,7 @@
    5808.72
   ],
   "kit": {
-   "capped": "triangle budget 1227882",
+   "capped": "triangle budget 1227663",
    "per_category": {
     "antenna": 3,
     "bulkhead": 52,
@@ -332,10 +339,10 @@
     "storefront_interior": 2,
     "string_course": 37,
     "water_tower": 6,
-    "window": 3918,
+    "window": 3917,
     "window_accessory": 723
    },
-   "placed": 5284,
+   "placed": 5283,
    "radius_m": 329.3418527179571,
    "records_in_range": 45803,
    "stale_registry_ids": {},
@@ -347,7 +354,7 @@
     "t_6_5",
     "t_6_6"
    ],
-   "triangles": 1228069,
+   "triangles": 1227807,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -733,6 +740,7 @@
    },
    "capped": "triangle budget 1242963",
    "dropped_for_budget": 4413,
+   "dropped_on_suppressed_building": 0,
    "impostor_cards_dropped": 19,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -785,7 +793,7 @@
    }
   },
   "radius_m": 929.3418527179572,
-  "seconds": 265.05,
+  "seconds": 446.37,
   "structures": {
    "imported": [
     "t_4_5",
@@ -815,7 +823,7 @@
    "z_max_m": 26.42,
    "z_min_m": 5.98
   },
-  "triangles": 4500187
+  "triangles": 4500144
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -825,9 +833,9 @@
   "radius_m": 929.3418527179572
  },
  "seconds": {
-  "render": 85.7,
-  "scene": 267.1,
-  "total": 352.9
+  "render": 87.9,
+  "scene": 451.1,
+  "total": 539.0
  },
  "sightline": {
   "subject_note": "the item names no point subject",

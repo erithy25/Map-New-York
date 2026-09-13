@@ -2,7 +2,7 @@
  "agent_request": {
   "dow": 0,
   "hour": 8,
-  "local_clock": "2018-06-21 08:30 EDT",
+  "local_clock": "2018-05-18 08:30 EDT",
   "seed": 20260907,
   "warmup_s": 120.0
  },
@@ -56,12 +56,8 @@
  "clearance": {
   "min_view_m": 20.0,
   "moved": false,
-  "nearest_agent": "agent_ped_242.9",
-  "nearest_agent_at_deg": [
-   9.1,
-   0.0
-  ],
-  "nearest_agent_m": 4.6,
+  "nearest_agent": null,
+  "nearest_agent_m": null,
   "nearest_agent_probe_m": 60.0,
   "nearest_obstruction": "prop_sign_mta_bus_stop_5",
   "nearest_obstruction_at_deg": [
@@ -69,14 +65,14 @@
    0.0
   ],
   "nearest_obstruction_m": 17.4,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_sign_mta_bus_stop_5 17.4 m away, and the nearest simulated agent is agent_ped_242.9 4.6 m away, and the view azimuth is clear for 150 m",
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_sign_mta_bus_stop_5 17.4 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 150 m",
   "offset_m": 0.0,
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.5196,
+  "mean": 0.5233,
   "reason": null,
-  "sd": 0.2253,
+  "sd": 0.2176,
   "usable": true
  },
  "frame_retry": null,
@@ -84,22 +80,22 @@
  "interior": false,
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
  "lighting": {
-  "background_strength": 0.03520948067307472,
+  "background_strength": 0.03548605367541313,
   "development": {
-   "linear_p05": 0.000611,
-   "linear_p50": 0.004374,
-   "linear_p95": 0.107094,
-   "log_average_linear": 0.004931,
-   "median_linear": 0.004374,
+   "linear_p05": 0.000809,
+   "linear_p50": 0.004724,
+   "linear_p95": 0.100884,
+   "log_average_linear": 0.005404,
+   "median_linear": 0.004724,
    "metered": true,
-   "note": "under-lit: the scene needed +5.36 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
+   "note": "under-lit: the scene needed +5.25 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
-   "stops": 5.363,
-   "stops_unclamped": 5.363,
+   "stops": 5.252,
+   "stops_unclamped": 5.252,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
-  "direct_normal_irradiance_w_m2": 788.4,
+  "direct_normal_irradiance_w_m2": 778.3,
   "emissive": {
    "cone_faces_deleted": 8,
    "cones_hidden": 1,
@@ -107,12 +103,12 @@
    "night": false,
    "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
-  "exposure_stops": 5.36,
-  "physical_rule_stops": 0.42,
-  "sky_azimuth_deg": 85.492,
-  "sky_elevation_deg": 32.165,
+  "exposure_stops": 5.25,
+  "physical_rule_stops": 0.47,
+  "sky_azimuth_deg": 90.001,
+  "sky_elevation_deg": 30.954,
   "sun_lamp": true,
-  "sun_strength_blender": 2.757,
+  "sun_strength_blender": 2.721,
   "view_transform": "Filmic"
  },
  "name": "Fifth Avenue at 42nd Street (NYPL), street view looking north",
@@ -132,32 +128,39 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/fifth_ave_42nd_north/render.png",
- "rendered_at": "2026-09-09T16:44:34Z",
+ "rendered_at": "2026-09-13T14:59:55Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
-   "caption": "Agents: 54 vehicles within 320 m and 250 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 1210 vehicles and 1364 people over the whole simulated ring, of which 1320 and 1781 were simulated; 2797 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "camera_clear_ped_basis": [
+    1.8,
+    38.0,
+    0.4
+   ],
+   "camera_clear_ped_m": 6.5,
+   "camera_clear_vehicle_m": 6.0,
+   "caption": "Agents: 54 vehicles within 320 m and 261 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 1210 vehicles and 1364 people over the whole simulated ring, of which 1320 and 1781 were simulated; 2786 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "dropped": {
     "pedestrian_in_the_carriageway_not_crossing": 87,
     "pedestrian_inside_building": 2,
     "pedestrian_not_on_walkable_surface": 62,
     "pedestrian_outside_radius": 738,
-    "pedestrian_over_the_observer": 4,
-    "pedestrian_triangle_budget": 638,
+    "pedestrian_over_the_observer": 8,
+    "pedestrian_triangle_budget": 623,
     "vehicle_body_has_no_rider": 32,
     "vehicle_not_on_carriageway": 1,
     "vehicle_outside_radius": 815,
     "vehicle_triangle_budget": 418
    },
    "ped_lods": {
-    "LOD0": 5,
-    "LOD1": 43,
-    "LOD2": 202
+    "LOD0": 1,
+    "LOD1": 54,
+    "LOD2": 206
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 576348,
+   "pedestrian_triangles": 577461,
    "per_class": {
     "black_car": 6,
     "boro_taxi": 11,
@@ -168,10 +171,10 @@
     "taxi": 18,
     "van": 1
    },
-   "placed_pedestrians": 250,
+   "placed_pedestrians": 261,
    "placed_vehicles": 54,
    "reason": null,
-   "seconds": 309.17,
+   "seconds": 510.14,
    "snapshot": {
     "building_footprints_tested": 1488,
     "density_lane_km": 30.431,
@@ -186,7 +189,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.27,
+     "load_seconds": 2.16,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -195,7 +198,7 @@
     },
     "npc_archetypes_available": 36,
     "npc_bodies_imported": 36,
-    "npc_templates_baked": 151,
+    "npc_templates_baked": 158,
     "pavement_polygons_tested": 2773,
     "ped_spawn_radius_m": 220.0,
     "peds_in_snapshot": 1781,
@@ -213,7 +216,7 @@
    },
    "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1081806,
+   "triangles": 1082919,
    "vehicle_lods": {
     "LOD1": 9,
     "LOD2": 45
@@ -301,7 +304,7 @@
    6014.4
   ],
   "kit": {
-   "capped": "triangle budget 620015",
+   "capped": "triangle budget 618902",
    "per_category": {
     "bulkhead": 1,
     "cornice": 3,
@@ -312,9 +315,9 @@
     "storefront": 67,
     "storefront_interior": 4,
     "string_course": 3,
-    "window": 3505
+    "window": 3497
    },
-   "placed": 3601,
+   "placed": 3593,
    "radius_m": 326.8186107381778,
    "records_in_range": 100664,
    "stale_registry_ids": {},
@@ -324,7 +327,7 @@
     "t_-3_5",
     "t_-3_6"
    ],
-   "triangles": 620074,
+   "triangles": 618938,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -1067,21 +1070,22 @@
   },
   "props": {
    "canopy": {
-    "billboards": 366,
+    "billboards": 394,
     "card_missing_drawn_lod0": 0,
-    "dropped_for_budget": 1880,
+    "dropped_for_budget": 1852,
     "lod0": 37,
     "near_radius_m": 120.0,
     "procedural_dataset_id": "rule:woodland_canopy",
     "procedural_stems": 0,
     "radius_m": 886.8186107381778,
     "rows_beyond_prop_radius": 1526,
-    "triangles": 2196,
-    "yaw_by_rule": 403,
+    "triangles": 2364,
+    "yaw_by_rule": 431,
     "yaw_rule": "a tree's yaw is not in any source: it is drawn from a hash of the stem's own position (SplitMix64 over the metre-rounded x, y), uniform over 360 deg, so the same tree is drawn the same way in every render and no two neighbours share a silhouette; a rule, not a measurement"
    },
    "capped": "triangle budget 916361",
-   "dropped_for_budget": 3593,
+   "dropped_for_budget": 3537,
+   "dropped_on_suppressed_building": 29,
    "impostor_cards_dropped": 7,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -1091,18 +1095,18 @@
    "per_dataset": {
     "bus_stop_shelters": 8,
     "citibike_gbfs_station_status": 28,
-    "citibike_gbfs_stations": 281,
+    "citibike_gbfs_stations": 282,
     "gtfs_bus": 25,
     "hydrants": 57,
     "linknyc": 4,
     "newsstands": 7,
-    "osm_newyork_pbf": 436,
-    "plan_cooling_towers": 133,
+    "osm_newyork_pbf": 463,
+    "plan_cooling_towers": 132,
     "plan_railroad_structure": 10,
     "rule:lamp_30_40m_alt": 83,
     "rule:manhole_40m": 100,
     "rule:steam_vent_400m_manhattan_below_96": 10,
-    "street_trees_2015": 54,
+    "street_trees_2015": 55,
     "subway_entrances": 8
    },
    "per_kind": {
@@ -1110,8 +1114,8 @@
     "bike_rack": 26,
     "bus_shelter": 8,
     "bus_stop_sign": 25,
-    "citibike_dock": 309,
-    "cooling_tower": 133,
+    "citibike_dock": 310,
+    "cooling_tower": 132,
     "flagpole": 21,
     "hydrant": 57,
     "linknyc": 4,
@@ -1122,10 +1126,10 @@
     "street_lamp": 105,
     "subway_entrance": 8,
     "subway_vent_grate": 10,
-    "tree": 403,
+    "tree": 431,
     "waste_basket": 10
    },
-   "placed": 1244,
+   "placed": 1272,
    "radius_m": 436.8186107381778,
    "rows_in_range": 5081,
    "tiles_missing": [],
@@ -1137,24 +1141,24 @@
     "t_-4_5",
     "t_-4_6"
    ],
-   "tree_instances_scaled": 402,
-   "tree_mean_scale": 0.921,
+   "tree_instances_scaled": 430,
+   "tree_mean_scale": 0.922,
    "tree_scale_out_of_band": 1,
-   "tree_species_substituted": 357,
+   "tree_species_substituted": 384,
    "triangles": 916356,
    "unmapped_kinds": {
     "artwork": 11,
     "drinking_fountain": 7,
     "memorial": 10,
     "misc_structure": 3,
-    "parks_building": 6,
+    "parks_building": 5,
     "parks_comfort_station": 1,
     "rtpi_sign": 2,
     "vending_machine": 10
    }
   },
   "radius_m": 886.8186107381778,
-  "seconds": 381.24,
+  "seconds": 620.07,
   "structures": {
    "imported": [
     "t_-2_5",
@@ -1180,7 +1184,7 @@
    "z_max_m": 25.73,
    "z_min_m": -1.38
   },
-  "triangles": 4500059
+  "triangles": 4500036
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1190,9 +1194,9 @@
   "radius_m": 886.8186107381778
  },
  "seconds": {
-  "render": 172.4,
-  "scene": 383.3,
-  "total": 555.6
+  "render": 173.3,
+  "scene": 624.8,
+  "total": 798.1
  },
  "sightline": {
   "subject_note": "the item names no point subject",
@@ -1205,11 +1209,11 @@
   "name": null
  },
  "sun": {
-  "azimuth_deg": 85.49176767013745,
-  "elevation_deg": 32.164753095058195,
-  "local": "2018-06-21T08:30:00-04:00",
-  "time_source": "photograph year only, 21 June assumed, and 08:30 **chosen**, not measured: of the hours that put the Sun above 20 deg it is the one whose bearing (85 deg) comes closest to the view azimuth (29 deg), 56 deg off, so the Sun is behind the camera and lights what it looks at",
-  "utc": "2018-06-21T12:30:00Z"
+  "azimuth_deg": 90.00120978089694,
+  "elevation_deg": 30.953739691103458,
+  "local": "2018-05-18T08:30:00-04:00",
+  "time_source": "the photograph's own title carries the date, and 08:30 **chosen**, not measured: of the hours that put the Sun above 20 deg it is the one whose bearing (90 deg) comes closest to the view azimuth (29 deg), 61 deg off, so the Sun is behind the camera and lights what it looks at",
+  "utc": "2018-05-18T12:30:00Z"
  },
  "viewpoint": {
   "azimuth_deg": 29.0,

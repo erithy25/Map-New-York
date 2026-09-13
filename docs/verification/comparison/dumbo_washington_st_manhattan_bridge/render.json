@@ -67,12 +67,36 @@
   "nearest_obstruction_m": 1.5,
   "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_lamp_cobra_davit_1 1.5 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 150 m",
   "offset_m": 0.0,
+  "sidestep": {
+   "at_m": 1.6,
+   "none_helped": true,
+   "prop": "prop_lamp_cobra_davit_1",
+   "rays": 13,
+   "rays_on_subject_here": 0,
+   "rejected_in_geometry": 0,
+   "rejected_in_geometry_why": [],
+   "rejected_nearer_the_prop": 0,
+   "rejected_no_better_why": [
+    "0.5 m to the right: 0 of 13 rays on the subject against 0 where it stands",
+    "0.5 m to the left: 0 of 13 rays on the subject against 0 where it stands",
+    "1.0 m to the right: 0 of 13 rays on the subject against 0 where it stands"
+   ],
+   "rejected_no_more_of_the_subject": 12,
+   "rejected_still_closed": 12,
+   "rejected_still_closed_by": [
+    "0.5 m to the right: prop_lamp_cobra_davit_1 at 3.1 m",
+    "0.5 m to the left: prop_lamp_cobra_davit_1 at 1.5 m",
+    "1.0 m to the right: prop_lamp_cobra_davit_1 at 4.6 m"
+   ],
+   "scored_on": "rays of the fan that land on the subject, then how far the prop at the lens ends up (J111)",
+   "tried": 12
+  },
   "view_m": 150.0
  },
  "frame": {
   "mean": 0.5793,
   "reason": null,
-  "sd": 0.1894,
+  "sd": 0.1892,
   "usable": true
  },
  "frame_retry": null,
@@ -82,16 +106,16 @@
  "lighting": {
   "background_strength": 0.04169574752449989,
   "development": {
-   "linear_p05": 0.00242,
-   "linear_p50": 0.005639,
-   "linear_p95": 0.099179,
-   "log_average_linear": 0.009475,
-   "median_linear": 0.005639,
+   "linear_p05": 0.002434,
+   "linear_p50": 0.005646,
+   "linear_p95": 0.099182,
+   "log_average_linear": 0.009483,
+   "median_linear": 0.005646,
    "metered": true,
-   "note": "under-lit: the scene needed +5.00 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
+   "note": "under-lit: the scene needed +4.99 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
-   "stops": 4.996,
-   "stops_unclamped": 4.996,
+   "stops": 4.995,
+   "stops_unclamped": 4.995,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
@@ -128,11 +152,18 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/dumbo_washington_st_manhattan_bridge/render.png",
- "rendered_at": "2026-09-09T16:39:56Z",
+ "rendered_at": "2026-09-13T14:52:32Z",
  "resolution_note": "784x1394; the reference photograph is 1920x3413 (0.56:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
+   "camera_clear_ped_basis": [
+    1.8,
+    38.0,
+    0.4
+   ],
+   "camera_clear_ped_m": 6.5,
+   "camera_clear_vehicle_m": 6.0,
    "caption": "Agents: 85 vehicles within 320 m and 376 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 782 vehicles and 5623 people over the whole simulated ring, of which 953 and 2999 were simulated; 3491 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "dropped": {
     "pedestrian_in_the_carriageway_not_crossing": 594,
@@ -152,7 +183,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 577141,
+   "pedestrian_triangles": 577132,
    "per_class": {
     "black_car": 6,
     "boro_taxi": 4,
@@ -166,7 +197,7 @@
    "placed_pedestrians": 376,
    "placed_vehicles": 85,
    "reason": null,
-   "seconds": 271.21,
+   "seconds": 469.56,
    "snapshot": {
     "building_footprints_tested": 1945,
     "density_lane_km": 32.566,
@@ -181,7 +212,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.81,
+     "load_seconds": 2.21,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -206,9 +237,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 953
    },
-   "snapshot_note": "cached -3347_341_14_1_e7c93a37fe98fd7c_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1082143,
+   "triangles": 1082134,
    "vehicle_lods": {
     "LOD1": 1,
     "LOD2": 84
@@ -323,7 +354,7 @@
    340.67
   ],
   "kit": {
-   "capped": "triangle budget 922807",
+   "capped": "triangle budget 922816",
    "per_category": {
     "bulkhead": 14,
     "cornice": 31,
@@ -1062,6 +1093,7 @@
    },
    "capped": "triangle budget 1079588",
    "dropped_for_budget": 4241,
+   "dropped_on_suppressed_building": 0,
    "impostor_cards_dropped": 10,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -1127,7 +1159,7 @@
    }
   },
   "radius_m": 934.6424375215793,
-  "seconds": 351.6,
+  "seconds": 616.84,
   "structures": {
    "imported": [
     "t_-3_-1",
@@ -1210,7 +1242,7 @@
    "z_max_m": 27.91,
    "z_min_m": -1.62
   },
-  "triangles": 4500045
+  "triangles": 4500036
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1220,18 +1252,18 @@
   "radius_m": 934.6424375215793
  },
  "seconds": {
-  "render": 166.8,
-  "scene": 355.9,
-  "total": 522.7
+  "render": 161.5,
+  "scene": 627.8,
+  "total": 789.3
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 53.7 m above its ground",
-  "subject_blocked_at_m": 5.5,
+  "subject_blocked_at_m": 1.6,
   "subject_blocked_by": "prop_lamp_cobra_davit_1",
   "subject_clear_fraction": 0.0,
-  "subject_fan_from": "the subject's own measured height (J74); across, the 12 m floor (the object measures 11.1 m)",
-  "subject_fan_half_angle_deg": 1.52,
-  "subject_fan_m": 12.0,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the whole model standing at the coordinate, taken across this camera's bearing (J113); clipped to the frame, because a ray outside the picture tests something that is not in it",
+  "subject_fan_half_angle_deg": 19.88,
+  "subject_fan_m": 897.4,
   "subject_fan_tall_m": 107.4,
   "subject_fan_v_half_angle_deg": 13.35,
   "subject_lands_at_m": null,
@@ -1272,11 +1304,16 @@
   "name": "Manhattan Bridge Brooklyn tower",
   "origin_distance_m": 220.9,
   "plan_extent": {
+   "across_bearing_deg": 1.4,
+   "axis_narrow_m": 854.5,
+   "axis_width_m": 1830.1,
    "is_tile_mesh": false,
-   "narrow_m": 10.2,
-   "note": "the bounding box of the object the height was measured off",
+   "model": "lm_b_manhattan_bridge",
+   "narrow_m": 1816.7,
+   "note": "the bounding box of all 247 part(s) of lm_b_manhattan_bridge, the model the height was measured off a part of, measured across this camera's bearing and along it (J113)",
    "object": "lm_b_manhattan_bridge.214",
-   "width_m": 11.1
+   "parts": 247,
+   "width_m": 897.4
   }
  },
  "sun": {

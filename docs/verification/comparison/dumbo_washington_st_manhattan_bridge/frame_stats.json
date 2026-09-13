@@ -1,6 +1,6 @@
 {
  "slug": "dumbo_washington_st_manhattan_bridge",
- "rendered_at": "2026-09-09T16:39:56Z",
+ "rendered_at": "2026-09-13T14:52:32Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
@@ -8,12 +8,12 @@
   "width": 784,
   "height": 1394,
   "mean": 0.5799,
-  "sd": 0.1881,
-  "p05": 0.3429,
-  "p50": 0.4986,
+  "sd": 0.188,
+  "p05": 0.3439,
+  "p50": 0.4989,
   "p95": 0.9298,
   "chroma": 0.069,
-  "exposure_offset_stops": 0.241
+  "exposure_offset_stops": 0.243
  },
  "reference": {
   "width": 1920,
@@ -28,10 +28,10 @@
  },
  "render_over_reference": {
   "mean": 1.055,
-  "sd": 0.751,
+  "sd": 0.75,
   "p50": 0.858,
   "chroma": 0.385,
-  "exposure_offset_stops": -0.482,
+  "exposure_offset_stops": -0.48,
   "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
