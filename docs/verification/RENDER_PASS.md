@@ -4,6 +4,87 @@ One file, kept current, because the pass runs for hours in a container that can 
 resume state lives outside the repository (`blender_out/render_all_state.json`, untracked because it
 changes on every sheet). Losing that file would mean re-rendering everything already done.
 
+## v17 — every sheet again, for the eight verification faults the v16 pass found
+
+The v16 pass finished 171 sheets and one declined interior, and reading those 172 records found
+**eight faults in the verification itself** (docs/DEVIATIONS.md J111 to J118). Each of them changes
+what is rendered -- which photograph, which instant, where the camera stands, or what the record
+says -- so fixing them without re-rendering would leave 172 sheets carrying the old answers, and
+fixing them *and* re-rendering makes all 172 assessments stale. This pass is the second way.
+
+| fix | what it changes in the render | sheets it is measured to touch |
+|---|---|---|
+| J112 reference chooser: a coarse distance band on the non-drive groups, aim error ranked above the EXIF clock, an unmeasured heading ranked past the worst measured one | which photograph a sheet is compared against | **27 of 172** change photograph |
+| J114 the instant: the photograph's own title, description and categories are read before the solstice fallback; the item's own name may name an hour | the date, so the canopy, the Sun and the crowd | **31 of 172** gain a real date (2 still assumed); the hour window fires on **1** |
+| J115 a deck is a street's ceiling, not a room: five named `struct_*` deck parts no longer read as indoors | whether the camera is moved at all | the two elevated-railway sheets |
+| J116 a view short of the frame's own `min_view_m` is a fourth trigger for the walk, with the recorded position entered as the baseline it has to beat | where the camera stands | **1 of 171** (the other five below their minimum had already searched) |
+| J111 the sidestep ranks candidates on the fan's own hit count and refuses one that ends nearer the prop | where the camera stands, and the published sightline fraction | the two sheets that used the rule, both of which it had failed |
+| J113 the fan spans every part of the model, across this camera's bearing | `subject_fan_m`, the half-angle and `subject_visible_fraction` | every sheet naming a landmark subject |
+| J117a kit counts as built fabric in the clearance sample, the view distance and the sightline | what the record names at the lens, and where a camera stands when a shed is in front of it | every sheet with kit off the facade in frame |
+| J117b the agent half of a clearance note is filled from the record's own fields after the cull | the prose under every picture | **19 of 171** were contradicting themselves |
+
+### Disk, measured before the pass rather than discovered at sheet 59
+
+A full pass rewrites **909.8 MB** of artefacts (`sheet.png` 694.2, `render.png` 209.5, the records
+5.9, the frame statistics 0.2), and because PNGs are already deflate-compressed that is what they
+cost again as git objects. The container had **630 MB** free against `.git` holding 3.76 GiB of
+loose objects beside a 3.40 GiB pack, and a repack cannot help: it writes the new pack before
+removing the old, so it needs about 6.8 GB of room to save a few per cent on content that does not
+delta-compress.
+
+What made the pass possible instead is `tools/tile_reach.py`, which measures what no catalogued
+viewpoint can reach -- **each viewpoint's own radius**, and **each class's own loader radius**, not
+one flat number -- and deletes only that, appending every name to a rebuild list. Measured over the
+172 viewpoints: **5,677 MB** of tile artefacts are unreachable. Four classes were deleted, the ones
+whose source data is present and whose rebuild is a documented stage:
+
+| class | deleted | freed | rebuild list |
+|---|---|---|---|
+| `tile_pavement.glb` | 137 tiles | 2,193 MB | `pavement_rebuild_needed.txt` (395 tiles) |
+| `tile_buildings_nj.glb` | 424 tiles | 777 MB | `buildings_nj_rebuild_needed.txt` |
+| `tile_structures.glb` | 612 tiles | 121 MB | `structures_rebuild_needed.txt` |
+| `tile_parkground.glb` | 17 tiles | 18 MB | `parkground_rebuild_needed.txt` |
+
+`tile_buildings.glb` was **not** touched, although 626 of its tiles (2,569 MB) are equally
+unreachable: the four classes above cleared enough room, and a building shell is the expensive
+thing to rebuild. Free after the deletions: **3,598 MB**.
+
+### The 90 pavement tiles that had to come back first
+
+The same measurement found J118: the v16 pass's own housekeeping deleted pavement tiles under the
+rule *"further than 3 km from every viewpoint still to be rendered"*, which is a statement about a
+queue where a deletion is a statement about a repository. **90 of the pavement tiles a viewpoint's
+loader can reach were missing, 71 of them named in a published record's own `tiles_read`** --
+`landmark_george_washington_bridge`, `drive_bronx_grand_concourse`, `landmark_kosciuszko_bridge`
+and `landmark_bronx_county_courthouse` among the sheets. They are rebuilt before the pass starts,
+from the untouched `data/processed/roads/pavement/*.parquet`:
+
+```
+python3 tools/tile_reach.py --missing pavement > /tmp/pav.txt
+python3 blender/roads/build_pavement.py --tiles $(grep '^t_' /tmp/pav.txt | paste -sd,) --workers 2
+```
+
+`tests/test_comparison.py::test_every_tile_a_published_sheet_loaded_is_still_on_disk` is the check
+that found it and stays red until the rebuild finishes.
+
+### Running it
+
+```
+rm -f blender_out/render_all_state.json                 # all 172, from the start
+bash tools/pass_tick.sh                                 # commits what finished, restarts the runner
+```
+
+`tools/pass_tick.sh` is the whole loop for a container that does not live eight hours: it commits
+and pushes the sheets that finished, refuses to start a second runner, refuses to start at all
+below 350 MB, and counts the declined interior so the pass can reach its own target. Run it on
+every container start until it says the pass is complete.
+
+Two tests are red between the code changes and the finished pass, both by design:
+`test_no_comparison_scene_silently_changed_which_photograph_it_shows` (J112 changed 27 picks) and
+`test_no_render_record_contradicts_itself_about_the_nearest_agent` (J117b, 19 records). A third,
+`test_every_tile_a_published_sheet_loaded_is_still_on_disk`, is red until the pavement rebuild
+lands.
+
 ## v16 — every sheet, once more, under the probes and the development that the v15 pass measured
 
 The v15 pass rendered all 172 items (166 sheets, 6 refused) and the measurements over that finished
