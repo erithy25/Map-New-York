@@ -88,14 +88,22 @@ if [ "$CHANGED" != "0" ]; then
         exit 1
     fi
     git commit -q -F - <<MSG
-verification: ${COUNT} sheet(s) from the v16 pass
+verification: ${COUNT} sheet(s) from the v17 pass
 
 $(printf '%s' "$SLUGS" | tr ' ' '\n' | sed '/^$/d' | sed 's/^/  /')
 
-Rendered under the measured exposure (J83), the sightline verdict as a fraction
-of 13 rays (J78), the walk scored on the subject's own sightline (J79) and the
-43-ray subject height (J74). Committed by tools/pass_tick.sh so a container
-restart costs at most the sheet being rendered.
+Rendered under the eight repairs the v16 pass's own records asked for: the
+reference chooser's distance band and aim-error rank (J112), the instant read
+from the photograph's own words (J114), a structure deck read as a street's
+ceiling rather than a room (J115), a view short of the frame's own minimum as a
+fourth trigger for the walk (J116), the sidestep ranked on the fan's hit count
+(J111), the fan spanning the whole model across this camera's bearing (J113),
+kit counted as built fabric in the clearance sample (J117a) and the clearance
+note's agent clause filled from the record's own fields (J117b) -- on top of
+the measured exposure (J83), the sightline verdict as a fraction of 13 rays
+(J78), the walk scored on the subject's own sightline (J79) and the 43-ray
+subject height (J74). Committed by tools/pass_tick.sh so a container restart
+costs at most the sheet being rendered.
 
 Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
 Claude-Session: https://claude.ai/code/session_012rCzdfEp56Z5bDvSJLVsiQ
@@ -134,12 +142,12 @@ if [ "$(free_mb)" -lt 350 ]; then
     exit 1
 fi
 
-setsid nohup python3 tools/render_all_sheets.py --workers 2 >> /tmp/render_all_v16.log 2>&1 < /dev/null &
+setsid nohup python3 tools/render_all_sheets.py --workers 2 >> /tmp/render_all_v17.log 2>&1 < /dev/null &
 sleep 6
 NEW="$(runner_pid)"
 if [ -n "$NEW" ]; then
     echo "runner: started (pid ${NEW})"
 else
-    echo "runner: failed to start -- tail /tmp/render_all_v16.log"
+    echo "runner: failed to start -- tail /tmp/render_all_v17.log"
     exit 1
 fi
