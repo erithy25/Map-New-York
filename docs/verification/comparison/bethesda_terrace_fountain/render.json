@@ -59,7 +59,7 @@
    -11.6
   ],
   "nearest_obstruction_m": 25.3,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is lm_b_bethesda_terrace.16 25.3 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 50 m",
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is lm_b_bethesda_terrace.16 25.3 m away, and the probe found no simulated agent on its rays across this frame within 60 m, and the view azimuth is clear for 50 m",
   "offset_m": 0.0,
   "stood_on_deck": "the eye point sat 1.83 m under verify_pavement, the paved upper level the viewpoint note names at 21.19 m NAVD88, which stands above the heightmap the eye height was measured from; the camera was raised onto it, so it stands on the surface that is actually drawn under it at 22.79 m NAVD88",
   "view_m": 50.2
@@ -108,7 +108,7 @@
  "name": "Bethesda Terrace and Fountain",
  "night": false,
  "pitch_reason": "aimed at Bethesda Fountain (Angel of the Waters) 51 m away, at its mid-height (the top of lm_b_bethesda_terrace.2, the built thing standing at the subject's coordinate, 9 m above the ground there); +2.4 deg from horizontal",
- "record_shape": 1,
+ "record_shape": 2,
  "reference_photo": {
   "author": "Christian David",
   "confidence": "high",
@@ -123,7 +123,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/bethesda_terrace_fountain/render.png",
- "rendered_at": "2026-09-13T19:53:44Z",
+ "rendered_at": "2026-09-13T21:32:09Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -156,7 +156,7 @@
    "placed_pedestrians": 11,
    "placed_vehicles": 0,
    "reason": null,
-   "seconds": 93.81,
+   "seconds": 94.58,
    "snapshot": {
     "building_footprints_tested": 2814,
     "car_free_park_drives_matched": 46,
@@ -1039,7 +1039,7 @@
    }
   },
   "radius_m": 742.6651793355627,
-  "seconds": 139.25,
+  "seconds": 140.31,
   "structures": {
    "imported": [
     "t_-2_8"
@@ -1125,9 +1125,9 @@
   "radius_m": 742.6651793355627
  },
  "seconds": {
-  "render": 62.2,
-  "scene": 142.8,
-  "total": 205.0
+  "render": 80.3,
+  "scene": 143.8,
+  "total": 224.1
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 4.3 m above its ground",
