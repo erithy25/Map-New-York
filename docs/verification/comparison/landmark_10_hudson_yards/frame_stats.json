@@ -1,6 +1,6 @@
 {
  "slug": "landmark_10_hudson_yards",
- "rendered_at": "2026-09-10T22:02:25Z",
+ "rendered_at": "2026-09-13T15:14:02Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",

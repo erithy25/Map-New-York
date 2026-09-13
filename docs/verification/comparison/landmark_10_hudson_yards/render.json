@@ -127,7 +127,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_10_hudson_yards/render.png",
- "rendered_at": "2026-09-10T22:02:25Z",
+ "rendered_at": "2026-09-13T15:14:02Z",
  "resolution_note": "712x1534; the reference photograph is 1920x4134 (0.46:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -175,7 +175,7 @@
    "placed_pedestrians": 304,
    "placed_vehicles": 73,
    "reason": null,
-   "seconds": 492.71,
+   "seconds": 523.0,
    "snapshot": {
     "building_footprints_tested": 2663,
     "density_lane_km": 30.038,
@@ -190,7 +190,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.61,
+     "load_seconds": 2.13,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -215,7 +215,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 381
    },
-   "snapshot_note": "cached -4011_5723_9_2_a92e516376e6569d_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
    "triangles": 1082850,
    "vehicle_lods": {
@@ -1154,7 +1154,7 @@
    }
   },
   "radius_m": 1017.7315991143414,
-  "seconds": 698.26,
+  "seconds": 702.42,
   "structures": {
    "imported": [
     "t_-5_4",
@@ -1203,9 +1203,9 @@
   "radius_m": 1017.7315991143414
  },
  "seconds": {
-  "render": 135.5,
-  "scene": 704.9,
-  "total": 840.4
+  "render": 130.8,
+  "scene": 711.0,
+  "total": 841.8
  },
  "sightline": {
   "subject_note": "nothing built stands within 6 m of the subject's coordinate; the nearest built thing is lm_c_hudson_yards.3, 11 m away at bearing 292 deg, so the coordinate the item records is that far off the fabric it names; no sightline was tested",

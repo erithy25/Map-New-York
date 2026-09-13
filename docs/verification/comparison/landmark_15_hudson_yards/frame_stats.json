@@ -1,6 +1,6 @@
 {
  "slug": "landmark_15_hudson_yards",
- "rendered_at": "2026-09-12T21:45:39Z",
+ "rendered_at": "2026-09-13T15:32:49Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
@@ -9,7 +9,7 @@
   "height": 576,
   "mean": 0.5251,
   "sd": 0.202,
-  "p05": 0.2783,
+  "p05": 0.2784,
   "p50": 0.4969,
   "p95": 0.8942,
   "chroma": 0.1153,

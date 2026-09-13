@@ -73,8 +73,8 @@
   "scored_on_subject_sightline": true,
   "stood_on_deck": "the eye point sat 2.65 m under lm_c_high_line.10, the landmark model's own level deck at 9.14 m NAVD88, which stands above the heightmap the eye height was measured from; the camera was raised onto it, so it stands on the surface that is actually drawn under it at 10.74 m NAVD88",
   "subject_sightline_at_choice": {
-   "subject_blocked_at_m": 44.1,
-   "subject_blocked_by": "prop_lamp_cobra_davit_85",
+   "subject_blocked_at_m": 25.9,
+   "subject_blocked_by": "t_-5_5_glass_curtain",
    "subject_rays": 13,
    "subject_rays_on_subject": 2,
    "subject_visible": true,
@@ -95,11 +95,11 @@
  "lighting": {
   "background_strength": 0.0356573760509491,
   "development": {
-   "linear_p05": 0.00145,
-   "linear_p50": 0.00506,
-   "linear_p95": 0.060268,
+   "linear_p05": 0.001452,
+   "linear_p50": 0.005061,
+   "linear_p95": 0.060261,
    "log_average_linear": 0.006051,
-   "median_linear": 0.00506,
+   "median_linear": 0.005061,
    "metered": true,
    "note": "under-lit: the scene needed +5.15 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
@@ -141,7 +141,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_15_hudson_yards/render.png",
- "rendered_at": "2026-09-12T21:45:39Z",
+ "rendered_at": "2026-09-13T15:32:49Z",
  "resolution_note": "1280x576; the reference photograph is 1920x863 (2.22:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -175,7 +175,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 578928,
+   "pedestrian_triangles": 578904,
    "per_class": {
     "black_car": 9,
     "boro_taxi": 8,
@@ -188,7 +188,7 @@
    "placed_pedestrians": 250,
    "placed_vehicles": 77,
    "reason": null,
-   "seconds": 385.84,
+   "seconds": 792.81,
    "snapshot": {
     "building_footprints_tested": 2663,
     "density_lane_km": 29.584,
@@ -228,9 +228,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 895
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -4305_5783_13_0_52fc7f221a8d6d51_1788868452.json",
    "triangle_budget": 1125000,
-   "triangles": 1085029,
+   "triangles": 1085005,
    "vehicle_lods": {
     "LOD1": 3,
     "LOD2": 74
@@ -1128,7 +1128,7 @@
    }
   },
   "radius_m": 793.1440768097516,
-  "seconds": 504.68,
+  "seconds": 945.59,
   "structures": {
    "imported": [
     "t_-5_4",
@@ -1167,7 +1167,7 @@
    "z_max_m": 15.92,
    "z_min_m": -1.92
   },
-  "triangles": 3978971
+  "triangles": 3978947
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1177,18 +1177,18 @@
   "radius_m": 793.1440768097516
  },
  "seconds": {
-  "render": 40.2,
-  "scene": 549.0,
-  "total": 589.2
+  "render": 54.3,
+  "scene": 1066.7,
+  "total": 1121.0
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 140.2 m above its ground",
-  "subject_blocked_at_m": 44.1,
-  "subject_blocked_by": "prop_lamp_cobra_davit_85",
+  "subject_blocked_at_m": 25.9,
+  "subject_blocked_by": "t_-5_5_glass_curtain",
   "subject_clear_fraction": 0.154,
-  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate",
-  "subject_fan_half_angle_deg": 6.39,
-  "subject_fan_m": 73.4,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the whole model standing at the coordinate, taken across this camera's bearing (J113)",
+  "subject_fan_half_angle_deg": 30.29,
+  "subject_fan_m": 383.2,
   "subject_fan_tall_m": 280.5,
   "subject_fan_v_half_angle_deg": 23.15,
   "subject_lands_at_m": 298.9,
@@ -1229,11 +1229,18 @@
   "name": "15 Hudson Yards",
   "origin_distance_m": 245.7,
   "plan_extent": {
+   "across_bearing_deg": 310.4,
+   "axis_narrow_m": 338.4,
+   "axis_width_m": 362.7,
    "is_tile_mesh": false,
-   "narrow_m": 47.3,
-   "note": "the bounding box of the object the height was measured off",
+   "model": "lm_c_hudson_yards",
+   "narrow_m": 365.6,
+   "note": "the bounding box of all 54 part(s) of lm_c_hudson_yards, the model the height was measured off a part of, measured across this camera's bearing and along it (J113)",
    "object": "lm_c_hudson_yards.9",
-   "width_m": 73.4
+   "part_narrow_m": 86.5,
+   "part_width_m": 83.6,
+   "parts": 54,
+   "width_m": 383.2
   }
  },
  "sun": {
