@@ -117,6 +117,7 @@
  "name": "Brooklyn brownstone block: Bed-Stuy, Stuyvesant Avenue",
  "night": false,
  "pitch_reason": "level optical axis (the reference names no subject to aim at)",
+ "record_shape": 1,
  "reference_photo": {
   "author": "Smallbones",
   "confidence": "medium",
@@ -131,7 +132,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_brooklyn_bed_stuy_stuyvesant_ave/render.png",
- "rendered_at": "2026-09-13T14:04:08Z",
+ "rendered_at": "2026-09-13T20:27:08Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -174,7 +175,7 @@
    "placed_pedestrians": 376,
    "placed_vehicles": 73,
    "reason": null,
-   "seconds": 687.88,
+   "seconds": 704.74,
    "snapshot": {
     "building_footprints_tested": 4688,
     "density_lane_km": 18.882,
@@ -214,7 +215,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 403
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached 1496_-2054_16_1_310f66d09524281e_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 1083243,
    "vehicle_lods": {
@@ -810,7 +811,7 @@
    }
   },
   "radius_m": 766.3096114080006,
-  "seconds": 837.47,
+  "seconds": 862.76,
   "structures": {
    "imported": [
     "t_0_-3",
@@ -848,9 +849,9 @@
   "radius_m": 766.3096114080006
  },
  "seconds": {
-  "render": 105.2,
-  "scene": 843.7,
-  "total": 948.9
+  "render": 139.3,
+  "scene": 870.0,
+  "total": 1009.3
  },
  "sightline": {
   "subject_note": "the item names no point subject",
