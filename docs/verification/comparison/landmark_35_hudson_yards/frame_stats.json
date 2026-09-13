@@ -1,37 +1,37 @@
 {
  "slug": "landmark_35_hudson_yards",
- "rendered_at": "2026-09-12T17:22:20Z",
- "reference_file": "2.jpg",
+ "rendered_at": "2026-09-13T16:36:50Z",
+ "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
-  "width": 1280,
-  "height": 496,
-  "mean": 0.5445,
-  "sd": 0.3374,
-  "p05": 0.1003,
-  "p50": 0.4562,
-  "p95": 1.0,
-  "chroma": 0.091,
-  "exposure_offset_stops": -0.035
+  "width": 904,
+  "height": 1206,
+  "mean": 0.4389,
+  "sd": 0.3001,
+  "p05": 0.0767,
+  "p50": 0.3296,
+  "p95": 0.9611,
+  "chroma": 0.0968,
+  "exposure_offset_stops": -1.02
  },
  "reference": {
   "width": 1920,
-  "height": 744,
-  "mean": 0.5064,
-  "sd": 0.17,
-  "p05": 0.2384,
-  "p50": 0.5011,
-  "p95": 0.7805,
-  "chroma": 0.2145,
-  "exposure_offset_stops": 0.257
+  "height": 2560,
+  "mean": 0.3869,
+  "sd": 0.2329,
+  "p05": 0.067,
+  "p50": 0.3308,
+  "p95": 0.844,
+  "chroma": 0.2356,
+  "exposure_offset_stops": -1.009
  },
  "render_over_reference": {
-  "mean": 1.075,
-  "sd": 1.985,
-  "p50": 0.91,
-  "chroma": 0.424,
-  "exposure_offset_stops": -0.292,
+  "mean": 1.134,
+  "sd": 1.289,
+  "p50": 0.996,
+  "chroma": 0.411,
+  "exposure_offset_stops": -0.011,
   "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
