@@ -100,7 +100,15 @@ CLASSES: dict[str, dict] = {
 
 
 def viewpoints() -> list[tuple[str, float, float, float]]:
-    """``(slug, x, y, scene_radius_m)`` for every catalogued item with a photograph on disk.
+    """Every point a scene for this catalogue could be centred on, with that item's radius.
+
+    One item contributes **more than one** centre, and getting that wrong is how this tool deleted
+    tiles that published sheets had read.  A scene is built around the origin the sheet decides on,
+    and that is the *photograph's* own EXIF GPS wherever it is usable -- 185 m from the item's
+    recorded viewpoint at the Prospect Park Boathouse, 134 m at Hell Gate Bridge -- so a test
+    centred on the recorded viewpoint alone misses whole tiles at the far edge.  And which
+    photograph is chosen is not fixed either: J112's key re-selects 27 of the 172.  So every
+    candidate photograph's estimated viewpoint and camera GPS is a centre, beside the item's own.
 
     The radius is the one ``render_sheets`` will use, read from that module so the two cannot
     drift: ``RADIUS_OVERRIDES`` puts two items at 5,000 and 5,500 m, which is exactly the case a
@@ -144,7 +152,26 @@ def viewpoints() -> list[tuple[str, float, float, float]]:
             radius = float(overrides[d.name][0])
         else:
             radius = max(500.0, min(3000.0, (subj_dist or 200.0) * 1.6 + 400.0))
-        out.append((d.name, vx, vy, radius))
+        # Two centres per item, and no more: the item's recorded viewpoint, and the *chosen*
+        # photograph's own position.  Which photograph is chosen is not a guess -- it is what
+        # `pick_reference_photo` returns, so it is asked rather than approximated over every
+        # candidate, which would widen the keep set by a third for views no scene will ever take.
+        # Both are kept because which of the two the sheet stands on is decided at render time, by
+        # the indoors test on the built scene.
+        centres = {(round(vx, 1), round(vy, 1))}
+        try:
+            chosen = mod.pick_reference_photo(meta)
+        except Exception:                                   # a catalogue entry the chooser refuses
+            chosen = None
+        for block in ((chosen or {}).get("estimated_viewpoint"), (chosen or {}).get("camera_gps")):
+            if not isinstance(block, dict):
+                continue
+            if block.get("lat") is None or block.get("lon") is None:
+                continue
+            px, py = (float(v) for v in lonlat_to_tm(block["lon"], block["lat"]))
+            centres.add((round(px, 1), round(py, 1)))
+        for px, py in sorted(centres):
+            out.append((d.name, px, py, radius))
     return out
 
 
@@ -221,7 +248,11 @@ def survey(cls: str, views, read: set[str]) -> dict:
             if hit:
                 missing.append(name)
             continue
-        if hit:
+        if hit or name in read:
+            # A tile named in a published record's own ``tiles_read`` is kept whatever the geometry
+            # says.  The geometry is a model of where a scene will be centred and the record is a
+            # measurement of where one was, and when the two disagree the measurement wins -- which
+            # is the whole of J118 stated as a rule the code follows.
             keep.append(name)
             keep_b += present[name]
         else:
@@ -238,6 +269,9 @@ def main(argv=None) -> int:
     ap.add_argument("--missing", metavar="CLASS", help="print the reachable tiles that are absent")
     ap.add_argument("--delete", metavar="CLASS",
                     help="delete the unreachable tiles of this class and add them to its rebuild list")
+    ap.add_argument("--prune-lists", action="store_true",
+                    help="drop from every rebuild list the tiles that are back on disk, so a list "
+                         "names outstanding work and nothing else")
     ap.add_argument("--limit-mb", type=float, default=None,
                     help="with --delete, stop once this many MB have been freed (largest first), so "
                          "only the room actually needed is taken")
@@ -250,10 +284,32 @@ def main(argv=None) -> int:
             print(f"unknown class {name!r}; known: {', '.join(sorted(CLASSES))}", file=sys.stderr)
             return 2
 
+    if a.prune_lists:
+        for cls, spec in CLASSES.items():
+            listing = spec["rebuild_list"]
+            if not listing.is_file():
+                continue
+            names = [l.strip() for l in listing.read_text().split() if l.strip()]
+            left = [n for n in names if not (TILES / n / spec["artefact"]).is_file()]
+            if len(left) == len(names):
+                print(f"{cls:<14} {len(names)} tile(s), none back on disk")
+                continue
+            if left:
+                listing.write_text("\n".join(sorted(left)) + "\n")
+            else:
+                listing.unlink()
+            print(f"{cls:<14} {len(names)} -> {len(left)} tile(s) "
+                  f"({len(names) - len(left)} rebuilt"
+                  f"{'; list removed' if not left else ''})")
+        return 0
+
     views = viewpoints()
     read = tiles_read_by_published_sheets()
-    print(f"{len(views)} catalogued viewpoints, radii {min(v[3] for v in views):.0f} to "
-          f"{max(v[3] for v in views):.0f} m, walk margin {WALK_MARGIN_M:.0f} m")
+    slugs = {v[0] for v in views}
+    print(f"{len(slugs)} catalogued items, {len(views)} possible scene centres "
+          f"(the item's viewpoint and every candidate photograph's), radii "
+          f"{min(v[3] for v in views):.0f} to {max(v[3] for v in views):.0f} m, "
+          f"walk margin {WALK_MARGIN_M:.0f} m")
 
     if a.missing:
         s = survey(a.missing, views, read[a.missing])
