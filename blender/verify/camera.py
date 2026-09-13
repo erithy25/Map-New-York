@@ -308,6 +308,41 @@ def is_shell(ob) -> bool:
     return ob is not None and bool(_TILE_MESH.match(ob.name) or ob.name.startswith("lm_"))
 
 
+#: Structure parts that are a deck carried on supports, i.e. a ceiling over a street rather than a
+#: room around an eye.  From the part names `blender/structures/build_structures.py` writes.
+STRUCTURE_DECK_PARTS = ("struct_el_steel", "struct_viaduct_concrete",
+                        "struct_platform", "struct_canopy", "struct_pier_deck")
+
+
+def is_structure(ob) -> bool:
+    """Is this tile mesh a *structure* -- an elevated railway, a viaduct, a pier or a seawall?
+
+    The structures export writes them into the same tile namespace as the building shells, as
+    ``t_<tx>_<ty>_struct_<part>`` (``struct_el_steel``, ``struct_viaduct_concrete``,
+    ``struct_platform``, ``struct_canopy``, ``struct_pier_deck``, ``struct_pier_pile``,
+    ``struct_seawall``, ``struct_station_house``), so :func:`is_shell` matches them and they count
+    as fabric an eye can be *inside*.  For a wall or a pile that is right.  For a deck on columns it
+    is not, and it cost the two sheets that exist to stand under one: `street_elevated_broadway_
+    bushwick_j` was walked 17.1 m out from under the Myrtle Avenue el because a ray straight up
+    from the eye hit its underside, and `street_elevated_roosevelt_ave_7` rejected the photograph's
+    own GPS for the same reason and stood where nothing is overhead (docs/DEVIATIONS.md J115).
+
+    A railway on legs is a street's ceiling, not a room's.  Used only by the up-ray branch of
+    :func:`_blocked`; every other reading of built fabric still sees these meshes, because a
+    seawall ahead of the lens is still something the camera is pressed against.
+
+    **Only the parts that are a deck on supports.**  ``struct_station_house`` is a genuine
+    enclosure and an eye inside one is indoors, which is what that branch exists to catch; a
+    seawall and a pile are things to be against rather than under.  So the list is the four parts
+    you can legitimately stand beneath, named rather than matched on the ``struct_`` prefix, so
+    that a part added later has to be classified deliberately instead of inheriting an exemption.
+    """
+    if ob is None or not _TILE_MESH.match(ob.name):
+        return False
+    tail = ob.name[_TILE_MESH.match(ob.name).end():]
+    return tail.startswith(STRUCTURE_DECK_PARTS)
+
+
 def is_foliage(ob) -> bool:
     """Is this mesh a tree rather than a piece of built fabric?
 
@@ -555,7 +590,7 @@ def _blocked(x: float, y: float, z: float, azimuth_deg: float) -> tuple[bool, st
     from mathutils import Vector
 
     ob, up_z, _ = first_solid_above(x, y, z)
-    if is_shell(ob):
+    if is_shell(ob) and not is_structure(ob):
         return True, f"inside {ob.name} (a ray straight up from the eye point hits its roof)"
     # Ground and pavement overhead mean the eye is under a slab.  The Bethesda Terrace viewpoint
     # is the case: its plaza polygons bridge the 5 m step between the lower plaza and the upper

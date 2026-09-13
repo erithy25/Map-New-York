@@ -29,6 +29,7 @@ import datetime as dt
 import json
 import logging
 import math
+import re
 import sys
 import time
 from pathlib import Path
@@ -286,6 +287,82 @@ DRIVE_THROUGH_PHOTO_BANDS_M = (250.0, 600.0, 1500.0)
 DRIVE_THROUGH_PHOTO_UNKNOWN_BAND = 2
 
 
+#: Azimuth-error tiers, degrees, for an item that names a subject (docs/DEVIATIONS.md J112).
+#:
+#: Coarse on purpose.  A photograph facing a materially different way than the viewpoint it is
+#: paired with cannot be repaired by a precise clock -- `landmark_williamsburgh_savings_bank_tower`
+#: was compared against a photograph of the opposite elevation, 244 deg against a recorded 20 -- but
+#: two photographs facing much the same way should still prefer the one with a real instant, because
+#: an assumed hour is an approximation the sheet declares and a wrong elevation is not.  So the tier
+#: ranks above ``has_time`` and the raw error still ranks below it: a degree does not outrank a
+#: clock, ninety do.
+SUBJECT_PHOTO_AZIMUTH_TIERS_DEG = (30.0, 90.0)
+
+#: The only ``estimated_viewpoint.method`` whose azimuth is evidence about where a photograph looked.
+#:
+#: The other three are not, and tiering on them is a bug this rule had on its first attempt.
+#: ``standard_viewpoint`` has no GPS and copies the *item's own* azimuth in, so its error is 0 by
+#: construction; ``camera_gps_with_item_azimuth`` has a real fix and copies the azimuth in the same
+#: way.  Ranking on that rewards a photograph for carrying no information: `landmark_50_hudson_yards`
+#: swapped two GPS-located candidates for a no-GPS one reading exactly 270.0 deg against a recorded
+#: 270.0.
+#:
+#: An unmeasured heading therefore ranks one *past* the worst measured tier, not level with it.
+#: Level ties them, the tie falls through to distance and the clock, and that handed
+#: `landmark_carnegie_hall`, `landmark_paramount_building` and `landmark_50_hudson_yards` a
+#: photograph with no derived heading at all over one measured and badly aimed.  Strictly worse says
+#: the thing that is true: a heading that is wrong can be written down and the sheet can state the
+#: mismatch, and a heading that was never derived cannot be checked at all.  This is harsher than
+#: J60's unknown *position* band on purpose -- a position the sheet does not know is one it can
+#: decline to claim, a heading it does not know breaks the comparison itself.
+SUBJECT_PHOTO_AZIMUTH_DERIVED = "camera_gps_to_subject"
+SUBJECT_PHOTO_AZIMUTH_UNKNOWN_TIER = len(SUBJECT_PHOTO_AZIMUTH_TIERS_DEG) + 1
+
+#: Distance bands for an item that names a subject, as multiples of the item's own subject distance.
+#:
+#: J60 gave the drive-throughs a graded band and left every other group alone, on the stated grounds
+#: that "a landmark is legitimately photographed from 1.8 km and a fire hydrant from anywhere in the
+#: city".  The first half of that is true and the second is the reason this band is keyed to the
+#: item rather than to a constant: a photograph further from the viewpoint than the viewpoint is
+#: from its own subject cannot be the same view of it.  The floors keep a close subject from making
+#: the test absurd -- Federal Hall's subject is 40 m away and a photograph 200 m off is still of it.
+SUBJECT_PHOTO_BAND_FLOORS_M = (250.0, 750.0)
+#: ...as multiples of the item's own subject distance.
+#:
+#: Swept over all 172 items against the pass's own choices, counting a change as a regression when
+#: it moved to a worse heading tier or, within a tier, further away.  (1.0, 3.0) changes 26 items and
+#: regresses none; (0.5, 1.5) changes 27 and regresses none; (0.25, 0.75) changes 28 and regresses
+#: none but oscillates the Bronx-Whitestone back and forth, which says the edge is then inside the
+#: noise of that item's own candidates.  0.5 is taken because it is the loosest value that fixes the
+#: case J112 was written from: `landmark_verrazzano_narrows_bridge` has a 1,109 m subject, so a 1.0
+#: multiplier admits a photograph 930 m from the viewpoint -- the I-278 HOV lane -- into the same
+#: band as one 27 m away, and the clock then decides between them.  At 0.5 the HOV frame drops a
+#: band and the sheet gets `File:Verrazano-Bridge.jpg`, which is a photograph of the bridge.  It also
+#: moves the Bronx-Whitestone from 616 m to 352 m and the MetLife Building from 291 m to 116 m.
+SUBJECT_PHOTO_BAND_MULTS = (0.5, 1.5)
+#: Band for a photograph with no GPS on an item that names a subject: second of three, for J60's
+#: reason -- an unknown position is not evidence of nearness, but it is better than a known mile.
+SUBJECT_PHOTO_UNKNOWN_BAND = 1
+
+
+def _subject_distance_m(meta: dict) -> float | None:
+    """Metres from the item's viewpoint to its subject, or None when it names no subject.
+
+    The scale every other distance on the item is judged against.  An item that names a *type* --
+    a fire hydrant, a yellow cab, a newsstand -- has no subject and gets None, which is what keeps
+    J60's judgement about those groups intact.
+    """
+    vp = meta.get("viewpoint") or {}
+    sub = meta.get("subject") or {}
+    if sub.get("lat") is None or sub.get("lon") is None:
+        return None
+    from nycsim_pipeline.crs import lonlat_to_tm
+
+    vx, vy = (float(v) for v in lonlat_to_tm(vp["lon"], vp["lat"]))
+    sx, sy = (float(v) for v in lonlat_to_tm(sub["lon"], sub["lat"]))
+    return math.hypot(sx - vx, sy - vy)
+
+
 def _photo_offset_m(vp: dict, photo: dict) -> float | None:
     """Metres from a photograph's own EXIF GPS to the item's viewpoint, or None when it carries no fix."""
     g = (photo or {}).get("camera_gps") or {}
@@ -311,6 +388,9 @@ def pick_reference_photo(meta: dict) -> dict | None:
     vp = meta["viewpoint"]
     az = float(vp["azimuth_deg"])
     night = bool(meta.get("night"))
+    # Computed once: the scale this item's own distances are judged against (J112).  None for an
+    # item that names a type rather than a place.
+    subject_m = _subject_distance_m(meta)
     best, best_key = None, None
     for p in meta.get("photos", []):
         f = REFERENCE_DIR / slug / p["file"]
@@ -342,17 +422,154 @@ def pick_reference_photo(meta: dict) -> dict | None:
         # term, and only for the group where it means something: a landmark is legitimately
         # photographed from 1.8 km and a fire hydrant from anywhere in the city, so those groups
         # keep the old ordering exactly (docs/DEVIATIONS.md J60).
-        # A landmark is legitimately photographed from 1.8 km and a fire hydrant from anywhere in
-        # the city, so every other group keeps the old ordering exactly.
+        #
+        # J112 is the other half, measured after the v16 pass: of the 162 non-drive sheets, 13 took
+        # a photograph at least 50 m further out and at least 10 deg worse aimed than a candidate
+        # already on disk, and 19 use one whose own estimated view direction is more than 90 deg
+        # from the item's.  The worst is the Williamsburgh Savings Bank Tower, whose two halves are
+        # of opposite elevations.  So an item that names a *subject* now gets a band and a heading
+        # tier of its own, keyed to its own subject distance; an item that names a *type* still gets
+        # neither, which is J60's judgement about the fire hydrant left standing.
         band = 0
-        if str(meta.get("group") or "") == "drive_through":
+        err_tier = 0
+        group = str(meta.get("group") or "")
+        if group == "drive_through":
             off = _photo_offset_m(vp, p)
             band = (DRIVE_THROUGH_PHOTO_UNKNOWN_BAND if off is None
                     else sum(1 for edge in DRIVE_THROUGH_PHOTO_BANDS_M if off > edge))
-        key = (lit_bad, band, 0 if has_time else 1, lit_tier, conf, err)
+        elif subject_m is not None:
+            off = _photo_offset_m(vp, p)
+            edges = [max(floor_m, mult * subject_m)
+                     for floor_m, mult in zip(SUBJECT_PHOTO_BAND_FLOORS_M,
+                                              SUBJECT_PHOTO_BAND_MULTS)]
+            band = (SUBJECT_PHOTO_UNKNOWN_BAND if off is None
+                    else sum(1 for edge in edges if off > edge))
+            err_tier = (sum(1 for edge in SUBJECT_PHOTO_AZIMUTH_TIERS_DEG if err > edge)
+                        if str(ev.get("method") or "").startswith(SUBJECT_PHOTO_AZIMUTH_DERIVED)
+                        else SUBJECT_PHOTO_AZIMUTH_UNKNOWN_TIER)
+        # Heading before distance, and both before the clock.  J60's own words are the reason the
+        # order is this way round: "a landmark is legitimately photographed from 1.8 km".  A view
+        # of 4 World Trade Center from 1,455 m aimed 7.9 deg off is that sentence; one from 443 m
+        # aimed 156 deg off is a photograph of something else.  So distance only separates
+        # photographs that are already pointing the same way.
+        key = (lit_bad, err_tier, band, 0 if has_time else 1, lit_tier, conf, err)
         if best_key is None or key < best_key:
             best, best_key = p, key
     return best
+
+
+#: A full date anywhere in a photograph's own title, e.g. "26th St 8th Av td (2018-11-27) 24".
+_TITLE_DATE_RE = re.compile(r"(20\d\d|19\d\d)[-_.](\d{1,2})[-_.](\d{1,2})")
+#: A month and year in a title, e.g. "New York Stock Exchange August 2017 02".
+_TITLE_MONTH_RE = re.compile(
+    r"\b(january|february|march|april|may|june|july|august|september|october|november|december)\b"
+    r"[^0-9]{0,4}((?:20|19)\d\d)", re.I)
+_MONTHS = ("january", "february", "march", "april", "may", "june", "july",
+           "august", "september", "october", "november", "december")
+
+#: Season words and the date each one stands for, when a photograph's own text names a season the
+#: stored date contradicts.  The dates are the middle of the meteorological season, so the leaf
+#: switch, the Sun's elevation and the crowd's clothing all land somewhere the season really is.
+_SEASON_DATES = (
+    (re.compile(r"\b(snow|snowy|snowstorm|blizzard|sleet|slush|nor.?easter|ice storm)\b", re.I), (1, 15)),
+    (re.compile(r"\bwinter\b", re.I), (1, 15)),
+    (re.compile(r"\b(autumn|fall foliage|fall colou?rs?)\b", re.I), (10, 20)),
+    (re.compile(r"\b(cherry blossom|blossoms?|in bloom|springtime)\b", re.I), (4, 20)),
+    (re.compile(r"\bspring\b", re.I), (4, 20)),
+    (re.compile(r"\bsummer\b", re.I), (7, 15)),
+)
+
+
+def _photo_text_fields(photo: dict) -> tuple[tuple[str, str], ...]:
+    """The three things a photograph says about itself in words, each with its field name.
+
+    The fetch stores all three in full beside the numeric date and `photo_instant` never read any
+    of them (docs/DEVIATIONS.md J114).  They are searched in this order because that is their order
+    of directness about this photograph: its own title, then its own description, then the Commons
+    categories, which are contributed and can be about the subject rather than the exposure.
+
+    The record names which field a date came from, because "the title says 27 November" and "a
+    category says 27 November" are different strengths of evidence and a reader should see which.
+    """
+    cats = photo.get("categories") or []
+    return (("title", str(photo.get("title") or "")),
+            ("description", str(photo.get("description") or "")),
+            ("categories", " | ".join(str(c) for c in cats)
+             if isinstance(cats, (list, tuple)) else str(cats)))
+
+
+def _date_from_photo_text(photo: dict) -> tuple[dt.date, str] | None:
+    """A date the photograph's own words carry, or None.
+
+    Three strengths, strongest first, and the record says which one it was: a full date, a month
+    and year, or a season word combined with the stored year.  A season only ever sets the month,
+    never the year -- the year is the one part of a stored date that survives even on a scan.
+    """
+    fields = _photo_text_fields(photo)
+    for name, text in fields:
+        m = _TITLE_DATE_RE.search(text)
+        if m:
+            try:
+                return dt.date(int(m.group(1)), int(m.group(2)), int(m.group(3))), \
+                    f"the photograph's own {name} carries the date"
+            except ValueError:
+                pass
+    for name, text in fields:
+        m = _TITLE_MONTH_RE.search(text)
+        if m:
+            month = _MONTHS.index(m.group(1).lower()) + 1
+            return dt.date(int(m.group(2)), month, 15), \
+                f"the photograph's own {name} carries the month; the 15th of it assumed"
+    year = photo.get("year")
+    if isinstance(year, int):
+        for name, text in fields:
+            for pattern, (month, day) in _SEASON_DATES:
+                hit = pattern.search(text)
+                if hit:
+                    return dt.date(year, month, day), \
+                        (f"the photograph's own {name} names the season ({hit.group(0)!r}); "
+                         f"the middle of it assumed")
+    return None
+
+
+#: Hour windows an item may name for itself, local, and what it has to say to name one.
+#:
+#: J80 chooses an assumed hour to light the view and has no notion that a sheet's own name asks for
+#: a time of day, so `street_midtown_avenue_rush_hour` is rendered at 13:30 with its crowd
+#: simulated at hour 13 (docs/DEVIATIONS.md J114).  An item's declared intent is evidence about what
+#: the sheet is for, and it is read here as a *constraint on the search* rather than a fixed hour:
+#: the Sun-behind-the-camera rule still picks within the window, so the reason printed in the record
+#: is the same reason as on every other sheet.
+#:
+#: **This fires on one item of the 172 today.** Two more name a time of day and both are already
+#: `night: true`, which the night rule handles. A rule scoped to one case is worth naming as such:
+#: it is here because the item says what it wants and the renderer was ignoring it, not because a
+#: frame looked wrong.
+ITEM_HOUR_WINDOWS = (
+    (re.compile(r"\brush hour\b", re.I), ((7, 9), (16, 18))),
+    (re.compile(r"\b(dawn|sunrise)\b", re.I), ((6, 8),)),
+    (re.compile(r"\b(dusk|sunset)\b", re.I), ((18, 20),)),
+    (re.compile(r"\bmorning\b", re.I), ((8, 11),)),
+    (re.compile(r"\b(midday|noon|lunchtime)\b", re.I), ((11, 14),)),
+    (re.compile(r"\bafternoon\b", re.I), ((13, 17),)),
+)
+
+
+def item_hour_window(meta: dict) -> tuple[tuple[tuple[int, int], ...], str] | None:
+    """The hour window an item names for itself, with the words that named it, or None.
+
+    Read from the item's own name and viewpoint note -- what the catalogue declares the sheet is
+    for.  A night item is never constrained here: its hour comes from the night rule.
+    """
+    if bool(meta.get("night")):
+        return None
+    hay = " | ".join([str(meta.get("name") or ""),
+                      str((meta.get("viewpoint") or {}).get("note") or "")])
+    for pattern, windows in ITEM_HOUR_WINDOWS:
+        hit = pattern.search(hay)
+        if hit:
+            return windows, hit.group(0)
+    return None
 
 
 #: Hours an assumed instant may be chosen from, local.  Civil daylight in New York on 21 June runs
@@ -369,7 +586,9 @@ NIGHT_ASSUMED_HOUR = 22
 
 
 def _lit_hour(lat: float, lon: float, day: dt.date, azimuth_deg: float | None, tz,
-              *, night: bool = False) -> tuple[int, int, str]:
+              *, night: bool = False,
+              windows: tuple[tuple[int, int], ...] | None = None,
+              window_words: str = "") -> tuple[int, int, str]:
     """The hour of ``day`` whose Sun best lights a camera looking along ``azimuth_deg``.
 
     **Why this is chosen rather than fixed.** When a photograph carries no time, the hour is an
@@ -400,8 +619,17 @@ def _lit_hour(lat: float, lon: float, day: dt.date, azimuth_deg: float | None, t
                                         f"emissive content lights the frame")
     from nycsim_live import astronomy
     obs = astronomy.Observer(lat, lon, 20.0)
+    # An item that names a time of day for itself constrains the search rather than replacing it:
+    # the Sun-behind-the-camera rule below still chooses, but only among the hours the item asked
+    # for (docs/DEVIATIONS.md J114).  Passed in rather than looked up so this function stays what
+    # its own test slices it as -- arithmetic over a solar position, with no catalogue behind it.
+    allowed = None
+    if windows:
+        allowed = {h for lo, hi in windows for h in range(lo, hi + 1)}
     best = None
     for hour in range(ASSUMED_HOUR_RANGE[0], ASSUMED_HOUR_RANGE[1] + 1):
+        if allowed is not None and hour not in allowed:
+            continue
         when = dt.datetime.combine(day, dt.time(hour, 30), tzinfo=tz)
         pos = astronomy.solar_position(when.astimezone(dt.timezone.utc), obs)
         if pos.elevation < 20.0:
@@ -415,6 +643,14 @@ def _lit_hour(lat: float, lon: float, day: dt.date, azimuth_deg: float | None, t
             score = (off, -pos.elevation)
         if best is None or score < best[0]:
             best = (score, hour, pos)
+    if best is None and allowed is not None:
+        # The window the item named has no hour with the Sun above 20 deg on that date -- a winter
+        # rush hour is exactly that.  The window is what the sheet is for, so it is kept and the
+        # record says the light was the cost: its darkest hour is still inside what was asked for.
+        hour = sorted(allowed)[0] if max(allowed) < 12 else sorted(allowed)[-1]
+        return hour, 30, (f"and {hour:02d}:30 **chosen**, not measured: the item names "
+                          f"{window_words!r}, and no hour in that window puts the Sun above 20 deg "
+                          f"on this date, so the window was kept and the low Sun with it")
     if best is None:                                    # no hour clears 20 deg: keep the old fixed one
         return 9, 30, "and 09:30 kept because no hour on that date puts the Sun above 20 deg"
     _, hour, pos = best
@@ -423,15 +659,20 @@ def _lit_hour(lat: float, lon: float, day: dt.date, azimuth_deg: float | None, t
                f"because the item names no view direction to light")
     else:
         off = abs((pos.azimuth - float(azimuth_deg) + 180.0) % 360.0 - 180.0)
-        why = (f"and {hour:02d}:30 **chosen**, not measured: of the hours that put the Sun above "
-               f"20 deg it is the one whose bearing ({pos.azimuth:.0f} deg) comes closest to the "
-               f"view azimuth ({float(azimuth_deg):.0f} deg), {off:.0f} deg off, so the Sun is "
-               f"behind the camera and lights what it looks at")
+        asked = (f"of the hours inside the {window_words!r} this item names for itself, and that "
+                 f"put the Sun above 20 deg, " if windows
+                 else "of the hours that put the Sun above 20 deg ")
+        why = (f"and {hour:02d}:30 **chosen**, not measured: {asked}it is the one whose bearing "
+               f"({pos.azimuth:.0f} deg) comes closest to the view azimuth "
+               f"({float(azimuth_deg):.0f} deg), {off:.0f} deg off, so the Sun is behind the "
+               f"camera and lights what it looks at")
     return hour, 30, why
 
 
 def photo_instant(photo: dict, *, lat: float | None = None, lon: float | None = None,
-                  azimuth_deg: float | None = None, night: bool = False) -> tuple[dt.datetime, str]:
+                  azimuth_deg: float | None = None, night: bool = False,
+                  hour_windows: tuple[tuple[int, int], ...] | None = None,
+                  hour_window_words: str = "") -> tuple[dt.datetime, str]:
     """Local New York datetime for a photo, plus a note on where it came from.
 
     Where the photograph carries a time, that time is used and nothing here is a choice.  Where it
@@ -455,13 +696,31 @@ def photo_instant(photo: dict, *, lat: float | None = None, lon: float | None = 
             return dt.datetime.combine(day, dt.time(hour, minute), tzinfo=tz), f"{prefix}, {why}"
         if lat is None or lon is None:
             return dt.datetime.combine(day, dt.time(9, 30), tzinfo=tz), f"{prefix}; 09:30 assumed"
-        hour, minute, why = _lit_hour(lat, lon, day, azimuth_deg, tz)
+        hour, minute, why = _lit_hour(lat, lon, day, azimuth_deg, tz,
+                                      windows=hour_windows, window_words=hour_window_words)
         return dt.datetime.combine(day, dt.time(hour, minute), tzinfo=tz), f"{prefix}, {why}"
 
+    # The photograph's own words before any fallback, and before a stored date the words contradict
+    # (docs/DEVIATIONS.md J114).  Two different faults share this branch. The stored date can be
+    # *absent* -- seventeen sheets carried only a year and were lit on the solstice, one of them a
+    # nor'easter -- and it can be *present and wrong*: `File:Typical house in Dongan Hills (built in
+    # 1960).jpg` is a house buried in a blizzard and its stored date is 27 September, which is when
+    # the scan reached Commons. So the words are read in both cases, and they only ever override a
+    # stored date when they name a season that date cannot be.
+    from_text = _date_from_photo_text(photo)
     try:
-        return pick(dt.datetime.strptime(raw, "%Y-%m-%d").date(), "photograph date, no time")
+        stored = dt.datetime.strptime(raw, "%Y-%m-%d").date()
     except ValueError:
-        pass
+        stored = None
+    if stored is not None:
+        if (from_text is not None and from_text[0].year == stored.year
+                and abs((from_text[0] - stored).days) > 45):
+            return pick(from_text[0],
+                        f"photograph date {stored.isoformat()} overridden: {from_text[1]}, "
+                        f"which that date cannot be")
+        return pick(stored, "photograph date, no time")
+    if from_text is not None:
+        return pick(from_text[0], from_text[1])
     year = photo.get("year")
     if isinstance(year, int):
         return pick(dt.date(year, 6, 21), "photograph year only, 21 June assumed")
@@ -1283,10 +1542,14 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
     # a Sun that moved with the walk would make the instant depend on where the camera happened to
     # stand.  The recorded azimuth is declared, deterministic and within a few degrees of the final
     # one on every sheet where both exist.  Where the photograph carries a time, none of this runs.
+    # An item that names a time of day for itself constrains which hour may be chosen (J114).
+    _win = item_hour_window(meta)
     when, when_note = photo_instant(
         photo, lat=cam_lat, lon=cam_lon,
         azimuth_deg=(meta.get("viewpoint") or {}).get("azimuth_deg"),
-        night=bool(meta.get("night")))
+        night=bool(meta.get("night")),
+        hour_windows=(_win[0] if _win else None),
+        hour_window_words=(_win[1] if _win else ""))
     sun = sun_for(cam_lat, cam_lon, when)
 
     # Match the render aspect to the reference photograph so the two halves compare like for like,
