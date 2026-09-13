@@ -369,7 +369,14 @@ def probe_mandated_verdicts() -> list[dict] | None:
         a = d / slug / "assessment.md"
         verdict = None
         if a.exists():
-            m = re.search(r"\*\*Verdict\s*[—-]\s*(.+?)\*\*", a.read_text(), re.S)
+            text = a.read_text()
+            # Two forms have been used. The assessments written against the v16 pass head their
+            # verdict with a Markdown heading ("## Verdict -- ..."), the earlier ones bolded it
+            # inline ("**Verdict -- ...**"). Read both, heading first, so a rewritten sheet is
+            # quoted rather than reported missing.
+            m = re.search(r"^#+\s*Verdict\s*[\u2014-]\s*(.+?)\s*$", text, re.M)
+            if m is None:
+                m = re.search(r"\*\*Verdict\s*[\u2014-]\s*(.+?)\*\*", text, re.S)
             if m:
                 verdict = " ".join(m.group(1).split())
         out.append({"slug": slug, "label": label, "verdict": verdict})
@@ -993,10 +1000,15 @@ def build_report() -> str:
           "population and light are not. Deviations B12 through B16 and I13 name each of those causes and "
           "size it.")
         A()
-        wanted = ["the best single-building match in the whole set",
-                  "one of the best landmark models in the set",
-                  "the best brick landmark in the set",
-                  "the best bridge model in the set"]
+        # Rewritten against the v16 pass.  The four phrases this list used to hold were typed
+        # against assessments that have since been rewritten, and the lookup below correctly
+        # reported all four as gone; these are their live equivalents, each verified by that same
+        # lookup rather than by hand.
+        wanted = ["one of the best sheets in the pass",
+                  "the closest agreement on building fabric",
+                  "the best agreement between catalogue, geometry and measurement read this round",
+                  "the closest tonal agreement",
+                  "the best park frame in the pass"]
         found = [q for q in wanted if quote_from_assessments(q)]
         gone = [q for q in wanted if q not in found]
         A("**The line those verdicts draw is between hand-built and bulk-generated content, and it is "
