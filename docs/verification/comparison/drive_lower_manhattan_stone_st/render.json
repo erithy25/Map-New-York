@@ -67,7 +67,7 @@
    0.0
   ],
   "nearest_obstruction_m": 10.5,
-  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 11 m ahead, less than the 12 m this frame needs to show its subject; the camera was moved 7 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there, and the nearest built thing in the frame is kit_1604_563 10.5 m away at -18 deg yaw, +0 deg pitch, and no simulated agent stands within 20 m of it",
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 11 m ahead, less than the 12 m this frame needs to show its subject; the camera was moved 7 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there, and the nearest built thing in the frame is kit_1604_563 10.5 m away at -18 deg yaw, +0 deg pitch, and the probe found no simulated agent on its rays across this frame within 20 m",
   "offset_m": 7.2,
   "reason": "boxed in: the view azimuth is closed off 11 m ahead, less than the 12 m this frame needs to show its subject",
   "rule": "pavement snap with a clear frame",
@@ -118,7 +118,7 @@
  "name": "Lower Manhattan drive-through: Stone Street",
  "night": false,
  "pitch_reason": "level optical axis (the reference names no subject to aim at)",
- "record_shape": 1,
+ "record_shape": 2,
  "reference_photo": {
   "author": "Kidfly182",
   "confidence": "medium",
@@ -133,7 +133,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_lower_manhattan_stone_st/render.png",
- "rendered_at": "2026-09-13T20:51:24Z",
+ "rendered_at": "2026-09-13T22:30:15Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -184,7 +184,7 @@
    "placed_pedestrians": 380,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 543.68,
+   "seconds": 545.23,
    "snapshot": {
     "building_footprints_tested": 430,
     "density_lane_km": 28.886,
@@ -1193,7 +1193,7 @@
    }
   },
   "radius_m": 740.2236867562106,
-  "seconds": 680.61,
+  "seconds": 680.64,
   "structures": {
    "imported": [
     "t_-5_-1",
@@ -1268,9 +1268,9 @@
   "radius_m": 740.2236867562106
  },
  "seconds": {
-  "render": 222.4,
-  "scene": 706.2,
-  "total": 928.6
+  "render": 217.0,
+  "scene": 705.5,
+  "total": 922.5
  },
  "sightline": {
   "subject_note": "the item names no point subject",
