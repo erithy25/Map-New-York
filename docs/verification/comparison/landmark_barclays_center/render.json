@@ -74,7 +74,7 @@
   "view_m": 148.8
  },
  "frame": {
-  "mean": 0.5132,
+  "mean": 0.5131,
   "reason": null,
   "sd": 0.2273,
   "usable": true
@@ -86,15 +86,15 @@
  "lighting": {
   "background_strength": 0.049372706562280655,
   "development": {
-   "linear_p05": 0.003191,
-   "linear_p50": 0.031222,
-   "linear_p95": 0.218855,
-   "log_average_linear": 0.031813,
-   "median_linear": 0.031222,
+   "linear_p05": 0.003182,
+   "linear_p50": 0.031241,
+   "linear_p95": 0.218779,
+   "log_average_linear": 0.031817,
+   "median_linear": 0.031241,
    "metered": true,
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
-   "stops": 2.527,
-   "stops_unclamped": 2.527,
+   "stops": 2.526,
+   "stops_unclamped": 2.526,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
@@ -131,7 +131,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_barclays_center/render.png",
- "rendered_at": "2026-09-09T17:58:10Z",
+ "rendered_at": "2026-09-13T18:26:35Z",
  "resolution_note": "1280x720; the reference photograph is 1920x1080 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -162,7 +162,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 578870,
+   "pedestrian_triangles": 578839,
    "per_class": {
     "black_car": 2,
     "boro_taxi": 4,
@@ -174,7 +174,7 @@
    "placed_pedestrians": 334,
    "placed_vehicles": 50,
    "reason": null,
-   "seconds": 520.44,
+   "seconds": 885.5,
    "snapshot": {
     "building_footprints_tested": 7996,
     "density_lane_km": 28.097,
@@ -189,7 +189,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.9,
+     "load_seconds": 2.33,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -214,9 +214,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 906
    },
-   "snapshot_note": "cached -2321_-1791_18_0_7f8d2c512e059bb5_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1084002,
+   "triangles": 1083971,
    "vehicle_lods": {
     "LOD1": 10,
     "LOD2": 40
@@ -313,9 +313,9 @@
    -1791.29
   ],
   "kit": {
-   "capped": "triangle budget 1363289",
+   "capped": "triangle budget 1364208",
    "per_category": {
-    "bulkhead": 65,
+    "bulkhead": 66,
     "cornice": 54,
     "door_entry": 155,
     "fence": 24,
@@ -329,10 +329,10 @@
     "storefront_interior": 41,
     "string_course": 52,
     "water_tower": 1,
-    "window": 5536,
+    "window": 5540,
     "window_accessory": 296
    },
-   "placed": 7065,
+   "placed": 7070,
    "radius_m": 177.1723268289311,
    "records_in_range": 8648,
    "stale_registry_ids": {},
@@ -341,7 +341,7 @@
    "tiles_read": [
     "t_-3_-2"
    ],
-   "triangles": 1363338,
+   "triangles": 1364422,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -1005,6 +1005,7 @@
    },
    "capped": null,
    "dropped_for_budget": 0,
+   "dropped_on_suppressed_building": 2,
    "impostor_cards_dropped": 5,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -1020,7 +1021,7 @@
     "linknyc": 2,
     "newsstands": 1,
     "osm_newyork_pbf": 162,
-    "plan_cooling_towers": 151,
+    "plan_cooling_towers": 149,
     "plan_railroad_structure": 38,
     "rule:lamp_30_40m_alt": 148,
     "rule:manhole_40m": 136,
@@ -1033,7 +1034,7 @@
     "bus_shelter": 4,
     "bus_stop_sign": 16,
     "citibike_dock": 145,
-    "cooling_tower": 151,
+    "cooling_tower": 149,
     "hydrant": 82,
     "linknyc": 2,
     "mailbox": 2,
@@ -1045,7 +1046,7 @@
     "tree": 3260,
     "waste_basket": 13
    },
-   "placed": 4049,
+   "placed": 4047,
    "radius_m": 307.1723268289311,
    "rows_in_range": 4182,
    "tiles_missing": [],
@@ -1062,7 +1063,7 @@
    "tree_mean_scale": 0.926,
    "tree_scale_out_of_band": 8,
    "tree_species_substituted": 830,
-   "triangles": 987440,
+   "triangles": 986552,
    "unmapped_kinds": {
     "artwork": 1,
     "misc_structure": 1,
@@ -1072,7 +1073,7 @@
    }
   },
   "radius_m": 804.1275778999877,
-  "seconds": 807.07,
+  "seconds": 1170.59,
   "structures": {
    "imported": [
     "t_-3_-1",
@@ -1104,7 +1105,7 @@
    "z_max_m": 35.57,
    "z_min_m": -0.3
   },
-  "triangles": 4500049
+  "triangles": 4500214
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1114,34 +1115,34 @@
   "radius_m": 804.1275778999877
  },
  "seconds": {
-  "render": 117.0,
-  "scene": 815.8,
-  "total": 932.8
+  "render": 94.2,
+  "scene": 1183.9,
+  "total": 1278.1
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 20.1 m above its ground",
   "subject_blocked_at_m": 37.3,
   "subject_blocked_by": "prop_lamp_cobra_davit_18",
-  "subject_clear_fraction": 0.615,
-  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate",
-  "subject_fan_half_angle_deg": 22.32,
-  "subject_fan_m": 178.7,
+  "subject_clear_fraction": 0.692,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate; clipped to the frame, because a ray outside the picture tests something that is not in it",
+  "subject_fan_half_angle_deg": 27.22,
+  "subject_fan_m": 240.5,
   "subject_fan_tall_m": 40.2,
   "subject_fan_v_half_angle_deg": 5.27,
-  "subject_lands_at_m": 145.2,
+  "subject_lands_at_m": 144.6,
   "subject_lands_on": "lm_c_barclays_center.0",
   "subject_own_fabric_nearest": "lm_c_barclays_center.0",
-  "subject_own_fabric_nearest_m": 145.2,
+  "subject_own_fabric_nearest_m": 144.6,
   "subject_range_m": 217.7,
   "subject_rays": 13,
-  "subject_rays_clear": 8,
-  "subject_rays_into_nothing": 0,
-  "subject_rays_on_own_fabric_nearer_than_recorded": 6,
-  "subject_rays_on_subject": 8,
+  "subject_rays_clear": 9,
+  "subject_rays_into_nothing": 2,
+  "subject_rays_on_own_fabric_nearer_than_recorded": 7,
+  "subject_rays_on_subject": 7,
   "subject_reach_m": 25.0,
   "subject_verdict_rule": "at least one ray lands on the subject (J78)",
   "subject_visible": true,
-  "subject_visible_fraction": 0.615
+  "subject_visible_fraction": 0.538
  },
  "slug": "landmark_barclays_center",
  "status": "rendered",
@@ -1165,11 +1166,18 @@
   "name": "Barclays Center",
   "origin_distance_m": 216.8,
   "plan_extent": {
+   "across_bearing_deg": 130.4,
+   "axis_narrow_m": 184.3,
+   "axis_width_m": 188.7,
    "is_tile_mesh": false,
-   "narrow_m": 163.7,
-   "note": "the bounding box of the object the height was measured off",
+   "model": "lm_c_barclays_center",
+   "narrow_m": 250.0,
+   "note": "`part_width_m` is the box of lm_c_barclays_center.2 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 5 part(s) of lm_c_barclays_center, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_barclays_center.2",
-   "width_m": 178.7
+   "part_narrow_m": 242.2,
+   "part_width_m": 240.5,
+   "parts": 5,
+   "width_m": 248.3
   }
  },
  "sun": {

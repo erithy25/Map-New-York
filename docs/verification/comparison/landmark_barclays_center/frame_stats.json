@@ -1,6 +1,6 @@
 {
  "slug": "landmark_barclays_center",
- "rendered_at": "2026-09-09T17:58:10Z",
+ "rendered_at": "2026-09-13T18:26:35Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
@@ -9,7 +9,7 @@
   "height": 720,
   "mean": 0.5127,
   "sd": 0.2287,
-  "p05": 0.1527,
+  "p05": 0.1526,
   "p50": 0.4995,
   "p95": 0.8371,
   "chroma": 0.094,
