@@ -118,7 +118,7 @@
  "name": "Midtown drive-through: Sixth Avenue at 45th Street",
  "night": false,
  "pitch_reason": "level optical axis (the reference names no subject to aim at)",
- "record_shape": 1,
+ "record_shape": 2,
  "reference_photo": {
   "author": "Tdorante10",
   "confidence": "medium",
@@ -133,7 +133,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_midtown_sixth_ave_45th/render.png",
- "rendered_at": "2026-09-13T20:54:25Z",
+ "rendered_at": "2026-09-13T22:33:20Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -180,7 +180,7 @@
    "placed_pedestrians": 242,
    "placed_vehicles": 53,
    "reason": null,
-   "seconds": 491.8,
+   "seconds": 490.85,
    "snapshot": {
     "building_footprints_tested": 3441,
     "density_lane_km": 26.727,
@@ -1133,7 +1133,7 @@
    }
   },
   "radius_m": 755.2684846426243,
-  "seconds": 635.33,
+  "seconds": 627.78,
   "structures": {
    "imported": [
     "t_-2_6",
@@ -1169,9 +1169,9 @@
   "radius_m": 755.2684846426243
  },
  "seconds": {
-  "render": 161.8,
-  "scene": 639.8,
-  "total": 801.6
+  "render": 168.3,
+  "scene": 632.0,
+  "total": 800.3
  },
  "sightline": {
   "subject_note": "the item names no point subject",
