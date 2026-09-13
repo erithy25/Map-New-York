@@ -117,7 +117,7 @@
  "name": "Queens residential block: Forest Hills Gardens",
  "night": false,
  "pitch_reason": "level optical axis (the reference names no subject to aim at)",
- "record_shape": 1,
+ "record_shape": 2,
  "reference_photo": {
   "author": "XanderAi",
   "confidence": "medium",
@@ -132,7 +132,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_queens_forest_hills/render.png",
- "rendered_at": "2026-09-13T21:07:27Z",
+ "rendered_at": "2026-09-13T22:44:57Z",
  "resolution_note": "1280x720; the reference photograph is 1920x1081 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -176,7 +176,7 @@
    "placed_pedestrians": 407,
    "placed_vehicles": 65,
    "reason": null,
-   "seconds": 375.27,
+   "seconds": 348.72,
    "snapshot": {
     "building_footprints_tested": 7269,
     "density_lane_km": 29.388,
@@ -749,7 +749,7 @@
    }
   },
   "radius_m": 941.859275796482,
-  "seconds": 501.35,
+  "seconds": 480.41,
   "structures": {
    "imported": [
     "t_7_2",
@@ -793,9 +793,9 @@
   "radius_m": 941.859275796482
  },
  "seconds": {
-  "render": 266.9,
-  "scene": 510.8,
-  "total": 777.8
+  "render": 208.1,
+  "scene": 485.0,
+  "total": 693.1
  },
  "sightline": {
   "subject_note": "the item names no point subject",
