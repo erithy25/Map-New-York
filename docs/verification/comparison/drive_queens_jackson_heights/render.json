@@ -118,6 +118,7 @@
  "name": "Queens residential block: Jackson Heights side street with two-family homes",
  "night": false,
  "pitch_reason": "level optical axis (the reference names no subject to aim at)",
+ "record_shape": 1,
  "reference_photo": {
   "author": "Jim.henderson",
   "confidence": "medium",
@@ -132,7 +133,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_queens_jackson_heights/render.png",
- "rendered_at": "2026-09-13T14:46:33Z",
+ "rendered_at": "2026-09-13T21:15:12Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -176,7 +177,7 @@
    "placed_pedestrians": 375,
    "placed_vehicles": 69,
    "reason": null,
-   "seconds": 324.46,
+   "seconds": 377.92,
    "snapshot": {
     "building_footprints_tested": 11361,
     "density_lane_km": 25.799,
@@ -216,7 +217,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 243
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached 5865_5809_19_2_223071baa26ff7ef_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 1080703,
    "vehicle_lods": {
@@ -793,7 +794,7 @@
    }
   },
   "radius_m": 929.3418527179572,
-  "seconds": 446.37,
+  "seconds": 488.18,
   "structures": {
    "imported": [
     "t_4_5",
@@ -833,9 +834,9 @@
   "radius_m": 929.3418527179572
  },
  "seconds": {
-  "render": 87.9,
-  "scene": 451.1,
-  "total": 539.0
+  "render": 112.7,
+  "scene": 492.8,
+  "total": 605.4
  },
  "sightline": {
   "subject_note": "the item names no point subject",
