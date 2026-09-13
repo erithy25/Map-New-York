@@ -70,11 +70,21 @@ ARTEFACTS=(
 [ -d docs/verification/sheets ] && ARTEFACTS+=('docs/verification/sheets')
 CHANGED="$(git status --porcelain -- "${ARTEFACTS[@]}" 2>/dev/null | wc -l | tr -d ' ')"
 if [ "$CHANGED" != "0" ]; then
-    DECODE="$(python3 tools/png_decodes.py 2>&1 | tail -1)"
-    echo "decode: ${DECODE}"
-    case "$DECODE" in
-        *", 0 do not,"*) ;;
-        *) echo "decode: a changed PNG does not decode -- not committing, look at it by hand"; exit 1 ;;
+    # The guard tells a truncated PNG from one a render is still writing, because the right answer
+    # differs: a settled file that will not decode is a fault to look at, and a growing one is just
+    # this tick arriving mid-write.  Deferring costs nothing -- the next tick commits it -- while
+    # treating it as a fault costs a whole batch of finished sheets their commit, which is what
+    # happened once on this pass.
+    DECODE_OUT="$(python3 tools/png_decodes.py 2>&1)"
+    DECODE_RC=$?
+    echo "decode: $(printf '%s' "$DECODE_OUT" | tail -1)"
+    case "$DECODE_RC" in
+        0) ;;
+        2) echo "commit: deferred -- a render is still writing a sheet; the next tick will take it"
+           exit 0 ;;
+        *) printf '%s\n' "$DECODE_OUT" | grep '^TRUNCATED' || true
+           echo "decode: a changed PNG is truncated -- not committing, look at it by hand"
+           exit 1 ;;
     esac
     SLUGS="$(git status --porcelain -- "${ARTEFACTS[@]}" 2>/dev/null |
              sed 's|.*comparison/||; s|/.*||' | sort -u | tr '\n' ' ')"
