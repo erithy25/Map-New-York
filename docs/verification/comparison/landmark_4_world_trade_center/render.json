@@ -76,7 +76,7 @@
   "rule": "pavement snap with a clear frame that sees the subject",
   "scored_on_subject_sightline": true,
   "subject_sightline_at_choice": {
-   "subject_blocked_at_m": 21.7,
+   "subject_blocked_at_m": 22.7,
    "subject_blocked_by": "prop_tree_honeylocust_large_4",
    "subject_rays": 13,
    "subject_rays_on_subject": 6,
@@ -86,7 +86,7 @@
   "view_m": 90.1
  },
  "frame": {
-  "mean": 0.5257,
+  "mean": 0.5258,
   "reason": null,
   "sd": 0.1992,
   "usable": true
@@ -100,14 +100,14 @@
   "development": {
    "linear_p05": 0.000812,
    "linear_p50": 0.003984,
-   "linear_p95": 0.048261,
+   "linear_p95": 0.048271,
    "log_average_linear": 0.004826,
    "median_linear": 0.003984,
    "metered": true,
    "note": "under-lit: the scene needed +5.50 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
-   "stops": 5.497,
-   "stops_unclamped": 5.497,
+   "stops": 5.498,
+   "stops_unclamped": 5.498,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
@@ -144,7 +144,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_4_world_trade_center/render.png",
- "rendered_at": "2026-09-09T17:14:50Z",
+ "rendered_at": "2026-09-13T17:07:24Z",
  "resolution_note": "1280x800; the reference photograph is 1920x1200 (1.60:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -174,7 +174,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 577214,
+   "pedestrian_triangles": 577207,
    "per_class": {
     "black_car": 4,
     "boro_taxi": 5,
@@ -186,7 +186,7 @@
    "placed_pedestrians": 330,
    "placed_vehicles": 85,
    "reason": null,
-   "seconds": 216.32,
+   "seconds": 439.75,
    "snapshot": {
     "building_footprints_tested": 1416,
     "density_lane_km": 26.145,
@@ -201,7 +201,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.83,
+     "load_seconds": 2.15,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -226,9 +226,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 644
    },
-   "snapshot_note": "cached -5101_1082_9_0_69dbdf1c22507e12_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1082695,
+   "triangles": 1082688,
    "vehicle_lods": {
     "LOD1": 1,
     "LOD2": 84
@@ -298,7 +298,7 @@
    1081.81
   ],
   "kit": {
-   "capped": "triangle budget 966049",
+   "capped": "triangle budget 966058",
    "per_category": {
     "bulkhead": 12,
     "cornice": 11,
@@ -1095,21 +1095,22 @@
   },
   "props": {
    "canopy": {
-    "billboards": 84,
+    "billboards": 117,
     "card_missing_drawn_lod0": 0,
-    "dropped_for_budget": 2843,
+    "dropped_for_budget": 2810,
     "lod0": 93,
     "near_radius_m": 120.0,
     "procedural_dataset_id": "rule:woodland_canopy",
     "procedural_stems": 0,
     "radius_m": 640.314232914303,
     "rows_beyond_prop_radius": 2722,
-    "triangles": 504,
-    "yaw_by_rule": 177,
+    "triangles": 702,
+    "yaw_by_rule": 210,
     "yaw_rule": "a tree's yaw is not in any source: it is drawn from a hash of the stem's own position (SplitMix64 over the metre-rounded x, y), uniform over 360 deg, so the same tree is drawn the same way in every render and no two neighbours share a silhouette; a rule, not a measurement"
    },
    "capped": "triangle budget 1103168",
-   "dropped_for_budget": 3118,
+   "dropped_for_budget": 3080,
+   "dropped_on_suppressed_building": 11,
    "impostor_cards_dropped": 3,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -1122,31 +1123,31 @@
     "gtfs_bus": 10,
     "hydrants": 50,
     "newsstands": 2,
-    "osm_newyork_pbf": 344,
-    "plan_cooling_towers": 79,
-    "plan_railroad_structure": 23,
+    "osm_newyork_pbf": 380,
+    "plan_cooling_towers": 68,
+    "plan_railroad_structure": 25,
     "rule:manhole_40m": 69,
     "street_trees_2015": 14,
     "subway_entrances": 25
    },
    "per_kind": {
-    "bench": 17,
+    "bench": 19,
     "bike_rack": 14,
     "bus_stop_sign": 10,
     "citibike_dock": 201,
-    "cooling_tower": 79,
+    "cooling_tower": 68,
     "flagpole": 12,
     "hydrant": 50,
     "mailbox": 2,
     "manhole": 69,
     "newsstand": 2,
-    "street_lamp": 122,
+    "street_lamp": 123,
     "subway_entrance": 25,
-    "subway_vent_grate": 23,
-    "tree": 177,
+    "subway_vent_grate": 25,
+    "tree": 210,
     "waste_basket": 14
    },
-   "placed": 817,
+   "placed": 844,
    "radius_m": 250.0,
    "rows_in_range": 4085,
    "tiles_missing": [],
@@ -1156,18 +1157,18 @@
     "t_-6_0",
     "t_-6_1"
    ],
-   "tree_instances_scaled": 176,
-   "tree_mean_scale": 0.91,
+   "tree_instances_scaled": 209,
+   "tree_mean_scale": 0.919,
    "tree_scale_out_of_band": 1,
-   "tree_species_substituted": 163,
-   "triangles": 1103166,
+   "tree_species_substituted": 196,
+   "triangles": 1103164,
    "unmapped_kinds": {
     "artwork": 4,
     "memorial": 8
    }
   },
   "radius_m": 640.314232914303,
-  "seconds": 295.62,
+  "seconds": 608.68,
   "structures": {
    "imported": [
     "t_-5_0",
@@ -1220,7 +1221,7 @@
    "z_max_m": 13.82,
    "z_min_m": -1.63
   },
-  "triangles": 4500047
+  "triangles": 4500038
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1230,18 +1231,18 @@
   "radius_m": 640.314232914303
  },
  "seconds": {
-  "render": 129.4,
-  "scene": 299.3,
-  "total": 428.7
+  "render": 151.2,
+  "scene": 617.4,
+  "total": 768.6
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 148.6 m above its ground",
-  "subject_blocked_at_m": 21.7,
+  "subject_blocked_at_m": 22.7,
   "subject_blocked_by": "prop_tree_honeylocust_large_4",
   "subject_clear_fraction": 0.692,
-  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate; clipped to the frame, because a ray outside the picture tests something that is not in it",
-  "subject_fan_half_angle_deg": 12.32,
-  "subject_fan_m": 90.9,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate, not the 446.9 m of the whole model around it, which is the site rather than the subject (J113); clipped to the frame, because a ray outside the picture tests something that is not in it",
+  "subject_fan_half_angle_deg": 16.53,
+  "subject_fan_m": 123.6,
   "subject_fan_tall_m": 297.2,
   "subject_fan_v_half_angle_deg": 32.01,
   "subject_lands_at_m": 119.1,
@@ -1251,8 +1252,8 @@
   "subject_range_m": 208.1,
   "subject_rays": 13,
   "subject_rays_clear": 9,
-  "subject_rays_into_nothing": 2,
-  "subject_rays_on_own_fabric_nearer_than_recorded": 5,
+  "subject_rays_into_nothing": 1,
+  "subject_rays_on_own_fabric_nearer_than_recorded": 4,
   "subject_rays_on_subject": 6,
   "subject_reach_m": 25.0,
   "subject_verdict_rule": "at least one ray lands on the subject (J78)",
@@ -1282,11 +1283,18 @@
   "name": "4 World Trade Center",
   "origin_distance_m": 150.2,
   "plan_extent": {
+   "across_bearing_deg": 300.0,
+   "axis_narrow_m": 294.9,
+   "axis_width_m": 434.1,
    "is_tile_mesh": false,
-   "narrow_m": 89.7,
-   "note": "the bounding box of the object the height was measured off",
+   "model": "lm_b_wtc_site",
+   "narrow_m": 370.2,
+   "note": "`part_width_m` is the box of lm_b_wtc_site.241 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 247 part(s) of lm_b_wtc_site, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_b_wtc_site.241",
-   "width_m": 90.9
+   "part_narrow_m": 123.1,
+   "part_width_m": 123.6,
+   "parts": 247,
+   "width_m": 446.9
   }
  },
  "sun": {

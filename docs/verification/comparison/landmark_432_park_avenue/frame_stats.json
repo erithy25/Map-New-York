@@ -1,19 +1,19 @@
 {
  "slug": "landmark_432_park_avenue",
- "rendered_at": "2026-09-09T17:07:38Z",
+ "rendered_at": "2026-09-13T16:54:31Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.4482,
-  "sd": 0.218,
-  "p05": 0.1135,
-  "p50": 0.4986,
-  "p95": 0.786,
+  "mean": 0.4481,
+  "sd": 0.2179,
+  "p05": 0.1133,
+  "p50": 0.4985,
+  "p95": 0.7864,
   "chroma": 0.0979,
-  "exposure_offset_stops": 0.241
+  "exposure_offset_stops": 0.24
  },
  "reference": {
   "width": 1920,
@@ -31,7 +31,7 @@
   "sd": 0.784,
   "p50": 1.034,
   "chroma": 1.337,
-  "exposure_offset_stops": 0.105,
+  "exposure_offset_stops": 0.104,
   "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

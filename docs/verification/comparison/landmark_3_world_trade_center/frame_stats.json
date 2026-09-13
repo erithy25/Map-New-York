@@ -1,6 +1,6 @@
 {
  "slug": "landmark_3_world_trade_center",
- "rendered_at": "2026-09-09T17:01:24Z",
+ "rendered_at": "2026-09-13T16:43:41Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",

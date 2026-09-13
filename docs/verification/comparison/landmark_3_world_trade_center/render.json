@@ -67,9 +67,9 @@
    0.0
   ],
   "nearest_obstruction_m": 12.1,
-  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 13 m ahead, less than the 54 m this frame needs to show its subject; the camera was moved 70 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 65 m from there, and the nearest built thing in the frame is prop_lamp_cobra_davit_64 12.1 m away at +37 deg yaw, +0 deg pitch, and the nearest simulated agent is agent_veh_camry_black_car_634 4.6 m away",
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 2 m ahead, less than the 54 m this frame needs to show its subject; the camera was moved 70 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 65 m from there, and the nearest built thing in the frame is prop_lamp_cobra_davit_64 12.1 m away at +37 deg yaw, +0 deg pitch, and no simulated agent stands within 20 m of it",
   "offset_m": 69.5,
-  "reason": "boxed in: the view azimuth is closed off 13 m ahead, less than the 54 m this frame needs to show its subject",
+  "reason": "boxed in: the view azimuth is closed off 2 m ahead, less than the 54 m this frame needs to show its subject",
   "rule": "pavement snap with a clear frame that sees the subject",
   "scored_on_subject_sightline": true,
   "subject_sightline_at_choice": {
@@ -95,11 +95,11 @@
  "lighting": {
   "background_strength": 0.0318869985640049,
   "development": {
-   "linear_p05": 0.006917,
-   "linear_p50": 0.047416,
-   "linear_p95": 0.27354,
-   "log_average_linear": 0.051206,
-   "median_linear": 0.047416,
+   "linear_p05": 0.006908,
+   "linear_p50": 0.047413,
+   "linear_p95": 0.273514,
+   "log_average_linear": 0.051214,
+   "median_linear": 0.047413,
    "metered": true,
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
    "stops": 1.925,
@@ -140,7 +140,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_3_world_trade_center/render.png",
- "rendered_at": "2026-09-09T17:01:24Z",
+ "rendered_at": "2026-09-13T16:43:41Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -176,7 +176,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 577812,
+   "pedestrian_triangles": 577803,
    "per_class": {
     "black_car": 2,
     "boro_taxi": 5,
@@ -189,7 +189,7 @@
    "placed_pedestrians": 424,
    "placed_vehicles": 88,
    "reason": null,
-   "seconds": 263.16,
+   "seconds": 501.16,
    "snapshot": {
     "building_footprints_tested": 1416,
     "density_lane_km": 25.586,
@@ -204,7 +204,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.72,
+     "load_seconds": 2.1,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -229,9 +229,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 640
    },
-   "snapshot_note": "cached -5099_1200_12_0_736484dc294bf207_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1083174,
+   "triangles": 1083165,
    "vehicle_lods": {
     "LOD2": 89
    },
@@ -300,7 +300,7 @@
    1199.85
   ],
   "kit": {
-   "capped": "triangle budget 995402",
+   "capped": "triangle budget 995411",
    "per_category": {
     "antenna": 3,
     "bulkhead": 5,
@@ -1091,21 +1091,22 @@
   },
   "props": {
    "canopy": {
-    "billboards": 273,
+    "billboards": 301,
     "card_missing_drawn_lod0": 0,
-    "dropped_for_budget": 2249,
+    "dropped_for_budget": 2221,
     "lod0": 56,
     "near_radius_m": 120.0,
     "procedural_dataset_id": "rule:woodland_canopy",
     "procedural_stems": 0,
     "radius_m": 595.6887021021869,
     "rows_beyond_prop_radius": 2150,
-    "triangles": 1638,
-    "yaw_by_rule": 329,
+    "triangles": 1806,
+    "yaw_by_rule": 357,
     "yaw_rule": "a tree's yaw is not in any source: it is drawn from a hash of the stem's own position (SplitMix64 over the metre-rounded x, y), uniform over 360 deg, so the same tree is drawn the same way in every render and no two neighbours share a silhouette; a rule, not a measurement"
    },
    "capped": "triangle budget 1119232",
-   "dropped_for_budget": 2471,
+   "dropped_for_budget": 2440,
+   "dropped_on_suppressed_building": 7,
    "impostor_cards_dropped": 4,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -1114,39 +1115,39 @@
    "leaf_off": true,
    "per_dataset": {
     "citibike_gbfs_station_status": 36,
-    "citibike_gbfs_stations": 348,
+    "citibike_gbfs_stations": 349,
     "gtfs_bus": 16,
-    "hydrants": 62,
+    "hydrants": 63,
     "newsstands": 2,
-    "osm_newyork_pbf": 578,
-    "plan_cooling_towers": 77,
+    "osm_newyork_pbf": 606,
+    "plan_cooling_towers": 70,
     "plan_railroad_structure": 33,
     "rule:lamp_30_40m_alt": 7,
     "rule:manhole_40m": 105,
     "rule:steam_vent_400m_manhattan_below_96": 1,
     "street_trees_2015": 22,
-    "subway_entrances": 38
+    "subway_entrances": 39
    },
    "per_kind": {
     "bench": 43,
     "bike_rack": 17,
     "bus_stop_sign": 16,
-    "citibike_dock": 384,
-    "cooling_tower": 77,
+    "citibike_dock": 385,
+    "cooling_tower": 70,
     "flagpole": 14,
-    "hydrant": 62,
+    "hydrant": 63,
     "mailbox": 3,
     "manhole": 105,
     "newsstand": 2,
     "steam_vent": 1,
     "street_lamp": 178,
     "subway_emergency_exit": 1,
-    "subway_entrance": 38,
+    "subway_entrance": 39,
     "subway_vent_grate": 32,
-    "tree": 329,
+    "tree": 357,
     "waste_basket": 23
    },
-   "placed": 1325,
+   "placed": 1349,
    "radius_m": 272.4721500554868,
    "rows_in_range": 3967,
    "tiles_missing": [],
@@ -1156,10 +1157,10 @@
     "t_-6_0",
     "t_-6_1"
    ],
-   "tree_instances_scaled": 328,
-   "tree_mean_scale": 0.83,
+   "tree_instances_scaled": 356,
+   "tree_mean_scale": 0.818,
    "tree_scale_out_of_band": 1,
-   "tree_species_substituted": 307,
+   "tree_species_substituted": 335,
    "triangles": 1119232,
    "unmapped_kinds": {
     "artwork": 6,
@@ -1168,7 +1169,7 @@
    }
   },
   "radius_m": 595.6887021021869,
-  "seconds": 352.92,
+  "seconds": 622.59,
   "structures": {
    "imported": [
     "t_-5_0",
@@ -1221,7 +1222,7 @@
    "z_max_m": 13.82,
    "z_min_m": -1.86
   },
-  "triangles": 4500244
+  "triangles": 4500235
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1231,21 +1232,21 @@
   "radius_m": 595.6887021021869
  },
  "seconds": {
-  "render": 153.4,
-  "scene": 394.6,
-  "total": 548.1
+  "render": 122.8,
+  "scene": 680.9,
+  "total": 803.7
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 164.6 m above its ground",
   "subject_blocked_at_m": 14.7,
   "subject_blocked_by": "prop_tree_littleleaf_linden_medium_bare_45",
   "subject_clear_fraction": 0.077,
-  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate",
-  "subject_fan_half_angle_deg": 12.84,
-  "subject_fan_m": 99.9,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate, not the 438.8 m of the whole model around it, which is the site rather than the subject (J113)",
+  "subject_fan_half_angle_deg": 13.78,
+  "subject_fan_m": 107.5,
   "subject_fan_tall_m": 329.3,
   "subject_fan_v_half_angle_deg": 36.94,
-  "subject_lands_at_m": 224.7,
+  "subject_lands_at_m": 233.3,
   "subject_lands_on": "lm_b_wtc_site.239",
   "subject_own_fabric_nearest": null,
   "subject_own_fabric_nearest_m": null,
@@ -1283,11 +1284,18 @@
   "name": "3 World Trade Center",
   "origin_distance_m": 108.3,
   "plan_extent": {
+   "across_bearing_deg": 277.9,
+   "axis_narrow_m": 294.9,
+   "axis_width_m": 434.1,
    "is_tile_mesh": false,
-   "narrow_m": 94.6,
-   "note": "the bounding box of the object the height was measured off",
+   "model": "lm_b_wtc_site",
+   "narrow_m": 318.5,
+   "note": "`part_width_m` is the box of lm_b_wtc_site.238 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 247 part(s) of lm_b_wtc_site, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_b_wtc_site.238",
-   "width_m": 99.9
+   "part_narrow_m": 112.0,
+   "part_width_m": 107.5,
+   "parts": 247,
+   "width_m": 438.8
   }
  },
  "sun": {

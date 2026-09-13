@@ -74,9 +74,9 @@
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.4463,
+  "mean": 0.4462,
   "reason": null,
-  "sd": 0.2184,
+  "sd": 0.2183,
   "usable": true
  },
  "frame_retry": null,
@@ -87,15 +87,15 @@
   "background_strength": 0.040363527834415436,
   "development": {
    "linear_p05": 0.000256,
-   "linear_p50": 0.003863,
-   "linear_p95": 0.01913,
-   "log_average_linear": 0.002682,
-   "median_linear": 0.003863,
+   "linear_p50": 0.003868,
+   "linear_p95": 0.019125,
+   "log_average_linear": 0.002684,
+   "median_linear": 0.003868,
    "metered": true,
    "note": "under-lit: the scene needed +5.54 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
-   "stops": 5.542,
-   "stops_unclamped": 5.542,
+   "stops": 5.54,
+   "stops_unclamped": 5.54,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
@@ -132,7 +132,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_432_park_avenue/render.png",
- "rendered_at": "2026-09-09T17:07:38Z",
+ "rendered_at": "2026-09-13T16:54:31Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -160,7 +160,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 577302,
+   "pedestrian_triangles": 577313,
    "per_class": {
     "black_car": 3,
     "boro_taxi": 10,
@@ -174,7 +174,7 @@
    "placed_pedestrians": 306,
    "placed_vehicles": 58,
    "reason": null,
-   "seconds": 234.85,
+   "seconds": 462.43,
    "snapshot": {
     "building_footprints_tested": 1602,
     "density_lane_km": 32.014,
@@ -189,7 +189,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.64,
+     "load_seconds": 2.13,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -214,9 +214,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 1383
    },
-   "snapshot_note": "cached -1932_6461_8_0_ca8a3574185a6969_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1083026,
+   "triangles": 1083037,
    "vehicle_lods": {
     "LOD1": 8,
     "LOD2": 50
@@ -322,7 +322,7 @@
    6460.84
   ],
   "kit": {
-   "capped": "triangle budget 352793",
+   "capped": "triangle budget 352780",
    "per_category": {
     "quoin": 2,
     "window": 2471
@@ -1140,21 +1140,22 @@
   },
   "props": {
    "canopy": {
-    "billboards": 48,
+    "billboards": 47,
     "card_missing_drawn_lod0": 0,
-    "dropped_for_budget": 4880,
+    "dropped_for_budget": 4881,
     "lod0": 69,
     "near_radius_m": 120.0,
     "procedural_dataset_id": "rule:woodland_canopy",
     "procedural_stems": 0,
     "radius_m": 1065.47512167475,
     "rows_beyond_prop_radius": 4789,
-    "triangles": 288,
-    "yaw_by_rule": 117,
+    "triangles": 282,
+    "yaw_by_rule": 116,
     "yaw_rule": "a tree's yaw is not in any source: it is drawn from a hash of the stem's own position (SplitMix64 over the metre-rounded x, y), uniform over 360 deg, so the same tree is drawn the same way in every render and no two neighbours share a silhouette; a rule, not a measurement"
    },
    "capped": "triangle budget 773131",
-   "dropped_for_budget": 5454,
+   "dropped_for_budget": 5453,
+   "dropped_on_suppressed_building": 5,
    "impostor_cards_dropped": 7,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -1169,31 +1170,31 @@
     "linknyc": 1,
     "newsstands": 2,
     "osm_newyork_pbf": 14,
-    "plan_cooling_towers": 40,
+    "plan_cooling_towers": 35,
     "plan_railroad_structure": 19,
-    "rule:lamp_30_40m_alt": 58,
+    "rule:lamp_30_40m_alt": 59,
     "rule:manhole_40m": 48,
     "rule:steam_vent_400m_manhattan_below_96": 3,
-    "street_trees_2015": 111,
-    "subway_entrances": 13
+    "street_trees_2015": 110,
+    "subway_entrances": 14
    },
    "per_kind": {
     "bike_rack": 7,
     "bus_stop_sign": 1,
     "citibike_dock": 181,
-    "cooling_tower": 40,
+    "cooling_tower": 35,
     "hydrant": 25,
     "linknyc": 1,
     "manhole": 48,
     "newsstand": 2,
     "steam_vent": 3,
-    "street_lamp": 58,
-    "subway_entrance": 13,
+    "street_lamp": 59,
+    "subway_entrance": 14,
     "subway_vent_grate": 19,
-    "tree": 117,
+    "tree": 116,
     "waste_basket": 1
    },
-   "placed": 516,
+   "placed": 512,
    "radius_m": 275.33908713550574,
    "rows_in_range": 6132,
    "tiles_missing": [],
@@ -1207,11 +1208,11 @@
     "t_-3_6",
     "t_-3_7"
    ],
-   "tree_instances_scaled": 117,
-   "tree_mean_scale": 0.855,
+   "tree_instances_scaled": 116,
+   "tree_mean_scale": 0.852,
    "tree_scale_out_of_band": 0,
    "tree_species_substituted": 42,
-   "triangles": 773128,
+   "triangles": 773130,
    "unmapped_kinds": {
     "drinking_fountain": 1,
     "payphone": 3,
@@ -1219,7 +1220,7 @@
    }
   },
   "radius_m": 1065.47512167475,
-  "seconds": 280.56,
+  "seconds": 553.2,
   "structures": {
    "imported": [
     "t_-1_5",
@@ -1278,7 +1279,7 @@
    "z_max_m": 26.01,
    "z_min_m": -0.0
   },
-  "triangles": 4500273
+  "triangles": 4500286
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1288,9 +1289,9 @@
   "radius_m": 1065.47512167475
  },
  "seconds": {
-  "render": 87.6,
-  "scene": 282.6,
-  "total": 370.2
+  "render": 87.9,
+  "scene": 557.6,
+  "total": 645.5
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 60.1 m above its ground",
@@ -1340,11 +1341,18 @@
   "name": "432 Park Avenue",
   "origin_distance_m": 400.1,
   "plan_extent": {
+   "across_bearing_deg": 18.2,
+   "axis_narrow_m": 1047.1,
+   "axis_width_m": 1063.5,
    "is_tile_mesh": true,
-   "narrow_m": 1047.1,
+   "model": "t_-2_6_glass_curtain",
+   "narrow_m": 1337.8,
    "note": "a tile mesh is every building of one material in the tile, so its extent is not the subject's and is not used",
    "object": "t_-2_6_glass_curtain",
-   "width_m": 1063.5
+   "part_narrow_m": 1337.8,
+   "part_width_m": 1327.4,
+   "parts": 1,
+   "width_m": 1327.4
   }
  },
  "sun": {
