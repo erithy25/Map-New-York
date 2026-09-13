@@ -65,7 +65,7 @@
    0.0
   ],
   "nearest_obstruction_m": 1.9,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_lamp_cobra_davit_0 1.9 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 115 m",
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_lamp_cobra_davit_0 1.9 m away, and the probe found no simulated agent on its rays across this frame within 60 m, and the view azimuth is clear for 115 m",
   "offset_m": 0.0,
   "view_m": 115.5
  },
@@ -113,6 +113,7 @@
  "name": "10 Hudson Yards",
  "night": false,
  "pitch_reason": "level optical axis (the subject is 315 m away; anything that far is photographed with a level camera)",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Jim.henderson",
   "confidence": "high",
@@ -127,7 +128,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_10_hudson_yards/render.png",
- "rendered_at": "2026-09-13T15:14:02Z",
+ "rendered_at": "2026-09-13T23:17:36Z",
  "resolution_note": "712x1534; the reference photograph is 1920x4134 (0.46:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -175,7 +176,7 @@
    "placed_pedestrians": 304,
    "placed_vehicles": 73,
    "reason": null,
-   "seconds": 523.0,
+   "seconds": 451.6,
    "snapshot": {
     "building_footprints_tested": 2663,
     "density_lane_km": 30.038,
@@ -215,7 +216,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 381
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -4011_5723_9_2_a92e516376e6569d_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 1082850,
    "vehicle_lods": {
@@ -1154,7 +1155,7 @@
    }
   },
   "radius_m": 1017.7315991143414,
-  "seconds": 702.42,
+  "seconds": 636.21,
   "structures": {
    "imported": [
     "t_-5_4",
@@ -1203,9 +1204,9 @@
   "radius_m": 1017.7315991143414
  },
  "seconds": {
-  "render": 130.8,
-  "scene": 711.0,
-  "total": 841.8
+  "render": 164.6,
+  "scene": 642.8,
+  "total": 807.4
  },
  "sightline": {
   "subject_note": "nothing built stands within 6 m of the subject's coordinate; the nearest built thing is lm_c_hudson_yards.3, 11 m away at bearing 292 deg, so the coordinate the item records is that far off the fabric it names; no sightline was tested",
