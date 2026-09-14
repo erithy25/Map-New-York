@@ -67,7 +67,7 @@
    0.0
   ],
   "nearest_obstruction_m": 12.1,
-  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 2 m ahead, less than the 54 m this frame needs to show its subject; the camera was moved 70 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 65 m from there, and the nearest built thing in the frame is prop_lamp_cobra_davit_64 12.1 m away at +37 deg yaw, +0 deg pitch, and no simulated agent stands within 20 m of it",
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 2 m ahead, less than the 54 m this frame needs to show its subject; the camera was moved 70 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 65 m from there, and the nearest built thing in the frame is prop_lamp_cobra_davit_64 12.1 m away at +37 deg yaw, +0 deg pitch, and the probe found no simulated agent on its rays across this frame within 20 m",
   "offset_m": 69.5,
   "reason": "boxed in: the view azimuth is closed off 2 m ahead, less than the 54 m this frame needs to show its subject",
   "rule": "pavement snap with a clear frame that sees the subject",
@@ -126,6 +126,7 @@
  "name": "3 World Trade Center",
  "night": false,
  "pitch_reason": "tilted +32.0 deg to contain the subject: the top of lm_b_wtc_site.238, the built thing standing at the subject's coordinate, 330 m above the ground there tops out 325 m above the lens 108 m away, 72 deg above the horizon, and the frame is only 90 deg tall at 18 mm. **The verticals converge, so this frame is not comparable with the photograph on proportion** -- it is here to show the subject at all",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Kidfly182",
   "confidence": "high",
@@ -140,7 +141,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_3_world_trade_center/render.png",
- "rendered_at": "2026-09-13T16:43:41Z",
+ "rendered_at": "2026-09-14T00:05:19Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -189,7 +190,7 @@
    "placed_pedestrians": 424,
    "placed_vehicles": 88,
    "reason": null,
-   "seconds": 501.16,
+   "seconds": 489.17,
    "snapshot": {
     "building_footprints_tested": 1416,
     "density_lane_km": 25.586,
@@ -229,7 +230,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 640
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -5099_1200_12_0_736484dc294bf207_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 1083165,
    "vehicle_lods": {
@@ -1169,7 +1170,7 @@
    }
   },
   "radius_m": 595.6887021021869,
-  "seconds": 622.59,
+  "seconds": 584.47,
   "structures": {
    "imported": [
     "t_-5_0",
@@ -1232,9 +1233,9 @@
   "radius_m": 595.6887021021869
  },
  "seconds": {
-  "render": 122.8,
-  "scene": 680.9,
-  "total": 803.7
+  "render": 157.5,
+  "scene": 615.2,
+  "total": 772.6
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 164.6 m above its ground",
@@ -1285,17 +1286,17 @@
   "origin_distance_m": 108.3,
   "plan_extent": {
    "across_bearing_deg": 277.9,
-   "axis_narrow_m": 294.9,
-   "axis_width_m": 434.1,
    "is_tile_mesh": false,
    "model": "lm_b_wtc_site",
-   "narrow_m": 318.5,
-   "note": "`part_width_m` is the box of lm_b_wtc_site.238 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 247 part(s) of lm_b_wtc_site, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
+   "model_axis_narrow_m": 294.9,
+   "model_axis_width_m": 434.1,
+   "model_narrow_m": 318.5,
+   "model_width_m": 438.8,
+   "narrow_m": 112.0,
+   "note": "`width_m` and `narrow_m` are the box of lm_b_wtc_site.238 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 247 part(s) of lm_b_wtc_site, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_b_wtc_site.238",
-   "part_narrow_m": 112.0,
-   "part_width_m": 107.5,
    "parts": 247,
-   "width_m": 438.8
+   "width_m": 107.5
   }
  },
  "sun": {
