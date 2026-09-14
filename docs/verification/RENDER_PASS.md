@@ -205,15 +205,39 @@ field by field and pixel by pixel:
 | `sheet.png` | **byte-identical** |
 | `scene.agents.snapshot_note` | the previous render simulated the crowd, this one read the same snapshot from cache — same hash, and every agent count unchanged |
 
-So **Cycles reproduces these frames exactly**, 64 samples and all, and a re-render changes no
-evidence. Two things follow. The 1.9 hours spent re-rendering the 16 sheets that were already right
-buys a uniform corpus and costs nothing in fidelity — no sheet's picture or figure moves under it.
-And more usefully: **this pass is reproducible.** A reader who doubts a sheet can rebuild it and get
-the same picture, which is a stronger claim than a verification corpus usually gets to make, and it
-is the reason an assessment whose record came back unchanged is *re-read with the diff as evidence*
-rather than rewritten. Those re-reads carry the comparison in a `## Re-read against the re-rendered
-record` section, with the previous render's timings declared so a reader can check the claim instead
-of taking it.
+So **Cycles reproduces a frame exactly**, 64 samples and all, *given the same scene* — and that
+proviso turned out to matter. An assessment whose record came back unchanged is therefore *re-read
+with the diff as evidence* rather than rewritten, in a `## Re-read against the re-rendered record`
+section with the previous render's timings declared so a reader can check the claim instead of
+taking it.
+
+**The claim as first written here was too broad, and the correction is measured.** It said "this
+pass is reproducible". Of the 27 sheets finished at that point, **11** re-rendered from a *cached*
+agent snapshot that their previous render had *simulated* and written — and **5 of those 11 did not
+reproduce the crowd they were written from**:
+
+| sheet | pedestrian triangles | change |
+|---|---|---|
+| `landmark_55_hudson_yards` | 579,533 → 579,548 | **+15** |
+| `landmark_40_wall_street` | 579,689 → 579,702 | +13 |
+| `landmark_50_hudson_yards` | 579,144 → 579,154 | +10 |
+| `landmark_4_world_trade_center` | 577,207 → 577,214 | +7 |
+| `landmark_53w53` | 578,947 → 578,948 | +1 |
+
+Everything the record publishes about *which* agents are drawn is identical on all five — the same
+`placed_pedestrians`, the same `per_class`, the same LOD mix, the same `dropped` tally — so the
+difference is in something the record does not publish, and the only changed input is the snapshot's
+provenance. **Always more triangles, never fewer**, on five of five, which is suggestive rather than
+conclusive at that count. The effect propagates: +15 triangles of crowd took 15 off the kit budget
+(1,193,206 → 1,193,191), moved the frame's linear median in the fourth decimal and with it the
+metered exposure, 5.991 → 5.992 stops. Recorded as **DEVIATIONS J121**, open.
+
+What survives of the claim, stated exactly: **a scene built twice from the same snapshot renders to
+the same pixels**, and that is what the 20 sheets that came back identical demonstrate and what the
+re-read footers rest on — each of those states the comparison for its own sheet, and none of them
+covers a sheet whose crowd moved, because the tool refuses those. What does *not* survive is that a
+sheet can be rebuilt from the catalogue and give the same numbers: whether its crowd was simulated
+or read back changes them in the fourth decimal.
 
 ## v16 — every sheet, once more, under the probes and the development that the v15 pass measured
 
