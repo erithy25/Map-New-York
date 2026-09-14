@@ -4,28 +4,54 @@
 
 **Reference** — File:Central Park Tower 2020-03 jeh.jpg by Jim.henderson, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), taken 2020-03-15 17:14:27, 1920x3413. [Commons page](https://commons.wikimedia.org/wiki/File:Central_Park_Tower_2020-03_jeh.jpg) — the photograph's own view direction is derived from the image at **high** confidence.
 
-**Camera** — 40.76517, -73.98125 (NYC_TM -2698, 7275) at z 24.8 m NAVD88 | azimuth 10.0°, pitch +15.2° | 18 mm on 36 mm (58.7° horizontal, 90.0° vertical, portrait) | 784x1394. The camera stands on **the item's recorded viewpoint**: this photograph's own EXIF GPS is **559.7 m** away, past the 250 m at which it could still be the same view. The recorded azimuth of 10.0° agrees with the bearing to the subject to **0.1°**. The lens was **widened from 35 mm to the 18 mm floor** and the axis tilted **+15.2°**, and the top of the subject is still cut off: `lm_c_billionaires_row.23` stands 283 m above the lens at 200 m, **55° above the horizon**. **The verticals converge, so this frame is not comparable with the photograph on proportion.** The recorded viewpoint was **boxed in** — the azimuth closed **52 m** ahead against the **80 m** needed — so the camera was **moved 69.3 m** onto the nearest surveyed sidewalk polygon, scored on the subject's sightline, which returned 1 of 13 rays at the chosen point and was still the best available. From there the azimuth is clear for **96 m**, **nothing built stands within 20 m of the lens**, and the nearest agent is 19.6 m away. Ground under the camera reads **23.167 m** NAVD88, the 10th percentile of **113** heightmap samples within 12 m, range 23.06 to 23.45 m.
+**Camera** — 40.76517, -73.98125 (NYC_TM -2698, 7275) at z 24.8 m NAVD88 | azimuth 10.0°, pitch +15.2° | 18 mm on 36 mm (58.7° horizontal, 90.0° vertical, portrait) | 784x1394. The camera stands on **the item's recorded viewpoint**: this photograph's own EXIF GPS is **559.7 m** away, past the 250 m at which it could still be the same view. The recorded azimuth of 10.0° agrees with the bearing to the subject to **0.1°**. The lens was **widened from 35 mm to the 18 mm floor** and the axis tilted **+15.2°**, and the top of the subject is still cut off: `lm_c_billionaires_row.23` stands 283 m above the lens at 200 m, **55° above the horizon**. **The verticals converge, so this frame is not comparable with the photograph on proportion.** The recorded viewpoint was **boxed in** — the azimuth closed **52 m** ahead against the **80 m** needed — so the camera was **moved 69.3 m** onto the nearest surveyed sidewalk polygon, scored on the subject's sightline, which returned 1 of 13 rays at the chosen point and was still the best available. From there the azimuth is clear for **96 m**, **nothing built stands on the probe's rays across this frame within 20 m of the lens** (J120), and the nearest agent is 19.6 m away. Ground under the camera reads **23.167 m** NAVD88, the 10th percentile of **113** heightmap samples within 12 m, range 23.06 to 23.45 m.
 
-**Sun** — azimuth 249.9°, elevation 19.4° at 2020-03-15T17:14:27−04:00, from the photograph's own **EXIF DateTimeOriginal**; 642.8 W/m² direct normal, sky at strength 0.0412, Filmic, **+5.18 stops**, declared: *under-lit: the scene needed +5.18 stops to read as a picture, more than the 4 a photographer recovers hand-held*. The linear frame's median is **0.00498** against a target of 0.18; the physical rule would have given **+1.17 stops** (J83).
+**Sun** — azimuth 249.9°, elevation 19.4° at 2020-03-15T17:14:27−04:00, from the photograph's own **EXIF DateTimeOriginal**; 642.8 W/m² direct normal, sky at strength 0.0412, Filmic, **+5.18 stops**, declared: *under-lit: the scene needed +5.18 stops to read as a picture, more than the 4 a photographer recovers hand-held*. The linear frame's median is **0.004973** against a target of 0.18; the physical rule would have given **+1.17 stops** (J83).
 
-**In the scene** — 4,500,031 triangles: 6 building tiles (314,652 tris, none missing, none LOD-substituted), 10 landmark models of which 3 fall inside the 58.7° frame — **none of them the subject** — 24,926 pavement polygons with **0 dropped**, 2,947 props, 6,299 kit pieces, 22 park-ground meshes over 295 surfaces with **2,814 faces cut** for landmark ground, 2 structures tiles (21,504 tris), 76 vehicles and 331 people, terrain 88,046 tris at 2.0 m near / 40.0 m far with no holes.
+**In the scene** — 4,500,028 triangles: 6 building tiles (314,652 tris, none missing, none LOD-substituted), 10 landmark models of which 3 fall inside the 58.7° frame — **none of them the subject** — 24,926 pavement polygons with **0 dropped**, 2,947 props, 6,299 kit pieces, 22 park-ground meshes over 295 surfaces with **2,814 faces cut** for landmark ground, 2 structures tiles (21,504 tris), 76 vehicles and 331 people, terrain 88,046 tris at 2.0 m near / 40.0 m far with no holes.
 
 ## Verdict — the reference is a building site with a tower crane on it and the render is the finished tower, and in the render the avenue's walls are blank tan slabs with no windows at all
 
 **The two halves are of different buildings in different years.** The photograph, taken 15 March 2020, shows the tower still under construction: a **tower crane** standing on the top, the uppermost floors in bare structure and orange formwork, the Novotel sign on the left. The model is the completed building. Nothing in the chooser looks at whether a photograph shows a finished structure, and nothing in the record notes it, so a 2020 construction photograph serves as the reference for a completed model — a temporal version of the scale fault recorded in J93.
 
-**The render's bigger problem is that the avenue has no windows.** The masses on the left and centre-left are flat tan surfaces from pavement to parapet: no window grid, no cornice, no string course, no shopfront. **6,299 kit pieces were drawn out of 19,608 in range**, capped at a 1,030,689-triangle budget, and 6,129 of those 6,299 are windows spent on the nearer faces — so the further half of the canyon gets nothing. This is the clearest picture in the queue of what the kit budget costs at street level.
+**And the item holds no photograph of its own subject.** The three candidates licensed for
+`landmark_220_central_park_south` are, by their own Commons titles, *Columbus Circle area Oct 2020
+48*, *Central Park Tower 2020-03 jeh* and *111 W57 & One57 & CP Tower fr Col Cir jeh* — an area
+view and two pictures of the neighbouring towers. **Not one of them names 220 Central Park South.**
+The chooser took the second, and the frame bears its title out: a single tower seen frontally with a
+crane on its crown, the Novotel's orange sign to the left and 1740 Broadway to the right. So this is
+not the reference-ranking fault (J112), where a better candidate was passed over; there is no
+candidate to rank. It is J60 and J71's family — a photograph of a different place standing in — with
+the choice removed: no ranking rule can repair a set in which the subject does not appear.
+
+**The render's half is aimed at the same ambiguity from the other side.** The object standing at the
+subject's coordinate is `lm_c_billionaires_row.23`, one of **74** parts of a single composite model
+whose own box measures **972.7 m by 602.4 m** — Billionaires' Row as one object. So the row's towers
+are not separate models the record could tell apart, and the one ray of thirteen that reaches the
+subject lands on **`lm_c_billionaires_row.45`** at 236.1 m: a *different part of the same model*,
+counted as the subject because it shares the model's identity. The verdict `subject_visible: true`
+is true of the row and says nothing about which tower. That is J113's open half — the sheet needs a
+per-subject footprint and this build has none — and it is why the two halves of this sheet cannot be
+made to compare one building, whichever photograph were chosen.
+
+*(A screen across the whole catalogue for items whose photographs share no distinctive word with
+their subject's name returned 11 hits and is not reported as a number, because nine of the eleven
+are artefacts of title matching: `landmark_rose_center` names the Rose Center and offers the
+**Hayden Planetarium**, which is inside it. The finding above is this sheet's, measured by reading
+the sheet.)*
+
+**The render's bigger problem is that the avenue has no windows.** The masses on the left and centre-left are flat tan surfaces from pavement to parapet: no window grid, no cornice, no string course, no shopfront. **6,299 kit pieces were drawn out of 19,608 in range**, capped at a 1,030,692-triangle budget, and 6,129 of those 6,299 are windows spent on the nearer faces — so the further half of the canyon gets nothing. This is the clearest picture in the queue of what the kit budget costs at street level.
 
 **The subject is behind a terracotta wall.** 13 rays, **1 clear**, **1 on the subject**, blocked at **31.8 m** by `t_-3_7_terracotta`, visible fraction **0.077**. The walk moved 69.3 m and this was the best point it could score.
 
-**The height is measured and the catalogue was correctly refused.** `lm_c_billionaires_row.23`, **287.7 m** above a ground of 20.44 m, **43 of 43** rays, extent **26.4 m by 24.8 m** — a slender tower, correctly measured. The nearest catalogue origin is `b_columbus_circle_monument` **155.8 m** away carrying 228.6 m, a different landmark, and the record says the height came from the geometry and not the catalogue (J74).
+**The height is measured and the catalogue was correctly refused.** `lm_c_billionaires_row.23`, **287.7 m** above a ground of 20.44 m, **43 of 43** rays, extent **30.3 m** across this camera's bearing by **29.0 m** along it — a slender tower, correctly measured, and measured across the bearing rather than as the larger of two axis-aligned spans (J113's surviving half). The nearest catalogue origin is `b_columbus_circle_monument` **155.8 m** away carrying 228.6 m, a different landmark, and the record says the height came from the geometry and not the catalogue (J74).
 
 ## What matches
 
-* **The height probe is clean and the extent is right for a needle tower**: 43 of 43 rays, 287.7 m, plan extent 26.4 m by 24.8 m.
+* **The height probe is clean and the extent is right for a needle tower**: 43 of 43 rays, 287.7 m, plan extent **30.3 m by 29.0 m** — the box of `lm_c_billionaires_row.23` alone, which is what the sightline fan spans.
 * **The catalogue was refused on the right grounds** — the nearest origin belongs to the Columbus Circle monument, 155.8 m away (J74).
 * **The camera stands on the recorded viewpoint for the right reason**: the photograph's own fix is 559.7 m away, well past the 250 m rule.
-* **The clearance walk left the lens clear.** Nothing built within 20 m and the nearest simulated agent 19.6 m away — the only sheet in this queue that satisfies the 8 m rule with room to spare, on both geometry and crowd.
+* **The clearance walk left the lens clear.** Nothing built on the probe's rays across the frame within 20 m, and the nearest simulated agent 19.6 m away — the only sheet in this queue that satisfies the 8 m rule with room to spare, on both geometry and crowd. The rays are what was measured and the record now says so; it claimed an empty 20 m disc until J120, and over a scene placing 331 people within a 200 m radius that claim was worth about **3** of them.
 * **The season and the day type are right and were read**: bare canopies for 15 March, and the crowd clock reads **Sunday** for a date that was a Sunday.
 * **Near-field ground is perfect**: within 150 m, **0.0** of 149 park-surface samples sit under the terrain, median **+0.12 m**, minimum +0.056 m.
 * **The landmark-ground rule did real work**: **2,814** park-ground faces cut where a landmark supplies its own ground.
@@ -39,9 +65,9 @@
 * **The subject is behind a terracotta wall**: visible fraction **0.077**, 1 of 13 rays.
 * **The frame is 5.18 stops under a photographable level**, declared as past hand-held recovery.
 * **None of the three landmarks in the frustum is the subject** — the Columbus Circle monument at 285.2 m, Lincoln Center at 780.3 m and the Central Park perimeter wall at 2,499.9 m.
-* **The render has no deep shadow**: fifth percentile **0.2973** against the photograph's **0.0594**, and standard deviation **0.1803** against **0.2779** (**0.649×**). The reference's left half is a building in full shade; the render's is a lit slab.
+* **The render has no deep shadow**: fifth percentile **0.2973** against the photograph's **0.0594**, and standard deviation **0.1804** against **0.2779** (**0.649×**). The reference's left half is a building in full shade; the render's is a lit slab.
 * **Chroma is 0.372 of the photograph's**, 0.0673 against 0.1808 — the reference carries a clear March sky and an orange Novotel sign, the render carries tan concrete.
-* **The render is brighter overall and darker at the midtone**: mean **1.224×**, median **0.863×**, with the two development offsets **0.462 stops** apart (J83).
+* **The render is brighter overall and darker at the midtone**: mean **1.224×**, median **0.863×**, with the two development offsets **0.461 stops** apart (J83).
 * **Only 18 of 2,034 trees are drawn from modelled branches.** 2,016 are six-triangle impostor cards, **0** are procedural canopy stems, 6 cards were dropped, **975** species were substituted and **5** instances were scaled out of band. The render's one visible tree is a bare card.
 * **Four of 6 structures tiles in range have no structures file**, under the 57th Street and Columbus Circle interchanges.
 * **Beyond 400 m the park surface sits under the terrain on 0.315 of 1,270 samples**, minimum **−3.382 m**, after a redrape that moved **235,952** vertices (J85). That band is Central Park's own ground.
@@ -54,14 +80,25 @@
 | gap | cause | class |
 |---|---|---|
 | the reference is a construction photograph, the model is the finished building | the chooser matches on place, subject terms and a minimum year, and has no evidence of whether the structure in the photograph is complete. J93's family in the time dimension | **verification — open** |
-| the avenue's walls have no windows | 6,299 kit pieces drawn of 19,608 in range at a 1,030,689-triangle budget, and the nearer faces consume them; the further half of the canyon gets none | **performance — measured, and the clearest instance in the pass** |
+| the avenue's walls have no windows | 6,299 kit pieces drawn of 19,608 in range at a 1,030,692-triangle budget, and the nearer faces consume them; the further half of the canyon gets none | **performance — measured, and the clearest instance in the pass** |
 | visible fraction 0.077 | a terracotta wall 31.8 m out; the walk moved 69.3 m and scored this as the best point available (J79) | verification — open |
 | +5.18 stops, under-lit | a Seventh Avenue canyon at 19.4° sun elevation in March; declared with its number (J83) | verification — declared |
 | p05 0.2973 against 0.0594, sd 0.649× | the render's canyon walls are lit where the photograph's are in full shade, because there is no per-building facade colour and no deep interior shadow in a flat-coloured slab (J66 remainder) | **data — open** |
-| chroma 0.372×, mean 1.224×, p50 0.863× | no sky and no signage colour in the render's frame, and 0.462 stops of development between the two halves | reference + J83 |
+| chroma 0.372×, mean 1.224×, p50 0.863× | no sky and no signage colour in the render's frame, and 0.461 stops of development between the two halves | reference + J83 |
 | 18 of 2,034 trees from branches, 975 species substituted, 0 canopy stems | the props budget spends its triangles on cards at this density, and the tree catalogue does not hold most species surveyed here | performance + **data** |
 | 4 of 6 structures tiles without a file | no structures file was built for those tiles | **data — open, four tiles unbuilt** |
 | 0.315 of far park ground under the terrain, min −3.382 m | the terrain grid coarsens to 40 m beyond the near band, across Central Park's own survey shape (J85) | geometry — open, measured |
 | 7 props across four kinds unmapped | no asset exists for those kinds | data |
 | six park surface kinds flat-coloured | the texture catalogue has no photographic set for any of them (J40) | **declared decision** |
 | 331 people where the table asked 4,227 | the agent triangle budget plus the placement rules, each with its count | performance + verification |
+
+## Measured for this assessment
+
+One figure above is not in this render record and cannot be: it is read off the **reference
+photograph**, not measured by the renderer. It is named because a reader should be able to check the
+identification the verdict rests on — that the photograph is of a neighbouring tower rather than of
+this item's subject.
+
+| figure | where it comes from |
+|---|---|
+| 1740 | the street number on the dark building at the right edge of the reference photograph, legible in the sheet, which places that flank as 1740 Broadway and the crane-topped tower between it and the Novotel as the one the photograph's own Commons title names |
