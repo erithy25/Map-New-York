@@ -66,7 +66,7 @@
    0.0
   ],
   "nearest_obstruction_m": 8.1,
-  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 10 m ahead, less than the 68 m this frame needs to show its subject; the camera was moved 7 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 82 m from there, and the nearest built thing in the frame is prop_lamp_park_twin_0 8.1 m away at +12 deg yaw, +0 deg pitch, and no simulated agent stands within 20 m of it",
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 10 m ahead, less than the 68 m this frame needs to show its subject; the camera was moved 7 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 82 m from there, and the nearest built thing in the frame is prop_lamp_park_twin_0 8.1 m away at +12 deg yaw, +0 deg pitch, and the probe found no simulated agent on its rays across this frame within 20 m",
   "offset_m": 7.3,
   "reason": "boxed in: the view azimuth is closed off 10 m ahead, less than the 68 m this frame needs to show its subject",
   "rule": "pavement snap with a clear frame that sees the subject",
@@ -126,6 +126,7 @@
  "name": "35 Hudson Yards",
  "night": false,
  "pitch_reason": "tilted +26.3 deg to contain the subject: the top of lm_c_hudson_yards.25, the built thing standing at the subject's coordinate, 307 m above the ground there tops out 306 m above the lens 137 m away, 66 deg above the horizon, and the frame is only 90 deg tall at 18 mm. **The verticals converge, so this frame is not comparable with the photograph on proportion** -- it is here to show the subject at all",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Percival Kestreltail",
   "confidence": "high",
@@ -140,7 +141,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_35_hudson_yards/render.png",
- "rendered_at": "2026-09-13T16:36:50Z",
+ "rendered_at": "2026-09-14T00:00:21Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -183,7 +184,7 @@
    "placed_pedestrians": 386,
    "placed_vehicles": 84,
    "reason": null,
-   "seconds": 316.0,
+   "seconds": 268.75,
    "snapshot": {
     "building_footprints_tested": 2663,
     "density_lane_km": 38.707,
@@ -223,7 +224,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 1109
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -4293_6096_17_0_b568c7361d6aad29_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 1080502,
    "vehicle_lods": {
@@ -1057,7 +1058,7 @@
    }
   },
   "radius_m": 697.035559068884,
-  "seconds": 468.54,
+  "seconds": 409.19,
   "structures": {
    "imported": [
     "t_-5_5",
@@ -1104,9 +1105,9 @@
   "radius_m": 697.035559068884
  },
  "seconds": {
-  "render": 118.4,
-  "scene": 476.9,
-  "total": 595.4
+  "render": 145.6,
+  "scene": 415.5,
+  "total": 561.2
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 153.5 m above its ground",
@@ -1157,17 +1158,17 @@
   "origin_distance_m": 136.9,
   "plan_extent": {
    "across_bearing_deg": 254.4,
-   "axis_narrow_m": 338.4,
-   "axis_width_m": 362.7,
    "is_tile_mesh": false,
    "model": "lm_c_hudson_yards",
-   "narrow_m": 381.2,
-   "note": "`part_width_m` is the box of lm_c_hudson_yards.25 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 54 part(s) of lm_c_hudson_yards, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
+   "model_axis_narrow_m": 338.4,
+   "model_axis_width_m": 362.7,
+   "model_narrow_m": 381.2,
+   "model_width_m": 378.0,
+   "narrow_m": 50.5,
+   "note": "`width_m` and `narrow_m` are the box of lm_c_hudson_yards.25 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 54 part(s) of lm_c_hudson_yards, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_hudson_yards.25",
-   "part_narrow_m": 50.5,
-   "part_width_m": 51.5,
    "parts": 54,
-   "width_m": 378.0
+   "width_m": 51.5
   }
  },
  "sun": {
