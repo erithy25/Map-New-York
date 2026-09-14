@@ -65,14 +65,14 @@
    22.5
   ],
   "nearest_obstruction_m": 9.0,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_lamp_cobra_davit_0 9.0 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 150 m",
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_lamp_cobra_davit_0 9.0 m away, and the probe found no simulated agent on its rays across this frame within 60 m, and the view azimuth is clear for 150 m",
   "offset_m": 0.0,
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.4965,
+  "mean": 0.4967,
   "reason": null,
-  "sd": 0.2538,
+  "sd": 0.2537,
   "usable": true
  },
  "frame_retry": null,
@@ -82,16 +82,16 @@
  "lighting": {
   "background_strength": 0.033333614468574524,
   "development": {
-   "linear_p05": 0.000234,
-   "linear_p50": 0.00283,
-   "linear_p95": 0.06599,
-   "log_average_linear": 0.002972,
-   "median_linear": 0.00283,
+   "linear_p05": 0.000236,
+   "linear_p50": 0.002829,
+   "linear_p95": 0.065995,
+   "log_average_linear": 0.002974,
+   "median_linear": 0.002829,
    "metered": true,
    "note": "under-lit: the scene needed +5.99 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
-   "stops": 5.991,
-   "stops_unclamped": 5.991,
+   "stops": 5.992,
+   "stops_unclamped": 5.992,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
@@ -114,6 +114,7 @@
  "name": "55 Hudson Yards",
  "night": false,
  "pitch_reason": "tilted +29.6 deg to contain the subject: the top of lm_c_hudson_yards.40, the built thing standing at the subject's coordinate, 237 m above the ground there tops out 238 m above the lens 90 m away, 69 deg above the horizon, and the frame is only 90 deg tall at 18 mm. **The verticals converge, so this frame is not comparable with the photograph on proportion** -- it is here to show the subject at all",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Kidfly182",
   "confidence": "high",
@@ -128,7 +129,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_55_hudson_yards/render.png",
- "rendered_at": "2026-09-13T17:28:24Z",
+ "rendered_at": "2026-09-14T13:14:50Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -161,7 +162,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 579533,
+   "pedestrian_triangles": 579548,
    "per_class": {
     "black_car": 7,
     "boro_taxi": 12,
@@ -173,7 +174,7 @@
    "placed_pedestrians": 254,
    "placed_vehicles": 77,
    "reason": null,
-   "seconds": 306.41,
+   "seconds": 187.49,
    "snapshot": {
     "building_footprints_tested": 2663,
     "density_lane_km": 35.917,
@@ -213,9 +214,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 1169
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -4320_6060_12_0_201bbcc6b9c45941_1788868452.json",
    "triangle_budget": 1125000,
-   "triangles": 1084959,
+   "triangles": 1084974,
    "vehicle_lods": {
     "LOD1": 3,
     "LOD2": 74
@@ -305,7 +306,7 @@
    6060.18
   ],
   "kit": {
-   "capped": "triangle budget 1193206",
+   "capped": "triangle budget 1193191",
    "per_category": {
     "bulkhead": 7,
     "cornice": 2,
@@ -1078,7 +1079,7 @@
    }
   },
   "radius_m": 705.6406153983943,
-  "seconds": 433.01,
+  "seconds": 265.73,
   "structures": {
    "imported": [
     "t_-5_5",
@@ -1116,7 +1117,7 @@
    "z_max_m": 16.01,
    "z_min_m": -1.96
   },
-  "triangles": 4500004
+  "triangles": 4500019
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1126,9 +1127,9 @@
   "radius_m": 705.6406153983943
  },
  "seconds": {
-  "render": 163.6,
-  "scene": 442.3,
-  "total": 605.8
+  "render": 144.6,
+  "scene": 269.4,
+  "total": 414.1
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 118.4 m above its ground",
@@ -1179,17 +1180,17 @@
   "origin_distance_m": 90.5,
   "plan_extent": {
    "across_bearing_deg": 331.7,
-   "axis_narrow_m": 338.4,
-   "axis_width_m": 362.7,
    "is_tile_mesh": false,
    "model": "lm_c_hudson_yards",
-   "narrow_m": 382.7,
-   "note": "`part_width_m` is the box of lm_c_hudson_yards.40 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 54 part(s) of lm_c_hudson_yards, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
+   "model_axis_narrow_m": 338.4,
+   "model_axis_width_m": 362.7,
+   "model_narrow_m": 382.7,
+   "model_width_m": 395.2,
+   "narrow_m": 89.8,
+   "note": "`width_m` and `narrow_m` are the box of lm_c_hudson_yards.40 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 54 part(s) of lm_c_hudson_yards, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_hudson_yards.40",
-   "part_narrow_m": 89.8,
-   "part_width_m": 91.7,
    "parts": 54,
-   "width_m": 395.2
+   "width_m": 91.7
   }
  },
  "sun": {

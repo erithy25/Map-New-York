@@ -76,7 +76,7 @@
  "frame": {
   "mean": 0.3949,
   "reason": null,
-  "sd": 0.304,
+  "sd": 0.3039,
   "usable": true
  },
  "frame_retry": null,
@@ -86,16 +86,16 @@
  "lighting": {
   "background_strength": 0.03379365801811218,
   "development": {
-   "linear_p05": 4.2e-05,
-   "linear_p50": 0.000971,
-   "linear_p95": 0.044537,
+   "linear_p05": 4.1e-05,
+   "linear_p50": 0.000974,
+   "linear_p95": 0.044531,
    "log_average_linear": 0.0012,
-   "median_linear": 0.000971,
+   "median_linear": 0.000974,
    "metered": true,
    "note": "the frame wanted +7.53 stops and was held at +6.00: a scene this far from a photographable level is not developed into a picture of one",
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
    "stops": 6.0,
-   "stops_unclamped": 7.534,
+   "stops_unclamped": 7.53,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
@@ -118,6 +118,7 @@
  "name": "53W53 (MoMA Tower)",
  "night": false,
  "pitch_reason": "tilted +39.9 deg to contain the subject: the top of lm_c_billionaires_row.33, the built thing standing at the subject's coordinate, 318 m above the ground there tops out 316 m above the lens 58 m away, 80 deg above the horizon, and the frame is only 90 deg tall at 18 mm. **The verticals converge, so this frame is not comparable with the photograph on proportion** -- it is here to show the subject at all",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Kidfly182",
   "confidence": "high",
@@ -132,7 +133,7 @@
   "width": 1280
  },
  "render_png": "docs/verification/comparison/landmark_53w53/render.png",
- "rendered_at": "2026-09-13T17:18:14Z",
+ "rendered_at": "2026-09-14T13:09:47Z",
  "resolution_note": "904x1206; the reference photograph is 1280x1707 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -164,7 +165,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 578947,
+   "pedestrian_triangles": 578948,
    "per_class": {
     "black_car": 7,
     "boro_taxi": 10,
@@ -178,7 +179,7 @@
    "placed_pedestrians": 347,
    "placed_vehicles": 73,
    "reason": null,
-   "seconds": 441.02,
+   "seconds": 257.77,
    "snapshot": {
     "building_footprints_tested": 888,
     "density_lane_km": 26.066,
@@ -218,9 +219,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 1593
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -2363_6798_12_0_2af5c18e406682c7_1788868452.json",
    "triangle_budget": 1125000,
-   "triangles": 1083914,
+   "triangles": 1083915,
    "vehicle_lods": {
     "LOD1": 4,
     "LOD2": 69
@@ -290,7 +291,7 @@
    6798.11
   ],
   "kit": {
-   "capped": "triangle budget 921217",
+   "capped": "triangle budget 921216",
    "per_category": {
     "bulkhead": 6,
     "door_entry": 11,
@@ -1073,7 +1074,7 @@
    }
   },
   "radius_m": 597.2359457718361,
-  "seconds": 541.42,
+  "seconds": 331.19,
   "structures": {
    "imported": [
     "t_-2_6"
@@ -1104,7 +1105,7 @@
    "z_max_m": 26.0,
    "z_min_m": 7.92
   },
-  "triangles": 4500119
+  "triangles": 4500120
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1114,9 +1115,9 @@
   "radius_m": 597.2359457718361
  },
  "seconds": {
-  "render": 97.8,
-  "scene": 547.4,
-  "total": 645.3
+  "render": 86.3,
+  "scene": 334.1,
+  "total": 420.5
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 159.1 m above its ground",
@@ -1166,17 +1167,17 @@
   "origin_distance_m": 58.4,
   "plan_extent": {
    "across_bearing_deg": 329.4,
-   "axis_narrow_m": 682.1,
-   "axis_width_m": 875.3,
    "is_tile_mesh": false,
    "model": "lm_c_billionaires_row",
-   "narrow_m": 1007.0,
-   "note": "`part_width_m` is the box of lm_c_billionaires_row.33 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 74 part(s) of lm_c_billionaires_row, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
+   "model_axis_narrow_m": 682.1,
+   "model_axis_width_m": 875.3,
+   "model_narrow_m": 1007.0,
+   "model_width_m": 550.8,
+   "narrow_m": 48.7,
+   "note": "`width_m` and `narrow_m` are the box of lm_c_billionaires_row.33 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 74 part(s) of lm_c_billionaires_row, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_billionaires_row.33",
-   "part_narrow_m": 48.7,
-   "part_width_m": 46.3,
    "parts": 74,
-   "width_m": 550.8
+   "width_m": 46.3
   }
  },
  "sun": {

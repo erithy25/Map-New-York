@@ -1,18 +1,18 @@
 {
  "slug": "landmark_55_hudson_yards",
- "rendered_at": "2026-09-13T17:28:24Z",
+ "rendered_at": "2026-09-14T13:14:50Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 904,
   "height": 1206,
-  "mean": 0.5036,
-  "sd": 0.2504,
-  "p05": 0.1311,
-  "p50": 0.4947,
-  "p95": 0.9494,
-  "chroma": 0.1065,
+  "mean": 0.5038,
+  "sd": 0.2502,
+  "p05": 0.132,
+  "p50": 0.4948,
+  "p95": 0.9496,
+  "chroma": 0.1066,
   "exposure_offset_stops": 0.217
  },
  "reference": {
@@ -28,7 +28,7 @@
  },
  "render_over_reference": {
   "mean": 1.168,
-  "sd": 1.272,
+  "sd": 1.271,
   "p50": 0.983,
   "chroma": 0.324,
   "exposure_offset_stops": -0.054,

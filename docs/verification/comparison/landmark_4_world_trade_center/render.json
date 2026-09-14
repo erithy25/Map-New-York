@@ -100,7 +100,7 @@
   "development": {
    "linear_p05": 0.000812,
    "linear_p50": 0.003984,
-   "linear_p95": 0.048271,
+   "linear_p95": 0.048263,
    "log_average_linear": 0.004826,
    "median_linear": 0.003984,
    "metered": true,
@@ -130,6 +130,7 @@
  "name": "4 World Trade Center",
  "night": false,
  "pitch_reason": "tilted +34.7 deg to contain the subject: the top of lm_b_wtc_site.241, the built thing standing at the subject's coordinate, 298 m above the ground there tops out 293 m above the lens 150 m away, 63 deg above the horizon, and the frame is only 64 deg tall at 18 mm. **The verticals converge, so this frame is not comparable with the photograph on proportion** -- it is here to show the subject at all",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Jakub Ha\u0142un",
   "confidence": "high",
@@ -144,7 +145,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_4_world_trade_center/render.png",
- "rendered_at": "2026-09-13T17:07:24Z",
+ "rendered_at": "2026-09-14T12:56:37Z",
  "resolution_note": "1280x800; the reference photograph is 1920x1200 (1.60:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -174,7 +175,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 577207,
+   "pedestrian_triangles": 577214,
    "per_class": {
     "black_car": 4,
     "boro_taxi": 5,
@@ -186,7 +187,7 @@
    "placed_pedestrians": 330,
    "placed_vehicles": 85,
    "reason": null,
-   "seconds": 439.75,
+   "seconds": 338.2,
    "snapshot": {
     "building_footprints_tested": 1416,
     "density_lane_km": 26.145,
@@ -226,9 +227,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 644
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -5101_1082_9_0_69dbdf1c22507e12_1788868452.json",
    "triangle_budget": 1125000,
-   "triangles": 1082688,
+   "triangles": 1082695,
    "vehicle_lods": {
     "LOD1": 1,
     "LOD2": 84
@@ -298,7 +299,7 @@
    1081.81
   ],
   "kit": {
-   "capped": "triangle budget 966058",
+   "capped": "triangle budget 966051",
    "per_category": {
     "bulkhead": 12,
     "cornice": 11,
@@ -1168,7 +1169,7 @@
    }
   },
   "radius_m": 640.314232914303,
-  "seconds": 608.68,
+  "seconds": 496.24,
   "structures": {
    "imported": [
     "t_-5_0",
@@ -1221,7 +1222,7 @@
    "z_max_m": 13.82,
    "z_min_m": -1.63
   },
-  "triangles": 4500038
+  "triangles": 4500045
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1231,9 +1232,9 @@
   "radius_m": 640.314232914303
  },
  "seconds": {
-  "render": 151.2,
-  "scene": 617.4,
-  "total": 768.6
+  "render": 131.4,
+  "scene": 500.0,
+  "total": 631.3
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 148.6 m above its ground",
@@ -1284,17 +1285,17 @@
   "origin_distance_m": 150.2,
   "plan_extent": {
    "across_bearing_deg": 300.0,
-   "axis_narrow_m": 294.9,
-   "axis_width_m": 434.1,
    "is_tile_mesh": false,
    "model": "lm_b_wtc_site",
-   "narrow_m": 370.2,
-   "note": "`part_width_m` is the box of lm_b_wtc_site.241 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 247 part(s) of lm_b_wtc_site, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
+   "model_axis_narrow_m": 294.9,
+   "model_axis_width_m": 434.1,
+   "model_narrow_m": 370.2,
+   "model_width_m": 446.9,
+   "narrow_m": 123.1,
+   "note": "`width_m` and `narrow_m` are the box of lm_b_wtc_site.241 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 247 part(s) of lm_b_wtc_site, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_b_wtc_site.241",
-   "part_narrow_m": 123.1,
-   "part_width_m": 123.6,
    "parts": 247,
-   "width_m": 446.9
+   "width_m": 123.6
   }
  },
  "sun": {

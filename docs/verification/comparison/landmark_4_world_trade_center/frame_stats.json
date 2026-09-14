@@ -1,6 +1,6 @@
 {
  "slug": "landmark_4_world_trade_center",
- "rendered_at": "2026-09-13T17:07:24Z",
+ "rendered_at": "2026-09-14T12:56:37Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
@@ -9,10 +9,10 @@
   "height": 800,
   "mean": 0.5291,
   "sd": 0.1969,
-  "p05": 0.2285,
+  "p05": 0.2286,
   "p50": 0.4977,
-  "p95": 0.8952,
-  "chroma": 0.1112,
+  "p95": 0.895,
+  "chroma": 0.1113,
   "exposure_offset_stops": 0.236
  },
  "reference": {

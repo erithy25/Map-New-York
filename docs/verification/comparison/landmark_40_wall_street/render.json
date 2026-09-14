@@ -70,7 +70,7 @@
    0.0
   ],
   "nearest_obstruction_m": 20.0,
-  "note": "the recorded viewpoint is hard against kit_1604_49 (0.26 m from the lens in the view cone); the camera was moved 52 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  No point within 80 m had 80 m of open air along the view azimuth with nothing built inside 8 m of the lens, so the frame is closed off 96 m ahead and nothing built stands within 20 m of the lens, and the nearest simulated agent is agent_ped_1719.3 14.6 m away",
+  "note": "the recorded viewpoint is hard against kit_1604_49 (0.26 m from the lens in the view cone); the camera was moved 52 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  No point within 80 m had 80 m of open air along the view azimuth with nothing built inside 8 m of the lens, so the frame is closed off 96 m ahead and nothing built stands on the probe's rays across this frame within 20 m of the lens, and the nearest simulated agent is agent_ped_1719.3 14.6 m away",
   "offset_m": 52.2,
   "reason": "hard against kit_1604_49 (0.26 m from the lens in the view cone)",
   "rule": "open air only, ranked on how much of the subject it sees",
@@ -86,7 +86,7 @@
   "view_m": 96.0
  },
  "frame": {
-  "mean": 0.5157,
+  "mean": 0.5161,
   "reason": null,
   "sd": 0.2126,
   "usable": true
@@ -98,16 +98,16 @@
  "lighting": {
   "background_strength": 0.03925950825214386,
   "development": {
-   "linear_p05": 0.000407,
-   "linear_p50": 0.002472,
-   "linear_p95": 0.048964,
-   "log_average_linear": 0.003155,
-   "median_linear": 0.002472,
+   "linear_p05": 0.000402,
+   "linear_p50": 0.002496,
+   "linear_p95": 0.048962,
+   "log_average_linear": 0.003162,
+   "median_linear": 0.002496,
    "metered": true,
-   "note": "the frame wanted +6.19 stops and was held at +6.00: a scene this far from a photographable level is not developed into a picture of one",
+   "note": "the frame wanted +6.17 stops and was held at +6.00: a scene this far from a photographable level is not developed into a picture of one",
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
    "stops": 6.0,
-   "stops_unclamped": 6.186,
+   "stops_unclamped": 6.172,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
@@ -130,6 +130,7 @@
  "name": "40 Wall Street (Trump Building)",
  "night": false,
  "pitch_reason": "tilted +30.7 deg to contain the subject: the top of lm_40_wall_street.2, the built thing standing at the subject's coordinate, 265 m above the ground there tops out 266 m above the lens 200 m away, 53 deg above the horizon, and the frame is only 51 deg tall at 18 mm. **The verticals converge, so this frame is not comparable with the photograph on proportion** -- it is here to show the subject at all",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Jakub Ha\u0142un",
   "confidence": "high",
@@ -144,7 +145,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_40_wall_street/render.png",
- "rendered_at": "2026-09-13T17:04:23Z",
+ "rendered_at": "2026-09-14T13:02:43Z",
  "resolution_note": "1280x606; the reference photograph is 1920x909 (2.11:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -175,7 +176,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 579689,
+   "pedestrian_triangles": 579702,
    "per_class": {
     "black_car": 2,
     "boro_taxi": 5,
@@ -189,7 +190,7 @@
    "placed_pedestrians": 406,
    "placed_vehicles": 81,
    "reason": null,
-   "seconds": 1003.53,
+   "seconds": 618.94,
    "snapshot": {
     "building_footprints_tested": 1416,
     "density_lane_km": 33.563,
@@ -229,9 +230,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 932
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -5234_700_16_0_112f5c01d2121831_1788868452.json",
    "triangle_budget": 1125000,
-   "triangles": 1084619,
+   "triangles": 1084632,
    "vehicle_lods": {
     "LOD1": 2,
     "LOD2": 79
@@ -310,7 +311,7 @@
    699.78
   ],
   "kit": {
-   "capped": "triangle budget 1103196",
+   "capped": "triangle budget 1103183",
    "per_category": {
     "antenna": 3,
     "bulkhead": 8,
@@ -1190,7 +1191,7 @@
    }
   },
   "radius_m": 720.7110795832725,
-  "seconds": 1152.79,
+  "seconds": 776.0,
   "structures": {
    "imported": [
     "t_-5_0",
@@ -1259,7 +1260,7 @@
    "z_max_m": 13.49,
    "z_min_m": -4.11
   },
-  "triangles": 4500188
+  "triangles": 4500201
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1269,9 +1270,9 @@
   "radius_m": 720.7110795832725
  },
  "seconds": {
-  "render": 104.8,
-  "scene": 1544.3,
-  "total": 1649.1
+  "render": 95.7,
+  "scene": 901.6,
+  "total": 997.3
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 132.0 m above its ground",
@@ -1321,17 +1322,17 @@
   "origin_distance_m": 200.4,
   "plan_extent": {
    "across_bearing_deg": 70.0,
-   "axis_narrow_m": 66.4,
-   "axis_width_m": 89.6,
    "is_tile_mesh": false,
    "model": "lm_40_wall_street",
-   "narrow_m": 93.0,
-   "note": "`part_width_m` is the box of lm_40_wall_street.2 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 18 part(s) of lm_40_wall_street, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
+   "model_axis_narrow_m": 66.4,
+   "model_axis_width_m": 89.6,
+   "model_narrow_m": 93.0,
+   "model_width_m": 106.9,
+   "narrow_m": 44.0,
+   "note": "`width_m` and `narrow_m` are the box of lm_40_wall_street.2 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 18 part(s) of lm_40_wall_street, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_40_wall_street.2",
-   "part_narrow_m": 44.0,
-   "part_width_m": 48.0,
    "parts": 18,
-   "width_m": 106.9
+   "width_m": 48.0
   }
  },
  "sun": {

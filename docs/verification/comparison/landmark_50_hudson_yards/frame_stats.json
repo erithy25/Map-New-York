@@ -1,6 +1,6 @@
 {
  "slug": "landmark_50_hudson_yards",
- "rendered_at": "2026-09-13T17:22:16Z",
+ "rendered_at": "2026-09-14T13:07:51Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
@@ -8,8 +8,8 @@
   "width": 904,
   "height": 1206,
   "mean": 0.5762,
-  "sd": 0.2022,
-  "p05": 0.2735,
+  "sd": 0.2021,
+  "p05": 0.2744,
   "p50": 0.4978,
   "p95": 0.9071,
   "chroma": 0.0768,
