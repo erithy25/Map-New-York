@@ -118,6 +118,7 @@
  "name": "432 Park Avenue (Billionaires' Row)",
  "night": false,
  "pitch_reason": "level optical axis (the subject is 400 m away; anything that far is photographed with a level camera)",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Epicgenius",
   "confidence": "high",
@@ -132,7 +133,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_432_park_avenue/render.png",
- "rendered_at": "2026-09-13T16:54:31Z",
+ "rendered_at": "2026-09-14T00:14:18Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -174,7 +175,7 @@
    "placed_pedestrians": 306,
    "placed_vehicles": 58,
    "reason": null,
-   "seconds": 462.43,
+   "seconds": 385.73,
    "snapshot": {
     "building_footprints_tested": 1602,
     "density_lane_km": 32.014,
@@ -214,7 +215,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 1383
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -1932_6461_8_0_ca8a3574185a6969_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 1083037,
    "vehicle_lods": {
@@ -1220,7 +1221,7 @@
    }
   },
   "radius_m": 1065.47512167475,
-  "seconds": 553.2,
+  "seconds": 451.92,
   "structures": {
    "imported": [
     "t_-1_5",
@@ -1289,9 +1290,9 @@
   "radius_m": 1065.47512167475
  },
  "seconds": {
-  "render": 87.9,
-  "scene": 557.6,
-  "total": 645.5
+  "render": 80.8,
+  "scene": 454.2,
+  "total": 535.0
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 60.1 m above its ground",
@@ -1342,15 +1343,15 @@
   "origin_distance_m": 400.1,
   "plan_extent": {
    "across_bearing_deg": 18.2,
-   "axis_narrow_m": 1047.1,
-   "axis_width_m": 1063.5,
    "is_tile_mesh": true,
    "model": "t_-2_6_glass_curtain",
+   "model_axis_narrow_m": 1047.1,
+   "model_axis_width_m": 1063.5,
+   "model_narrow_m": 1337.8,
+   "model_width_m": 1327.4,
    "narrow_m": 1337.8,
    "note": "a tile mesh is every building of one material in the tile, so its extent is not the subject's and is not used",
    "object": "t_-2_6_glass_curtain",
-   "part_narrow_m": 1337.8,
-   "part_width_m": 1327.4,
    "parts": 1,
    "width_m": 1327.4
   }
