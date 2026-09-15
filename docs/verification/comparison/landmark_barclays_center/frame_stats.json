@@ -1,15 +1,15 @@
 {
  "slug": "landmark_barclays_center",
- "rendered_at": "2026-09-13T18:26:35Z",
+ "rendered_at": "2026-09-15T19:25:46Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 720,
-  "mean": 0.5127,
+  "mean": 0.5128,
   "sd": 0.2287,
-  "p05": 0.1526,
+  "p05": 0.1527,
   "p50": 0.4995,
   "p95": 0.8371,
   "chroma": 0.094,
@@ -27,7 +27,7 @@
   "exposure_offset_stops": -0.64
  },
  "render_over_reference": {
-  "mean": 1.332,
+  "mean": 1.333,
   "sd": 1.015,
   "p50": 1.335,
   "chroma": 0.473,

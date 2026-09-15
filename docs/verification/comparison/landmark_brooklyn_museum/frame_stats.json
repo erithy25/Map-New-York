@@ -1,37 +1,37 @@
 {
  "slug": "landmark_brooklyn_museum",
- "rendered_at": "2026-09-12T17:40:51Z",
- "reference_file": "3.jpg",
+ "rendered_at": "2026-09-15T19:47:03Z",
+ "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
-  "width": 1208,
-  "height": 906,
-  "mean": 0.4684,
-  "sd": 0.1843,
-  "p05": 0.1048,
-  "p50": 0.4977,
-  "p95": 0.7381,
-  "chroma": 0.0695,
-  "exposure_offset_stops": 0.235
+  "width": 904,
+  "height": 1206,
+  "mean": 0.4667,
+  "sd": 0.2037,
+  "p05": 0.1415,
+  "p50": 0.4972,
+  "p95": 0.8176,
+  "chroma": 0.0398,
+  "exposure_offset_stops": 0.232
  },
  "reference": {
   "width": 1920,
-  "height": 1440,
-  "mean": 0.5396,
-  "sd": 0.2629,
-  "p05": 0.2091,
-  "p50": 0.4423,
-  "p95": 0.9069,
-  "chroma": 0.1401,
-  "exposure_offset_stops": -0.13
+  "height": 2560,
+  "mean": 0.469,
+  "sd": 0.1937,
+  "p05": 0.1773,
+  "p50": 0.4661,
+  "p95": 0.8465,
+  "chroma": 0.0662,
+  "exposure_offset_stops": 0.032
  },
  "render_over_reference": {
-  "mean": 0.868,
-  "sd": 0.701,
-  "p50": 1.125,
-  "chroma": 0.496,
-  "exposure_offset_stops": 0.365,
+  "mean": 0.995,
+  "sd": 1.052,
+  "p50": 1.067,
+  "chroma": 0.601,
+  "exposure_offset_stops": 0.2,
   "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

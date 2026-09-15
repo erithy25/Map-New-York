@@ -65,7 +65,7 @@
    -21.1
   ],
   "nearest_obstruction_m": 3.2,
-  "note": "the eye point stands on t_9_11_park_park_ground_grass, but this camera's position is the photograph's own EXIF GPS rather than a nominal viewpoint standing for a whole deck, so there is nothing to walk to and the camera was not moved.  The view azimuth is clear for 150 m and the nearest built thing in the frame is t_9_11_park_park_ground_grass 3.2 m away, and no simulated agent stands within 60 m of it",
+  "note": "the eye point stands on t_9_11_park_park_ground_grass, but this camera's position is the photograph's own EXIF GPS rather than a nominal viewpoint standing for a whole deck, so there is nothing to walk to and the camera was not moved.  The view azimuth is clear for 150 m and the nearest built thing in the frame is t_9_11_park_park_ground_grass 3.2 m away, and the probe found no simulated agent on its rays across this frame within 60 m",
   "offset_m": 0.0,
   "standing_on": "t_9_11_park_park_ground_grass",
   "view_m": 150.0
@@ -84,10 +84,10 @@
   "background_strength": 0.08203689008951187,
   "development": {
    "linear_p05": 0.026172,
-   "linear_p50": 0.030278,
-   "linear_p95": 0.154057,
+   "linear_p50": 0.030281,
+   "linear_p95": 0.15406,
    "log_average_linear": 0.05197,
-   "median_linear": 0.030278,
+   "median_linear": 0.030281,
    "metered": true,
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
    "stops": 2.572,
@@ -114,6 +114,7 @@
  "name": "Bronx-Whitestone Bridge",
  "night": false,
  "pitch_reason": "level optical axis (the subject is 795 m away; anything that far is photographed with a level camera)",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Peter Greenberg",
   "confidence": "high",
@@ -128,7 +129,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_bronx_whitestone_bridge/render.png",
- "rendered_at": "2026-09-13T18:27:56Z",
+ "rendered_at": "2026-09-15T19:27:25Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -153,7 +154,7 @@
    "placed_pedestrians": 0,
    "placed_vehicles": 0,
    "reason": "the simulation put no agent on a paved surface inside the frame's radius",
-   "seconds": 0.01,
+   "seconds": 0.08,
    "snapshot": {
     "building_footprints_tested": 1,
     "density_lane_km": 5.96,
@@ -193,7 +194,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 62
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached 9654_11816_16_0_667ead717b535828_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 0,
    "vehicle_lods": {},
@@ -1013,7 +1014,7 @@
    "unmapped_kinds": {}
   },
   "radius_m": 2024.0072728416626,
-  "seconds": 32.28,
+  "seconds": 61.91,
   "structures": {
    "imported": [
     "t_10_10",
@@ -1225,9 +1226,9 @@
   "radius_m": 2024.0072728416626
  },
  "seconds": {
-  "render": 42.0,
-  "scene": 35.1,
-  "total": 77.0
+  "render": 32.5,
+  "scene": 63.5,
+  "total": 96.0
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 22.4 m above its ground",
@@ -1277,17 +1278,17 @@
   "origin_distance_m": 794.8,
   "plan_extent": {
    "across_bearing_deg": 136.9,
-   "axis_narrow_m": 780.9,
-   "axis_width_m": 1562.8,
    "is_tile_mesh": false,
    "model": "lm_b_bronx_whitestone",
-   "narrow_m": 1674.6,
-   "note": "`part_width_m` is the box of lm_b_bronx_whitestone.39 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 61 part(s) of lm_b_bronx_whitestone, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
+   "model_axis_narrow_m": 780.9,
+   "model_axis_width_m": 1562.8,
+   "model_narrow_m": 1674.6,
+   "model_width_m": 1103.1,
+   "narrow_m": 1117.6,
+   "note": "`width_m` and `narrow_m` are the box of lm_b_bronx_whitestone.39 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 61 part(s) of lm_b_bronx_whitestone, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_b_bronx_whitestone.39",
-   "part_narrow_m": 1117.6,
-   "part_width_m": 1093.4,
    "parts": 61,
-   "width_m": 1103.1
+   "width_m": 1093.4
   }
  },
  "sun": {

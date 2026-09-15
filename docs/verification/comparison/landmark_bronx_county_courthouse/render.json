@@ -65,7 +65,7 @@
    -17.0
   ],
   "nearest_obstruction_m": 11.1,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is lm_c_bronx_county_courthouse.5 11.1 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 34 m",
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is lm_c_bronx_county_courthouse.5 11.1 m away, and the probe found no simulated agent on its rays across this frame within 60 m, and the view azimuth is clear for 34 m",
   "offset_m": 0.0,
   "view_m": 34.2
  },
@@ -82,11 +82,11 @@
  "lighting": {
   "background_strength": 0.04029225558042526,
   "development": {
-   "linear_p05": 0.00301,
-   "linear_p50": 0.092785,
-   "linear_p95": 0.206207,
-   "log_average_linear": 0.038791,
-   "median_linear": 0.092785,
+   "linear_p05": 0.003008,
+   "linear_p50": 0.092779,
+   "linear_p95": 0.206164,
+   "log_average_linear": 0.038799,
+   "median_linear": 0.092779,
    "metered": true,
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
    "stops": 0.956,
@@ -113,6 +113,7 @@
  "name": "Bronx County Courthouse",
  "night": false,
  "pitch_reason": "tilted +0.4 deg to contain the subject: the top of lm_c_bronx_county_courthouse.6, the built thing standing at the subject's coordinate, 40 m above the ground there tops out 39 m above the lens 66 m away, 30 deg above the horizon, and the frame is only 68 deg tall at 27 mm. **The verticals converge, so this frame is not comparable with the photograph on proportion** -- it is here to show the subject at all",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Javier Dejesus",
   "confidence": "high",
@@ -127,7 +128,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_bronx_county_courthouse/render.png",
- "rendered_at": "2026-09-13T18:32:38Z",
+ "rendered_at": "2026-09-15T19:31:59Z",
  "resolution_note": "852x1278; the reference photograph is 1920x2880 (0.67:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -158,7 +159,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 576652,
+   "pedestrian_triangles": 576649,
    "per_class": {
     "black_car": 3,
     "boro_taxi": 5,
@@ -172,7 +173,7 @@
    "placed_pedestrians": 364,
    "placed_vehicles": 88,
    "reason": null,
-   "seconds": 408.69,
+   "seconds": 288.34,
    "snapshot": {
     "building_footprints_tested": 1950,
     "density_lane_km": 24.51,
@@ -212,9 +213,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 231
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached 2227_13959_8_1_a87826db6a515317_1788868452.json",
    "triangle_budget": 1125000,
-   "triangles": 1078722,
+   "triangles": 1078719,
    "vehicle_lods": {
     "LOD2": 88
    },
@@ -283,7 +284,7 @@
    13959.24
   ],
   "kit": {
-   "capped": "triangle budget 1219032",
+   "capped": "triangle budget 1219035",
    "per_category": {
     "bulkhead": 3,
     "cornice": 57,
@@ -979,7 +980,7 @@
    }
   },
   "radius_m": 676.1001836758065,
-  "seconds": 519.53,
+  "seconds": 398.52,
   "structures": {
    "imported": [
     "t_1_13",
@@ -1013,7 +1014,7 @@
    "z_max_m": 34.5,
    "z_min_m": -0.0
   },
-  "triangles": 4500094
+  "triangles": 4500091
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1023,9 +1024,9 @@
   "radius_m": 676.1001836758065
  },
  "seconds": {
-  "render": 77.2,
-  "scene": 527.2,
-  "total": 604.4
+  "render": 67.6,
+  "scene": 402.4,
+  "total": 470.1
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 19.9 m above its ground",
@@ -1075,17 +1076,17 @@
   "origin_distance_m": 66.1,
   "plan_extent": {
    "across_bearing_deg": 313.6,
-   "axis_narrow_m": 103.2,
-   "axis_width_m": 108.3,
    "is_tile_mesh": false,
    "model": "lm_c_bronx_county_courthouse",
-   "narrow_m": 140.5,
-   "note": "`part_width_m` is the box of lm_c_bronx_county_courthouse.6 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 10 part(s) of lm_c_bronx_county_courthouse, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
+   "model_axis_narrow_m": 103.2,
+   "model_axis_width_m": 108.3,
+   "model_narrow_m": 140.5,
+   "model_width_m": 149.6,
+   "narrow_m": 108.7,
+   "note": "`width_m` and `narrow_m` are the box of lm_c_bronx_county_courthouse.6 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 10 part(s) of lm_c_bronx_county_courthouse, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_bronx_county_courthouse.6",
-   "part_narrow_m": 108.7,
-   "part_width_m": 108.8,
    "parts": 10,
-   "width_m": 149.6
+   "width_m": 108.8
   }
  },
  "sun": {

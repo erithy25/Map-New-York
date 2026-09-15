@@ -66,7 +66,7 @@
    0.0
   ],
   "nearest_obstruction_m": 20.0,
-  "note": "the recorded viewpoint is inside lm_b_brooklyn_bridge.45 (a ray straight up from the eye point hits its roof); the camera was moved 8 m to the right -- the nearest point in open air -- keeping the same eye height above the heightmap.  The view azimuth is clear for 96 m from there, and nothing built stands within 20 m of the lens, and no simulated agent stands within 20 m of it",
+  "note": "the recorded viewpoint is inside lm_b_brooklyn_bridge.45 (a ray straight up from the eye point hits its roof); the camera was moved 8 m to the right -- the nearest point in open air -- keeping the same eye height above the heightmap.  The view azimuth is clear for 96 m from there, and nothing built stands on the probe's rays across this frame within 20 m of the lens, and the probe found no simulated agent on its rays across this frame within 20 m",
   "offset_m": 8.0,
   "reason": "inside lm_b_brooklyn_bridge.45 (a ray straight up from the eye point hits its roof)",
   "rule": "radial search with a clear frame that sees the subject",
@@ -125,6 +125,7 @@
  "name": "Brooklyn Bridge from the pedestrian walkway",
  "night": false,
  "pitch_reason": "level optical axis (the subject is 340 m away; anything that far is photographed with a level camera)",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Famartin",
   "confidence": "high",
@@ -139,7 +140,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_brooklyn_bridge_walkway/render.png",
- "rendered_at": "2026-09-09T18:15:52Z",
+ "rendered_at": "2026-09-15T19:43:31Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -182,7 +183,7 @@
    "placed_pedestrians": 139,
    "placed_vehicles": 34,
    "reason": null,
-   "seconds": 510.35,
+   "seconds": 554.01,
    "snapshot": {
     "building_footprints_tested": 460,
     "density_lane_km": 18.407,
@@ -197,7 +198,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.55,
+     "load_seconds": 2.2,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -1052,6 +1053,7 @@
    },
    "capped": null,
    "dropped_for_budget": 0,
+   "dropped_on_suppressed_building": 0,
    "impostor_cards_dropped": 0,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {},
@@ -1100,7 +1102,7 @@
    }
   },
   "radius_m": 990.1267760207695,
-  "seconds": 568.17,
+  "seconds": 589.46,
   "structures": {
    "imported": [
     "t_-3_0",
@@ -1182,9 +1184,9 @@
   "radius_m": 990.1267760207695
  },
  "seconds": {
-  "render": 112.3,
-  "scene": 571.0,
-  "total": 683.4
+  "render": 93.5,
+  "scene": 592.9,
+  "total": 686.4
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 25.6 m above its ground",
@@ -1193,7 +1195,7 @@
   "subject_clear_fraction": 0.923,
   "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate; clipped to the frame, because a ray outside the picture tests something that is not in it",
   "subject_fan_half_angle_deg": 27.22,
-  "subject_fan_m": 761.6,
+  "subject_fan_m": 1052.2,
   "subject_fan_tall_m": 51.3,
   "subject_fan_v_half_angle_deg": 4.31,
   "subject_lands_at_m": 213.6,
@@ -1234,11 +1236,18 @@
   "name": "Brooklyn Bridge Manhattan tower",
   "origin_distance_m": 339.9,
   "plan_extent": {
+   "across_bearing_deg": 316.8,
    "is_tile_mesh": false,
-   "narrow_m": 728.2,
-   "note": "the bounding box of the object the height was measured off",
+   "model": "lm_b_brooklyn_bridge",
+   "model_axis_narrow_m": 1281.2,
+   "model_axis_width_m": 1338.4,
+   "model_narrow_m": 1852.7,
+   "model_width_m": 1077.7,
+   "narrow_m": 1053.7,
+   "note": "`width_m` and `narrow_m` are the box of lm_b_brooklyn_bridge.34 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 103 part(s) of lm_b_brooklyn_bridge, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_b_brooklyn_bridge.34",
-   "width_m": 761.6
+   "parts": 103,
+   "width_m": 1052.2
   }
  },
  "sun": {

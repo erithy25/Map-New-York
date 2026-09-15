@@ -67,7 +67,7 @@
    27.2
   ],
   "nearest_obstruction_m": 19.1,
-  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 4 m ahead, less than the 20 m this frame needs to show its subject; the camera was moved 18 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there, and the nearest built thing in the frame is t_-2_8_park_park_ground_grass 19.1 m away at +21 deg yaw, +27 deg pitch, and no simulated agent stands within 20 m of it",
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 4 m ahead, less than the 20 m this frame needs to show its subject; the camera was moved 18 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there, and the nearest built thing in the frame is t_-2_8_park_park_ground_grass 19.1 m away at +21 deg yaw, +27 deg pitch, and the probe found no simulated agent on its rays across this frame within 20 m",
   "offset_m": 18.1,
   "reason": "boxed in: the view azimuth is closed off 4 m ahead, less than the 20 m this frame needs to show its subject",
   "rule": "pavement snap with a clear frame that sees the subject",
@@ -96,11 +96,11 @@
  "lighting": {
   "background_strength": 0.04045221209526062,
   "development": {
-   "linear_p05": 0.008089,
-   "linear_p50": 0.011677,
-   "linear_p95": 0.012926,
+   "linear_p05": 0.008091,
+   "linear_p50": 0.011676,
+   "linear_p95": 0.012924,
    "log_average_linear": 0.011222,
-   "median_linear": 0.011677,
+   "median_linear": 0.011676,
    "metered": true,
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
    "stops": 3.946,
@@ -127,6 +127,7 @@
  "name": "Belvedere Castle",
  "night": false,
  "pitch_reason": "level optical axis (Belvedere Castle is 24 m away and would need +10 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Caviedez",
   "confidence": "high",
@@ -141,7 +142,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_belvedere_castle/render.png",
- "rendered_at": "2026-09-13T18:22:30Z",
+ "rendered_at": "2026-09-15T19:24:05Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -174,7 +175,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 116250,
+   "pedestrian_triangles": 116267,
    "per_class": {
     "black_car": 5,
     "boro_taxi": 4,
@@ -186,7 +187,7 @@
    "placed_pedestrians": 71,
    "placed_vehicles": 34,
    "reason": null,
-   "seconds": 418.67,
+   "seconds": 325.59,
    "snapshot": {
     "building_footprints_tested": 1018,
     "car_free_park_drives_matched": 32,
@@ -227,9 +228,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 238
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -1595_8803_18_0_6898573d3aace582_1788868452.json",
    "triangle_budget": 1125000,
-   "triangles": 428217,
+   "triangles": 428234,
    "vehicle_lods": {
     "LOD1": 5,
     "LOD2": 30
@@ -1091,7 +1092,7 @@
    }
   },
   "radius_m": 628.5350041767605,
-  "seconds": 471.04,
+  "seconds": 360.58,
   "structures": {
    "imported": [
     "t_-1_9",
@@ -1139,7 +1140,7 @@
    "z_max_m": 42.64,
    "z_min_m": 12.15
   },
-  "triangles": 2621133
+  "triangles": 2621150
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1149,9 +1150,9 @@
   "radius_m": 628.5350041767605
  },
  "seconds": {
-  "render": 92.1,
-  "scene": 490.0,
-  "total": 582.1
+  "render": 77.0,
+  "scene": 371.7,
+  "total": 448.7
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 3.8 m above its ground",
@@ -1201,17 +1202,17 @@
   "origin_distance_m": 24.4,
   "plan_extent": {
    "across_bearing_deg": 325.0,
-   "axis_narrow_m": 41.6,
-   "axis_width_m": 41.8,
    "is_tile_mesh": false,
    "model": "lm_b_belvedere_castle",
-   "narrow_m": 57.5,
-   "note": "`part_width_m` is the box of lm_b_belvedere_castle.2 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 15 part(s) of lm_b_belvedere_castle, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
+   "model_axis_narrow_m": 41.6,
+   "model_axis_width_m": 41.8,
+   "model_narrow_m": 57.5,
+   "model_width_m": 57.4,
+   "narrow_m": 50.2,
+   "note": "`width_m` and `narrow_m` are the box of lm_b_belvedere_castle.2 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 15 part(s) of lm_b_belvedere_castle, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_b_belvedere_castle.2",
-   "part_narrow_m": 50.2,
-   "part_width_m": 50.0,
    "parts": 15,
-   "width_m": 57.4
+   "width_m": 50.0
   }
  },
  "sun": {

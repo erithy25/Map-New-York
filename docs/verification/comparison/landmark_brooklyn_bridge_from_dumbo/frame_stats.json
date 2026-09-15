@@ -1,6 +1,6 @@
 {
  "slug": "landmark_brooklyn_bridge_from_dumbo",
- "rendered_at": "2026-09-09T18:07:42Z",
+ "rendered_at": "2026-09-15T19:36:51Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",

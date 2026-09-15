@@ -74,7 +74,7 @@
   "view_m": 148.8
  },
  "frame": {
-  "mean": 0.5131,
+  "mean": 0.5132,
   "reason": null,
   "sd": 0.2273,
   "usable": true
@@ -86,15 +86,15 @@
  "lighting": {
   "background_strength": 0.049372706562280655,
   "development": {
-   "linear_p05": 0.003182,
-   "linear_p50": 0.031241,
-   "linear_p95": 0.218779,
-   "log_average_linear": 0.031817,
-   "median_linear": 0.031241,
+   "linear_p05": 0.003186,
+   "linear_p50": 0.031235,
+   "linear_p95": 0.218855,
+   "log_average_linear": 0.031819,
+   "median_linear": 0.031235,
    "metered": true,
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
-   "stops": 2.526,
-   "stops_unclamped": 2.526,
+   "stops": 2.527,
+   "stops_unclamped": 2.527,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
@@ -117,6 +117,7 @@
  "name": "Barclays Center",
  "night": false,
  "pitch_reason": "aimed at Barclays Center 217 m away, at its mid-height (the top of lm_c_barclays_center.2, the built thing standing at the subject's coordinate, 40 m above the ground there); +5.0 deg from horizontal",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Eden, Janine and Jim from New York City",
   "confidence": "high",
@@ -131,7 +132,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_barclays_center/render.png",
- "rendered_at": "2026-09-13T18:26:35Z",
+ "rendered_at": "2026-09-15T19:25:46Z",
  "resolution_note": "1280x720; the reference photograph is 1920x1080 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -162,7 +163,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 578839,
+   "pedestrian_triangles": 578870,
    "per_class": {
     "black_car": 2,
     "boro_taxi": 4,
@@ -174,7 +175,7 @@
    "placed_pedestrians": 334,
    "placed_vehicles": 50,
    "reason": null,
-   "seconds": 885.5,
+   "seconds": 691.3,
    "snapshot": {
     "building_footprints_tested": 7996,
     "density_lane_km": 28.097,
@@ -214,9 +215,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 906
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -2321_-1791_18_0_7f8d2c512e059bb5_1788868452.json",
    "triangle_budget": 1125000,
-   "triangles": 1083971,
+   "triangles": 1084002,
    "vehicle_lods": {
     "LOD1": 10,
     "LOD2": 40
@@ -313,7 +314,7 @@
    -1791.29
   ],
   "kit": {
-   "capped": "triangle budget 1364208",
+   "capped": "triangle budget 1364177",
    "per_category": {
     "bulkhead": 66,
     "cornice": 54,
@@ -1073,7 +1074,7 @@
    }
   },
   "radius_m": 804.1275778999877,
-  "seconds": 1170.59,
+  "seconds": 920.84,
   "structures": {
    "imported": [
     "t_-3_-1",
@@ -1105,7 +1106,7 @@
    "z_max_m": 35.57,
    "z_min_m": -0.3
   },
-  "triangles": 4500214
+  "triangles": 4500245
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1115,9 +1116,9 @@
   "radius_m": 804.1275778999877
  },
  "seconds": {
-  "render": 94.2,
-  "scene": 1183.9,
-  "total": 1278.1
+  "render": 68.1,
+  "scene": 927.9,
+  "total": 996.0
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 20.1 m above its ground",
@@ -1167,17 +1168,17 @@
   "origin_distance_m": 216.8,
   "plan_extent": {
    "across_bearing_deg": 130.4,
-   "axis_narrow_m": 184.3,
-   "axis_width_m": 188.7,
    "is_tile_mesh": false,
    "model": "lm_c_barclays_center",
-   "narrow_m": 250.0,
-   "note": "`part_width_m` is the box of lm_c_barclays_center.2 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 5 part(s) of lm_c_barclays_center, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
+   "model_axis_narrow_m": 184.3,
+   "model_axis_width_m": 188.7,
+   "model_narrow_m": 250.0,
+   "model_width_m": 248.3,
+   "narrow_m": 242.2,
+   "note": "`width_m` and `narrow_m` are the box of lm_c_barclays_center.2 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 5 part(s) of lm_c_barclays_center, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_barclays_center.2",
-   "part_narrow_m": 242.2,
-   "part_width_m": 240.5,
    "parts": 5,
-   "width_m": 248.3
+   "width_m": 240.5
   }
  },
  "sun": {

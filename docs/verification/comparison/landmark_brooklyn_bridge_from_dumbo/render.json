@@ -67,7 +67,7 @@
    10.5
   ],
   "nearest_obstruction_m": 18.2,
-  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 72 m ahead, less than the 80 m this frame needs to show its subject; the camera was moved 4 m to the right -- the nearest point in open air -- keeping the same eye height above the heightmap.  The view azimuth is clear for 96 m from there, and the nearest built thing in the frame is prop_tree_honeylocust_small_bare_24 18.2 m away, and no simulated agent stands within 20 m of it",
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 72 m ahead, less than the 80 m this frame needs to show its subject; the camera was moved 4 m to the right -- the nearest point in open air -- keeping the same eye height above the heightmap.  The view azimuth is clear for 96 m from there, and the nearest built thing in the frame is prop_tree_honeylocust_small_bare_24 18.2 m away, and the probe found no simulated agent on its rays across this frame within 20 m",
   "offset_m": 4.0,
   "reason": "boxed in: the view azimuth is closed off 72 m ahead, less than the 80 m this frame needs to show its subject",
   "rule": "radial search with a clear frame that sees the subject",
@@ -126,6 +126,7 @@
  "name": "Brooklyn Bridge seen from DUMBO / Brooklyn Bridge Park",
  "night": false,
  "pitch_reason": "level optical axis (the subject is 285 m away; anything that far is photographed with a level camera)",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Kidfly182",
   "confidence": "high",
@@ -140,7 +141,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_brooklyn_bridge_from_dumbo/render.png",
- "rendered_at": "2026-09-09T18:07:42Z",
+ "rendered_at": "2026-09-15T19:36:51Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -185,7 +186,7 @@
    "placed_pedestrians": 434,
    "placed_vehicles": 88,
    "reason": null,
-   "seconds": 184.65,
+   "seconds": 286.56,
    "snapshot": {
     "building_footprints_tested": 229,
     "density_lane_km": 26.567,
@@ -200,7 +201,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.95,
+     "load_seconds": 2.16,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -1098,6 +1099,7 @@
    },
    "capped": "triangle budget 1106383",
    "dropped_for_budget": 3589,
+   "dropped_on_suppressed_building": 0,
    "impostor_cards_dropped": 4,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -1163,7 +1165,7 @@
    }
   },
   "radius_m": 880.3543637077657,
-  "seconds": 277.49,
+  "seconds": 406.23,
   "structures": {
    "imported": [
     "t_-3_-1",
@@ -1251,18 +1253,18 @@
   "radius_m": 880.3543637077657
  },
  "seconds": {
-  "render": 274.0,
-  "scene": 294.7,
-  "total": 568.7
+  "render": 142.5,
+  "scene": 421.7,
+  "total": 564.2
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 28.0 m above its ground",
   "subject_blocked_at_m": 18.9,
   "subject_blocked_by": "prop_tree_honeylocust_large_bare_25",
   "subject_clear_fraction": 0.615,
-  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate; clipped to the frame, because a ray outside the picture tests something that is not in it",
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate, not the 1073.5 m of the whole model around it, which is the site rather than the subject (J113); clipped to the frame, because a ray outside the picture tests something that is not in it",
   "subject_fan_half_angle_deg": 27.22,
-  "subject_fan_m": 761.6,
+  "subject_fan_m": 951.7,
   "subject_fan_tall_m": 55.9,
   "subject_fan_v_half_angle_deg": 5.59,
   "subject_lands_at_m": 264.2,
@@ -1303,11 +1305,18 @@
   "name": "Brooklyn Bridge Brooklyn tower",
   "origin_distance_m": 284.7,
   "plan_extent": {
+   "across_bearing_deg": 288.3,
    "is_tile_mesh": false,
-   "narrow_m": 728.2,
-   "note": "the bounding box of the object the height was measured off",
+   "model": "lm_b_brooklyn_bridge",
+   "model_axis_narrow_m": 1281.2,
+   "model_axis_width_m": 1338.4,
+   "model_narrow_m": 1636.6,
+   "model_width_m": 1073.5,
+   "narrow_m": 930.5,
+   "note": "`width_m` and `narrow_m` are the box of lm_b_brooklyn_bridge.35 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 103 part(s) of lm_b_brooklyn_bridge, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_b_brooklyn_bridge.35",
-   "width_m": 761.6
+   "parts": 103,
+   "width_m": 951.7
   },
   "rejected_origin_distance_m": 285.9
  },
