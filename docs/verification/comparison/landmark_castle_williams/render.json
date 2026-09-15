@@ -67,7 +67,7 @@
    10.5
   ],
   "nearest_obstruction_m": 8.2,
-  "note": "the recorded viewpoint is hard against t_-6_-1_brownstone (1.2 m ahead along the view azimuth); the camera was moved 66 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there, and the nearest built thing in the frame is prop_tree_honeylocust_small_15 8.2 m away at +0 deg yaw, +11 deg pitch, and the nearest simulated agent is agent_veh_camry_black_car_68 2.3 m away",
+  "note": "the recorded viewpoint is hard against t_-6_-1_brownstone (1.2 m ahead along the view azimuth); the camera was moved 66 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there, and the nearest built thing in the frame is prop_tree_honeylocust_small_15 8.2 m away at +0 deg yaw, +11 deg pitch, and the probe found no simulated agent on its rays across this frame within 20 m",
   "offset_m": 65.8,
   "reason": "hard against t_-6_-1_brownstone (1.2 m ahead along the view azimuth)",
   "rule": "pavement snap with a clear frame that sees the subject",
@@ -126,6 +126,7 @@
  "name": "Castle Williams (Governors Island)",
  "night": false,
  "pitch_reason": "aimed at Castle Williams (Governors Island) 49 m away, at its mid-height (the top of t_-6_-1_roof_membrane, the built thing standing at the subject's coordinate, 11 m above the ground there); +4.7 deg from horizontal",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Nvss132",
   "confidence": "high",
@@ -140,7 +141,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_castle_williams/render.png",
- "rendered_at": "2026-09-12T17:40:00Z",
+ "rendered_at": "2026-09-15T19:55:17Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -183,7 +184,7 @@
    "placed_pedestrians": 7,
    "placed_vehicles": 86,
    "reason": null,
-   "seconds": 16.26,
+   "seconds": 22.68,
    "snapshot": {
     "building_footprints_tested": 138,
     "density_lane_km": 6.647,
@@ -198,7 +199,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.65,
+     "load_seconds": 2.23,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -788,7 +789,7 @@
    }
   },
   "radius_m": 744.55573184837,
-  "seconds": 40.58,
+  "seconds": 51.2,
   "structures": {
    "imported": [
     "t_-6_-1",
@@ -872,9 +873,9 @@
   "radius_m": 744.55573184837
  },
  "seconds": {
-  "render": 101.3,
-  "scene": 42.9,
-  "total": 144.2
+  "render": 94.6,
+  "scene": 54.5,
+  "total": 149.1
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 5.4 m above its ground",
@@ -924,11 +925,18 @@
   "name": "Castle Williams (Governors Island)",
   "origin_distance_m": 48.9,
   "plan_extent": {
+   "across_bearing_deg": 118.7,
    "is_tile_mesh": true,
-   "narrow_m": 268.0,
+   "model": "t_-6_-1_roof_membrane",
+   "model_axis_narrow_m": 268.0,
+   "model_axis_width_m": 775.6,
+   "model_narrow_m": 809.1,
+   "model_width_m": 607.2,
+   "narrow_m": 809.1,
    "note": "a tile mesh is every building of one material in the tile, so its extent is not the subject's and is not used",
    "object": "t_-6_-1_roof_membrane",
-   "width_m": 775.6
+   "parts": 1,
+   "width_m": 607.2
   }
  },
  "sun": {
