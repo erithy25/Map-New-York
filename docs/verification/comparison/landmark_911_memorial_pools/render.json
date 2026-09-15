@@ -65,15 +65,15 @@
    -27.2
   ],
   "nearest_obstruction_m": 0.7,
-  "note": "the eye point stands on lm_b_wtc_site.233, but this camera's position is the photograph's own EXIF GPS rather than a nominal viewpoint standing for a whole deck, so there is nothing to walk to and the camera was not moved.  The view azimuth is clear for 150 m and the nearest built thing in the frame is lm_b_wtc_site.233 0.7 m away, and no simulated agent stands within 60 m of it",
+  "note": "the eye point stands on lm_b_wtc_site.233, but this camera's position is the photograph's own EXIF GPS rather than a nominal viewpoint standing for a whole deck, so there is nothing to walk to and the camera was not moved.  The view azimuth is clear for 150 m and the nearest built thing in the frame is lm_b_wtc_site.233 0.7 m away, and the probe found no simulated agent on its rays across this frame within 60 m",
   "offset_m": 0.0,
   "standing_on": "lm_b_wtc_site.233",
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.4411,
+  "mean": 0.4412,
   "reason": null,
-  "sd": 0.187,
+  "sd": 0.1871,
   "usable": true
  },
  "frame_retry": null,
@@ -83,16 +83,16 @@
  "lighting": {
   "background_strength": 0.03866290673613548,
   "development": {
-   "linear_p05": 0.000889,
+   "linear_p05": 0.000891,
    "linear_p50": 0.009483,
-   "linear_p95": 0.035271,
+   "linear_p95": 0.035269,
    "log_average_linear": 0.006539,
    "median_linear": 0.009483,
    "metered": true,
    "note": "under-lit: the scene needed +4.25 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
-   "stops": 4.246,
-   "stops_unclamped": 4.246,
+   "stops": 4.247,
+   "stops_unclamped": 4.247,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
@@ -115,6 +115,7 @@
  "name": "National September 11 Memorial pools",
  "night": false,
  "pitch_reason": "level optical axis (nothing built stands at the North Pool's coordinate, so its mid-height is not known and there is nothing to tilt towards)",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Oleg Yunakov",
   "confidence": "high",
@@ -129,7 +130,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_911_memorial_pools/render.png",
- "rendered_at": "2026-09-13T17:36:18Z",
+ "rendered_at": "2026-09-14T13:21:18Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -159,7 +160,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 579183,
+   "pedestrian_triangles": 579198,
    "per_class": {
     "black_car": 3,
     "boro_taxi": 7,
@@ -171,7 +172,7 @@
    "placed_pedestrians": 438,
    "placed_vehicles": 88,
    "reason": null,
-   "seconds": 258.63,
+   "seconds": 153.75,
    "snapshot": {
     "building_footprints_tested": 1416,
     "density_lane_km": 24.809,
@@ -211,9 +212,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 683
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -5293_1241_17_0_78a93ee4d10b9e61_1788868452.json",
    "triangle_budget": 1125000,
-   "triangles": 1082214,
+   "triangles": 1082229,
    "vehicle_lods": {
     "LOD2": 88
    },
@@ -1084,7 +1085,7 @@
    }
   },
   "radius_m": 600.7229376618243,
-  "seconds": 361.06,
+  "seconds": 224.61,
   "structures": {
    "imported": [
     "t_-5_0",
@@ -1137,7 +1138,7 @@
    "z_max_m": 13.89,
    "z_min_m": -2.04
   },
-  "triangles": 3657936
+  "triangles": 3657951
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1147,9 +1148,9 @@
   "radius_m": 600.7229376618243
  },
  "seconds": {
-  "render": 104.2,
-  "scene": 365.0,
-  "total": 469.1
+  "render": 155.9,
+  "scene": 227.2,
+  "total": 383.1
  },
  "sightline": {
   "subject_note": "the highest built thing at the subject's coordinate is lm_b_wtc_site.232, 0.1 m above the ground there -- below the 2 m at which a subject has a height worth aiming or framing by; no sightline was tested",
