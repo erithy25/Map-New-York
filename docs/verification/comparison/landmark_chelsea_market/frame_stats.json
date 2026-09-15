@@ -1,19 +1,19 @@
 {
  "slug": "landmark_chelsea_market",
- "rendered_at": "2026-09-09T18:44:27Z",
+ "rendered_at": "2026-09-15T21:48:37Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.3929,
-  "sd": 0.2239,
-  "p05": 0.0333,
-  "p50": 0.5014,
-  "p95": 0.6658,
-  "chroma": 0.0487,
-  "exposure_offset_stops": 0.258
+  "mean": 0.4982,
+  "sd": 0.1562,
+  "p05": 0.2188,
+  "p50": 0.4924,
+  "p95": 0.7706,
+  "chroma": 0.1009,
+  "exposure_offset_stops": 0.202
  },
  "reference": {
   "width": 1920,
@@ -27,11 +27,11 @@
   "exposure_offset_stops": 1.875
  },
  "render_over_reference": {
-  "mean": 0.611,
-  "sd": 0.705,
-  "p50": 0.602,
-  "chroma": 1.165,
-  "exposure_offset_stops": -1.617,
+  "mean": 0.775,
+  "sd": 0.492,
+  "p50": 0.591,
+  "chroma": 2.414,
+  "exposure_offset_stops": -1.673,
   "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

@@ -72,14 +72,14 @@
    0.0
   ],
   "nearest_obstruction_m": 20.0,
-  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 13 m ahead, less than the 80 m this frame needs to show its subject; the camera was moved 74 m onto the nearest real crosswalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  No point within 80 m had 80 m of open air along the view azimuth with nothing built inside 8 m of the lens, so the frame is closed off 96 m ahead and nothing built stands within 20 m of the lens, and the nearest simulated agent is agent_ped_2957.5 11.2 m away",
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 13 m ahead, less than the 80 m this frame needs to show its subject; the camera was moved 74 m onto the nearest real crosswalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  No point within 80 m had 80 m of open air along the view azimuth with nothing built inside 8 m of the lens, so the frame is closed off 96 m ahead and nothing built stands on the probe's rays across this frame within 20 m of the lens, and the nearest simulated agent is agent_ped_2957.5 11.2 m away",
   "offset_m": 73.8,
   "reason": "boxed in: the view azimuth is closed off 13 m ahead, less than the 80 m this frame needs to show its subject",
   "rule": "open air only, ranked on how much of the subject it sees",
   "scored_on_subject_sightline": true,
   "subject_sightline_at_choice": {
-   "subject_blocked_at_m": 30.2,
-   "subject_blocked_by": "t_-3_5_metal_panel",
+   "subject_blocked_at_m": 29.5,
+   "subject_blocked_by": "kit_200_1949",
    "subject_rays": 13,
    "subject_rays_on_subject": 0,
    "subject_visible": false,
@@ -90,7 +90,7 @@
  "frame": {
   "mean": 0.5103,
   "reason": null,
-  "sd": 0.2273,
+  "sd": 0.2274,
   "usable": true
  },
  "frame_retry": null,
@@ -100,13 +100,13 @@
  "lighting": {
   "background_strength": 0.03425423800945282,
   "development": {
-   "linear_p05": 0.001592,
-   "linear_p50": 0.009966,
-   "linear_p95": 0.108485,
-   "log_average_linear": 0.010603,
-   "median_linear": 0.009966,
+   "linear_p05": 0.001587,
+   "linear_p50": 0.009962,
+   "linear_p95": 0.108467,
+   "log_average_linear": 0.010599,
+   "median_linear": 0.009962,
    "metered": true,
-   "note": "under-lit: the scene needed +4.17 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
+   "note": "under-lit: the scene needed +4.18 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
    "stops": 4.175,
    "stops_unclamped": 4.175,
@@ -132,6 +132,7 @@
  "name": "Chrysler Building",
  "night": false,
  "pitch_reason": "tilted +21.0 deg to contain the subject: the top of lm_chrysler.2, the built thing standing at the subject's coordinate, 282 m above the ground there tops out 276 m above the lens 205 m away, 53 deg above the horizon, and the frame is only 74 deg tall at 18 mm. **The verticals converge, so this frame is not comparable with the photograph on proportion** -- it is here to show the subject at all",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Kidfly182",
   "confidence": "high",
@@ -146,7 +147,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_chrysler_building/render.png",
- "rendered_at": "2026-09-09T18:51:06Z",
+ "rendered_at": "2026-09-15T21:51:27Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -195,7 +196,7 @@
    "placed_pedestrians": 405,
    "placed_vehicles": 80,
    "reason": null,
-   "seconds": 307.35,
+   "seconds": 232.26,
    "snapshot": {
     "building_footprints_tested": 2825,
     "density_lane_km": 34.247,
@@ -210,7 +211,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.79,
+     "load_seconds": 2.31,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -307,7 +308,7 @@
    5660.35
   ],
   "kit": {
-   "capped": "triangle budget 1220631",
+   "capped": "triangle budget 1220629",
    "per_category": {
     "bulkhead": 3,
     "cornice": 1,
@@ -967,21 +968,22 @@
   },
   "props": {
    "canopy": {
-    "billboards": 256,
+    "billboards": 237,
     "card_missing_drawn_lod0": 0,
-    "dropped_for_budget": 1404,
+    "dropped_for_budget": 1423,
     "lod0": 17,
     "near_radius_m": 120.0,
     "procedural_dataset_id": "rule:woodland_canopy",
     "procedural_stems": 0,
     "radius_m": 652.1152614383789,
     "rows_beyond_prop_radius": 1169,
-    "triangles": 1536,
-    "yaw_by_rule": 273,
+    "triangles": 1422,
+    "yaw_by_rule": 254,
     "yaw_rule": "a tree's yaw is not in any source: it is drawn from a hash of the stem's own position (SplitMix64 over the metre-rounded x, y), uniform over 360 deg, so the same tree is drawn the same way in every render and no two neighbours share a silhouette; a rule, not a measurement"
    },
    "capped": "triangle budget 1241097",
-   "dropped_for_budget": 2046,
+   "dropped_for_budget": 2053,
+   "dropped_on_suppressed_building": 23,
    "impostor_cards_dropped": 5,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -991,18 +993,18 @@
    "per_dataset": {
     "bus_stop_shelters": 4,
     "citibike_gbfs_station_status": 80,
-    "citibike_gbfs_stations": 523,
+    "citibike_gbfs_stations": 528,
     "gtfs_bus": 17,
     "hydrants": 77,
     "linknyc": 24,
     "newsstands": 5,
     "osm_newyork_pbf": 132,
-    "plan_cooling_towers": 159,
+    "plan_cooling_towers": 139,
     "plan_railroad_structure": 29,
-    "rule:lamp_30_40m_alt": 99,
-    "rule:manhole_40m": 137,
-    "rule:steam_vent_400m_manhattan_below_96": 9,
-    "street_trees_2015": 263,
+    "rule:lamp_30_40m_alt": 100,
+    "rule:manhole_40m": 139,
+    "rule:steam_vent_400m_manhattan_below_96": 10,
+    "street_trees_2015": 244,
     "subway_entrances": 17
    },
    "per_kind": {
@@ -1010,22 +1012,22 @@
     "bike_rack": 11,
     "bus_shelter": 4,
     "bus_stop_sign": 17,
-    "citibike_dock": 603,
-    "cooling_tower": 159,
+    "citibike_dock": 608,
+    "cooling_tower": 139,
     "flagpole": 15,
     "hydrant": 77,
     "linknyc": 24,
     "mailbox": 6,
-    "manhole": 137,
+    "manhole": 139,
     "newsstand": 5,
-    "steam_vent": 9,
-    "street_lamp": 155,
+    "steam_vent": 10,
+    "street_lamp": 156,
     "subway_entrance": 17,
     "subway_vent_grate": 29,
-    "tree": 273,
+    "tree": 254,
     "waste_basket": 28
    },
-   "placed": 1575,
+   "placed": 1545,
    "radius_m": 386.78910693774503,
    "rows_in_range": 3860,
    "tiles_missing": [],
@@ -1035,11 +1037,11 @@
     "t_-3_5",
     "t_-3_6"
    ],
-   "tree_instances_scaled": 273,
-   "tree_mean_scale": 0.963,
+   "tree_instances_scaled": 254,
+   "tree_mean_scale": 0.957,
    "tree_scale_out_of_band": 0,
-   "tree_species_substituted": 38,
-   "triangles": 1241092,
+   "tree_species_substituted": 32,
+   "triangles": 1241094,
    "unmapped_kinds": {
     "artwork": 5,
     "drinking_fountain": 5,
@@ -1049,7 +1051,7 @@
    }
   },
   "radius_m": 652.1152614383789,
-  "seconds": 400.2,
+  "seconds": 297.45,
   "structures": {
    "imported": [
     "t_-2_5",
@@ -1086,7 +1088,7 @@
    "z_max_m": 25.25,
    "z_min_m": -3.31
   },
-  "triangles": 4500174
+  "triangles": 4500176
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1096,18 +1098,18 @@
   "radius_m": 652.1152614383789
  },
  "seconds": {
-  "render": 215.5,
-  "scene": 573.6,
-  "total": 789.1
+  "render": 178.4,
+  "scene": 521.7,
+  "total": 700.1
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 140.6 m above its ground",
-  "subject_blocked_at_m": 30.3,
-  "subject_blocked_by": "t_-3_5_metal_panel",
+  "subject_blocked_at_m": 29.5,
+  "subject_blocked_by": "kit_200_1949",
   "subject_clear_fraction": 0.077,
-  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate",
-  "subject_fan_half_angle_deg": 6.26,
-  "subject_fan_m": 42.4,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate, not the 113.7 m of the whole model around it, which is the site rather than the subject (J113)",
+  "subject_fan_half_angle_deg": 8.28,
+  "subject_fan_m": 56.3,
   "subject_fan_tall_m": 281.1,
   "subject_fan_v_half_angle_deg": 36.04,
   "subject_lands_at_m": null,
@@ -1148,11 +1150,18 @@
   "name": "Chrysler Building",
   "origin_distance_m": 204.5,
   "plan_extent": {
+   "across_bearing_deg": 29.6,
    "is_tile_mesh": false,
-   "narrow_m": 39.3,
-   "note": "the bounding box of the object the height was measured off",
+   "model": "lm_chrysler",
+   "model_axis_narrow_m": 79.6,
+   "model_axis_width_m": 85.5,
+   "model_narrow_m": 111.5,
+   "model_width_m": 113.7,
+   "narrow_m": 55.1,
+   "note": "`width_m` and `narrow_m` are the box of lm_chrysler.2 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 20 part(s) of lm_chrysler, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_chrysler.2",
-   "width_m": 42.4
+   "parts": 20,
+   "width_m": 56.3
   },
   "rejected_origin_distance_m": 72.1
  },

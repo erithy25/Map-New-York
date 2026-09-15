@@ -195,7 +195,8 @@ What differs in the 35-minute run above is therefore **not `--city`** but the **
 3,000 / 12,000 against the guard's 1,500 / 6,000. Both runs end at exactly their `peds + 2000` cap
 (`bench_step.cpp:676`) — 14,000 and 8,000 — so the rise is plausibly the crowd filling toward that cap
 rather than a leak. *Plausibly* is not a measurement, so the heavier configuration was re-run with
-`--csv` to separate the two; §14 carries the answer.
+`--csv` to separate the two, and it separates cleanly: **it is a fill transient, not a leak.** §14
+carries the curve and what it says about the guard.
 
 Two things worth recording from reading the soak's own code while checking this. It calls
 `prefill()` directly (`bench_step.cpp:698-699`), so **the soak's crowd is properly routed and J125 does
@@ -346,3 +347,52 @@ in so many words and passes `--use-spawner` for its population figures, which is
 `prefill()` does — is not the whole job, because the published step times then need re-measuring and
 F1's 38.3 ms becomes a figure for a crowd that does not commute. That is a measurement pass, not an
 edit, and it is named here with both numbers rather than quietly corrected.
+
+## 14. J126 — memory is flat, and the guard that proves it would fail on a larger crowd
+
+The 35-minute configuration of §10 was re-run with `--csv` so the 204-sample summary could be
+decomposed. **The resident set is not a ramp, it is a step:**
+
+| simulated minute | RSS | vehicles | pedestrians |
+|---|---|---|---|
+| 0.00 | 579.87 MB | 923 | 5,359 |
+| 0.50 | 579.89 MB | 1,505 | 7,876 |
+| 0.83 | 579.89 MB | 1,361 | 8,890 |
+| 17.17 | 591.62 MB | 1,746 | 11,220 |
+| 17.67 | 591.63 MB | 1,574 | 11,373 |
+| 34.00 | 591.63 MB | 1,579 | **14,000** |
+| 34.83 | **591.63 MB** | 1,440 | **14,000** |
+
+| fit over | slope |
+|---|---|
+| the whole run, 210 samples | **+0.3551 MB / sim min** |
+| the bench's own window, 204 samples after the first simulated minute | **+0.3389 MB / sim min** |
+| **the second half alone** | **+0.0000 MB / sim min** |
+
+The crowd reaches its `peds + 2000` cap of 14,000 at **minute 10.00**, and from there to minute 34.83
+the resident set moves by **0.01 MB**. The whole 11.74 MB "spread" is the single step from 579.89 to
+591.62 MB while the crowd grew from 5,359 to 14,000 — **0.84 KB per pedestrian added**, which is a
+crowd being allocated, not memory being lost. **So the build's memory over a long run is flat, and
+`performance/REPORT.md` §6's claim that the requirement is met holds at 12,000 pedestrians on the real
+city as well as at 6,000 on the grid.**
+
+**What does not hold is the way it is proved.** `test_memory_is_bounded_over_a_long_run` asserts
+`slope < 0.0167` MB per simulated minute and `spread < 8.0` MB, and fits the slope over **every sample
+after the first simulated minute**. On this configuration both assertions fail — slope +0.3389 against
+0.0167, spread 11.74 against 8.0 — while the quantity they exist to detect is **+0.0000**. A linear fit
+to a step function reports a slope, and a fill transient is a step. The guard survives only because its
+own parameters are small enough to hide it: at 1,500 vehicles and 6,000 pedestrians the cap is 8,000,
+the crowd is there before the fit has any leverage, and the same run measures +0.0000 and a 0.00 MB
+spread — which is exactly what §10's A/B found.
+
+**Open, not fixed here, and it is a test fault rather than a build fault.** The shape of the repair,
+written down so it is not re-derived: fit the slope over samples taken **after the population has
+settled** — the bench already records `vehicles` and `peds` in every CSV row, so "settled" is
+observable rather than assumed — or assert on the second half and state why. Either makes the test
+robust to the crowd size instead of quietly depending on it. Why it matters: the documented reproduce
+command in `performance/REPORT.md` §10 is
+`soak --minutes 35 --vehicles 3000 --peds 12000`, which carries **this** configuration's agent counts,
+three and two times the guard's own. So raising the guard to the documented figures — the obvious next
+step for anyone hardening it — turns it red on a build whose memory is provably flat. **Found by disbelieving my own first reading** — the
++0.3387 slope looked like a leak in the real city, the A/B at the guard's parameters showed the city is
+flatter than the grid, and only the curve showed that neither reading was about `--city` at all.
