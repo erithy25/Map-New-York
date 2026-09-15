@@ -126,6 +126,23 @@ modes. (The published figure is 28.9×; this idle-machine run gives 32.9×. Same
 Against the 8 ms budget: **FAIL, 152.0 %**. The published honest baseline is 14.6 ms; this run is
 12.163 ms on an idle machine, and the report's own point stands — the wall clock is the weather.
 
+**The second binary, on the same grid** — `core/build/traffic_standalone/nycsim_traffic_bench
+--steps 600`, run while the soaks of §14 were running, so its timings are contended and its
+behaviour counts are not:
+
+    traffic 5.516 ms, peds 7.026 ms, combined 12.542 ms  ->  FAIL (156.8 % of budget, 4.0x real time)
+    behaviour  mean speed 2.58 m/s, 4,435 lane changes, 1,319 honks, 23 double parked,
+               114 in junction, 572 stopped at red, 6,348 reroutes of 6,356 route calls
+    crowd      mean speed 1.27 m/s, 391 crossing, 1,281 waiting, 46 jaywalking,
+               4 hailing, 0 sitting, 0 subway
+
+Two things to record. **This binary exits 1 on a budget miss**, where `nycsim_bench` exits 0 on the
+same verdict — so in CI the two disagree about whether missing the 8 ms budget is a failure. And of
+20,001 pedestrians over 800 steps, **`sitting` and `subway` are both 0** — two modelled behaviours that
+never once occur on the synthetic grid. Whether that grid has the POIs for them is a separate question
+this run does not answer; it is logged here because a zero in a behaviour counter is either a missing
+feature or a missing fixture, and nothing currently distinguishes the two.
+
 ## 9. The engine's own tests
 
     ./core/build/nycsim_core_tests
@@ -200,16 +217,16 @@ is **J114** working as designed. This frame's crowd was read back from a cached 
 
 The `stream` run reports `budget 8.0 GB; 0 tile-updates coarsened by the budget, over budget flag
 clear`. That verdict is drawn over a catalogue that counts, per tile, only `terrain.png`,
-`props.parquet` and `tile_buildings.glb` (`core/bench/bench_stream.cpp:97` and `:128`). Everything else
+`props.parquet` and `tile_buildings.glb` (`core/bench/bench_stream.cpp:97` and `:129`). Everything else
 the engine streams per tile is absent. Measured across `blender_out/tiles`:
 
 | per-tile asset | tiles | MiB | in the budget? | the engine asset it becomes |
 |---|---|---|---|---|
-| `tile_buildings.glb` | 841 | **3,157.1** | **yes** | `SM_Shells` (`manifest.py:108`) |
+| `tile_buildings.glb` | 841 | **3,157.1** | **yes** | `SM_Shells` (`manifest.py:107`) |
 | `tile_pavement.glb` | 256 | **4,818.0** | **no** | `SM_Pavement` (`manifest.py:109`) |
-| `tile_parkground.glb` | 120 | 190.2 | **no** | `SM_ParkGround` (`manifest.py:112`) |
+| `tile_parkground.glb` | 120 | 190.2 | **no** | `SM_ParkGround` (`manifest.py:111`) |
 | `tile_structures.glb` | 250 | 78.7 | **no** | `SM_Structures` (`manifest.py:110`) |
-| `tile_buildings_nj.glb` | 64 | 124.2 | **no** | `SM_tile_buildings_nj`, via the catch-all at `manifest.py:113` |
+| `tile_buildings_nj.glb` | 64 | 124.2 | **no** | `SM_tile_buildings_nj`, via the catch-all at `manifest.py:112` |
 | **total per-tile glTF** | | **8,368.1** | 3,157.1 counted | |
 
 **5,211.0 MiB — 62.3 % of the per-tile bytes — is invisible to the cap**, and the single largest
@@ -258,8 +275,8 @@ loop (`core/bench/bench_step.cpp:572`), `spawn()` calls `chooseGoal()` → `path
 `max_paths_per_step = 96` is in force while `paths_this_step_` is only ever reset inside `step()`
 (`PedSim.cpp:712`) — which does not run during a fill. So the first ~96 pedestrians get a route and the
 rest are refused one, permanently: a refused pedestrian does not queue, it loses the goal and takes
-*"a random continuation"* at each node until its next activity (`PedSim.cpp:611-613`, and the comment
-at `:190` states it). The behaviour is deliberate and documented; being applied to 99.5 % of the crowd
+*"a random continuation"* at each node until its next activity (`PedSim.cpp:609-610`, and the comment
+at `:189` states it). The behaviour is deliberate and documented; being applied to 99.5 % of the crowd
 at load is not.
 
 **What it costs, matched fleet, only the budget changed** (identical 4,549 vehicles and 21,239
