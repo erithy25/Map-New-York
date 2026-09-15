@@ -65,14 +65,14 @@
    18.4
   ],
   "nearest_obstruction_m": 9.2,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is lm_c_billionaires_row.52 9.2 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 87 m",
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is lm_c_billionaires_row.52 9.2 m away, and the probe found no simulated agent on its rays across this frame within 60 m, and the view azimuth is clear for 87 m",
   "offset_m": 0.0,
   "view_m": 86.8
  },
  "frame": {
   "mean": 0.4976,
   "reason": null,
-  "sd": 0.1876,
+  "sd": 0.1875,
   "usable": true
  },
  "frame_retry": null,
@@ -84,7 +84,7 @@
   "development": {
    "linear_p05": 0.000898,
    "linear_p50": 0.003263,
-   "linear_p95": 0.042619,
+   "linear_p95": 0.042628,
    "log_average_linear": 0.003299,
    "median_linear": 0.003263,
    "metered": true,
@@ -114,6 +114,7 @@
  "name": "9 West 57th Street (Solow Building)",
  "night": false,
  "pitch_reason": "tilted +44.2 deg to contain the subject: the top of lm_c_billionaires_row.54, the built thing standing at the subject's coordinate, 215 m above the ground there tops out 210 m above the lens 50 m away, 77 deg above the horizon, and the frame is only 74 deg tall at 18 mm. **The verticals converge, so this frame is not comparable with the photograph on proportion** -- it is here to show the subject at all",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Jim.henderson",
   "confidence": "high",
@@ -128,7 +129,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_9_west_57th/render.png",
- "rendered_at": "2026-09-13T17:47:20Z",
+ "rendered_at": "2026-09-15T18:58:20Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -160,7 +161,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 578941,
+   "pedestrian_triangles": 578952,
    "per_class": {
     "ambulance": 1,
     "black_car": 8,
@@ -176,7 +177,7 @@
    "placed_pedestrians": 421,
    "placed_vehicles": 81,
    "reason": null,
-   "seconds": 425.67,
+   "seconds": 389.98,
    "snapshot": {
     "building_footprints_tested": 3013,
     "car_free_park_drives_matched": 6,
@@ -217,9 +218,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 1141
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -2098_7046_8_0_85e4e5a516e47a21_1788868452.json",
    "triangle_budget": 1125000,
-   "triangles": 1081111,
+   "triangles": 1081122,
    "vehicle_lods": {
     "LOD1": 2,
     "LOD2": 79
@@ -289,7 +290,7 @@
    7046.34
   ],
   "kit": {
-   "capped": "triangle budget 1049199",
+   "capped": "triangle budget 1049188",
    "per_category": {
     "bulkhead": 27,
     "cornice": 14,
@@ -1084,7 +1085,7 @@
    }
   },
   "radius_m": 599.8987967043623,
-  "seconds": 567.29,
+  "seconds": 557.69,
   "structures": {
    "imported": [
     "t_-2_6"
@@ -1145,7 +1146,7 @@
    "z_max_m": 26.28,
    "z_min_m": 7.44
   },
-  "triangles": 4500229
+  "triangles": 4500240
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1155,9 +1156,9 @@
   "radius_m": 599.8987967043623
  },
  "seconds": {
-  "render": 80.7,
-  "scene": 576.2,
-  "total": 656.9
+  "render": 85.4,
+  "scene": 562.4,
+  "total": 647.9
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 107.5 m above its ground",
@@ -1207,17 +1208,17 @@
   "origin_distance_m": 49.9,
   "plan_extent": {
    "across_bearing_deg": 12.5,
-   "axis_narrow_m": 682.1,
-   "axis_width_m": 875.3,
    "is_tile_mesh": false,
    "model": "lm_c_billionaires_row",
-   "narrow_m": 591.3,
-   "note": "`part_width_m` is the box of lm_c_billionaires_row.54 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 74 part(s) of lm_c_billionaires_row, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
+   "model_axis_narrow_m": 682.1,
+   "model_axis_width_m": 875.3,
+   "model_narrow_m": 591.3,
+   "model_width_m": 992.7,
+   "narrow_m": 96.9,
+   "note": "`width_m` and `narrow_m` are the box of lm_c_billionaires_row.54 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 74 part(s) of lm_c_billionaires_row, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_billionaires_row.54",
-   "part_narrow_m": 96.9,
-   "part_width_m": 104.9,
    "parts": 74,
-   "width_m": 992.7
+   "width_m": 104.9
   }
  },
  "sun": {

@@ -65,12 +65,12 @@
    0.0
   ],
   "nearest_obstruction_m": 20.8,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is lm_c_apollo_theater.6 20.8 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 21 m",
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is lm_c_apollo_theater.6 20.8 m away, and the probe found no simulated agent on its rays across this frame within 60 m, and the view azimuth is clear for 21 m",
   "offset_m": 0.0,
   "view_m": 20.9
  },
  "frame": {
-  "mean": 0.5348,
+  "mean": 0.5349,
   "reason": null,
   "sd": 0.2157,
   "usable": true
@@ -82,11 +82,11 @@
  "lighting": {
   "background_strength": 0.03428821265697479,
   "development": {
-   "linear_p05": 0.000379,
-   "linear_p50": 0.006485,
-   "linear_p95": 0.051647,
-   "log_average_linear": 0.007169,
-   "median_linear": 0.006485,
+   "linear_p05": 0.00038,
+   "linear_p50": 0.006484,
+   "linear_p95": 0.051629,
+   "log_average_linear": 0.007171,
+   "median_linear": 0.006484,
    "metered": true,
    "note": "under-lit: the scene needed +4.79 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
@@ -114,6 +114,7 @@
  "name": "Apollo Theater",
  "night": false,
  "pitch_reason": "tilted +0.4 deg to contain the subject: the top of lm_c_apollo_theater.8, the built thing standing at the subject's coordinate, 18 m above the ground there tops out 17 m above the lens 36 m away, 24 deg above the horizon, and the frame is only 55 deg tall at 26 mm. **The verticals converge, so this frame is not comparable with the photograph on proportion** -- it is here to show the subject at all",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Kathy Drasky from San Francisco, United States",
   "confidence": "high",
@@ -128,7 +129,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_apollo_theater/render.png",
- "rendered_at": "2026-09-13T18:00:02Z",
+ "rendered_at": "2026-09-15T19:08:15Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -159,7 +160,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 576331,
+   "pedestrian_triangles": 576338,
    "per_class": {
     "black_car": 5,
     "boro_taxi": 6,
@@ -173,7 +174,7 @@
    "placed_pedestrians": 371,
    "placed_vehicles": 85,
    "reason": null,
-   "seconds": 482.79,
+   "seconds": 383.85,
    "snapshot": {
     "building_footprints_tested": 4616,
     "density_lane_km": 28.962,
@@ -213,9 +214,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 430
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -21_12186_16_2_293f33b9950676d7_1788868452.json",
    "triangle_budget": 1125000,
-   "triangles": 1082208,
+   "triangles": 1082215,
    "vehicle_lods": {
     "LOD1": 1,
     "LOD2": 84
@@ -1012,7 +1013,7 @@
    }
   },
   "radius_m": 505.5882267362088,
-  "seconds": 637.35,
+  "seconds": 506.98,
   "structures": {
    "imported": [
     "t_-1_12",
@@ -1038,7 +1039,7 @@
    "z_max_m": 31.52,
    "z_min_m": 3.39
   },
-  "triangles": 4074289
+  "triangles": 4074296
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1048,9 +1049,9 @@
   "radius_m": 505.5882267362088
  },
  "seconds": {
-  "render": 113.8,
-  "scene": 643.8,
-  "total": 757.6
+  "render": 79.6,
+  "scene": 510.9,
+  "total": 590.5
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 8.8 m above its ground",
@@ -1100,17 +1101,17 @@
   "origin_distance_m": 36.4,
   "plan_extent": {
    "across_bearing_deg": 35.4,
-   "axis_narrow_m": 61.1,
-   "axis_width_m": 62.1,
    "is_tile_mesh": false,
    "model": "lm_c_apollo_theater",
-   "narrow_m": 86.0,
-   "note": "`part_width_m` is the box of lm_c_apollo_theater.8 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 9 part(s) of lm_c_apollo_theater, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
+   "model_axis_narrow_m": 61.1,
+   "model_axis_width_m": 62.1,
+   "model_narrow_m": 86.0,
+   "model_width_m": 82.9,
+   "narrow_m": 47.5,
+   "note": "`width_m` and `narrow_m` are the box of lm_c_apollo_theater.8 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 9 part(s) of lm_c_apollo_theater, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_apollo_theater.8",
-   "part_narrow_m": 47.5,
-   "part_width_m": 45.6,
    "parts": 9,
-   "width_m": 82.9
+   "width_m": 45.6
   }
  },
  "sun": {

@@ -1,15 +1,15 @@
 {
  "slug": "landmark_bank_of_america_tower",
- "rendered_at": "2026-09-13T18:12:43Z",
+ "rendered_at": "2026-09-15T19:16:33Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1212,
   "height": 902,
-  "mean": 0.5458,
-  "sd": 0.2511,
-  "p05": 0.2128,
+  "mean": 0.5463,
+  "sd": 0.251,
+  "p05": 0.2134,
   "p50": 0.496,
   "p95": 0.9594,
   "chroma": 0.0818,
@@ -27,8 +27,8 @@
   "exposure_offset_stops": 0.563
  },
  "render_over_reference": {
-  "mean": 0.968,
-  "sd": 0.966,
+  "mean": 0.969,
+  "sd": 0.965,
   "p50": 0.898,
   "chroma": 0.402,
   "exposure_offset_stops": -0.338,

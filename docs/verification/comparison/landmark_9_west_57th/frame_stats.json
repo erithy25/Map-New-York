@@ -1,6 +1,6 @@
 {
  "slug": "landmark_9_west_57th",
- "rendered_at": "2026-09-13T17:47:20Z",
+ "rendered_at": "2026-09-15T18:58:20Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
@@ -8,11 +8,11 @@
   "width": 1208,
   "height": 906,
   "mean": 0.4976,
-  "sd": 0.1879,
+  "sd": 0.1878,
   "p05": 0.2748,
   "p50": 0.4991,
   "p95": 0.9021,
-  "chroma": 0.062,
+  "chroma": 0.0621,
   "exposure_offset_stops": 0.244
  },
  "reference": {
@@ -30,7 +30,7 @@
   "mean": 1.017,
   "sd": 0.935,
   "p50": 0.992,
-  "chroma": 0.502,
+  "chroma": 0.503,
   "exposure_offset_stops": -0.024,
   "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }

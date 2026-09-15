@@ -67,7 +67,7 @@
    -13.6
   ],
   "nearest_obstruction_m": 15.4,
-  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 18 m ahead, less than the 57 m this frame needs to show its subject; the camera was moved 36 m to the left -- the nearest point in open air -- keeping the same eye height above the heightmap.  No point within 80 m had 57 m of open air along the view azimuth with nothing built inside 8 m of the lens, so the frame is closed off 26 m ahead and the nearest built thing in the frame is t_-2_8_park_park_ground_grass 15.4 m away, and no simulated agent stands within 20 m of it",
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 18 m ahead, less than the 57 m this frame needs to show its subject; the camera was moved 36 m to the left -- the nearest point in open air -- keeping the same eye height above the heightmap.  No point within 80 m had 57 m of open air along the view azimuth with nothing built inside 8 m of the lens, so the frame is closed off 26 m ahead and the nearest built thing in the frame is t_-2_8_park_park_ground_grass 15.4 m away, and the probe found no simulated agent on its rays across this frame within 20 m",
   "offset_m": 36.0,
   "reason": "boxed in: the view azimuth is closed off 18 m ahead, less than the 57 m this frame needs to show its subject",
   "rule": "open air only, ranked on how much of the subject it sees",
@@ -83,9 +83,9 @@
   "view_m": 26.2
  },
  "frame": {
-  "mean": 0.5488,
+  "mean": 0.5489,
   "reason": null,
-  "sd": 0.1498,
+  "sd": 0.1499,
   "usable": true
  },
  "frame_retry": null,
@@ -96,15 +96,15 @@
   "background_strength": 0.037611715495586395,
   "development": {
    "linear_p05": 0.002186,
-   "linear_p50": 0.006861,
-   "linear_p95": 0.025501,
-   "log_average_linear": 0.008776,
-   "median_linear": 0.006861,
+   "linear_p50": 0.006858,
+   "linear_p95": 0.0255,
+   "log_average_linear": 0.008775,
+   "median_linear": 0.006858,
    "metered": true,
    "note": "under-lit: the scene needed +4.71 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
-   "stops": 4.713,
-   "stops_unclamped": 4.713,
+   "stops": 4.714,
+   "stops_unclamped": 4.714,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
@@ -127,6 +127,7 @@
  "name": "American Museum of Natural History",
  "night": false,
  "pitch_reason": "aimed at American Museum of Natural History (Central Park West entrance) 113 m away, at its mid-height (the top of lm_c_american_museum_natural_history.3, the built thing standing at the subject's coordinate, 32 m above the ground there); +4.0 deg from horizontal",
+ "record_shape": 2,
  "reference_photo": {
   "author": "DanielPenfield",
   "confidence": "high",
@@ -141,7 +142,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_amnh/render.png",
- "rendered_at": "2026-09-13T18:02:03Z",
+ "rendered_at": "2026-09-15T19:04:07Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -176,7 +177,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 271390,
+   "pedestrian_triangles": 271398,
    "per_class": {
     "black_car": 7,
     "boro_taxi": 11,
@@ -191,7 +192,7 @@
    "placed_pedestrians": 181,
    "placed_vehicles": 84,
    "reason": null,
-   "seconds": 663.41,
+   "seconds": 516.26,
    "snapshot": {
     "building_footprints_tested": 3128,
     "car_free_park_drives_matched": 11,
@@ -232,9 +233,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 278
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -1928_8959_11_0_d0f3bacc189057dc_1788868452.json",
    "triangle_budget": 1125000,
-   "triangles": 773071,
+   "triangles": 773079,
    "vehicle_lods": {
     "LOD1": 1,
     "LOD2": 83
@@ -1014,7 +1015,7 @@
    }
   },
   "radius_m": 619.6454724822814,
-  "seconds": 719.17,
+  "seconds": 621.55,
   "structures": {
    "imported": [
     "t_-2_8",
@@ -1056,7 +1057,7 @@
    "z_max_m": 43.09,
    "z_min_m": 15.09
   },
-  "triangles": 2938012
+  "triangles": 2938020
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1066,9 +1067,9 @@
   "radius_m": 619.6454724822814
  },
  "seconds": {
-  "render": 83.0,
-  "scene": 1318.8,
-  "total": 1401.8
+  "render": 72.8,
+  "scene": 922.8,
+  "total": 995.6
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 15.9 m above its ground",
@@ -1118,17 +1119,17 @@
   "origin_distance_m": 113.3,
   "plan_extent": {
    "across_bearing_deg": 308.0,
-   "axis_narrow_m": 237.4,
-   "axis_width_m": 290.1,
    "is_tile_mesh": false,
    "model": "lm_c_american_museum_natural_history",
-   "narrow_m": 346.6,
-   "note": "`part_width_m` is the box of lm_c_american_museum_natural_history.3 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 14 part(s) of lm_c_american_museum_natural_history, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
+   "model_axis_narrow_m": 237.4,
+   "model_axis_width_m": 290.1,
+   "model_narrow_m": 346.6,
+   "model_width_m": 350.0,
+   "narrow_m": 325.9,
+   "note": "`width_m` and `narrow_m` are the box of lm_c_american_museum_natural_history.3 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 14 part(s) of lm_c_american_museum_natural_history, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_american_museum_natural_history.3",
-   "part_narrow_m": 325.9,
-   "part_width_m": 313.2,
    "parts": 14,
-   "width_m": 350.0
+   "width_m": 313.2
   }
  },
  "sun": {

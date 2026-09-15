@@ -71,7 +71,7 @@
    0.0
   ],
   "nearest_obstruction_m": 20.0,
-  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 16 m ahead, less than the 27 m this frame needs to show its subject; the camera was moved 9 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 27 m from there, and nothing built stands within 20 m of the lens, and the nearest simulated agent is agent_veh_camry_black_car_161.0 16.0 m away",
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 16 m ahead, less than the 27 m this frame needs to show its subject; the camera was moved 9 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 27 m from there, and nothing built stands on the probe's rays across this frame within 20 m of the lens, and the nearest simulated agent is agent_veh_camry_black_car_161.0 16.0 m away",
   "offset_m": 9.0,
   "reason": "boxed in: the view azimuth is closed off 16 m ahead, less than the 27 m this frame needs to show its subject",
   "rule": "pavement snap with a clear frame that sees the subject",
@@ -87,9 +87,9 @@
   "view_m": 27.4
  },
  "frame": {
-  "mean": 0.5454,
+  "mean": 0.546,
   "reason": null,
-  "sd": 0.2516,
+  "sd": 0.2515,
   "usable": true
  },
  "frame_retry": null,
@@ -99,16 +99,16 @@
  "lighting": {
   "background_strength": 0.035268962383270264,
   "development": {
-   "linear_p05": 0.000815,
-   "linear_p50": 0.004652,
-   "linear_p95": 0.121859,
-   "log_average_linear": 0.006485,
-   "median_linear": 0.004652,
+   "linear_p05": 0.000814,
+   "linear_p50": 0.004633,
+   "linear_p95": 0.121861,
+   "log_average_linear": 0.006483,
+   "median_linear": 0.004633,
    "metered": true,
-   "note": "under-lit: the scene needed +5.27 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
+   "note": "under-lit: the scene needed +5.28 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
-   "stops": 5.274,
-   "stops_unclamped": 5.274,
+   "stops": 5.28,
+   "stops_unclamped": 5.28,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
@@ -120,7 +120,7 @@
    "night": false,
    "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
-  "exposure_stops": 5.27,
+  "exposure_stops": 5.28,
   "physical_rule_stops": 0.43,
   "sky_azimuth_deg": 88.055,
   "sky_elevation_deg": 31.903,
@@ -131,6 +131,7 @@
  "name": "Bank of America Tower at One Bryant Park",
  "night": false,
  "pitch_reason": "tilted +47.1 deg to contain the subject: the top of lm_c_times_square.6, the built thing standing at the subject's coordinate, 285 m above the ground there tops out 283 m above the lens 53 m away, 79 deg above the horizon, and the frame is only 73 deg tall at 18 mm. **The verticals converge, so this frame is not comparable with the photograph on proportion** -- it is here to show the subject at all",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Oceanblue27",
   "confidence": "high",
@@ -145,7 +146,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_bank_of_america_tower/render.png",
- "rendered_at": "2026-09-13T18:12:43Z",
+ "rendered_at": "2026-09-15T19:16:33Z",
  "resolution_note": "1212x902; the reference photograph is 1920x1428 (1.34:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -179,7 +180,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 577718,
+   "pedestrian_triangles": 577689,
    "per_class": {
     "black_car": 7,
     "boro_taxi": 3,
@@ -193,7 +194,7 @@
    "placed_pedestrians": 347,
    "placed_vehicles": 54,
    "reason": null,
-   "seconds": 425.04,
+   "seconds": 308.49,
    "snapshot": {
     "building_footprints_tested": 3441,
     "density_lane_km": 26.05,
@@ -233,9 +234,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 520
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -2907_6106_8_1_363c753a1085301f_1788868452.json",
    "triangle_budget": 1125000,
-   "triangles": 1083619,
+   "triangles": 1083590,
    "vehicle_lods": {
     "LOD1": 9,
     "LOD2": 45
@@ -305,7 +306,7 @@
    6106.02
   ],
   "kit": {
-   "capped": "triangle budget 1055596",
+   "capped": "triangle budget 1055625",
    "per_category": {
     "bulkhead": 2,
     "cornice": 5,
@@ -1071,7 +1072,7 @@
    }
   },
   "radius_m": 690.6783718572865,
-  "seconds": 523.79,
+  "seconds": 398.79,
   "structures": {
    "imported": [],
    "tiles_imported": 0,
@@ -1094,7 +1095,7 @@
    "z_max_m": 25.63,
    "z_min_m": 6.8
   },
-  "triangles": 4500086
+  "triangles": 4500057
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1104,9 +1105,9 @@
   "radius_m": 690.6783718572865
  },
  "seconds": {
-  "render": 94.1,
-  "scene": 541.6,
-  "total": 635.7
+  "render": 85.0,
+  "scene": 408.5,
+  "total": 493.5
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 142.2 m above its ground",
@@ -1157,17 +1158,17 @@
   "origin_distance_m": 53.3,
   "plan_extent": {
    "across_bearing_deg": 358.2,
-   "axis_narrow_m": 504.1,
-   "axis_width_m": 802.1,
    "is_tile_mesh": false,
    "model": "lm_c_times_square",
-   "narrow_m": 509.2,
-   "note": "`part_width_m` is the box of lm_c_times_square.6 alone across this camera's bearing, and it is what the sightline fan spans; `width_m` is the box of all 80 part(s) of lm_c_times_square, published beside it and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
+   "model_axis_narrow_m": 504.1,
+   "model_axis_width_m": 802.1,
+   "model_narrow_m": 509.2,
+   "model_width_m": 811.9,
+   "narrow_m": 95.5,
+   "note": "`width_m` and `narrow_m` are the box of lm_c_times_square.6 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 80 part(s) of lm_c_times_square, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_times_square.6",
-   "part_narrow_m": 95.5,
-   "part_width_m": 103.9,
    "parts": 80,
-   "width_m": 811.9
+   "width_m": 103.9
   }
  },
  "sun": {
