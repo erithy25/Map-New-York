@@ -26,7 +26,29 @@
 
 **The two halves face the same way from the same place, and they are not the same view.** The camera is on the photograph's EXIF GPS, **46.2 m** from the item's recorded viewpoint, aimed on the bearing from that GPS to the subject coordinate (**316.8°**; the recorded **318.9°** is 2.1° away), at the EXIF instant. The photograph is the promenade: a timber boardwalk to the vanishing point, brown lattice railings both sides, cable stays fanning up to the Manhattan tower at half the width with its two Gothic arches and a flag, six walkers ahead (counted at full size, just past half the width and half the height), Lower Manhattan behind with One World Trade Center's spire at about a quarter of the width. The render looks along the *underside* of the bridge. Its eye is **16.0 m** above the water, from an `eye_source` reading "deck about 14.4 m above the water at that chainage" — the Brooklyn tower *approach* — while the GPS puts the camera on the main span; the record says so itself: the recorded viewpoint is "inside lm_b_brooklyn_bridge.45 (a ray straight up from the eye point hits its roof)", and the camera was walked **8.0 m** to the right into the air beneath the deck. So a flat grey slab enters at the top at about half the width, its underside running down to the left edge a quarter of the way down, and ends at a plain grey block spanning a third to a half of the width between four-tenths and six-tenths of the height, its foot in the river; above the slab's right edge a narrow, lighter, stepped column climbs to a tenth of the height. That block and column are the Manhattan tower's model: the record's own sightline closes at **229.6 m** on `lm_b_brooklyn_bridge.97`, and that is where the tower is, because the subject coordinate is a point on the roadway a hundred metres or so short of it (**DEVIATIONS J82**). The thing named at **340.0 m** is deck.
 
-**The record's verdict is a measurement of the deck seen from below.** `subject_visible` is true at **0.538**, 7 of 13 rays — and `subject_rays_on_own_fabric_nearer_than_recorded` is also 7, the aimed ray landing at **213.6 m** on `lm_b_brooklyn_bridge.45`, the object the camera was moved out of. The rule is "at least one ray lands on the subject" (J78), and the subject is any part of a model whose plan extent is **761.6** by **728.2 m** — the whole bridge. The height probe is the same shape (J74): **51.28 m** off `lm_b_brooklyn_bridge.34`, 36 of 43 rays on built fabric, is bridge fabric at a point on the span, and the fan was sized to it (aimed **25.6 m** up). No tower height is in this record. The clearance walk was scored on this sightline (J79), so a position under the bridge passed as one that sees the subject.
+**Why the camera is off the promenade, named exactly, because it is not a fault of this sheet.**
+The record's own reason is *"the recorded viewpoint is inside `lm_b_brooklyn_bridge.45` (a ray
+straight up from the eye point hits its roof)"*, and the walk then took the nearest point in open
+air — **8.0 m to the right**, which on a bridge means off it. The test that evicted it is the
+indoors check, and **J115 already fixed this class and could not reach this instance**: its
+exemption is `is_structure`, which begins `if not _TILE_MESH.match(ob.name): return False` and so
+answers only for meshes named `t_<tx>_<ty>_…`. `lm_b_brooklyn_bridge.45` is a landmark object, so
+the four deck parts J115 named (`struct_el_steel`, `struct_viaduct_concrete`, `struct_platform`,
+`struct_canopy`, `struct_pier_deck`) cannot apply to it, and the bridge's own fabric overhead reads
+as a roof.
+
+Measured across the corpus: **16 records** report the up-ray calling a viewpoint indoors, and
+**11 of the 16 name a landmark object** rather than a tile mesh — `lm_c_brooklyn_museum.1`,
+`lm_b_rfk_triborough.55` and `.51`, `lm_c_hudson_yards.44`, `lm_c_moynihan_train_hall.1`,
+`lm_federal_hall.3`, `lm_b_wtc_site.243`, `lm_c_flushing_meadows.2`,
+`lm_c_american_museum_natural_history.7` and this one. Two of the eleven moved the camera rather
+than only rejecting a photograph's GPS: this sheet by **8.0 m**, and
+`landmark_one_world_trade_center` by **166.3 m**. Of the five that name a tile mesh, four are
+`roof_membrane` — a building roof, where "indoors" is the right answer — and the fifth is
+`t_4_5_struct_el_steel` on a record of the previous generation, which is precisely what J115 fixed
+and will clear when that sheet re-renders. Recorded as **DEVIATIONS J122**, open.
+
+**The record's verdict is a measurement of the deck seen from below.** `subject_visible` is true at **0.538**, 7 of 13 rays — and `subject_rays_on_own_fabric_nearer_than_recorded` is also 7, the aimed ray landing at **213.6 m** on `lm_b_brooklyn_bridge.45`, the object the camera was moved out of. The rule is "at least one ray lands on the subject" (J78), and the subject is any part of a model whose plan extent this record measures at **1,052.2 m** across the camera's bearing by **1,053.7 m** along it — the whole bridge. The height probe is the same shape (J74): **51.28 m** off `lm_b_brooklyn_bridge.34`, 36 of 43 rays on built fabric, is bridge fabric at a point on the span, and the fan was sized to it (aimed **25.6 m** up). No tower height is in this record. The clearance walk was scored on this sightline (J79), so a position under the bridge passed as one that sees the subject.
 
 **What the reader must not take from this sheet.** Nothing in the render is the walkway, the cables, the railings or the lamps. The grey carriageway in the lower left with a raised pale strip is the road network's surface for the bridge drawn at the heightmap, which under the span is the river (`terrain_z_m` **0.0**); the **26** figures on that strip and the single yellow taxi at its far end (counted at full size, of **139** people and **34** vehicles placed) are the Saturday crowd on a pavement polygon lying on the East River. The building stock either side is real and the exposure is metered. The fault is the viewpoint's height and the subject's coordinate, not the city.
 
@@ -39,7 +61,7 @@
 ## What does not match
 * **The eye is under the deck.** 16.0 m from an approach-chainage 14.4 m plus 1.6 m; the clearance walk moves it 8.0 m sideways rather than up. The photograph's eye is on the boardwalk (J65).
 * **The tower is a block.** Granite, two pointed arches and a flag in the photograph; a flat-faced block with a stepped column in the render, which the record names a *blocker* (`lm_b_brooklyn_bridge.97` at 229.6 m).
-* **The subject is not the tower.** Named at 340.0 m; the height 51.28 m and plan extent 761.6 × 728.2 m are the bridge's, measured on the span (J82, J74). The 0.538 fraction is 7 rays on the deck at 213.6 m.
+* **The subject is not the tower.** Named at 340.0 m; the height 51.28 m and plan extent **1,052.2 m across the bearing by 1,053.7 m along it** are the bridge's, measured on the span (J82, J74). The 0.538 fraction is 7 rays on the deck at 213.6 m.
 * **The bridge's road runs on the water.** Roadbed, white lane markings and a sidewalk strip (from the 2,638 roadbed, 13,791 marking and 1,263 sidewalk polygons) lie at 0.0 m with 26 people and one taxi on them while the deck passes overhead. The photograph's walkers are six, on timber.
 * **No promenade fabric.** Kit pieces **0** ("no kit_placements.bin in range"); the lattice railings, lamp standards and the wire waste basket at the photograph's lower left have no counterpart.
 * **Chroma 0.0895 against 0.2127** (ratio 0.421): grey slab, grey block, grey road and grey-blue water against brown-painted steel, weathered timber and blue glass (J66).
@@ -55,3 +77,12 @@
 | no promenade fabric | no kit placements exist in range; railings, lamp standards and the boardwalk are not props the placer knows | data |
 | chroma 0.0895 against 0.2127 | one material family per facade class and untextured landmark grey; the bridge's painted steel and timber are not dressed | material, **DEVIATIONS J66** |
 | p05 0.2508 against 0.0779 | no railing lattice, cable shadows or dark glass reveals in the frame; the development is metered (J83) and is not the cause | geometry |
+
+## Measured for this assessment
+
+One figure above is not in this render record and cannot be: it is another sheet's, quoted because
+the fault named here is a corpus fault and one sheet's displacement does not size it.
+
+| figure | where it comes from |
+|---|---|
+| 166.3 | `clearance.offset_m` in `landmark_one_world_trade_center`'s record, where the same indoors test evicted the camera from `lm_b_wtc_site.243` — the largest move the test causes anywhere in the corpus, against this sheet's 8.0 m |
