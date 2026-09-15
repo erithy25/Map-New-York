@@ -65,7 +65,7 @@
    -18.9
   ],
   "nearest_obstruction_m": 3.8,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is t_-2_7_park_park_ground_grass 3.8 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 150 m",
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is t_-2_7_park_park_ground_grass 3.8 m away, and the probe found no simulated agent on its rays across this frame within 60 m, and the view azimuth is clear for 150 m",
   "offset_m": 0.0,
   "view_m": 150.0
  },
@@ -82,11 +82,11 @@
  "lighting": {
   "background_strength": 0.036147166043519974,
   "development": {
-   "linear_p05": 0.002114,
-   "linear_p50": 0.018926,
-   "linear_p95": 0.09565,
-   "log_average_linear": 0.015281,
-   "median_linear": 0.018926,
+   "linear_p05": 0.002115,
+   "linear_p50": 0.018925,
+   "linear_p95": 0.095733,
+   "log_average_linear": 0.015282,
+   "median_linear": 0.018925,
    "metered": true,
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
    "stops": 3.25,
@@ -113,6 +113,7 @@
  "name": "Central Park perimeter wall and gates",
  "night": false,
  "pitch_reason": "level optical axis (nothing built stands at Central Park perimeter wall and gates's coordinate, so its mid-height is not known and there is nothing to tilt towards)",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Tdorante10",
   "confidence": "high",
@@ -127,7 +128,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_central_park_wall_gates/render.png",
- "rendered_at": "2026-09-13T19:38:13Z",
+ "rendered_at": "2026-09-15T20:15:30Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -156,7 +157,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 579332,
+   "pedestrian_triangles": 579325,
    "per_class": {
     "black_car": 10,
     "boro_taxi": 12,
@@ -169,7 +170,7 @@
    "placed_pedestrians": 441,
    "placed_vehicles": 88,
    "reason": null,
-   "seconds": 301.08,
+   "seconds": 188.42,
    "snapshot": {
     "building_footprints_tested": 3013,
     "car_free_park_drives_matched": 5,
@@ -210,9 +211,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 1077
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -1885_7328_17_0_1d5216294f409b9b_1788868452.json",
    "triangle_budget": 1125000,
-   "triangles": 1080896,
+   "triangles": 1080889,
    "vehicle_lods": {
     "LOD2": 88
    },
@@ -308,7 +309,7 @@
    7327.68
   ],
   "kit": {
-   "capped": "triangle budget 484860",
+   "capped": "triangle budget 484867",
    "per_category": {
     "billboard": 1,
     "bulkhead": 4,
@@ -1218,7 +1219,7 @@
    }
   },
   "radius_m": 887.0563326830529,
-  "seconds": 426.8,
+  "seconds": 259.81,
   "structures": {
    "imported": [
     "t_-1_7",
@@ -1286,7 +1287,7 @@
    "z_max_m": 30.72,
    "z_min_m": 2.03
   },
-  "triangles": 4500220
+  "triangles": 4500213
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1296,9 +1297,9 @@
   "radius_m": 887.0563326830529
  },
  "seconds": {
-  "render": 167.7,
-  "scene": 431.8,
-  "total": 599.5
+  "render": 109.9,
+  "scene": 262.7,
+  "total": 372.6
  },
  "sightline": {
   "subject_note": "nothing built stands within 6 m of the subject's coordinate; the nearest built thing is lm_c_the_plaza.6, 30 m away at bearing 270 deg, so the coordinate the item records is that far off the fabric it names; no sightline was tested",
