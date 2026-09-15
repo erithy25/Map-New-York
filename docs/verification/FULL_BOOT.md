@@ -168,8 +168,40 @@ dropped invariant:
 | **RSS slope** | **+0.3387 MB per simulated minute (+20.32 MB per simulated hour)** |
 | peak RSS | 599.1 MB |
 
-The slope is small in absolute terms and it is **not zero**, and it is 20× the bound this project sets
-for itself. That is **J126** below.
+The slope is small in absolute terms and it is **not zero** — and the bound this project sets for
+itself is `slope < 0.0167` MB per simulated minute, asserted by
+`tests/test_performance.py::test_memory_is_bounded_over_a_long_run`, with a second assertion that the
+spread stays under 8.0 MB. This run would fail both. So the obvious suspicion was that the guard never
+sees the city, because it runs `soak --minutes 31 --vehicles 1500 --peds 6000 --sample-steps 200`
+**without `--city`**. That suspicion is wrong, and the disproof is the cleanest A/B available — the
+guard's exact parameters, run twice, with `--city` the only difference:
+
+| | synthetic (what the guard runs) | **`--city`** |
+|---|---|---|
+| world | 179 lane-km, 4,452 sidewalk edges | 22,119 lane-km, 677,799 sidewalk edges |
+| vehicle churn | 5,170 / 4,813 | 17,261 / 16,378 |
+| pedestrian churn | 103,799 / 97,798 | 246,876 / 238,876 |
+| population at the end | 357 veh, 6,001 peds | 883 veh, 8,000 peds |
+| RSS | 11.2 – 11.3 MB, spread **0.09 MB** | 588.9 MB, spread **0.00 MB** |
+| **RSS slope** | **+0.0030 MB / sim min** | **+0.0000 MB / sim min** |
+| wall | 316.1 s | 373.3 s |
+
+**The real city is flatter than the synthetic grid, not worse**, and it passes the guard's bounds with
+room to spare. The synthetic arm also reproduces the published table in `performance/REPORT.md` §6
+digit for digit — same churn, same population, same 0.09 MB spread, same +0.0030 slope — so the soak is
+reproducible and the guard is sound.
+
+What differs in the 35-minute run above is therefore **not `--city`** but the **agent count**:
+3,000 / 12,000 against the guard's 1,500 / 6,000. Both runs end at exactly their `peds + 2000` cap
+(`bench_step.cpp:676`) — 14,000 and 8,000 — so the rise is plausibly the crowd filling toward that cap
+rather than a leak. *Plausibly* is not a measurement, so the heavier configuration was re-run with
+`--csv` to separate the two; §14 carries the answer.
+
+Two things worth recording from reading the soak's own code while checking this. It calls
+`prefill()` directly (`bench_step.cpp:698-699`), so **the soak's crowd is properly routed and J125 does
+not apply to it** — J125 is specific to the `city` benchmark's seeding. And the soak walks the camera on
+a **600 m circle** so the despawn ring sweeps fresh ground continuously, which is why a 12,000-strong
+crowd turns over 420,798 times in 35 simulated minutes.
 
 ## 11. A frame out of the running world
 
