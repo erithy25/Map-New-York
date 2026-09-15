@@ -66,7 +66,7 @@
    0.0
   ],
   "nearest_obstruction_m": 8.4,
-  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 48 m ahead, less than the 69 m this frame needs to show its subject; the camera was moved 107 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  No point within 80 m had 69 m of open air along the view azimuth with nothing built inside 8 m of the lens, so the frame is closed off 18 m ahead and the nearest built thing in the frame is prop_lamp_cobra_davit_216 8.4 m away, and no simulated agent stands within 20 m of it",
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 48 m ahead, less than the 69 m this frame needs to show its subject; the camera was moved 107 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  No point within 80 m had 69 m of open air along the view azimuth with nothing built inside 8 m of the lens, so the frame is closed off 18 m ahead and the nearest built thing in the frame is prop_lamp_cobra_davit_216 8.4 m away, and the probe found no simulated agent on its rays across this frame within 20 m",
   "offset_m": 106.8,
   "reason": "boxed in: the view azimuth is closed off 48 m ahead, less than the 69 m this frame needs to show its subject",
   "rule": "open air only, ranked on how much of the subject it sees",
@@ -82,9 +82,9 @@
   "view_m": 18.0
  },
  "frame": {
-  "mean": 0.5089,
+  "mean": 0.509,
   "reason": null,
-  "sd": 0.2141,
+  "sd": 0.2142,
   "usable": true
  },
  "frame_retry": null,
@@ -94,16 +94,16 @@
  "lighting": {
   "background_strength": 0.03347126021981239,
   "development": {
-   "linear_p05": 0.000327,
-   "linear_p50": 0.004007,
-   "linear_p95": 0.048184,
-   "log_average_linear": 0.003761,
-   "median_linear": 0.004007,
+   "linear_p05": 0.000326,
+   "linear_p50": 0.004002,
+   "linear_p95": 0.048183,
+   "log_average_linear": 0.003756,
+   "median_linear": 0.004002,
    "metered": true,
    "note": "under-lit: the scene needed +5.49 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
-   "stops": 5.489,
-   "stops_unclamped": 5.489,
+   "stops": 5.491,
+   "stops_unclamped": 5.491,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
@@ -126,6 +126,7 @@
  "name": "Central Park Tower (Billionaires' Row)",
  "night": false,
  "pitch_reason": "tilted +33.9 deg to contain the subject: the top of lm_c_billionaires_row.43, the built thing standing at the subject's coordinate, 477 m above the ground there tops out 466 m above the lens 138 m away, 73 deg above the horizon, and the frame is only 90 deg tall at 18 mm. **The verticals converge, so this frame is not comparable with the photograph on proportion** -- it is here to show the subject at all",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Kidfly182",
   "confidence": "high",
@@ -140,7 +141,7 @@
   "width": 1280
  },
  "render_png": "docs/verification/comparison/landmark_central_park_tower/render.png",
- "rendered_at": "2026-09-13T19:28:02Z",
+ "rendered_at": "2026-09-15T20:09:13Z",
  "resolution_note": "904x1206; the reference photograph is 1280x1707 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -172,7 +173,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 577856,
+   "pedestrian_triangles": 577854,
    "per_class": {
     "black_car": 11,
     "boro_taxi": 7,
@@ -185,7 +186,7 @@
    "placed_pedestrians": 243,
    "placed_vehicles": 52,
    "reason": null,
-   "seconds": 501.1,
+   "seconds": 309.82,
    "snapshot": {
     "building_footprints_tested": 2742,
     "car_free_park_drives_matched": 0,
@@ -226,9 +227,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 905
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -2718_7288_12_1_964ca57aece87a0d_1788868452.json",
    "triangle_budget": 1125000,
-   "triangles": 1083017,
+   "triangles": 1083015,
    "vehicle_lods": {
     "LOD0": 1,
     "LOD1": 8,
@@ -299,7 +300,7 @@
    7288.41
   ],
   "kit": {
-   "capped": "triangle budget 982468",
+   "capped": "triangle budget 982470",
    "per_category": {
     "bulkhead": 7,
     "cornice": 7,
@@ -1084,7 +1085,7 @@
    }
   },
   "radius_m": 699.6168198892102,
-  "seconds": 646.68,
+  "seconds": 403.39,
   "structures": {
    "imported": [
     "t_-4_7"
@@ -1115,7 +1116,7 @@
    "z_max_m": 28.57,
    "z_min_m": 4.77
   },
-  "triangles": 4500094
+  "triangles": 4500092
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1125,9 +1126,9 @@
   "radius_m": 699.6168198892102
  },
  "seconds": {
-  "render": 103.9,
-  "scene": 1055.4,
-  "total": 1159.4
+  "render": 81.9,
+  "scene": 600.6,
+  "total": 682.4
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 237.8 m above its ground",
