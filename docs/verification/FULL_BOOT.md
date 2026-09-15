@@ -27,9 +27,11 @@ live services all run headless, and the C++ binaries are built and current.
 
 4 vCPUs, 16 GB RAM, load average **0.04** at the start — the v17 render pass was not running, so the
 benchmark's own caveat (*"four vCPUs are shared with other agents and a wall-clock number without it is
-not a measurement"*) is satisfied for the timed runs. Runs 3–7 below were measured on the idle machine.
-The experiments in §10 ran **beside the soak** and are labelled as such; in each of them both arms
-shared the same load, so the comparison inside a pair is fair even where its absolute level is not.
+not a measurement"*) is satisfied for the timed runs. **§5 to §9 were measured on the idle machine**,
+before the soak of §10 started. The A/B experiments of §13, the two guard-parameter soaks of §14 and
+the standalone bench noted in §8 ran **beside each other** and are labelled as such; within each A/B
+pair both arms shared the same load, so a comparison inside a pair is fair even where its absolute
+level is not. Memory slopes are unaffected by CPU contention; wall-clock means are.
 
 There is no `/usr/bin/time` in this container, so peak RSS is read from the kernel's own `VmHWM`
 high-water mark just before the process is reaped.
