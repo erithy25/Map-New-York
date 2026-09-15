@@ -185,12 +185,17 @@ if [ "$(free_mb)" -lt 350 ]; then
     exit 1
 fi
 
-# **One log, and it lives with the run's other state.**  This wrote to blender_out/pass_v17.log
-# while a runner started by hand wrote to blender_out/pass_v17.log, so the same job had two logs
-# depending on who started it -- and a watch armed on one of them sat silent through three finished
-# sheets.  /tmp is also the wrong place for it: the sheets, the state file and the failure logs are
-# all under blender_out, and a log that outlives a container restart there is worth more than one
-# that does not.  Appended, never truncated, so a restart keeps the history the mean-minutes
+# **One log, and it lives with the run's other state.**  This used to write to a log under /tmp
+# while a runner started by hand wrote to the one here, so the same job had two logs depending on
+# who started it -- and a watch armed on one of them sat silent through three finished sheets, which
+# read as a stalled pass and was a stalled watch.  (The sentence naming the old path was itself
+# flattened by the blanket replace that changed the path, which is the third time in this session a
+# tool has rewritten prose it should have left alone.  A running process is asked where it writes --
+# `/proc/<pid>/fd/1` -- rather than assumed to write where the script now says.)
+#
+# /tmp was also the wrong place for it: the sheets, the state file and the per-failure logs
+# are all under blender_out, and a log that outlives a container restart is worth more than
+# one that does not.  Appended, never truncated, so a restart keeps the history the
 # summary below is computed from.
 setsid nohup python3 tools/render_all_sheets.py --workers 2 >> blender_out/pass_v17.log 2>&1 < /dev/null &
 sleep 6
