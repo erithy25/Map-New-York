@@ -65,7 +65,7 @@
    -25.2
   ],
   "nearest_obstruction_m": 3.1,
-  "note": "the eye point stands on t_-3_8_park_park_ground_grass, but this camera's position is the photograph's own EXIF GPS rather than a nominal viewpoint standing for a whole deck, so there is nothing to walk to and the camera was not moved.  The view azimuth is clear for 150 m and the nearest built thing in the frame is t_-3_8_park_park_ground_grass 3.1 m away, and no simulated agent stands within 60 m of it",
+  "note": "the eye point stands on t_-3_8_park_park_ground_grass, but this camera's position is the photograph's own EXIF GPS rather than a nominal viewpoint standing for a whole deck, so there is nothing to walk to and the camera was not moved.  The view azimuth is clear for 150 m and the nearest built thing in the frame is t_-3_8_park_park_ground_grass 3.1 m away, and the probe found no simulated agent on its rays across this frame within 60 m",
   "offset_m": 0.0,
   "standing_on": "t_-3_8_park_park_ground_grass",
   "view_m": 150.0
@@ -114,6 +114,7 @@
  "name": "Central Park: Sheep Meadow with the Midtown skyline",
  "night": false,
  "pitch_reason": "level optical axis (the subject is 944 m away; anything that far is photographed with a level camera)",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Jakub Ha\u0142un",
   "confidence": "high",
@@ -128,7 +129,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_central_park_sheep_meadow/render.png",
- "rendered_at": "2026-09-09T18:37:52Z",
+ "rendered_at": "2026-09-15T20:16:52Z",
  "resolution_note": "1092x1000; the reference photograph is 1920x1758 (1.09:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -158,7 +159,7 @@
    "placed_pedestrians": 133,
    "placed_vehicles": 0,
    "reason": null,
-   "seconds": 1124.4,
+   "seconds": 1064.37,
    "snapshot": {
     "building_footprints_tested": 2814,
     "car_free_park_drives_matched": 3,
@@ -174,7 +175,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.63,
+     "load_seconds": 2.17,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -1362,6 +1363,7 @@
    },
    "capped": null,
    "dropped_for_budget": 0,
+   "dropped_on_suppressed_building": 0,
    "impostor_cards_dropped": 3,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {},
@@ -1418,7 +1420,7 @@
    }
   },
   "radius_m": 2028.3640847111267,
-  "seconds": 1244.81,
+  "seconds": 1143.95,
   "structures": {
    "imported": [
     "t_-1_6",
@@ -1554,18 +1556,18 @@
   "radius_m": 2028.3640847111267
  },
  "seconds": {
-  "render": 65.2,
-  "scene": 1250.0,
-  "total": 1315.2
+  "render": 42.6,
+  "scene": 1150.7,
+  "total": 1193.3
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 30.4 m above its ground",
-  "subject_blocked_at_m": 823.7,
+  "subject_blocked_at_m": 823.0,
   "subject_blocked_by": "t_-3_7_red_brick",
   "subject_clear_fraction": 0.0,
-  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate",
-  "subject_fan_half_angle_deg": 1.19,
-  "subject_fan_m": 39.2,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate, not the 974.6 m of the whole model around it, which is the site rather than the subject (J113)",
+  "subject_fan_half_angle_deg": 1.37,
+  "subject_fan_m": 45.3,
   "subject_fan_tall_m": 60.8,
   "subject_fan_v_half_angle_deg": 1.84,
   "subject_lands_at_m": null,
@@ -1605,11 +1607,18 @@
   "name": "111 West 57th Street (Billionaires' Row skyline)",
   "origin_distance_m": 943.8,
   "plan_extent": {
+   "across_bearing_deg": 190.2,
    "is_tile_mesh": false,
-   "narrow_m": 37.4,
-   "note": "the bounding box of the object the height was measured off",
+   "model": "lm_c_billionaires_row",
+   "model_axis_narrow_m": 682.1,
+   "model_axis_width_m": 875.3,
+   "model_narrow_m": 601.4,
+   "model_width_m": 974.6,
+   "narrow_m": 43.8,
+   "note": "`width_m` and `narrow_m` are the box of lm_c_billionaires_row.57 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 74 part(s) of lm_c_billionaires_row, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_billionaires_row.57",
-   "width_m": 39.2
+   "parts": 74,
+   "width_m": 45.3
   }
  },
  "sun": {
