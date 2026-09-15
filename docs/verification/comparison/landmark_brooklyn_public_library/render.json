@@ -117,6 +117,7 @@
  "name": "Brooklyn Public Library, Central Library",
  "night": false,
  "pitch_reason": "aimed at Brooklyn Public Library, Central Library 135 m away, at its mid-height (the top of lm_c_brooklyn_public_library.4, the built thing standing at the subject's coordinate, 21 m above the ground there); +5.2 deg from horizontal",
+ "record_shape": 2,
  "reference_photo": {
   "author": "ajay_suresh",
   "confidence": "high",
@@ -131,7 +132,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_brooklyn_public_library/render.png",
- "rendered_at": "2026-09-12T17:37:33Z",
+ "rendered_at": "2026-09-15T19:52:45Z",
  "resolution_note": "1280x720; the reference photograph is 1920x1080 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -175,7 +176,7 @@
    "placed_pedestrians": 304,
    "placed_vehicles": 50,
    "reason": null,
-   "seconds": 235.17,
+   "seconds": 390.09,
    "snapshot": {
     "building_footprints_tested": 7692,
     "density_lane_km": 19.792,
@@ -190,7 +191,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.73,
+     "load_seconds": 2.32,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -1022,7 +1023,7 @@
    }
   },
   "radius_m": 654.5135973703602,
-  "seconds": 301.42,
+  "seconds": 481.39,
   "structures": {
    "imported": [],
    "tiles_imported": 0,
@@ -1071,34 +1072,34 @@
   "radius_m": 654.5135973703602
  },
  "seconds": {
-  "render": 61.8,
-  "scene": 303.6,
-  "total": 365.3
+  "render": 66.2,
+  "scene": 484.5,
+  "total": 550.8
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 10.1 m above its ground",
-  "subject_blocked_at_m": 8.2,
+  "subject_blocked_at_m": 8.4,
   "subject_blocked_by": "prop_lamp_cobra_davit_1",
-  "subject_clear_fraction": 0.0,
-  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate",
-  "subject_fan_half_angle_deg": 25.1,
-  "subject_fan_m": 127.0,
+  "subject_clear_fraction": 0.077,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate; clipped to the frame, because a ray outside the picture tests something that is not in it",
+  "subject_fan_half_angle_deg": 27.22,
+  "subject_fan_m": 158.6,
   "subject_fan_tall_m": 20.2,
   "subject_fan_v_half_angle_deg": 4.25,
-  "subject_lands_at_m": null,
-  "subject_lands_on": null,
+  "subject_lands_at_m": 125.5,
+  "subject_lands_on": "lm_c_brooklyn_public_library.6",
   "subject_own_fabric_nearest": null,
   "subject_own_fabric_nearest_m": null,
   "subject_range_m": 135.6,
   "subject_rays": 13,
-  "subject_rays_clear": 0,
+  "subject_rays_clear": 1,
   "subject_rays_into_nothing": 0,
   "subject_rays_on_own_fabric_nearer_than_recorded": 0,
-  "subject_rays_on_subject": 0,
+  "subject_rays_on_subject": 1,
   "subject_reach_m": 25.0,
   "subject_verdict_rule": "at least one ray lands on the subject (J78)",
-  "subject_visible": false,
-  "subject_visible_fraction": 0.0
+  "subject_visible": true,
+  "subject_visible_fraction": 0.077
  },
  "slug": "landmark_brooklyn_public_library",
  "status": "rendered",
@@ -1122,11 +1123,18 @@
   "name": "Brooklyn Public Library, Central Library",
   "origin_distance_m": 135.0,
   "plan_extent": {
+   "across_bearing_deg": 123.9,
    "is_tile_mesh": false,
-   "narrow_m": 95.3,
-   "note": "the bounding box of the object the height was measured off",
+   "model": "lm_c_brooklyn_public_library",
+   "model_axis_narrow_m": 96.8,
+   "model_axis_width_m": 128.3,
+   "model_narrow_m": 151.8,
+   "model_width_m": 160.4,
+   "narrow_m": 149.9,
+   "note": "`width_m` and `narrow_m` are the box of lm_c_brooklyn_public_library.4 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 7 part(s) of lm_c_brooklyn_public_library, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_brooklyn_public_library.4",
-   "width_m": 127.0
+   "parts": 7,
+   "width_m": 158.6
   }
  },
  "sun": {
