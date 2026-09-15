@@ -1,6 +1,6 @@
 {
  "slug": "landmark_coney_island_boardwalk",
- "rendered_at": "2026-09-09T19:09:04Z",
+ "rendered_at": "2026-09-15T22:08:35Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",

@@ -1,18 +1,18 @@
 {
  "slug": "landmark_city_hall",
- "rendered_at": "2026-09-09T19:06:25Z",
+ "rendered_at": "2026-09-15T22:06:12Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.5449,
-  "sd": 0.2023,
+  "mean": 0.5448,
+  "sd": 0.2022,
   "p05": 0.2697,
-  "p50": 0.4916,
+  "p50": 0.4915,
   "p95": 0.8972,
-  "chroma": 0.1553,
+  "chroma": 0.1554,
   "exposure_offset_stops": 0.197
  },
  "reference": {
@@ -27,10 +27,10 @@
   "exposure_offset_stops": -0.514
  },
  "render_over_reference": {
-  "mean": 1.335,
+  "mean": 1.334,
   "sd": 0.881,
   "p50": 1.26,
-  "chroma": 1.315,
+  "chroma": 1.316,
   "exposure_offset_stops": 0.711,
   "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }

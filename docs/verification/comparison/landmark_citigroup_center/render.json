@@ -74,7 +74,7 @@
   "view_m": 80.8
  },
  "frame": {
-  "mean": 0.5466,
+  "mean": 0.5465,
   "reason": null,
   "sd": 0.2783,
   "usable": true
@@ -86,16 +86,16 @@
  "lighting": {
   "background_strength": 0.03755908086895943,
   "development": {
-   "linear_p05": 0.00046,
-   "linear_p50": 0.004482,
-   "linear_p95": 0.146479,
+   "linear_p05": 0.000461,
+   "linear_p50": 0.004487,
+   "linear_p95": 0.146487,
    "log_average_linear": 0.006354,
-   "median_linear": 0.004482,
+   "median_linear": 0.004487,
    "metered": true,
    "note": "under-lit: the scene needed +5.33 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
-   "stops": 5.328,
-   "stops_unclamped": 5.328,
+   "stops": 5.326,
+   "stops_unclamped": 5.326,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
@@ -118,6 +118,7 @@
  "name": "Citigroup Center (601 Lexington Avenue)",
  "night": false,
  "pitch_reason": "tilted +30.9 deg to contain the subject: the top of lm_c_citigroup_center.7, the built thing standing at the subject's coordinate, 275 m above the ground there tops out 271 m above the lens 96 m away, 70 deg above the horizon, and the frame is only 90 deg tall at 18 mm. **The verticals converge, so this frame is not comparable with the photograph on proportion** -- it is here to show the subject at all",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Kidfly182",
   "confidence": "high",
@@ -132,7 +133,7 @@
   "width": 1280
  },
  "render_png": "docs/verification/comparison/landmark_citigroup_center/render.png",
- "rendered_at": "2026-09-09T19:00:38Z",
+ "rendered_at": "2026-09-15T21:59:57Z",
  "resolution_note": "904x1206; the reference photograph is 1280x1707 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -179,7 +180,7 @@
    "placed_pedestrians": 323,
    "placed_vehicles": 54,
    "reason": null,
-   "seconds": 348.68,
+   "seconds": 334.26,
    "snapshot": {
     "building_footprints_tested": 1602,
     "density_lane_km": 33.372,
@@ -194,7 +195,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.64,
+     "load_seconds": 1.85,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -219,7 +220,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 1812
    },
-   "snapshot_note": "cached -1795_6459_12_0_03f8c0c146f3e2d5_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
    "triangles": 1084353,
    "vehicle_lods": {
@@ -309,7 +310,7 @@
    6459.25
   ],
   "kit": {
-   "capped": "triangle budget 745029",
+   "capped": "triangle budget 745027",
    "per_category": {
     "antenna": 3,
     "bulkhead": 2,
@@ -1043,21 +1044,22 @@
   },
   "props": {
    "canopy": {
-    "billboards": 182,
+    "billboards": 221,
     "card_missing_drawn_lod0": 0,
-    "dropped_for_budget": 1722,
+    "dropped_for_budget": 1683,
     "lod0": 54,
     "near_radius_m": 120.0,
     "procedural_dataset_id": "rule:woodland_canopy",
     "procedural_stems": 0,
     "radius_m": 692.5382911169604,
     "rows_beyond_prop_radius": 1382,
-    "triangles": 1092,
-    "yaw_by_rule": 236,
+    "triangles": 1326,
+    "yaw_by_rule": 275,
     "yaw_rule": "a tree's yaw is not in any source: it is drawn from a hash of the stem's own position (SplitMix64 over the metre-rounded x, y), uniform over 360 deg, so the same tree is drawn the same way in every render and no two neighbours share a silhouette; a rule, not a measurement"
    },
    "capped": "triangle budget 985049",
-   "dropped_for_budget": 2674,
+   "dropped_for_budget": 2630,
+   "dropped_on_suppressed_building": 11,
    "impostor_cards_dropped": 4,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -1066,40 +1068,40 @@
    "leaf_off": true,
    "per_dataset": {
     "citibike_gbfs_station_status": 61,
-    "citibike_gbfs_stations": 185,
+    "citibike_gbfs_stations": 186,
     "gtfs_bus": 7,
     "hydrants": 62,
     "linknyc": 18,
     "newsstands": 6,
-    "osm_newyork_pbf": 29,
-    "plan_cooling_towers": 103,
+    "osm_newyork_pbf": 41,
+    "plan_cooling_towers": 95,
     "plan_railroad_structure": 41,
     "rule:lamp_30_40m_alt": 129,
-    "rule:manhole_40m": 108,
+    "rule:manhole_40m": 109,
     "rule:steam_vent_400m_manhattan_below_96": 11,
-    "street_trees_2015": 230,
+    "street_trees_2015": 257,
     "subway_entrances": 21
    },
    "per_kind": {
     "bench": 2,
     "bike_rack": 16,
     "bus_stop_sign": 7,
-    "citibike_dock": 246,
-    "cooling_tower": 103,
+    "citibike_dock": 247,
+    "cooling_tower": 95,
     "hydrant": 62,
     "linknyc": 18,
     "mailbox": 3,
-    "manhole": 108,
+    "manhole": 109,
     "newsstand": 6,
     "steam_vent": 11,
     "street_lamp": 129,
     "subway_emergency_exit": 2,
     "subway_entrance": 21,
     "subway_vent_grate": 39,
-    "tree": 236,
+    "tree": 275,
     "waste_basket": 2
    },
-   "placed": 1011,
+   "placed": 1044,
    "radius_m": 388.71874512070576,
    "rows_in_range": 3987,
    "tiles_missing": [],
@@ -1111,11 +1113,11 @@
     "t_-3_6",
     "t_-3_7"
    ],
-   "tree_instances_scaled": 236,
-   "tree_mean_scale": 0.895,
+   "tree_instances_scaled": 275,
+   "tree_mean_scale": 0.898,
    "tree_scale_out_of_band": 0,
-   "tree_species_substituted": 82,
-   "triangles": 985046,
+   "tree_species_substituted": 100,
+   "triangles": 985048,
    "unmapped_kinds": {
     "artwork": 2,
     "drinking_fountain": 2,
@@ -1126,7 +1128,7 @@
    }
   },
   "radius_m": 692.5382911169604,
-  "seconds": 432.18,
+  "seconds": 403.14,
   "structures": {
    "imported": [
     "t_-2_5",
@@ -1163,7 +1165,7 @@
    "z_max_m": 22.72,
    "z_min_m": 0.0
   },
-  "triangles": 4500081
+  "triangles": 4500083
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1173,18 +1175,18 @@
   "radius_m": 692.5382911169604
  },
  "seconds": {
-  "render": 130.1,
-  "scene": 435.3,
-  "total": 565.4
+  "render": 100.8,
+  "scene": 406.5,
+  "total": 507.2
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 137.1 m above its ground",
-  "subject_blocked_at_m": 81.2,
+  "subject_blocked_at_m": 79.1,
   "subject_blocked_by": "t_-2_6_metal_panel",
   "subject_clear_fraction": 0.923,
-  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate",
-  "subject_fan_half_angle_deg": 11.2,
-  "subject_fan_m": 65.0,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate, not the 147.1 m of the whole model around it, which is the site rather than the subject (J113)",
+  "subject_fan_half_angle_deg": 15.21,
+  "subject_fan_m": 89.2,
   "subject_fan_tall_m": 274.2,
   "subject_fan_v_half_angle_deg": 39.87,
   "subject_lands_at_m": 82.2,
@@ -1194,13 +1196,13 @@
   "subject_range_m": 164.2,
   "subject_rays": 13,
   "subject_rays_clear": 12,
-  "subject_rays_into_nothing": 3,
+  "subject_rays_into_nothing": 4,
   "subject_rays_on_own_fabric_nearer_than_recorded": 7,
-  "subject_rays_on_subject": 9,
+  "subject_rays_on_subject": 8,
   "subject_reach_m": 25.0,
   "subject_verdict_rule": "at least one ray lands on the subject (J78)",
   "subject_visible": true,
-  "subject_visible_fraction": 0.692
+  "subject_visible_fraction": 0.615
  },
  "slug": "landmark_citigroup_center",
  "status": "rendered",
@@ -1224,11 +1226,18 @@
   "name": "Citigroup Center (601 Lexington Avenue)",
   "origin_distance_m": 96.1,
   "plan_extent": {
+   "across_bearing_deg": 58.9,
    "is_tile_mesh": false,
-   "narrow_m": 65.0,
-   "note": "the bounding box of the object the height was measured off",
+   "model": "lm_c_citigroup_center",
+   "model_axis_narrow_m": 98.7,
+   "model_axis_width_m": 123.4,
+   "model_narrow_m": 154.8,
+   "model_width_m": 147.1,
+   "narrow_m": 89.2,
+   "note": "`width_m` and `narrow_m` are the box of lm_c_citigroup_center.7 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 10 part(s) of lm_c_citigroup_center, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_citigroup_center.7",
-   "width_m": 65.0
+   "parts": 10,
+   "width_m": 89.2
   }
  },
  "sun": {

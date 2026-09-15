@@ -65,7 +65,7 @@
    21.1
   ],
   "nearest_obstruction_m": 29.6,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_tree_honeylocust_large_12 29.6 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 112 m",
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_tree_honeylocust_large_12 29.6 m away, and the probe found no simulated agent on its rays across this frame within 60 m, and the view azimuth is clear for 112 m",
   "offset_m": 0.0,
   "view_m": 111.8
  },
@@ -113,6 +113,7 @@
  "name": "Citi Field",
  "night": false,
  "pitch_reason": "level optical axis (the subject is 263 m away; anything that far is photographed with a level camera)",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Kidfly182",
   "confidence": "high",
@@ -127,7 +128,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_citi_field/render.png",
- "rendered_at": "2026-09-09T18:55:25Z",
+ "rendered_at": "2026-09-15T21:56:44Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -163,7 +164,7 @@
    "placed_pedestrians": 97,
    "placed_vehicles": 70,
    "reason": null,
-   "seconds": 275.02,
+   "seconds": 225.59,
    "snapshot": {
     "building_footprints_tested": 1558,
     "density_lane_km": 16.677,
@@ -178,7 +179,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.71,
+     "load_seconds": 3.39,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -203,7 +204,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 283
    },
-   "snapshot_note": "cached 8781_6084_15_1_99391a52755c3d11_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
    "triangles": 574913,
    "vehicle_lods": {
@@ -916,6 +917,7 @@
    },
    "capped": null,
    "dropped_for_budget": 0,
+   "dropped_on_suppressed_building": 1,
    "impostor_cards_dropped": 3,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -967,11 +969,11 @@
    "unmapped_kinds": {
     "artwork": 3,
     "memorial": 7,
-    "parks_building": 3
+    "parks_building": 2
    }
   },
   "radius_m": 839.8116561454227,
-  "seconds": 312.97,
+  "seconds": 278.65,
   "structures": {
    "imported": [
     "t_7_5",
@@ -1052,24 +1054,24 @@
   "radius_m": 839.8116561454227
  },
  "seconds": {
-  "render": 336.5,
-  "scene": 317.6,
-  "total": 654.1
+  "render": 201.4,
+  "scene": 281.6,
+  "total": 482.9
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 6.1 m above its ground",
-  "subject_blocked_at_m": 54.4,
+  "subject_blocked_at_m": 54.3,
   "subject_blocked_by": "prop_tree_honeylocust_large_37",
   "subject_clear_fraction": 0.846,
-  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate",
-  "subject_fan_half_angle_deg": 25.06,
-  "subject_fan_m": 245.9,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate, not the 290.2 m of the whole model around it, which is the site rather than the subject (J113)",
+  "subject_fan_half_angle_deg": 25.56,
+  "subject_fan_m": 251.5,
   "subject_fan_tall_m": 12.1,
   "subject_fan_v_half_angle_deg": 1.32,
-  "subject_lands_at_m": 99.4,
+  "subject_lands_at_m": 99.5,
   "subject_lands_on": "lm_c_citi_field.0",
   "subject_own_fabric_nearest": "lm_c_citi_field.0",
-  "subject_own_fabric_nearest_m": 99.4,
+  "subject_own_fabric_nearest_m": 99.5,
   "subject_range_m": 262.9,
   "subject_rays": 13,
   "subject_rays_clear": 11,
@@ -1103,11 +1105,18 @@
   "name": "Citi Field (Jackie Robinson Rotunda)",
   "origin_distance_m": 262.9,
   "plan_extent": {
+   "across_bearing_deg": 4.0,
    "is_tile_mesh": false,
-   "narrow_m": 234.8,
-   "note": "the bounding box of the object the height was measured off",
+   "model": "lm_c_citi_field",
+   "model_axis_narrow_m": 269.2,
+   "model_axis_width_m": 314.0,
+   "model_narrow_m": 332.1,
+   "model_width_m": 290.2,
+   "narrow_m": 261.7,
+   "note": "`width_m` and `narrow_m` are the box of lm_c_citi_field.2 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 6 part(s) of lm_c_citi_field, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_citi_field.2",
-   "width_m": 245.9
+   "parts": 6,
+   "width_m": 251.5
   }
  },
  "sun": {

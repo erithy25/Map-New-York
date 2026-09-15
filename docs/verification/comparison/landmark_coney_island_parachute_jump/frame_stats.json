@@ -1,6 +1,6 @@
 {
  "slug": "landmark_coney_island_parachute_jump",
- "rendered_at": "2026-09-09T19:12:34Z",
+ "rendered_at": "2026-09-15T22:10:02Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",

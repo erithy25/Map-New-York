@@ -65,7 +65,7 @@
    -27.2
   ],
   "nearest_obstruction_m": 0.0,
-  "note": "the eye point stands on lm_b_coney_island.51, but this camera's position is the photograph's own EXIF GPS rather than a nominal viewpoint standing for a whole deck, so there is nothing to walk to and the camera was not moved.  The view azimuth is clear for 90 m and the nearest built thing in the frame is lm_b_coney_island.51 0.0 m away, and no simulated agent stands within 60 m of it",
+  "note": "the eye point stands on lm_b_coney_island.51, but this camera's position is the photograph's own EXIF GPS rather than a nominal viewpoint standing for a whole deck, so there is nothing to walk to and the camera was not moved.  The view azimuth is clear for 90 m and the nearest built thing in the frame is lm_b_coney_island.51 0.0 m away, and the probe found no simulated agent on its rays across this frame within 60 m",
   "offset_m": 0.0,
   "standing_on": "lm_b_coney_island.51",
   "view_m": 89.6
@@ -114,6 +114,7 @@
  "name": "Coney Island Parachute Jump",
  "night": false,
  "pitch_reason": "level optical axis (nothing built stands at Parachute Jump's coordinate, so its mid-height is not known and there is nothing to tilt towards)",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Giorgio Galeotti",
   "confidence": "high",
@@ -128,7 +129,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_coney_island_parachute_jump/render.png",
- "rendered_at": "2026-09-09T19:12:34Z",
+ "rendered_at": "2026-09-15T22:10:02Z",
  "resolution_note": "852x1278; the reference photograph is 1920x2880 (0.67:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -167,7 +168,7 @@
    "placed_pedestrians": 28,
    "placed_vehicles": 37,
    "reason": null,
-   "seconds": 35.85,
+   "seconds": 30.92,
    "snapshot": {
     "building_footprints_tested": 1410,
     "density_lane_km": 9.177,
@@ -182,7 +183,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.66,
+     "load_seconds": 1.64,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -207,7 +208,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 93
    },
-   "snapshot_note": "cached -2723_-14121_13_0_7135681bd07b4c6f_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
    "triangles": 247167,
    "vehicle_lods": {
@@ -678,6 +679,7 @@
    },
    "capped": null,
    "dropped_for_budget": 0,
+   "dropped_on_suppressed_building": 0,
    "impostor_cards_dropped": 2,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {},
@@ -729,7 +731,7 @@
    }
   },
   "radius_m": 707.6446883654972,
-  "seconds": 52.42,
+  "seconds": 51.39,
   "structures": {
    "imported": [
     "t_-3_-14",
@@ -788,9 +790,9 @@
   "radius_m": 707.6446883654972
  },
  "seconds": {
-  "render": 60.5,
-  "scene": 53.1,
-  "total": 113.6
+  "render": 33.6,
+  "scene": 52.0,
+  "total": 85.6
  },
  "sightline": {
   "subject_note": "nothing built stands within 6 m of the subject's coordinate; the nearest built thing is t_-3_-15_concrete, 15 m away at bearing 270 deg, so the coordinate the item records is that far off the fabric it names; no sightline was tested",

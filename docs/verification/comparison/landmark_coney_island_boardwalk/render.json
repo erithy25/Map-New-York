@@ -59,7 +59,7 @@
    -18.9
   ],
   "nearest_obstruction_m": 4.9,
-  "note": "the eye point stands on lm_b_coney_island.51, but this camera's position is the photograph's own EXIF GPS rather than a nominal viewpoint standing for a whole deck, so there is nothing to walk to and the camera was not moved.  The view azimuth is clear for 76 m and the nearest built thing in the frame is lm_b_coney_island.51 4.9 m away, and no simulated agent stands within 60 m of it",
+  "note": "the eye point stands on lm_b_coney_island.51, but this camera's position is the photograph's own EXIF GPS rather than a nominal viewpoint standing for a whole deck, so there is nothing to walk to and the camera was not moved.  The view azimuth is clear for 76 m and the nearest built thing in the frame is lm_b_coney_island.51 4.9 m away, and the probe found no simulated agent on its rays across this frame within 60 m",
   "offset_m": 0.0,
   "standing_on": "lm_b_coney_island.51",
   "stood_on_deck": "the eye point sat 0.05 m under lm_b_coney_island.51, the landmark model's own level deck at 5.20 m NAVD88, which stands above the heightmap the eye height was measured from; the camera was raised onto it, so it stands on the surface that is actually drawn under it at 6.80 m NAVD88",
@@ -109,6 +109,7 @@
  "name": "Riegelmann Boardwalk, Coney Island",
  "night": false,
  "pitch_reason": "level optical axis (the reference names no subject to aim at)",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Chepry (Andrzej Barabasz)",
   "confidence": "medium",
@@ -123,7 +124,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_coney_island_boardwalk/render.png",
- "rendered_at": "2026-09-09T19:09:04Z",
+ "rendered_at": "2026-09-15T22:08:35Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -160,7 +161,7 @@
    "placed_pedestrians": 36,
    "placed_vehicles": 27,
    "reason": null,
-   "seconds": 49.8,
+   "seconds": 59.66,
    "snapshot": {
     "building_footprints_tested": 609,
     "density_lane_km": 9.458,
@@ -175,7 +176,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.68,
+     "load_seconds": 1.84,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -200,7 +201,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 95
    },
-   "snapshot_note": "cached -2529_-14077_13_0_416b27d3a116e3c1_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
    "triangles": 200979,
    "vehicle_lods": {
@@ -694,6 +695,7 @@
    },
    "capped": null,
    "dropped_for_budget": 0,
+   "dropped_on_suppressed_building": 2,
    "impostor_cards_dropped": 2,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -749,13 +751,13 @@
     "billboard": 5,
     "drinking_fountain": 4,
     "misc_structure": 4,
-    "parks_building": 8,
+    "parks_building": 6,
     "parks_comfort_station": 3,
     "vending_machine": 5
    }
   },
   "radius_m": 820.6488678628772,
-  "seconds": 76.11,
+  "seconds": 91.41,
   "structures": {
    "imported": [
     "t_-2_-14",
@@ -816,9 +818,9 @@
   "radius_m": 820.6488678628772
  },
  "seconds": {
-  "render": 78.5,
-  "scene": 76.8,
-  "total": 155.3
+  "render": 47.5,
+  "scene": 92.0,
+  "total": 139.6
  },
  "sightline": {
   "subject_note": "the item names no point subject",

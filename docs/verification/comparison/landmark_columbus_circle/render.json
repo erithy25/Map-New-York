@@ -86,11 +86,11 @@
  "lighting": {
   "background_strength": 0.032362449914216995,
   "development": {
-   "linear_p05": 0.004781,
-   "linear_p50": 0.040579,
-   "linear_p95": 0.281275,
-   "log_average_linear": 0.036928,
-   "median_linear": 0.040579,
+   "linear_p05": 0.004779,
+   "linear_p50": 0.04058,
+   "linear_p95": 0.281291,
+   "log_average_linear": 0.036924,
+   "median_linear": 0.04058,
    "metered": true,
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
    "stops": 2.149,
@@ -117,6 +117,7 @@
  "name": "Columbus Circle",
  "night": false,
  "pitch_reason": "tilted +34.3 deg to contain the subject: the top of lm_b_columbus_circle_monument.6, the built thing standing at the subject's coordinate, 236 m above the ground there tops out 235 m above the lens 115 m away, 64 deg above the horizon, and the frame is only 67 deg tall at 18 mm. **The verticals converge, so this frame is not comparable with the photograph on proportion** -- it is here to show the subject at all",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Paul Wasneski",
   "confidence": "high",
@@ -131,7 +132,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_columbus_circle/render.png",
- "rendered_at": "2026-09-09T19:10:37Z",
+ "rendered_at": "2026-09-15T22:07:42Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -179,7 +180,7 @@
    "placed_pedestrians": 252,
    "placed_vehicles": 53,
    "reason": null,
-   "seconds": 391.56,
+   "seconds": 296.74,
    "snapshot": {
     "building_footprints_tested": 1086,
     "car_free_park_drives_matched": 48,
@@ -195,7 +196,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.72,
+     "load_seconds": 1.71,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -220,7 +221,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 741
    },
-   "snapshot_note": "cached -2675_7613_14_1_0a427c11fd9125f2_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
    "triangles": 1081631,
    "vehicle_lods": {
@@ -301,7 +302,7 @@
    7613.43
   ],
   "kit": {
-   "capped": "triangle budget 1104162",
+   "capped": "triangle budget 1104166",
    "per_category": {
     "bulkhead": 6,
     "cornice": 1,
@@ -978,21 +979,22 @@
   },
   "props": {
    "canopy": {
-    "billboards": 369,
+    "billboards": 405,
     "card_missing_drawn_lod0": 0,
-    "dropped_for_budget": 1435,
+    "dropped_for_budget": 1399,
     "lod0": 88,
     "near_radius_m": 120.0,
     "procedural_dataset_id": "rule:woodland_canopy",
     "procedural_stems": 0,
     "radius_m": 641.4216264191966,
     "rows_beyond_prop_radius": 1386,
-    "triangles": 2214,
-    "yaw_by_rule": 457,
+    "triangles": 2430,
+    "yaw_by_rule": 493,
     "yaw_rule": "a tree's yaw is not in any source: it is drawn from a hash of the stem's own position (SplitMix64 over the metre-rounded x, y), uniform over 360 deg, so the same tree is drawn the same way in every render and no two neighbours share a silhouette; a rule, not a measurement"
    },
    "capped": "triangle budget 1176964",
-   "dropped_for_budget": 1607,
+   "dropped_for_budget": 1566,
+   "dropped_on_suppressed_building": 9,
    "impostor_cards_dropped": 10,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -1000,45 +1002,45 @@
    },
    "leaf_off": true,
    "per_dataset": {
-    "bus_stop_shelters": 6,
+    "bus_stop_shelters": 7,
     "citibike_gbfs_station_status": 55,
     "citibike_gbfs_stations": 178,
     "gtfs_bus": 18,
-    "hydrants": 64,
+    "hydrants": 65,
     "linknyc": 11,
     "newsstands": 6,
-    "osm_newyork_pbf": 277,
+    "osm_newyork_pbf": 296,
     "osm_newyork_pbf+rule:park_post_lamp": 4,
-    "plan_cooling_towers": 56,
+    "plan_cooling_towers": 47,
     "plan_railroad_structure": 32,
-    "rule:lamp_30_40m_alt": 80,
+    "rule:lamp_30_40m_alt": 83,
     "rule:lamp_30_40m_alt+rule:park_post_lamp": 22,
     "rule:manhole_40m": 116,
     "rule:steam_vent_400m_manhattan_below_96": 16,
-    "street_trees_2015": 257,
+    "street_trees_2015": 274,
     "subway_entrances": 18
    },
    "per_kind": {
     "bench": 27,
     "bike_rack": 10,
-    "bus_shelter": 6,
+    "bus_shelter": 7,
     "bus_stop_sign": 18,
     "citibike_dock": 233,
-    "cooling_tower": 56,
+    "cooling_tower": 47,
     "flagpole": 1,
-    "hydrant": 64,
+    "hydrant": 65,
     "linknyc": 11,
     "mailbox": 4,
     "manhole": 116,
     "newsstand": 6,
     "steam_vent": 16,
-    "street_lamp": 130,
+    "street_lamp": 133,
     "subway_entrance": 18,
     "subway_vent_grate": 32,
-    "tree": 457,
+    "tree": 493,
     "waste_basket": 11
    },
-   "placed": 1216,
+   "placed": 1248,
    "radius_m": 307.96509587727365,
    "rows_in_range": 2969,
    "tiles_missing": [],
@@ -1049,11 +1051,11 @@
     "t_-4_7",
     "t_-4_8"
    ],
-   "tree_instances_scaled": 457,
-   "tree_mean_scale": 0.921,
+   "tree_instances_scaled": 493,
+   "tree_mean_scale": 0.925,
    "tree_scale_out_of_band": 0,
-   "tree_species_substituted": 238,
-   "triangles": 1176964,
+   "tree_species_substituted": 259,
+   "triangles": 1176960,
    "unmapped_kinds": {
     "artwork": 6,
     "drinking_fountain": 3,
@@ -1066,7 +1068,7 @@
    }
   },
   "radius_m": 641.4216264191966,
-  "seconds": 500.8,
+  "seconds": 393.86,
   "structures": {
    "imported": [
     "t_-4_7",
@@ -1098,7 +1100,7 @@
    "z_max_m": 30.74,
    "z_min_m": 7.72
   },
-  "triangles": 4500178
+  "triangles": 4500174
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1108,18 +1110,18 @@
   "radius_m": 641.4216264191966
  },
  "seconds": {
-  "render": 90.4,
-  "scene": 504.5,
-  "total": 594.9
+  "render": 63.7,
+  "scene": 397.4,
+  "total": 461.1
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 117.6 m above its ground",
   "subject_blocked_at_m": null,
   "subject_blocked_by": null,
   "subject_clear_fraction": 1.0,
-  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate; clipped to the frame, because a ray outside the picture tests something that is not in it",
-  "subject_fan_half_angle_deg": 7.01,
-  "subject_fan_m": 40.3,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate, not the 214.5 m of the whole model around it, which is the site rather than the subject (J113); clipped to the frame, because a ray outside the picture tests something that is not in it",
+  "subject_fan_half_angle_deg": 8.5,
+  "subject_fan_m": 49.0,
   "subject_fan_tall_m": 235.2,
   "subject_fan_v_half_angle_deg": 33.71,
   "subject_lands_at_m": 83.8,
@@ -1159,11 +1161,18 @@
   "name": "Deutsche Bank Center (formerly Time Warner Center)",
   "origin_distance_m": 114.7,
   "plan_extent": {
+   "across_bearing_deg": 255.7,
    "is_tile_mesh": false,
-   "narrow_m": 40.3,
-   "note": "the bounding box of the object the height was measured off",
+   "model": "lm_b_columbus_circle_monument",
+   "model_axis_narrow_m": 184.9,
+   "model_axis_width_m": 208.5,
+   "model_narrow_m": 223.4,
+   "model_width_m": 214.5,
+   "narrow_m": 49.0,
+   "note": "`width_m` and `narrow_m` are the box of lm_b_columbus_circle_monument.6 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 23 part(s) of lm_b_columbus_circle_monument, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_b_columbus_circle_monument.6",
-   "width_m": 40.3
+   "parts": 23,
+   "width_m": 49.0
   }
  },
  "sun": {

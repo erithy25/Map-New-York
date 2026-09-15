@@ -65,14 +65,14 @@
    -21.1
   ],
   "nearest_obstruction_m": 2.7,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is t_-5_1_park_park_ground_grass 2.7 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 103 m",
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is t_-5_1_park_park_ground_grass 2.7 m away, and the probe found no simulated agent on its rays across this frame within 60 m, and the view azimuth is clear for 103 m",
   "offset_m": 0.0,
   "view_m": 102.7
  },
  "frame": {
-  "mean": 0.5348,
+  "mean": 0.5347,
   "reason": null,
-  "sd": 0.2055,
+  "sd": 0.2054,
   "usable": true
  },
  "frame_retry": null,
@@ -83,10 +83,10 @@
   "background_strength": 0.03075825609266758,
   "development": {
    "linear_p05": 0.006178,
-   "linear_p50": 0.022582,
+   "linear_p50": 0.022573,
    "linear_p95": 0.270485,
-   "log_average_linear": 0.030493,
-   "median_linear": 0.022582,
+   "log_average_linear": 0.030476,
+   "median_linear": 0.022573,
    "metered": true,
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
    "stops": 2.995,
@@ -113,6 +113,7 @@
  "name": "New York City Hall",
  "night": false,
  "pitch_reason": "aimed at New York City Hall 127 m away, at its mid-height (the top of lm_city_hall.4, the built thing standing at the subject's coordinate, 34 m above the ground there); +7.3 deg from horizontal",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Deans Charbal",
   "confidence": "high",
@@ -127,7 +128,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_city_hall/render.png",
- "rendered_at": "2026-09-09T19:06:25Z",
+ "rendered_at": "2026-09-15T22:06:12Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -169,7 +170,7 @@
    "placed_pedestrians": 251,
    "placed_vehicles": 69,
    "reason": null,
-   "seconds": 307.18,
+   "seconds": 257.47,
    "snapshot": {
     "building_footprints_tested": 1416,
     "density_lane_km": 28.857,
@@ -209,7 +210,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 705
    },
-   "snapshot_note": "cached -4817_1329_12_0_d281012c22d93e10_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
    "triangles": 1081667,
    "vehicle_lods": {
@@ -281,7 +282,7 @@
    1328.92
   ],
   "kit": {
-   "capped": "triangle budget 999883",
+   "capped": "triangle budget 999879",
    "per_category": {
     "bulkhead": 8,
     "cornice": 15,
@@ -1063,21 +1064,22 @@
   },
   "props": {
    "canopy": {
-    "billboards": 145,
+    "billboards": 165,
     "card_missing_drawn_lod0": 0,
-    "dropped_for_budget": 2468,
+    "dropped_for_budget": 2448,
     "lod0": 123,
     "near_radius_m": 120.0,
     "procedural_dataset_id": "rule:woodland_canopy",
     "procedural_stems": 0,
     "radius_m": 653.1036137602935,
     "rows_beyond_prop_radius": 2301,
-    "triangles": 870,
-    "yaw_by_rule": 268,
+    "triangles": 990,
+    "yaw_by_rule": 288,
     "yaw_rule": "a tree's yaw is not in any source: it is drawn from a hash of the stem's own position (SplitMix64 over the metre-rounded x, y), uniform over 360 deg, so the same tree is drawn the same way in every render and no two neighbours share a silhouette; a rule, not a measurement"
    },
    "capped": "triangle budget 1120831",
-   "dropped_for_budget": 3464,
+   "dropped_for_budget": 3442,
+   "dropped_on_suppressed_building": 4,
    "impostor_cards_dropped": 4,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -1091,14 +1093,14 @@
     "gtfs_bus": 13,
     "hydrants": 27,
     "newsstands": 1,
-    "osm_newyork_pbf": 460,
+    "osm_newyork_pbf": 480,
     "osm_newyork_pbf+rule:park_post_lamp": 12,
-    "plan_cooling_towers": 35,
+    "plan_cooling_towers": 33,
     "plan_railroad_structure": 31,
     "rule:lamp_30_40m_alt": 4,
     "rule:manhole_40m": 64,
     "rule:steam_vent_400m_manhattan_below_96": 2,
-    "street_trees_2015": 30,
+    "street_trees_2015": 31,
     "subway_entrances": 6
    },
    "per_kind": {
@@ -1107,21 +1109,21 @@
     "bus_shelter": 2,
     "bus_stop_sign": 13,
     "citibike_dock": 43,
-    "cooling_tower": 35,
+    "cooling_tower": 33,
     "flagpole": 13,
     "hydrant": 27,
     "mailbox": 3,
     "manhole": 64,
     "newsstand": 1,
     "steam_vent": 2,
-    "street_lamp": 90,
+    "street_lamp": 91,
     "subway_emergency_exit": 2,
     "subway_entrance": 6,
     "subway_vent_grate": 29,
-    "tree": 268,
+    "tree": 288,
     "waste_basket": 33
    },
-   "placed": 730,
+   "placed": 749,
    "radius_m": 300.5279406466828,
    "rows_in_range": 4406,
    "tiles_missing": [],
@@ -1131,21 +1133,21 @@
     "t_-6_0",
     "t_-6_1"
    ],
-   "tree_instances_scaled": 266,
-   "tree_mean_scale": 0.909,
+   "tree_instances_scaled": 286,
+   "tree_mean_scale": 0.915,
    "tree_scale_out_of_band": 2,
-   "tree_species_substituted": 242,
-   "triangles": 1120826,
+   "tree_species_substituted": 261,
+   "triangles": 1120830,
    "unmapped_kinds": {
     "artwork": 4,
     "drinking_fountain": 5,
     "memorial": 6,
     "misc_structure": 3,
-    "parks_building": 9
+    "parks_building": 8
    }
   },
   "radius_m": 653.1036137602935,
-  "seconds": 373.32,
+  "seconds": 327.42,
   "structures": {
    "imported": [
     "t_-5_0",
@@ -1183,7 +1185,7 @@
    "z_max_m": 14.05,
    "z_min_m": -1.73
   },
-  "triangles": 4500131
+  "triangles": 4500135
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1193,18 +1195,18 @@
   "radius_m": 653.1036137602935
  },
  "seconds": {
-  "render": 280.3,
-  "scene": 376.1,
-  "total": 656.5
+  "render": 235.6,
+  "scene": 330.5,
+  "total": 566.1
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 17.0 m above its ground",
-  "subject_blocked_at_m": 34.4,
+  "subject_blocked_at_m": 36.3,
   "subject_blocked_by": "prop_tree_honeylocust_large_32",
   "subject_clear_fraction": 0.231,
-  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate",
-  "subject_fan_half_angle_deg": 3.88,
-  "subject_fan_m": 17.3,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate, not the 102.4 m of the whole model around it, which is the site rather than the subject (J113)",
+  "subject_fan_half_angle_deg": 5.47,
+  "subject_fan_m": 24.4,
   "subject_fan_tall_m": 33.9,
   "subject_fan_v_half_angle_deg": 7.56,
   "subject_lands_at_m": 104.4,
@@ -1244,11 +1246,18 @@
   "name": "New York City Hall",
   "origin_distance_m": 126.6,
   "plan_extent": {
+   "across_bearing_deg": 42.1,
    "is_tile_mesh": false,
-   "narrow_m": 17.3,
-   "note": "the bounding box of the object the height was measured off",
+   "model": "lm_city_hall",
+   "model_axis_narrow_m": 67.6,
+   "model_axis_width_m": 77.0,
+   "model_narrow_m": 101.7,
+   "model_width_m": 102.4,
+   "narrow_m": 24.4,
+   "note": "`width_m` and `narrow_m` are the box of lm_city_hall.4 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 7 part(s) of lm_city_hall, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_city_hall.4",
-   "width_m": 17.3
+   "parts": 7,
+   "width_m": 24.4
   }
  },
  "sun": {

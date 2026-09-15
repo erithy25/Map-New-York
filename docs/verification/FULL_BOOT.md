@@ -371,10 +371,29 @@ decomposed. **The resident set is not a ramp, it is a step:**
 
 The crowd reaches its `peds + 2000` cap of 14,000 at **minute 10.00**, and from there to minute 34.83
 the resident set moves by **0.01 MB**. The whole 11.74 MB "spread" is the single step from 579.89 to
-591.62 MB while the crowd grew from 5,359 to 14,000 — **0.84 KB per pedestrian added**, which is a
-crowd being allocated, not memory being lost. **So the build's memory over a long run is flat, and
+591.62 MB while the simulation filled. **So the build's memory over a long run is flat, and
 `performance/REPORT.md` §6's claim that the requirement is met holds at 12,000 pedestrians on the real
 city as well as at 6,000 on the grid.**
+
+**And the step is a property of the world, not of the crowd.** The same agent counts run on the
+synthetic grid — the documented reproduce command of `performance/REPORT.md` §10, verbatim — give a
+step of **0.16 MB** where the city gives **11.76 MB**:
+
+| same 3,000 vehicles / 12,000 pedestrians | synthetic grid | real city |
+|---|---|---|
+| sidewalk edges in the world | 4,452 | **677,799** |
+| pedestrians over the run | 7,691 → 12,001 | 5,359 → 14,000 |
+| RSS | 14.22 → 14.38 MB | 579.87 → 591.63 MB |
+| **the step** | **0.16 MB** | **11.76 MB** |
+| slope, whole run | +0.0010 | +0.3551 |
+| **slope, second half** | **+0.0000** | **+0.0000** |
+| spread against the 8.0 MB bound | 0.08 MB — **passes** | 11.74 MB — **fails** |
+
+A sidewalk graph **152× larger** produces a step **73× larger** for a crowd increment only **2×**
+larger, so what fills is not the pedestrian records but per-edge and per-cell structure, as the
+camera's 600 m circle sweeps ground the simulation has not touched yet. On a 4,452-edge grid that
+finishes in seconds; on 677,799 edges it takes about seventeen simulated minutes. Both then hold at
++0.0000.
 
 **What does not hold is the way it is proved.** `test_memory_is_bounded_over_a_long_run` asserts
 `slope < 0.0167` MB per simulated minute and `spread < 8.0` MB, and fits the slope over **every sample
@@ -386,13 +405,14 @@ the crowd is there before the fit has any leverage, and the same run measures +0
 spread — which is exactly what §10's A/B found.
 
 **Open, not fixed here, and it is a test fault rather than a build fault.** The shape of the repair,
-written down so it is not re-derived: fit the slope over samples taken **after the population has
-settled** — the bench already records `vehicles` and `peds` in every CSV row, so "settled" is
-observable rather than assumed — or assert on the second half and state why. Either makes the test
-robust to the crowd size instead of quietly depending on it. Why it matters: the documented reproduce
-command in `performance/REPORT.md` §10 is
-`soak --minutes 35 --vehicles 3000 --peds 12000`, which carries **this** configuration's agent counts,
-three and two times the guard's own. So raising the guard to the documented figures — the obvious next
-step for anyone hardening it — turns it red on a build whose memory is provably flat. **Found by disbelieving my own first reading** — the
+written down so it is not re-derived: **fit over the second half of the run**, or over samples after the
+resident set has plateaued, and say so in the assertion message. The population is *not* the right
+settling signal — this run's crowd was at its cap from minute 10 while the resident set kept stepping
+to minute 17 — so the plateau has to be read off RSS itself, which every CSV row already carries.
+Either form makes the bound robust to the world size instead of quietly depending on it. Why it matters, stated only as far as it
+was measured: raising the guard's **agent counts** to the documented figures does **not** turn it red —
+measured above, it passes at a 0.08 MB spread. What turns it red is adding **`--city`** at those
+counts, which is the configuration a city simulator would actually want guarded, and which no current
+test runs. **Found by disbelieving my own first reading** — the
 +0.3387 slope looked like a leak in the real city, the A/B at the guard's parameters showed the city is
 flatter than the grid, and only the curve showed that neither reading was about `--city` at all.
