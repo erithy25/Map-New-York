@@ -65,7 +65,7 @@
    -16.1
   ],
   "nearest_obstruction_m": 7.3,
-  "note": "the eye point stands on t_-2_8_park_park_ground_grass, but this camera's position is the photograph's own EXIF GPS rather than a nominal viewpoint standing for a whole deck, so there is nothing to walk to and the camera was not moved.  The view azimuth is clear for 87 m and the nearest built thing in the frame is t_-2_8_park_park_ground_grass 7.3 m away, and no simulated agent stands within 60 m of it",
+  "note": "the eye point stands on t_-2_8_park_park_ground_grass, but this camera's position is the photograph's own EXIF GPS rather than a nominal viewpoint standing for a whole deck, so there is nothing to walk to and the camera was not moved.  The view azimuth is clear for 87 m and the nearest built thing in the frame is t_-2_8_park_park_ground_grass 7.3 m away, and the probe found no simulated agent on its rays across this frame within 60 m",
   "offset_m": 0.0,
   "standing_on": "t_-2_8_park_park_ground_grass",
   "view_m": 86.8
@@ -114,6 +114,7 @@
  "name": "Central Park: Bow Bridge",
  "night": false,
  "pitch_reason": "aimed at Bow Bridge 39 m away, at its mid-height (the top of lm_b_bow_bridge.6, the built thing standing at the subject's coordinate, 8 m above the ground there); +2.1 deg from horizontal",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Christian David",
   "confidence": "high",
@@ -128,7 +129,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_central_park_bow_bridge/render.png",
- "rendered_at": "2026-09-12T17:41:46Z",
+ "rendered_at": "2026-09-15T19:57:48Z",
  "resolution_note": "1280x720; the reference photograph is 1920x1080 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -156,7 +157,7 @@
    "placed_pedestrians": 0,
    "placed_vehicles": 0,
    "reason": "the simulation put no agent on a paved surface inside the frame's radius",
-   "seconds": 0.5,
+   "seconds": 0.56,
    "snapshot": {
     "building_footprints_tested": 1403,
     "car_free_park_drives_matched": 11,
@@ -172,7 +173,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.63,
+     "load_seconds": 2.68,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -1068,7 +1069,7 @@
    }
   },
   "radius_m": 677.3874152501,
-  "seconds": 31.96,
+  "seconds": 30.43,
   "structures": {
    "imported": [
     "t_-2_8",
@@ -1120,18 +1121,18 @@
   "radius_m": 677.3874152501
  },
  "seconds": {
-  "render": 69.2,
-  "scene": 34.3,
-  "total": 103.5
+  "render": 115.1,
+  "scene": 33.7,
+  "total": 148.8
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 4.1 m above its ground",
   "subject_blocked_at_m": null,
   "subject_blocked_by": null,
   "subject_clear_fraction": 1.0,
-  "subject_fan_from": "the 12 m floor: the subject measures 8.1 m, which is under it, so the fan is the floor rather than the subject; across, the measured plan extent of the object standing at the coordinate",
-  "subject_fan_half_angle_deg": 17.7,
-  "subject_fan_m": 24.9,
+  "subject_fan_from": "the 12 m floor: the subject measures 8.1 m, which is under it, so the fan is the floor rather than the subject; across, the measured plan extent of the object standing at the coordinate, not the 33.6 m of the whole model around it, which is the site rather than the subject (J113)",
+  "subject_fan_half_angle_deg": 17.76,
+  "subject_fan_m": 25.0,
   "subject_fan_tall_m": 12.0,
   "subject_fan_v_half_angle_deg": 8.74,
   "subject_lands_at_m": 29.5,
@@ -1171,11 +1172,18 @@
   "name": "Bow Bridge",
   "origin_distance_m": 39.0,
   "plan_extent": {
+   "across_bearing_deg": 200.4,
    "is_tile_mesh": false,
-   "narrow_m": 17.4,
-   "note": "the bounding box of the object the height was measured off",
+   "model": "lm_b_bow_bridge",
+   "model_axis_narrow_m": 23.8,
+   "model_axis_width_m": 32.5,
+   "model_narrow_m": 29.9,
+   "model_width_m": 33.6,
+   "narrow_m": 29.4,
+   "note": "`width_m` and `narrow_m` are the box of lm_b_bow_bridge.6 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 7 part(s) of lm_b_bow_bridge, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_b_bow_bridge.6",
-   "width_m": 24.9
+   "parts": 7,
+   "width_m": 25.0
   }
  },
  "sun": {

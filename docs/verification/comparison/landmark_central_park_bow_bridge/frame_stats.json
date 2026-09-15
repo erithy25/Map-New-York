@@ -1,6 +1,6 @@
 {
  "slug": "landmark_central_park_bow_bridge",
- "rendered_at": "2026-09-12T17:41:46Z",
+ "rendered_at": "2026-09-15T19:57:48Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",

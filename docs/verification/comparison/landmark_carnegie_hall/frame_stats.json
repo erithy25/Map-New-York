@@ -1,17 +1,17 @@
 {
  "slug": "landmark_carnegie_hall",
- "rendered_at": "2026-09-09T18:18:51Z",
+ "rendered_at": "2026-09-15T19:56:55Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.5304,
-  "sd": 0.2025,
-  "p05": 0.2301,
+  "mean": 0.5309,
+  "sd": 0.2024,
+  "p05": 0.2302,
   "p50": 0.4975,
-  "p95": 0.9313,
+  "p95": 0.9316,
   "chroma": 0.0668,
   "exposure_offset_stops": 0.234
  },
@@ -27,8 +27,8 @@
   "exposure_offset_stops": 0.163
  },
  "render_over_reference": {
-  "mean": 1.047,
-  "sd": 0.701,
+  "mean": 1.048,
+  "sd": 0.7,
   "p50": 1.023,
   "chroma": 0.9,
   "exposure_offset_stops": 0.071,

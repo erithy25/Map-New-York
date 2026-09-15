@@ -61,19 +61,19 @@
   "nearest_agent_m": null,
   "nearest_agent_measured": "after the cull over the observer",
   "nearest_agent_probe_m": 20.0,
-  "nearest_obstruction": "t_-3_7_limestone",
+  "nearest_obstruction": "kit_606_133",
   "nearest_obstruction_at_deg": [
    -27.2,
    0.0
   ],
-  "nearest_obstruction_m": 9.6,
-  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 70 m ahead, less than the 80 m this frame needs to show its subject; the camera was moved 19 m onto the nearest real crosswalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 96 m from there, and the nearest built thing in the frame is t_-3_7_limestone 9.6 m away at -27 deg yaw, +0 deg pitch, and the nearest simulated agent is agent_ped_3160.2 2.5 m away",
+  "nearest_obstruction_m": 9.0,
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 70 m ahead, less than the 80 m this frame needs to show its subject; the camera was moved 19 m onto the nearest real crosswalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 96 m from there, and the nearest built thing in the frame is kit_606_133 9.0 m away at -27 deg yaw, +0 deg pitch, and the probe found no simulated agent on its rays across this frame within 20 m",
   "offset_m": 19.4,
   "reason": "boxed in: the view azimuth is closed off 70 m ahead, less than the 80 m this frame needs to show its subject",
   "rule": "pavement snap with a clear frame that sees the subject",
   "scored_on_subject_sightline": true,
   "subject_sightline_at_choice": {
-   "subject_blocked_at_m": 23.1,
+   "subject_blocked_at_m": 21.4,
    "subject_blocked_by": "prop_lamp_cobra_davit_4",
    "subject_rays": 13,
    "subject_rays_on_subject": 1,
@@ -83,9 +83,9 @@
   "view_m": 96.0
  },
  "frame": {
-  "mean": 0.5314,
+  "mean": 0.5319,
   "reason": null,
-  "sd": 0.2026,
+  "sd": 0.2024,
   "usable": true
  },
  "frame_retry": null,
@@ -95,16 +95,16 @@
  "lighting": {
   "background_strength": 0.041621994227170944,
   "development": {
-   "linear_p05": 0.000696,
-   "linear_p50": 0.003385,
-   "linear_p95": 0.064921,
-   "log_average_linear": 0.004188,
-   "median_linear": 0.003385,
+   "linear_p05": 0.000694,
+   "linear_p50": 0.003377,
+   "linear_p95": 0.064858,
+   "log_average_linear": 0.00419,
+   "median_linear": 0.003377,
    "metered": true,
-   "note": "under-lit: the scene needed +5.73 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
+   "note": "under-lit: the scene needed +5.74 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
    "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
-   "stops": 5.733,
-   "stops_unclamped": 5.733,
+   "stops": 5.736,
+   "stops_unclamped": 5.736,
    "target_linear": 0.18,
    "view_transform": "Filmic"
   },
@@ -116,7 +116,7 @@
    "night": false,
    "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
-  "exposure_stops": 5.73,
+  "exposure_stops": 5.74,
   "physical_rule_stops": 1.19,
   "sky_azimuth_deg": 213.608,
   "sky_elevation_deg": 19.005,
@@ -127,6 +127,7 @@
  "name": "Carnegie Hall",
  "night": false,
  "pitch_reason": "aimed at Carnegie Hall 196 m away, at its mid-height (the top of lm_c_carnegie_hall.7, the built thing standing at the subject's coordinate, 55 m above the ground there); +7.0 deg from horizontal",
+ "record_shape": 2,
  "reference_photo": {
   "author": "Epicgenius",
   "confidence": "high",
@@ -141,7 +142,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_carnegie_hall/render.png",
- "rendered_at": "2026-09-09T18:18:51Z",
+ "rendered_at": "2026-09-15T19:56:55Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -192,7 +193,7 @@
    "placed_pedestrians": 243,
    "placed_vehicles": 73,
    "reason": null,
-   "seconds": 302.83,
+   "seconds": 369.98,
    "snapshot": {
     "building_footprints_tested": 1086,
     "car_free_park_drives_matched": 30,
@@ -208,7 +209,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.79,
+     "load_seconds": 2.32,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -350,7 +351,7 @@
    7352.13
   ],
   "kit": {
-   "capped": "triangle budget 588650",
+   "capped": "triangle budget 588652",
    "per_category": {
     "bulkhead": 5,
     "cornice": 8,
@@ -1132,21 +1133,22 @@
   },
   "props": {
    "canopy": {
-    "billboards": 190,
+    "billboards": 182,
     "card_missing_drawn_lod0": 0,
-    "dropped_for_budget": 3503,
+    "dropped_for_budget": 3511,
     "lod0": 21,
     "near_radius_m": 120.0,
     "procedural_dataset_id": "rule:woodland_canopy",
     "procedural_stems": 0,
     "radius_m": 946.4328039235232,
     "rows_beyond_prop_radius": 2867,
-    "triangles": 1140,
-    "yaw_by_rule": 211,
+    "triangles": 1092,
+    "yaw_by_rule": 203,
     "yaw_rule": "a tree's yaw is not in any source: it is drawn from a hash of the stem's own position (SplitMix64 over the metre-rounded x, y), uniform over 360 deg, so the same tree is drawn the same way in every render and no two neighbours share a silhouette; a rule, not a measurement"
    },
    "capped": "triangle budget 900391",
-   "dropped_for_budget": 4909,
+   "dropped_for_budget": 4914,
+   "dropped_on_suppressed_building": 11,
    "impostor_cards_dropped": 6,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -1155,20 +1157,20 @@
    "leaf_off": true,
    "per_dataset": {
     "bus_stop_shelters": 5,
-    "citibike_gbfs_station_status": 49,
-    "citibike_gbfs_stations": 351,
+    "citibike_gbfs_station_status": 50,
+    "citibike_gbfs_stations": 350,
     "gtfs_bus": 17,
     "hydrants": 63,
     "linknyc": 21,
     "newsstands": 11,
-    "osm_newyork_pbf": 97,
-    "plan_cooling_towers": 92,
+    "osm_newyork_pbf": 94,
+    "plan_cooling_towers": 83,
     "plan_railroad_structure": 38,
     "rule:lamp_30_40m_alt": 100,
-    "rule:lamp_30_40m_alt+rule:park_post_lamp": 10,
+    "rule:lamp_30_40m_alt+rule:park_post_lamp": 11,
     "rule:manhole_40m": 102,
     "rule:steam_vent_400m_manhattan_below_96": 12,
-    "street_trees_2015": 152,
+    "street_trees_2015": 147,
     "subway_entrances": 21
    },
    "per_kind": {
@@ -1177,21 +1179,21 @@
     "bus_shelter": 5,
     "bus_stop_sign": 17,
     "citibike_dock": 400,
-    "cooling_tower": 92,
+    "cooling_tower": 83,
     "hydrant": 63,
     "linknyc": 21,
     "mailbox": 2,
     "manhole": 102,
     "newsstand": 11,
     "steam_vent": 12,
-    "street_lamp": 119,
+    "street_lamp": 120,
     "subway_emergency_exit": 2,
     "subway_entrance": 21,
     "subway_vent_grate": 36,
-    "tree": 211,
+    "tree": 203,
     "waste_basket": 6
    },
-   "placed": 1141,
+   "placed": 1125,
    "radius_m": 482.8643117544789,
    "rows_in_range": 6395,
    "tiles_missing": [],
@@ -1206,11 +1208,11 @@
     "t_-4_7",
     "t_-4_8"
    ],
-   "tree_instances_scaled": 211,
-   "tree_mean_scale": 0.861,
+   "tree_instances_scaled": 203,
+   "tree_mean_scale": 0.866,
    "tree_scale_out_of_band": 0,
-   "tree_species_substituted": 82,
-   "triangles": 900388,
+   "tree_species_substituted": 78,
+   "triangles": 900386,
    "unmapped_kinds": {
     "artwork": 11,
     "drinking_fountain": 7,
@@ -1224,7 +1226,7 @@
    }
   },
   "radius_m": 946.4328039235232,
-  "seconds": 373.34,
+  "seconds": 457.32,
   "structures": {
    "imported": [
     "t_-2_6",
@@ -1293,7 +1295,7 @@
    "z_max_m": 30.48,
    "z_min_m": -0.0
   },
-  "triangles": 4500072
+  "triangles": 4500070
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -1303,27 +1305,27 @@
   "radius_m": 946.4328039235232
  },
  "seconds": {
-  "render": 270.2,
-  "scene": 394.6,
-  "total": 664.9
+  "render": 111.6,
+  "scene": 475.9,
+  "total": 587.5
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 27.3 m above its ground",
-  "subject_blocked_at_m": 23.1,
+  "subject_blocked_at_m": 21.4,
   "subject_blocked_by": "prop_lamp_cobra_davit_4",
-  "subject_clear_fraction": 0.077,
-  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate",
-  "subject_fan_half_angle_deg": 6.09,
-  "subject_fan_m": 45.3,
+  "subject_clear_fraction": 0.154,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate, not the 109.6 m of the whole model around it, which is the site rather than the subject (J113)",
+  "subject_fan_half_angle_deg": 8.48,
+  "subject_fan_m": 63.3,
   "subject_fan_tall_m": 54.5,
   "subject_fan_v_half_angle_deg": 7.32,
-  "subject_lands_at_m": 228.5,
-  "subject_lands_on": "lm_c_carnegie_hall.7",
+  "subject_lands_at_m": 196.0,
+  "subject_lands_on": "lm_c_carnegie_hall.6",
   "subject_own_fabric_nearest": null,
   "subject_own_fabric_nearest_m": null,
   "subject_range_m": 212.3,
   "subject_rays": 13,
-  "subject_rays_clear": 1,
+  "subject_rays_clear": 2,
   "subject_rays_into_nothing": 0,
   "subject_rays_on_own_fabric_nearer_than_recorded": 0,
   "subject_rays_on_subject": 1,
@@ -1354,11 +1356,18 @@
   "name": "Carnegie Hall",
   "origin_distance_m": 196.0,
   "plan_extent": {
+   "across_bearing_deg": 128.7,
    "is_tile_mesh": false,
-   "narrow_m": 44.7,
-   "note": "the bounding box of the object the height was measured off",
+   "model": "lm_c_carnegie_hall",
+   "model_axis_narrow_m": 75.0,
+   "model_axis_width_m": 80.4,
+   "model_narrow_m": 108.8,
+   "model_width_m": 109.6,
+   "narrow_m": 63.2,
+   "note": "`width_m` and `narrow_m` are the box of lm_c_carnegie_hall.7 alone, across this camera's bearing and along it, and are what the sightline fan spans; `model_*` is the box of all 11 part(s) of lm_c_carnegie_hall, published as evidence and not used -- on four landmark sheets of this pass the model was the site around the subject rather than the subject (J113)",
    "object": "lm_c_carnegie_hall.7",
-   "width_m": 45.3
+   "parts": 11,
+   "width_m": 63.3
   }
  },
  "sun": {
